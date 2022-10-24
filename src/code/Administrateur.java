@@ -1,10 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
+package code;
+public class Administrateur extends Utilisateur {
+    public void creerTournoi() {
+    }
 
-public class Arbitre extends Utilisateur {
-    private List<Match> matchs = new ArrayList<Match> ();
-
-    public void saisirResultat(Match match, List<String> scores) {
+    public void creerEcurie() {
     }
 
     @Override
