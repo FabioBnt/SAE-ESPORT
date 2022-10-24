@@ -1,3 +1,4 @@
+package code;
 public abstract class Connexion {
     private Role role;
 

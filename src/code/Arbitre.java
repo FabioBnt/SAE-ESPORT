@@ -1,21 +1,11 @@
+package code;
 import java.util.ArrayList;
 import java.util.List;
 
+public class Arbitre extends Utilisateur {
+    private List<Match> matchs = new ArrayList<Match> ();
 
-public class Equipe extends Utilisateur {
-    private String nom;
-
-    private int points;
-
-    private Ecurie ecurie;
-
-    private Jeu jeu;
-
-    public void inscrire(Tournoi tournoi) {
-    }
-
-    public String toString() {
-        return nom;
+    public void saisirResultat(Match match, List<String> scores) {
     }
 
     @Override

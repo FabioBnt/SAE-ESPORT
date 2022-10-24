@@ -1,3 +1,4 @@
+package code;
 public abstract class Utilisateur {
     private boolean connexion;
 
