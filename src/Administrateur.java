@@ -2,7 +2,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("09e7ef10-cdd2-4f74-99ce-3449c2474c1f")
 public class Administrateur extends Utilisateur {
-    @objid ("8c5aac1a-2bc6-4e53-88cd-7b8d7ee72731")
+    
     public void creerTournoi() {
     }
 
