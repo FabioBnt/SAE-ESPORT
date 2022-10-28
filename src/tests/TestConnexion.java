@@ -3,16 +3,28 @@ package tests;
 import static org.junit.Assert.*;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import code.Administrateur;
 import code.Arbitre;
 import code.Ecurie;
 import code.Equipe;
+import code.JDBC;
 import code.Role;
 
 public class TestConnexion {
+	@BeforeClass
+    public static void setup() {
+        JDBC.saisirDonnéesDeTestConnexion();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+    	JDBC.retirerDonnéesDeTestConnexion();
+    }
 
 	@Test
 	public void testConnextionAdministrateurValide() {
