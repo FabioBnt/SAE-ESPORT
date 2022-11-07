@@ -1,2 +1,2 @@
 # SAE-ESPORT
- Projet SAE Esport Java
+ Projet SAE Esport Web
