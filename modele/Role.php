@@ -1,12 +1,12 @@
 
 <?php
-abstract class ROLE
+//enum is not naitvaly supported in this version of php
+abstract class Role
 {
-    const Sunday = 0;
-    const Monday = 1;
-    // etc.
+    const Visiteur = 0;
+    const Administrateur = 1;
+    const Arbitre = 2;
+    const Ecurie = 3;
+    const Equipe = 4;
 }
-
-$today = ROLE::Sunday;
-echo "$today";
 ?>
