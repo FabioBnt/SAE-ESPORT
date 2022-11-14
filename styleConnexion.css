@@ -1,16 +1,18 @@
 ﻿body{
-    background: lightslategrey;
-   }
+    background-image: url("/img/ESL_stadium.jpg");
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-size:cover;
+}
 
    #seconnecter{
     width:400px;
-    margin:0 auto;
+    margin:auto;
     margin-top:10%;
    }
    
    form {
     width:100%;
-    padding: 30px;
+    padding: 2em;
     border: 1px solid #f1f1f1;
     background: #fff;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
