@@ -1,7 +1,12 @@
 ﻿/*BODY*/
 body{
     margin:0;
-    background: lightslategrey;
+}
+
+.vide{
+    border:solid;
+    margin:0.5em;
+    background: transparent;
 }
 
 /*HEADER MENU*/
@@ -19,14 +24,22 @@ header,a{
     text-decoration: none;
     backface-visibility: hidden;
     padding: 0.5em;
-}
-
-img{
-    width:10%;
+    font-size: 16px;
 }
 
 .menucenter{
     padding:0.8em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 15%;
+    max-height: 15%;
 }
 
 .Menu{
@@ -68,37 +81,54 @@ img{
 }
 
 /*MAIN*/
+
 main{
-    display: block;
     height: 1000px;
-    border:solid;
     background-image:url("/img/fondecran.jpg");
 }
 
+.accueilmain{
+    display:grid;
+    gap:10px;
+    grid-auto-rows:325px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .titre{
-    border:solid;
+    grid-column: 2;
+    grid-row: 2;
     color: white;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-.buttonAdmin{
-    border:solid;
+h1{
+    text-align: center;
+    font-size: 50px;
 }
 
-.buttonEcurie{
-    border:solid;
+#divbutton{
+    grid-column: 1/4;
+    grid-row: 1;
+    margin: auto;
 }
 
-.paragraphe{
+#paragraphe{
     color: white;
+    grid-column: 1;
+    grid-row: 3;
+    margin:auto;
 }
 
-/*FOOTER*/
-footer {
-    left: 0;
-    height: 100px;
-    background-color:lightgray;
+#paragraphe2{
+    color: white;
+    grid-column: 3;
+    grid-row: 3;
+    margin: auto;
 }
 
-.paragraphefooter,p{
-    margin:0;
+.buttonM{
+    padding:1em;
+    margin:2em;
+    font-size: 18px;
 }
