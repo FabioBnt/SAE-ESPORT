@@ -1,6 +1,8 @@
 ﻿/*BODY*/
 body{
     margin:0;
+    background-color: #778899;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .vide{
@@ -17,10 +19,9 @@ header {
     box-sizing: border-box;
     padding: 1vw 4vw;
     pointer-events: auto;
-    background-color: white;
 }
 
-header,a{
+header a{
     text-decoration: none;
     backface-visibility: hidden;
     padding: 0.5em;
@@ -49,29 +50,35 @@ header,a{
     box-sizing: border-box;
     justify-content: flex-start;
     align-items: center;
-    padding:1em;
+    padding:0.3em;
 }
 
 .navig{
         display: inline-flex;
         flex-wrap: wrap;
+        background-color: white;
+        border: 2px solid #1A1A1A;
+        border-radius: 8px;
+        font-size: 16px;
+        padding:1em;
+        margin:0.5em;
 }
 
-.Menunav{
+.menunav{
     display: flex;
     flex-wrap: nowrap;
     flex: 1 0 67%;
     align-items: center;
 }
 
-.connect{
+.menuright{
     flex-grow: 0;
     flex-shrink: 1;
     display: inline-flex;
     align-items: center; 
 }
 
-.menuright{
+.connecter{
     justify-content: flex-end;
 }
 
@@ -80,11 +87,18 @@ header,a{
         border-style: solid;
 }
 
+#connexion:hover {
+    color: black;
+    background-color: lightgrey;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+
 /*MAIN*/
 
 main{
     height: 1000px;
-    background-image:url("/img/fondecran.jpg");
+    background-image:url("/img/fondecranpasflou.jpg");
 }
 
 .accueilmain{
@@ -100,9 +114,11 @@ main{
     color: white;
     margin-top: auto;
     margin-bottom: auto;
+    backdrop-filter: blur(12px);
+    border:solid;
 }
 
-h1{
+.titre h1{
     text-align: center;
     font-size: 50px;
 }
@@ -127,8 +143,29 @@ h1{
     margin: auto;
 }
 
-.buttonM{
+.buttonM,#connexion{
     padding:1em;
     margin:2em;
     font-size: 18px;
+    background-color: white;
+    border: 2px solid #1A1A1A;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    outline: none;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+}
+
+.buttonM:hover {
+    color: #fff;
+    background-color: #1A1A1A;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
 }

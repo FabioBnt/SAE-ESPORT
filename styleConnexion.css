@@ -2,7 +2,7 @@
     background: lightslategrey;
    }
 
-   #container{
+   #seconnecter{
     width:400px;
     margin:0 auto;
     margin-top:10%;
@@ -16,7 +16,7 @@
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
    }
 
-   #container h1{
+   #seconnecter h1{
     width: 38%;
     margin: 0 auto;
     padding-bottom: 10px;
