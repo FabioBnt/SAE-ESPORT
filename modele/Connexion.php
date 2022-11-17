@@ -1,4 +1,6 @@
 <?php
+include "Role.php";
+include "Database.php";
 class Connexion {
   private $role;
   private $identifiant;
@@ -20,32 +22,24 @@ class Connexion {
   }
   function seConnecter($identifiant, $password, $role) {
     if ($role == Role::Administrateur || $role == Role::Arbitre) {
-			if ($comptes[$role][0] == $identifiant && $comptes[$role][1] == $password) {
+			if ($this->comptes[$role][0] == $identifiant && $this->comptes[$role][1] == $password) {
 				$this->role = $role;
         $this->identifiant = $identifiant;
 			}
 		} else {
-      // id: BNF3924A mdp: iutinfo
-			$connex = Oracle::getInstance();
-			try {
-				Statement st = connx.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-				ResultSet rs = st.executeQuery("select * from" + this.role + " where id = " + this.identifiant);
-				String result = null;
-				
-				while (rs.next()) {
-					result = rs.getString("mpd");
-				}
-				if (result != null) {
-					if (Base64.getEncoder().encodeToString(mdp.getBytes()).equals(result)) {
-						this.connexion = true;
-						this.role = role;
-					}
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+      $mysql = Database::getInstance();
+      $pdo = $mysql->getPDO();
+      $stmt = $pdo->prepare("select :role from ? where id = :id");
+      $stmt->execute(['role' => $role, 'id' => $identifiant]); 
+      $data = $stmt->fetchAll();
+      // and somewhere later:
+      foreach ($data as $row) {
+          if ($row['mdp'] == $password){
+            $this->role = $role;
+            $this->identifiant = $identifiant;
+          }
+      }
+    }
   }
   function getIdentifiant() {
     return $this->identifiant;

@@ -1,17 +1,17 @@
 <?php
 
-class Oracle {
+class Database {
     private static $instance = null;
-    ///Connexion au serveur Oracle
-    private $server = "telline.univ-tlse3.fr:1521";
-    private $db = "ETUPRE";
-    private $login = "BNF3924A";
-    private $mdp = "iutinfo";
+    ///Connexion au serveur Mysql
+    private $server = 'sql926.main-hosting.eu';
+    private $login = 'u563109936_faister';
+    private $mdp = 'MM7pGf4JyJoJgxz9';
+    private $db = 'u563109936_esporter';
     private $linkpdo;
 
     private function __construct() {
         try {
-            $this->linkpdo = new PDO("oci:host=$this->server;dbname=$this->db", $this->login, $this->mdp);
+            $this->linkpdo = new PDO("mysql:host=$this->server;dbname=$this->db", $this->login, $this->mdp);
             echo "Connexion réussie";
             }
             catch (Exception $e) {
@@ -22,16 +22,12 @@ class Oracle {
     {
         if (self::$instance == null)
         {
-            self::$instance = new Oracle();
+            self::$instance = new Database();
         }
         return self::$instance;
     }
-    public function getLinkPDO(){
+    public function getPDO(){
         return $this->linkpdo;
     }
 }
-echo "Amogus ";
-$app = Oracle::getInstance();
-echo $app->getLinkPDO();
-
 ?>
