@@ -12,7 +12,6 @@ class Database {
     private function __construct() {
         try {
             $this->linkpdo = new PDO("mysql:host=$this->server;dbname=$this->db", $this->login, $this->mdp);
-            echo "Connexion réussie";
             }
             catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
