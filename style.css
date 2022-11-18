@@ -152,14 +152,14 @@ header a{
 }
 /*PAGE CREER ECURIE*/
 /*BODY*/
-/*FOND DU MAIN ECURIE, TOURNOIS*/
-.ecurie,.tournois{
+/*FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, LISTEEQUIPE*/
+.ecurie,.tournois,.detailstournoi,.classement,.listeEquipe{
     margin:0;
     background-color:#2a3250;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-/*MAIN ECURIE, TOURNOIS*/
-.ecuriemain,.tournoismain{
+/*MAIN ECURIE*/
+.ecuriemain{
     padding:auto;
     margin:5em;
 }
@@ -167,7 +167,7 @@ header a{
 #formecurie {
     padding: 2em;
     border: 2px solid white;
-    background-color: rgb(118, 118, 118);
+    background-color: lightgray;;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 #formecurie h1{
@@ -182,7 +182,8 @@ header a{
     padding:0.6em;
     display: block;
 }
-.formulaireecurie{
+/*GRID MOD*/
+.formulaireecurie,.gridDetails{
     display:grid;
     gap:10px;
 }
@@ -238,8 +239,146 @@ header a{
 #annuler:hover{
     background-color: crimson;
 }
-/*PAGE VISUALISER TOURNOIS*/
+/*PAGE VISUALISER TOURNOIS, CLASSEMENT, LISTEEQUIPE*/
 /*MAIN*/
-.tournoismain{
+.tournoismain,.classementmain,.listeEquipemain{
     color:white;
+}
+
+/*TABLEAU*/
+.tournoismain a,.classementmain a{
+    color:white;
+}
+
+.tournoismain h1,.classementmain h1,.listeEquipemain h1{
+    padding: 0.5em;
+    text-align: center;
+}
+
+table,td {
+    border: 1px solid white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+thead{
+    background-color: rgb(118, 118, 118);
+}
+
+td,th{
+    padding:1em;
+    text-align: center;
+}
+
+/*PAGE DETAILS TOURNOI*/
+/*MAIN */
+.detailstournoimain{
+    padding:auto;
+    margin:5em;
+}
+
+.Divdetails{
+    padding: 2em;
+    border: 2px solid white;
+    background-color: lightgray;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+/*GRID*/
+.Divdetails h1{
+    text-align: center;
+}
+.Divdetails input{
+    border: solid 1px;
+    border-radius:5px;
+    padding:0.5em;
+}
+.Divdetails label{
+    padding:0.6em;
+    display: block;
+}
+#Dgridi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#Dgridi2{
+    grid-column: 2;
+    grid-row: 2;
+}
+#Dgridi3{
+    grid-column: 3;
+    grid-row: 2;
+}
+#Dgridi4{
+    grid-column: 1;
+    grid-row: 4;
+}
+#Dgridi5{
+    grid-column: 2;
+    grid-row: 4;
+}
+#Dgridi6{
+    grid-column: 3;
+    grid-row: 4;
+}
+#Dgridl1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#Dgridl2{
+    grid-column: 2;
+    grid-row: 1;
+}
+#Dgridl3{
+    grid-column: 3;
+    grid-row: 1;
+}
+#Dgridl4{
+    grid-column: 1;
+    grid-row: 3;
+}
+#Dgridl5{
+    grid-column: 2;
+    grid-row: 3;
+}
+#Dgridl6{
+    grid-column: 3;
+    grid-row: 3;
+}
+#Dgridt1{
+    grid-column: 2;
+    grid-row: 6;
+}
+
+/*MODIFICATION TABLEAU*/
+.Divdetails table{
+    background-color: white;
+    border:2px solid;
+    margin:0.7em;
+}
+
+.Divdetails thead{
+    background-color: #2a3250;
+    color:white;
+}
+
+.Divdetails td{
+    border-top: solid 2px;
+}
+
+/*PAGE LISTE EQUIPES*/
+#TabEquipe td{
+    padding-left: 5em;
+    padding-right: 5em;
+}
+#TabEquipe a{
+    color: white;
+}
+#BtnCEquipe{
+    padding:1.2em;
+    margin-right: auto;
+}
+.divEquip1{
+    margin:1.8em;
+    margin-top: 50px;
 }
