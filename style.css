@@ -152,14 +152,14 @@ header a{
 }
 /*PAGE CREER ECURIE*/
 /*BODY*/
-/*FOND DU MAIN*/
-.ecurie{
+/*FOND DU MAIN ECURIE, TOURNOIS*/
+.ecurie,.tournois{
     margin:0;
     background-color:#2a3250;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-/*MAIN*/
-.ecuriemain{
+/*MAIN ECURIE, TOURNOIS*/
+.ecuriemain,.tournoismain{
     padding:auto;
     margin:5em;
 }
@@ -220,6 +220,10 @@ header a{
 }
 #Eformt1{
     grid-column: 2;
+    grid-row: 4;
+}
+#Eforml4{
+    grid-column: 2;
     grid-row: 3;
 }
 /*BUTTON VALIDER ANNULER*/
@@ -235,6 +239,7 @@ header a{
     background-color: crimson;
 }
 /*PAGE VISUALISER TOURNOIS*/
-/*BODY*/
-/*FOND DU MAIN*/
 /*MAIN*/
+.tournoismain{
+    color:white;
+}
