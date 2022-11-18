@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css" />
     <title>E-Sporter Manager</title>
 </head>
-<body class="accueil">
+<body class="listeEquipe">
     <!--Menu de navigation-->
     <header>
         <div class="Menu">
@@ -26,27 +26,33 @@
                     <a href="Connexion.html" id="connexion">Se Connecter</a>
                 </div>
             </div>
-        </div>       
+        </div>
     </header>
-    <main class="accueilmain">
-        <div class="mainA">
-            <div class="titre">
-                <h1> Gestionnaire d'une saison de compétition de Esport </h1>
+    <main>
+        <div class="listeEquipemain">
+            <div class="divEquip1">
+                <a href="CreerEquipe.html" class="buttonE" id="BtnCEquipe">Créer Equipe</a>
             </div>
-            <div id="divbutton">
-                <button class="buttonM" onclick="window.location.href = 'CreerTournoi.html';" type="button"> Créer un tournoi </button>
-                <button class="buttonM" onclick="window.location.href = 'ListeEquipe.html';" type="button"> Liste des équipes </button>
-                <button class="buttonM" onclick="window.location.href = 'CreerEcurie.html';" type="button"> Créer une écurie </button>
-            </div>
-            <div id="paragraphe">
-                <p>
-                    SALUT SALUT
-                </p>
-            </div>
-            <div id="paragraphe2">
-                <p>
-                    SALUT SALUT
-                </p>
+            <h1>Liste Des Equipes</h1>
+            <div>
+                <table id="TabEquipe">
+                    <thead>
+                        <tr>
+                            <th >Nom</th>
+                            <th >Plus d'informations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WALA</td>
+                            <td><a href="DetailsEquipe.html">+</a></td>
+                        </tr>
+                        <tr>
+                            <td>CMOI</td>
+                            <td><a href="DetailsEquipe.html">+</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
