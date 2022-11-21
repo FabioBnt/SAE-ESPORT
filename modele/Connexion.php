@@ -41,6 +41,10 @@ class Connexion {
       }
     }
   }
+  public function seDeconnecter(){
+    $this->role = Role::Visiteur;
+    $this->identifiant = "Guest";
+  }
   function getIdentifiant() {
     return $this->identifiant;
   }

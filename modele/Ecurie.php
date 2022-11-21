@@ -8,7 +8,7 @@ class Ecurie {
         
     }
 
-    public function connect($id,$mdp) {
+    public function connecter($id,$mdp) {
         $this->connexion = Connexion::getInstance();
         $this->connexion->seConnecter($id,$mdp,Role::Ecurie);
     }

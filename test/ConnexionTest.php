@@ -1,6 +1,10 @@
 <?php
 include(dirname(__DIR__).'/modele/Connexion.php');
 class ConnexionTest extends \PHPUnit\Framework\TestCase {
+    protected $user;
+
+    
+
     public function testConnexionValideAdmin() {
         $user = Connexion::getInstance();
         $user->seConnecter("admin", "\$iutinfo", Role::Administrateur);
@@ -23,6 +27,12 @@ class ConnexionTest extends \PHPUnit\Framework\TestCase {
         $user = Connexion::getInstance();
         $user->seConnecter("KCorpLoLCompte", "PasswordKcorplol", Role::Equipe);
         $this->assertSame($user->getRole(), Role::Equipe);
+    }
+
+    public function testConnexionNonValideIdAdministrateur(){
+        $user = Connexion::getInstance();
+        $user->seConnecter("user", "\$iutinfo", Role::Administrateur);
+        $this->assertNotSame($user->getRole(),Role::Administrateur);
     }
 }
 ?>
