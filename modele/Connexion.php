@@ -29,12 +29,12 @@ class Connexion {
 		} else {
       $mysql = Database::getInstance();
       $pdo = $mysql->getPDO();
-      $stmt = $pdo->prepare("select :role from ? where id = :id");
-      $stmt->execute(['role' => $role, 'id' => $identifiant]); 
+      $stmt = $pdo->prepare("select MDPCompte from ".$role." where NomCompte = :id");
+      $stmt->execute(['id'=> $identifiant]); 
       $data = $stmt->fetchAll();
       // and somewhere later:
       foreach ($data as $row) {
-          if ($row['mdp'] == $password){
+          if ($row['MDPCompte'] == $password){
             $this->role = $role;
             $this->identifiant = $identifiant;
           }

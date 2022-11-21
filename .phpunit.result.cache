@@ -1,1 +1,1 @@
-{"version":1,"defects":[],"times":{"ConnexionTest::testConnexionValideAdmin":0.001000000000000000020816681711721685132943093776702880859375}}
+{"version":1,"defects":{"ConnexionTest::testConnexionValideEcurie":4},"times":{"ConnexionTest::testConnexionValideAdmin":0.00200000000000000004163336342344337026588618755340576171875,"ConnexionTest::testConnexionValideArbitre":0,"ConnexionTest::testConnexionValideEcurie":0.5500000000000000444089209850062616169452667236328125,"ConnexionTest::testConnexionValideEquipe":0.055000000000000000277555756156289135105907917022705078125}}
