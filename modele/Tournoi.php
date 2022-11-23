@@ -18,16 +18,15 @@ class Tournoi
         $this->lieu = $lieu;
         $this->heureDebut = $heureDebut;
         $this->date = $date;
-        $this->poules = NULL;
-        $this->jeu = NULL;
+        $this->poules = null;
+        $this->jeu = null;
     }
     
     public function toString()
     {
         return $this->heureDebut;
     }
-    private function genererLesPoules()
-    {
+    private function genererLesPoules(){
     }
     public function genererPouleFinale()
     {
@@ -38,6 +37,20 @@ class Tournoi
     }
     private function miseAJourDePoints()
     {
+    }
+    public function getNom(){
+        return $this->nom;
+    }
+    public function getDate(){
+        return $this->date;
+    }
+    public function __toString()
+    {
+        return $this->nom.' '.$this->prix.' '.
+        $this->notoriete.' '.
+        $this->lieu.' '.
+        $this->heureDebut.' '.
+        $this->date;
     }
 }
 

@@ -20,7 +20,7 @@ class Connexion {
     }
     return self::$instance;
   }
-  function seConnecter($identifiant, $password, $role) {
+  function seConnecter(string $identifiant, string $password, $role) {
     if ($role == Role::Administrateur || $role == Role::Arbitre) {
 			if ($this->comptes[$role][0] == $identifiant && $this->comptes[$role][1] == $password) {
 				$this->role = $role;

@@ -1,7 +1,8 @@
 
 <?php
+
 //enum is not naitvaly supported in this version of php
-abstract class Role
+class Role
 {
     const Visiteur = 'Visiteur';
     const Administrateur = 'Administrateur';
