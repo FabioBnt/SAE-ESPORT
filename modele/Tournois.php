@@ -1,10 +1,11 @@
 <?php
-include "Tournoi";
+include "Tournoi.php";
+include "DataBase.php";
 class Tournois
 {
-    private $tournois = array();
+    private $tournois;
     function __construct(){
-        $this->tournois = NULL;
+        $this->tournois = array();
     }
     public function tousLesTrournois()
     {
@@ -14,11 +15,11 @@ class Tournois
         $stmt->execute(); 
         $data = $stmt->fetchAll();
         $temp = array();
-        foreach ($data as $row) {
-            $tempsHeure = explode($row['DateHeureTournois'], " ");
-            $temp[] = new Tournoi($row['NomTournoi'], $row['CashPrize'], $row['Notoriete'], $row['Lieu'], $tempsHeure[1], $tempsHeure[0]);
+        foreach ($data as $ligne) {
+            $tempsHeure = explode(" ", $ligne['DateHeureTournois']);
+            $temp[] = new Tournoi($ligne['NomTournoi'], $ligne['CashPrize'], $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0]);
         }
-        return $this->tournois;
+        $this->tournois = $temp;
     }
     public function tounoisDeJeu($jeu)
     {
@@ -40,10 +41,20 @@ class Tournois
     {
         return $this->tournois;
     }
-    public function toString()
+    public function afficherTournois()
     {
-        return NULL;
+        echo "<table border='1'><br />";
+        for ($ligne = 0; $ligne < count($this->tournois); $ligne ++) {
+        echo "<tr>";
+            echo "<td>", $this->tournois[$ligne], "</td>";
+        echo "</tr>";
+        }
+        echo "</table>";
     }
 }
+
+$apple = new Tournois();
+$apple->tousLesTrournois();
+$apple->afficherTournois();
 
 ?>

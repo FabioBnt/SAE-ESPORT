@@ -46,7 +46,7 @@ class Tournoi
     }
     public function __toString()
     {
-        return $this->nom.' '.$this->prix.' '.
+        return $this->nom.' '.$this->prix.'€ '.
         $this->notoriete.' '.
         $this->lieu.' '.
         $this->heureDebut.' '.
