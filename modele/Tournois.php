@@ -1,42 +1,80 @@
 <?php
 include "Tournoi.php";
-include "DataBase.php";
+include "Notoriete.php";
+include "Database.php";
 class Tournois
 {
     private $tournois;
     function __construct(){
         $this->tournois = array();
     }
-    public function tousLesTrournois()
-    {
+    private function selectTournoi(string $cond=""){
         $mysql = Database::getInstance();
-        $data = $mysql->select("*", "Tournois");
+        if($cond==""){
+            $this->misAJourListeTournois($mysql->select("*", "Tournois"));
+        }else{
+            $this->misAJourListeTournois($mysql->select("*", "Tournois", $cond));
+        }
+    }
+    private function misAJourListeTournois($data){
         $this->tournois = array();
         foreach ($data as $ligne) {
             $tempsHeure = explode(" ", $ligne['DateHeureTournois']);
             $this->tournois[] = new Tournoi($ligne['NomTournoi'], $ligne['CashPrize'],
-             $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0]);
+            $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0]);
         }
     }
-    public function tounoisDeJeu($jeu)
+    public function tousLesTrournois()
     {
-        $this->tournois;
+        $this->selectTournoi();
+    }
+    public function tournoisDeJeu(string $jeu)
+    {
+        //$this->selectTournoi("where Lower(NomJeu) like Lower('%$jeu%')");
     }
     public function tournoiDeNotoriete($notoriete)
     {
-        return $this->tournois;
+        $this->selectTournoi("where Notoriete = '$notoriete'");
     }
     public function tournoiAuraLieu($lieu)
     {
-        return $this->tournois;
+        $this->selectTournoi("where Lower(Lieu) like Lower('%$lieu%')");
     }
     public function tournoiAvecPrixSuperieurA($prix)
     {
-        return $this->tournois;
+        $this->selectTournoi("where CashPrize > $prix");
     }
-    public function tournoiCommenceLe($date)
+    public function tournoiCommenceApres($date)
     {
-        return $this->tournois;
+        $this->selectTournoi("where Date(DateHeureTournois) >= '$date'");
+    }
+    public function tournoiDe(/*string $nomJeu="",*/float $prixMin=-1,float $prixMax=-1,string $typeJeu="",string $notoriete="",string $lieu="",string $date=""){
+        if(/*$nomJeu=="" &&*/ $prixMin==-1 && $prixMax==-1 && $notoriete=="" && $lieu=="" && $date==""){
+            throw new Exception("Accun Argument passé");
+        }
+        $cond = "where ";
+        /*if($nomJeu != ""){
+            $cond.= " Lower(NomJeu) like Lower('%$nomJeu%') AND";
+        }*/
+        if($prixMax != -1){
+            $cond.=" CashPrize <= $prixMax AND";
+        }
+        if($prixMin != -1){
+            $cond.=" CashPrize >= $prixMin AND";
+        }
+        if($notoriete != ""){
+            $cond.=" Notoriete = '$notoriete' AND";
+        }
+        if($lieu != ""){
+            $cond.=" Lower(Lieu) like Lower('%$lieu%') AND";
+        }
+        if($lieu != ""){
+            $cond.=" Date(DateHeureTournois) >= '$date' AND";
+        }
+        $cond = substr($cond, 0, -3);
+        $this->selectTournoi($cond);
+
+
     }
     public function afficherTournois()
     {
@@ -51,7 +89,7 @@ class Tournois
 }
 
 $apple = new Tournois();
-$apple->tousLesTrournois();
+$apple->tournoiDe(-1,1000,"","","","");
 $apple->afficherTournois();
 
 ?>
