@@ -6,13 +6,9 @@ class ConnexionTest extends \PHPUnit\Framework\TestCase {
     protected function setUp(): void {
         $this->user = Connexion::getInstance();
     } 
-    public static function setUpAfterClass(): void
-    {
-        Connexion::getInstance()->deConnecter();
-    }
 
     protected function tearDown(): void {
-        unset($this->user);
+        $this->user->deconnecter();
     }
 
     public function testConnexionValideAdmin() {
@@ -33,6 +29,7 @@ class ConnexionTest extends \PHPUnit\Framework\TestCase {
     public function testConnexionValideEquipe(){
         $this->user->seConnecter("KCorpLoLCompte", "PasswordKcorplol", Role::Equipe);
         $this->assertSame($this->user->getRole(), Role::Equipe);
+        $this->user->deConnecter();
     }
 
     public function testConnexionIdInvalideAdmin(){

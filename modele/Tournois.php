@@ -10,16 +10,13 @@ class Tournois
     public function tousLesTrournois()
     {
         $mysql = Database::getInstance();
-        $pdo = $mysql->getPDO();
-        $stmt = $pdo->prepare("select * from Tournois");
-        $stmt->execute(); 
-        $data = $stmt->fetchAll();
-        $temp = array();
+        $data = $mysql->select("*", "Tournois");
+        $this->tournois = array();
         foreach ($data as $ligne) {
             $tempsHeure = explode(" ", $ligne['DateHeureTournois']);
-            $temp[] = new Tournoi($ligne['NomTournoi'], $ligne['CashPrize'], $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0]);
+            $this->tournois[] = new Tournoi($ligne['NomTournoi'], $ligne['CashPrize'],
+             $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0]);
         }
-        $this->tournois = $temp;
     }
     public function tounoisDeJeu($jeu)
     {
