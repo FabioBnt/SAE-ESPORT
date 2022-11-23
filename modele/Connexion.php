@@ -33,13 +33,17 @@ class Connexion {
       $stmt->execute(['id'=> $identifiant]); 
       $data = $stmt->fetchAll();
       // and somewhere later:
-      foreach ($data as $row) {
-          if ($row['MDPCompte'] == $password){
+      foreach ($data as $ligne) {
+          if ($ligne['MDPCompte'] == $password){
             $this->role = $role;
             $this->identifiant = $identifiant;
           }
       }
     }
+  }
+  function deConnecter(){
+    $this->identifiant = null;
+    $this->role = Role::Visiteur;
   }
   function getIdentifiant() {
     return $this->identifiant;

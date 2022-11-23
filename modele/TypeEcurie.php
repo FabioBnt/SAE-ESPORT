@@ -1,9 +1,9 @@
 
 <?php
 //enum is not naitvaly supported in this version of php
-abstract class TypeJeu
+abstract class TypeEcurie
 {
-    const PROFESTIONNEL = 'PROFESTIONNEL';
-    const ASSOCIATIVES = 'ASSOCIATIVES';
+    const Professionnelle = 'Professionnelle';
+    const Associative = 'Associative';
 }
 ?>

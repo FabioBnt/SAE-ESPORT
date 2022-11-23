@@ -28,5 +28,12 @@ class Database {
     public function getPDO(){
         return $this->linkpdo;
     }
+    public function select(string $cols, string $tables, string $conditions=""){
+        $pdo = $this->getPDO();
+        $stmt = $pdo->prepare("select ".$cols." from ".$tables." ".$conditions);
+        $stmt->execute(); 
+        $data = $stmt->fetchAll();
+        return $data;
+    }
 }
 ?>

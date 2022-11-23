@@ -3,10 +3,11 @@
 //enum is not naitvaly supported in this version of php
 abstract class TypeJeu
 {
-    const COURSE = 'COURSE';
-    const BATTLEROYALE = 'BATTLEROYALE';
+    const Course = 'Course';
+    const BattleRoyale = 'BattleRoyale';
     const FPS = 'FPS';
     const TPS = 'TPS';
     const VSFIGHTING = 'VSFIGHTING';
+    const MOBA = 'MOBA';
 }
 ?>

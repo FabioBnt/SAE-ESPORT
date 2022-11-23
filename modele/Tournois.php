@@ -23,7 +23,7 @@ class Tournois
     }
     public function tounoisDeJeu($jeu)
     {
-        return $this->tournois;
+        $this->tournois;
     }
     public function tournoiDeNotoriete($notoriete)
     {
