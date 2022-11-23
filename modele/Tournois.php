@@ -1,6 +1,5 @@
 <?php
 include "Tournoi.php";
-include "Notoriete.php";
 include "Database.php";
 class Tournois
 {
