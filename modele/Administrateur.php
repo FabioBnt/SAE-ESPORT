@@ -1,6 +1,6 @@
 <?php
 
-include 'Database.php';
+include_once 'Database.php';
 include 'TypeEcurie.php';
 
 class Administrateur {

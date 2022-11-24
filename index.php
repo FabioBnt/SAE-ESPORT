@@ -1,6 +1,15 @@
 <?php
     include './modele/Connexion.php';
-    $connx = Connexion::getInstance();
+    session_start();
+    if(!isset($_SESSION["connexion"]))
+    {
+        $singleton = Connexion::getInstance();
+        $_SESSION['connexion'] = $singleton;
+    }
+    $connx = $_SESSION['connexion'];
+    if (isset($_GET['sedeconnecter'])) {
+        $connx->seDeconnecter();
+      }
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
@@ -32,9 +41,9 @@
                 <div class="connecter">
                     <?php 
                         if($connx->getRole() == Role::Visiteur){
-                            echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>'.$connx->getRole();
+                            echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
-                            echo '<a>Bonjour'.$connx->getRole().' '.$connx->getIdentifiant().'</a>';//ça n'a rien changé montre moi
+                            echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter"> se deconnecter </a>';
                         }
                     ?>
                 </div>
@@ -49,7 +58,7 @@
             <div id="divbutton">
                 <button class="buttonM" onclick="window.location.href = 'CreerTournoi.html';" type="button"> Créer un tournoi </button>
                 <button class="buttonM" onclick="window.location.href = 'ListeEquipe.html';" type="button"> Liste des équipes </button>
-                <button class="buttonM" onclick="window.location.href = 'CreerEcurie.html';" type="button"> Créer une écurie </button>
+                <button class="buttonM" onclick="window.location.href = 'CreerEcurie.php';" type="button"> Créer une écurie </button>
             </div>
             <div id="paragraphe">
                 <p>

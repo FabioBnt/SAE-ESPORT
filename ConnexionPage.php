@@ -1,15 +1,19 @@
 ﻿<?php
     include './modele/Connexion.php';
-
+    session_start();
+    if(!isset($_SESSION["connexion"]))
+    {
+        $singleton = Connexion::getInstance();
+        $_SESSION['connexion'] = $singleton;
+    }
     if(isset($_POST['username']) && isset($_POST['password'])){
-        $connx = Connexion::getInstance();
+        $connx = $_SESSION['connexion'];
         $connx->seConnecter($_POST['username'], $_POST['password'], $_POST['roles']);
         if($connx->getRole() == $_POST['roles']){
             header("Location: index.php");
         }else{
             echo '<h1 style="color:red;text-align:center;">Identifiant ou mot de passe incorrect</h1>';
         }
-        
     }
 ?>
 <html>

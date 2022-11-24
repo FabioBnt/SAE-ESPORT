@@ -1,6 +1,13 @@
 ﻿<?php
+include './modele/Connexion.php';
 include './modele/Tournois.php';
-
+session_start();
+if(!isset($_SESSION["connexion"]))
+{
+    $singleton = Connexion::getInstance();
+    $_SESSION['connexion'] = $singleton;
+}
+$connx = $_SESSION['connexion'];
 $listeTournois = new Tournois();
 
 $listeTournois->tousLesTournois();
@@ -34,7 +41,13 @@ $listeTournois->tousLesTournois();
             </div>
             <div class="menuright">
                 <div class="connecter">
-                    <a href="./ConnexionPage.php" id="connexion">Se Connecter</a>
+                <?php 
+                        if($connx->getRole() == Role::Visiteur){
+                            echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
+                        }else{
+                            echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>';
+                        }
+                    ?>
                 </div>
             </div>
         </div>
