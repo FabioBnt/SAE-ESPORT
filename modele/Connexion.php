@@ -49,8 +49,4 @@ class Connexion {
   }
 }
 
-$apple = Connexion::getInstance();
-echo $apple->getIdentifiant();
-echo "<br>";
-echo $apple->getRole();
 ?>

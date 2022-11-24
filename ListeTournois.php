@@ -38,7 +38,7 @@ $listeTournois->tousLesTournois();
             </div>
             <div class="menuright">
                 <div class="connecter">
-                    <a href="./Connexion.html" id="connexion">Se Connecter</a>
+                    <a href="./ConnexionPage.php" id="connexion">Se Connecter</a>
                 </div>
             </div>
         </div>

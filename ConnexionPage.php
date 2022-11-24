@@ -1,4 +1,9 @@
-﻿<html>
+﻿<?php
+    if(isset($_POST['username']) && isset($_POST['password'])){
+        
+    }
+?>
+<html>
  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,16 +12,16 @@
  </head>
  <body>
  <div id="seconnecter">    
-    <form action="index.html" method="POST">
+    <form action="ConnexionPage.php" method="POST">
         <h1>Connexion</h1>
         <div class="radio">
-            <input type="radio" name="choixconnect" checked>
+            <input type="radio" name="choixconnect" value="Ecurie" checked>
             <label><b>Ecurie</b></label>
-            <input type="radio" name="choixconnect">
+            <input type="radio" name="choixconnect" value="Equipe" >
             <label><b>Equipe</b></label>
-            <input type="radio" name="choixconnect">
+            <input type="radio" name="choixconnect" value="Arbitre">
             <label><b>Arbitre</b></label>
-            <input type="radio" name="choixconnect">
+            <input type="radio" name="choixconnect"  value="Administrateur">
             <label><b>Administrateur</b></label>
         </div>
         

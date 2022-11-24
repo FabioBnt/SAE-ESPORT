@@ -28,7 +28,6 @@ class ConnexionTest extends \PHPUnit\Framework\TestCase {
     public function testConnexionValideEquipe(){
         $this->user->seConnecter("KCorpLoLCompte", "PasswordKcorplol", Role::Equipe);
         $this->assertSame($this->user->getRole(), Role::Equipe);
-        $this->user->deConnecter();
     }
 
     public function testConnexionIdInvalideAdmin(){
