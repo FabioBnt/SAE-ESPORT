@@ -152,38 +152,38 @@ header a{
 }
 /*PAGE CREER ECURIE*/
 /*BODY*/
-/*FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, LISTEEQUIPE*/
-.ecurie,.tournois,.detailstournoi,.classement,.listeEquipe{
+/*FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE*/
+.ecurie,.tournois,.detailstournoi,.classement,.listeEquipe,.equipe,.equipeD,.tournoi,.score{
     margin:0;
     background-color:#2a3250;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-/*MAIN ECURIE*/
-.ecuriemain{
+/*MAIN ECURIE EQUIPE TOURNOI DETAILSTOURNOI*/
+.ecuriemain,.equipemain,.equipeDmain,.tournoimain{
     padding:auto;
     margin:5em;
 }
 /*FORMULAIRE*/
-#formecurie {
+#formecurie,#formeequipe,#formetournoi {
     padding: 2em;
     border: 2px solid white;
     background-color: lightgray;;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-#formecurie h1{
+#formecurie h1,#formeequipe h1,#formetournoi h1{
     text-align: center;
 }
-#formecurie input{
+#formecurie input,#formeequipe input,#formetournoi input{
     border: solid 1px;
     border-radius:5px;
     padding:0.5em;
 }
-#formecurie label{
+#formecurie label,#formeequipe label,#formetournoi label{
     padding:0.6em;
     display: block;
 }
 /*GRID MOD*/
-.formulaireecurie,.gridDetails{
+.formulaire,.gridDetails{
     display:grid;
     gap:10px;
 }
@@ -270,9 +270,9 @@ td,th{
     text-align: center;
 }
 
-/*PAGE DETAILS TOURNOI*/
+/*PAGE DETAILS TOURNOI EQUIPE*/
 /*MAIN */
-.detailstournoimain{
+.detailstournoimain,.detailsequipemain{
     padding:auto;
     margin:5em;
 }
@@ -349,6 +349,9 @@ td,th{
     grid-column: 2;
     grid-row: 6;
 }
+#Dgridt1 a{
+    color:black;
+}
 
 /*MODIFICATION TABLEAU*/
 .Divdetails table{
@@ -381,4 +384,180 @@ td,th{
 .divEquip1{
     margin:1.8em;
     margin-top: 50px;
+}
+
+/*FORMULAIRE EQUIPE*/
+#validerE{
+    grid-row: 7;
+    grid-column: 3;
+}
+#annulerE{
+    grid-column: 1;
+    grid-row: 7;
+}
+#Eqforml1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#Eqformi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#Eqforml2{
+    grid-column: 3;
+    grid-row: 1;
+}
+#Eqformi2{
+    grid-column: 3;
+    grid-row: 2;
+}
+#Eqforml3{
+    grid-column: 3;
+    grid-row: 3;
+}
+#Eqformi3{
+    grid-column: 3;
+    grid-row: 4;
+}
+#Eqformt1{
+    grid-column: 1;
+    grid-row: 4;
+}
+#Eqforml4{
+    grid-column: 1;
+    grid-row: 3;
+}
+#TabEquipeC{
+    grid-column: 2;
+    grid-row: 5;
+}
+#validerE:hover {
+    background-color: lightgreen;
+}
+#annulerE:hover{
+    background-color: crimson;
+}
+/*PAGE CREEREQUIPE TABLEAU*/
+#TabEquipeC{
+    border: 1px solid #2a3250;
+}
+#TabEquipeC td{
+    padding-left: 5em;
+    padding-right: 5em;
+    border: 1px solid #2a3250;
+}
+#TabEquipeC a{
+    color: #2a3250;
+}
+/*FORMULAIRE TOURNOI*/
+#validerT{
+    grid-row: 9;
+    grid-column: 3;
+}
+#annulerT{
+    grid-column: 1;
+    grid-row: 9;
+}
+#Tforml1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#Tformi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#Tforml2{
+    grid-column: 3;
+    grid-row: 1;
+}
+#Tformi2{
+    grid-column: 3;
+    grid-row: 2;
+}
+#Tforml3{
+    grid-column: 3;
+    grid-row: 3;
+}
+#Tformi3{
+    grid-column: 3;
+    grid-row: 4;
+}
+#Tforml4{
+    grid-column: 3;
+    grid-row: 5;
+}
+#Tformi4{
+    grid-column: 3;
+    grid-row: 6;
+}
+#Tforml5{
+    grid-column: 1;
+    grid-row: 5;
+}
+#Tformi5{
+    grid-column: 1;
+    grid-row: 6;
+}
+#Tformt1{
+    grid-column: 1;
+    grid-row: 4;
+}
+#Tforml6{
+    grid-column: 1;
+    grid-row: 3;
+}
+#TabTournoi{
+    grid-column: 2;
+    grid-row: 7;
+}
+#validerT:hover {
+    background-color: lightgreen;
+}
+#annulerT:hover{
+    background-color: crimson;
+}
+/*PAGE CREERTOURNOI TABLEAU*/
+#TabTournoi{
+    border: 1px solid #2a3250;
+}
+#TabTournoi td{
+    padding-left: 5em;
+    padding-right: 5em;
+    border: 1px solid #2a3250;
+}
+#TabTournoi a{
+    color: #2a3250;
+}
+/*PAGE DETAILS EQUIPE*/
+#EDgridi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#EDgridi2{
+    grid-column: 1;
+    grid-row: 4;
+}
+#EDgridi3{
+    grid-column: 1;
+    grid-row: 6;
+}
+#EDgridl1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#EDgridl2{
+    grid-column: 1;
+    grid-row: 3;
+}
+#EDgridl3{
+    grid-column: 1;
+    grid-row: 5;
+}
+#EDgridt1{
+    grid-column: 3;
+    grid-row: 1/9;
+}
+#EDgridb1{
+    grid-column: 1;
+    grid-row: 8;
 }
