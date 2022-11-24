@@ -1,0 +1,563 @@
+﻿/*PAGE ACCUEIL*/
+/*BODY*/
+.accueil{
+    margin:0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+/*HEADER MENU*/
+header {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1vw 4vw;
+    pointer-events: auto;
+    background-color: rgb(118, 118, 118);
+    border-bottom: solid 5px;
+}
+header a{
+    text-decoration: none;
+    backface-visibility: hidden;
+    padding:0.5em 0.8em;
+    font-size: 16px;
+}
+.menucenter{
+    padding:0.8em;
+    display: block;
+    margin-left: 45px;
+    margin-right: auto;
+}
+/*LOGO MENU*/
+.logo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 15%;
+    max-height: 15%;
+}
+.Menu{
+    position: relative;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    align-items: center;
+    padding:0.3em;
+}
+/*NAVIGATION MENU*/
+.navig{
+        display: inline-flex;
+        flex-wrap: wrap;
+        background-color: white;
+        border: 2px solid #1A1A1A;
+        border-radius: 8px;
+        font-size: 16px;
+        padding:1em;
+        margin:0.5em;
+}
+.menunav{
+    display: flex;
+    flex-wrap: nowrap;
+    flex: 1 0 67%;
+    align-items: center;
+}
+.menuright{
+    flex-grow: 0;
+    flex-shrink: 1;
+    display: inline-flex;
+    align-items: center; 
+}
+.connecter{
+    justify-content: flex-end;
+}
+/*BUTTON SECONNECTER*/
+#connexion,.buttonE{
+        line-height: normal;
+        border-style: solid;
+}
+#connexion:hover {
+    color: grey;
+    background-color: lightgreen;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+/*MAIN*/
+/*FOND DU MAIN*/
+.accueilmain{
+    height: 1000px;
+    background-image:url("./img/fondecranpasflou.jpg");
+}
+.mainA{
+    display:grid;
+    gap:10px;
+    grid-auto-rows:325px;
+    grid-template-columns: repeat(3, 1fr);
+}
+/*TITRE APPLICATION*/
+.titre{
+    grid-column: 2;
+    grid-row: 2;
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+    backdrop-filter: blur(12px);
+    border:solid;
+}
+.titre h1{
+    text-align: center;
+    font-size: 50px;
+}
+#divbutton{
+    grid-column: 1/4;
+    grid-row: 1;
+    margin: auto;
+}
+#paragraphe{
+    color: white;
+    grid-column: 1;
+    grid-row: 3;
+    margin:auto;
+}
+#paragraphe2{
+    color: white;
+    grid-column: 3;
+    grid-row: 3;
+    margin: auto;
+}
+/*BUTTON*/
+.buttonM,#connexion,.buttonE{
+    padding:1em;
+    margin:2em;
+    font-size: 18px;
+    background-color: white;
+    border: 2px solid #1A1A1A;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    outline: none;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+}
+.buttonM:hover {
+    color: #fff;
+    background-color: #1A1A1A;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+/*PAGE CREER ECURIE*/
+/*BODY*/
+/*FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE*/
+.ecurie,.tournois,.detailstournoi,.classement,.listeEquipe,.equipe,.equipeD,.tournoi,.score{
+    margin:0;
+    background-color:#2a3250;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+/*MAIN ECURIE EQUIPE TOURNOI DETAILSTOURNOI*/
+.ecuriemain,.equipemain,.equipeDmain,.tournoimain{
+    padding:auto;
+    margin:5em;
+}
+/*FORMULAIRE*/
+#formecurie,#formeequipe,#formetournoi {
+    padding: 2em;
+    border: 2px solid white;
+    background-color: lightgray;;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+#formecurie h1,#formeequipe h1,#formetournoi h1{
+    text-align: center;
+}
+#formecurie input,#formeequipe input,#formetournoi input{
+    border: solid 1px;
+    border-radius:5px;
+    padding:0.5em;
+}
+#formecurie label,#formeequipe label,#formetournoi label{
+    padding:0.6em;
+    display: block;
+}
+/*GRID MOD*/
+.formulaire,.gridDetails{
+    display:grid;
+    gap:10px;
+}
+#valider{
+    grid-row: 5;
+    grid-column: 3;
+}
+#annuler{
+    grid-column: 1;
+    grid-row: 5;
+}
+#Eforml1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#Eformi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#Eforml2{
+    grid-column: 2;
+    grid-row: 1;
+}
+#Eformi2{
+    grid-column: 2;
+    grid-row: 2;
+}
+#Eforml3{
+    grid-column: 3;
+    grid-row: 1;
+}
+#Eformi3{
+    grid-column: 3;
+    grid-row: 2;
+}
+#Eformt1{
+    grid-column: 2;
+    grid-row: 4;
+}
+#Eforml4{
+    grid-column: 2;
+    grid-row: 3;
+}
+/*BUTTON VALIDER ANNULER*/
+.buttonE:hover {
+    color: grey;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+#valider:hover {
+    background-color: lightgreen;
+}
+#annuler:hover{
+    background-color: crimson;
+}
+/*PAGE VISUALISER TOURNOIS, CLASSEMENT, LISTEEQUIPE*/
+/*MAIN*/
+.tournoismain,.classementmain,.listeEquipemain{
+    color:white;
+}
+
+/*TABLEAU*/
+.tournoismain a,.classementmain a{
+    color:white;
+}
+
+.tournoismain h1,.classementmain h1,.listeEquipemain h1{
+    padding: 0.5em;
+    text-align: center;
+}
+
+table,td {
+    border: 1px solid white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+thead{
+    background-color: rgb(118, 118, 118);
+}
+
+td,th{
+    padding:1em;
+    text-align: center;
+}
+
+/*PAGE DETAILS TOURNOI EQUIPE*/
+/*MAIN */
+.detailstournoimain,.detailsequipemain{
+    padding:auto;
+    margin:5em;
+}
+
+.Divdetails{
+    padding: 2em;
+    border: 2px solid white;
+    background-color: lightgray;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+/*GRID*/
+.Divdetails h1{
+    text-align: center;
+}
+.Divdetails input{
+    border: solid 1px;
+    border-radius:5px;
+    padding:0.5em;
+}
+.Divdetails label{
+    padding:0.6em;
+    display: block;
+}
+#Dgridi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#Dgridi2{
+    grid-column: 2;
+    grid-row: 2;
+}
+#Dgridi3{
+    grid-column: 3;
+    grid-row: 2;
+}
+#Dgridi4{
+    grid-column: 1;
+    grid-row: 4;
+}
+#Dgridi5{
+    grid-column: 2;
+    grid-row: 4;
+}
+#Dgridi6{
+    grid-column: 3;
+    grid-row: 4;
+}
+#Dgridl1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#Dgridl2{
+    grid-column: 2;
+    grid-row: 1;
+}
+#Dgridl3{
+    grid-column: 3;
+    grid-row: 1;
+}
+#Dgridl4{
+    grid-column: 1;
+    grid-row: 3;
+}
+#Dgridl5{
+    grid-column: 2;
+    grid-row: 3;
+}
+#Dgridl6{
+    grid-column: 3;
+    grid-row: 3;
+}
+#Dgridt1{
+    grid-column: 2;
+    grid-row: 6;
+}
+#Dgridt1 a{
+    color:black;
+}
+
+/*MODIFICATION TABLEAU*/
+.Divdetails table{
+    background-color: white;
+    border:2px solid;
+    margin:0.7em;
+}
+
+.Divdetails thead{
+    background-color: #2a3250;
+    color:white;
+}
+
+.Divdetails td{
+    border-top: solid 2px;
+}
+
+/*PAGE LISTE EQUIPES*/
+#TabEquipe td{
+    padding-left: 5em;
+    padding-right: 5em;
+}
+#TabEquipe a{
+    color: white;
+}
+#BtnCEquipe{
+    padding:1.2em;
+    margin-right: auto;
+}
+.divEquip1{
+    margin:1.8em;
+    margin-top: 50px;
+}
+
+/*FORMULAIRE EQUIPE*/
+#validerE{
+    grid-row: 7;
+    grid-column: 3;
+}
+#annulerE{
+    grid-column: 1;
+    grid-row: 7;
+}
+#Eqforml1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#Eqformi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#Eqforml2{
+    grid-column: 3;
+    grid-row: 1;
+}
+#Eqformi2{
+    grid-column: 3;
+    grid-row: 2;
+}
+#Eqforml3{
+    grid-column: 3;
+    grid-row: 3;
+}
+#Eqformi3{
+    grid-column: 3;
+    grid-row: 4;
+}
+#Eqformt1{
+    grid-column: 1;
+    grid-row: 4;
+}
+#Eqforml4{
+    grid-column: 1;
+    grid-row: 3;
+}
+#TabEquipeC{
+    grid-column: 2;
+    grid-row: 5;
+}
+#validerE:hover {
+    background-color: lightgreen;
+}
+#annulerE:hover{
+    background-color: crimson;
+}
+/*PAGE CREEREQUIPE TABLEAU*/
+#TabEquipeC{
+    border: 1px solid #2a3250;
+}
+#TabEquipeC td{
+    padding-left: 5em;
+    padding-right: 5em;
+    border: 1px solid #2a3250;
+}
+#TabEquipeC a{
+    color: #2a3250;
+}
+/*FORMULAIRE TOURNOI*/
+#validerT{
+    grid-row: 9;
+    grid-column: 3;
+}
+#annulerT{
+    grid-column: 1;
+    grid-row: 9;
+}
+#Tforml1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#Tformi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#Tforml2{
+    grid-column: 3;
+    grid-row: 1;
+}
+#Tformi2{
+    grid-column: 3;
+    grid-row: 2;
+}
+#Tforml3{
+    grid-column: 3;
+    grid-row: 3;
+}
+#Tformi3{
+    grid-column: 3;
+    grid-row: 4;
+}
+#Tforml4{
+    grid-column: 3;
+    grid-row: 5;
+}
+#Tformi4{
+    grid-column: 3;
+    grid-row: 6;
+}
+#Tforml5{
+    grid-column: 1;
+    grid-row: 5;
+}
+#Tformi5{
+    grid-column: 1;
+    grid-row: 6;
+}
+#Tformt1{
+    grid-column: 1;
+    grid-row: 4;
+}
+#Tforml6{
+    grid-column: 1;
+    grid-row: 3;
+}
+#TabTournoi{
+    grid-column: 2;
+    grid-row: 7;
+}
+#validerT:hover {
+    background-color: lightgreen;
+}
+#annulerT:hover{
+    background-color: crimson;
+}
+/*PAGE CREERTOURNOI TABLEAU*/
+#TabTournoi{
+    border: 1px solid #2a3250;
+}
+#TabTournoi td{
+    padding-left: 5em;
+    padding-right: 5em;
+    border: 1px solid #2a3250;
+}
+#TabTournoi a{
+    color: #2a3250;
+}
+/*PAGE DETAILS EQUIPE*/
+#EDgridi1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#EDgridi2{
+    grid-column: 1;
+    grid-row: 4;
+}
+#EDgridi3{
+    grid-column: 1;
+    grid-row: 6;
+}
+#EDgridl1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#EDgridl2{
+    grid-column: 1;
+    grid-row: 3;
+}
+#EDgridl3{
+    grid-column: 1;
+    grid-row: 5;
+}
+#EDgridt1{
+    grid-column: 3;
+    grid-row: 1/9;
+}
+#EDgridb1{
+    grid-column: 1;
+    grid-row: 8;
+}

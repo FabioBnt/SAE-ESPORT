@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>E-Sporter Manager</title>
+</head>
+<body class="tournoi">
+    <!--Menu de navigation-->
+    <header>
+        <div class="Menu">
+            <div class="menunav">
+            <nav class="navig">
+                <a href="index.html">Home</a>
+                <a href="ListeTournois.html">Liste des Tournois</a>
+                <a href="Classement.html">Classement</a>
+            </nav>
+            <div class="menucenter">
+                <img class="logo" src="/img/logo header.png">
+            </div>
+            </div>
+            <div class="menuright">
+                <div class="connecter">
+                    <a href="Connexion.html" id="connexion">Se Connecter</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="tournoimain">
+            <form action="index.html" id="formetournoi" method="POST">
+                <h1>Créer un tournoi</h1>
+                <div class="formulaire">
+                    <label id="Tforml1"><b>Nom du tournoi</b></label>
+                    <input id="Tformi1" type="text" placeholder="Entrer le nom du tournoi" name="name" required>
+                    <label id="Tforml2"><b>Date</b></label>
+                    <input id="Tformi2" type="text" placeholder="Entrer la date" name="date" required>
+                    <label id="Tforml3"><b>Heure</b></label>
+                    <input id="Tformi3" type="text" placeholder="Entrer l'heure" name="heure" required>
+                    <label id="Tforml4"><b>Lieu</b></label>
+                    <input id="Tformi4" type="text" placeholder="Entrer le lieu" name="lieu" required>
+                    <label id="Tforml5"><b>Cashprize</b></label>
+                    <input id="Tformi5" type="text" placeholder="Entrer la récompense" name="cashprize" required>
+                    <label id="Tforml6"><b>Notoriété</b></label>
+                    <input id="Tformt1" type=text list=typeE placeholder="Choisissez la notoriété">
+                        <datalist id=typeE >
+                        <option> Local
+                        <option> Régional
+                        <option> International
+                        </datalist>
+                    <table id="TabTournoi">
+                        <thead>
+                            <tr>
+                                <th >Jeu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Minecraft</td>
+                            </tr>
+                            <tr>
+                                <td>Fortnite</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit" class="buttonE" id="validerT" value='VALIDER' >
+                    <input type="submit" class="buttonE" id="annulerT" value='ANNULER' >
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
