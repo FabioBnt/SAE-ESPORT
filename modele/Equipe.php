@@ -5,13 +5,23 @@ include 'Connexion.php';
 
 class Equipe
 {
-    private $connexion;
-
-    public function __construct(){
+    private $nom;
+    private $points;
+    private $ecurie;
+    private $jeu;
+    public function __construct($nom, $points, $ecurie, $jeu){
+        $this->nom = $nom;
+        $this->points = $points;
+        $this->ecurie = $ecurie;
+        $this->jeu = $jeu;
     }
 
-    public function connecter($id,$mdp){
-        $this->connexion = Connexion::getInstance();
-        $this->connexion->seConnecter($id,$mdp,Role::Equipe);
+    public function inscrire($tournoi) {
     }
+
+    public function toString() {
+        return $this->nom;
+    }
+
+
 }

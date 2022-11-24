@@ -20,7 +20,7 @@ class Connexion {
     }
     return self::$instance;
   }
-  function seConnecter($identifiant, $password, $role) {
+  function seConnecter(string $identifiant, string $password, $role) {
     if ($role == Role::Administrateur || $role == Role::Arbitre) {
 			if ($this->comptes[$role][0] == $identifiant && $this->comptes[$role][1] == $password) {
 				$this->role = $role;
@@ -28,13 +28,9 @@ class Connexion {
 			}
 		} else {
       $mysql = Database::getInstance();
-      $pdo = $mysql->getPDO();
-      $stmt = $pdo->prepare("select MDPCompte from ".$role." where NomCompte = :id");
-      $stmt->execute(['id'=> $identifiant]); 
-      $data = $stmt->fetchAll();
-      // and somewhere later:
-      foreach ($data as $row) {
-          if ($row['MDPCompte'] == $password){
+      $data = $mysql->select("MDPCompte", $role, "where NomCompte = '$identifiant'");
+      foreach ($data as $ligne) {
+          if ($ligne['MDPCompte'] == $password){
             $this->role = $role;
             $this->identifiant = $identifiant;
           }
