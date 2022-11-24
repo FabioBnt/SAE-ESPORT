@@ -52,6 +52,16 @@ class Tournoi
         $this->heureDebut.' '.
         $this->date;
     }
+
+    public function getTable(){
+        return array(
+            'nom' => $this->nom,
+            'cashPrize' => $this->cashPrize,
+            'notoriete' => $this->notoriete,
+            'lieu' => $this->lieu,
+            'heureDebut' => $this->heureDebut,
+            'date' => $this->date);
+    }
 }
 
 ?>

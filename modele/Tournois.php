@@ -98,6 +98,10 @@ class Tournois
         }
         echo "</table>";
     }
+
+    public function getTournois(){
+        return $this->tournois;
+    }
 }
 
 ?>
