@@ -35,7 +35,7 @@ class Tournois
             $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0]);
         }
     }
-    public function tousLesTrournois()
+    public function tousLesTournois()
     {
         $this->selectTournoi();
     }
@@ -99,9 +99,5 @@ class Tournois
         echo "</table>";
     }
 }
-
-$apple = new Tournois();
-$apple->tournoiDe("league", 10000);
-$apple->afficherTournois();
 
 ?>

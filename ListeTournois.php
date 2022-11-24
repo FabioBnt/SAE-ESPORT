@@ -1,4 +1,19 @@
-﻿<!DOCTYPE html>
+﻿<?php
+include './modele/Tournois.php';
+//print errors when opening page
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$listeTournois = new Tournois();
+
+$listeTournois->tousLesTournois();
+
+?>
+
+
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -35,15 +50,17 @@
                 <table>
                     <thead>
                         <tr>
-                            <th >Nom</th>
-                            <th >Date</th>
-                            <th >Plus d'informations</th>
+                            <th>Nom</th>
+                            <th>CashPrize</th>
+                            <th>Notoriété</th>
+                            <th>Lieu</th>
+                            <th>Heure de début</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>FFS</td>
-                            <td>20/11/2022</td>
+                            <?php $listeTournois->afficherTournois() ?>
                             <td><a href="./DetailsTournoi.html">+</a></td>
                         </tr>
                     </tbody>

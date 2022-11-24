@@ -3,7 +3,7 @@
 class Tournoi
 {
     private $nom;
-    private $prix;
+    private $cashPrize;
     private $notoriete;
     private $lieu;
     private $heureDebut;
@@ -11,9 +11,9 @@ class Tournoi
     private $poules = array();
     private $jeu = array();
 
-    function __construct($nom, $prix, $notoriete, $lieu, $heureDebut, $date){
+    function __construct($nom, $cashPrize, $notoriete, $lieu, $heureDebut, $date){
         $this->nom = $nom;
-        $this->prix = $prix;
+        $this->cashPrize = $cashPrize;
         $this->notoriete = $notoriete;
         $this->lieu = $lieu;
         $this->heureDebut = $heureDebut;
@@ -46,7 +46,7 @@ class Tournoi
     }
     public function __toString()
     {
-        return $this->nom.' '.$this->prix.'€ '.
+        return $this->nom.' '.$this->cashPrize.'€ '.
         $this->notoriete.' '.
         $this->lieu.' '.
         $this->heureDebut.' '.
