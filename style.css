@@ -85,7 +85,7 @@ header a{
 /*FOND DU MAIN*/
 .accueilmain{
     height: 1000px;
-    background-image:url("./img/fondecranpasflou.jpg");
+    background-image:url("/img/fondecranpasflou.jpg");
 }
 .mainA{
     display:grid;
