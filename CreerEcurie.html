@@ -13,7 +13,7 @@
         <div class="Menu">
             <div class="menunav">
             <nav class="navig">
-                <a href="index.html">Home</a>
+                <a href="index.php">Home</a>
                 <a href="ListeTournois.php">Liste des Tournois</a>
                 <a href="Classement.html">Classement</a>
             </nav>
@@ -30,7 +30,7 @@
     </header>
     <main>
         <div class="ecuriemain">
-            <form action="index.html" id="formecurie" method="POST">
+            <form action="index.php" id="formecurie" method="POST">
                 <h1>Créer une écurie</h1>
                 <div class="formulaire">
                     <label id="Eforml1"><b>Nom de l'écurie</b></label>
@@ -46,7 +46,7 @@
                         <option> Associative
                         </datalist>
                     <input type="submit" class="buttonE" id="valider" value='VALIDER' >
-                    <input type="submit" class="buttonE" id="annuler" value='ANNULER' >
+                    <input type="submit" class="buttonE" id="annuler" value='ANNULER' onclick="history.back()" >
                 </div>
             </form>
         </div>

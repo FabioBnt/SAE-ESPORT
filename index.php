@@ -1,3 +1,10 @@
+<?php
+    include './modele/Connexion.php';
+    $connx = Connexion::getInstance();
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,7 +20,7 @@
         <div class="Menu">
             <div class="menunav">
             <nav class="navig">
-                <a href="./index.html">Home</a>
+                <a href="./index.php">Home</a>
                 <a href="./ListeTournois.php">Liste des Tournois</a>
                 <a href="./Classement.html">Classement</a>
             </nav>
@@ -23,7 +30,13 @@
             </div>
             <div class="menuright">
                 <div class="connecter">
-                    <a href="./ConnexionPage.php" id="connexion">Se Connecter</a>
+                    <?php 
+                        if($connx->getRole() == Role::Visiteur){
+                            echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>'.$connx->getRole();
+                        }else{
+                            echo '<a>Bonjour'.$connx->getRole().' '.$connx->getIdentifiant().'</a>';//ça n'a rien changé montre moi
+                        }
+                    ?>
                 </div>
             </div>
         </div>       
@@ -40,12 +53,12 @@
             </div>
             <div id="paragraphe">
                 <p>
-                    SALUT SALUT
+                    WIP
                 </p>
             </div>
             <div id="paragraphe2">
                 <p>
-                    SALUT SALUT
+                    WIP
                 </p>
             </div>
         </div>

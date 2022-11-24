@@ -33,7 +33,7 @@
     box-sizing: border-box;
    }
    
-   input[type=submit] {
+   input[type=submit], input[type=button]{
     background-color: gray;
     color: white;
     padding: 14px 20px;
@@ -42,17 +42,17 @@
     cursor: pointer;
     width: 100%;
    }
-   input[type=submit]:hover {
+   input[type=submit]:hover, input[type=button]:hover {
     background-color: white;
     color: black;
     border: 1px solid gray;
    }
-
    .radio{
     padding-top: 20;
     padding-bottom: 20;
    }
 
-   #annuler{
+   input[type=button]{
     background-color: crimson;
    }
+   

@@ -1,9 +1,5 @@
 ﻿<?php
 include './modele/Tournois.php';
-//print errors when opening page
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 $listeTournois = new Tournois();
 
@@ -28,7 +24,7 @@ $listeTournois->tousLesTournois();
         <div class="Menu">
             <div class="menunav">
             <nav class="navig">
-                <a href="./index.html">Home</a>
+                <a href="./index.php">Home</a>
                 <a href="./ListeTournois.html">Liste des Tournois</a>
                 <a href="./Classement.html">Classement</a>
             </nav>

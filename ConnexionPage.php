@@ -1,5 +1,14 @@
 ﻿<?php
+    include './modele/Connexion.php';
+
     if(isset($_POST['username']) && isset($_POST['password'])){
+        $connx = Connexion::getInstance();
+        $connx->seConnecter($_POST['username'], $_POST['password'], $_POST['roles']);
+        if($connx->getRole() == $_POST['roles']){
+            header("Location: index.php");
+        }else{
+            echo '<h1 style="color:red;text-align:center;">Identifiant ou mot de passe incorrect</h1>';
+        }
         
     }
 ?>
@@ -14,16 +23,13 @@
  <div id="seconnecter">    
     <form action="ConnexionPage.php" method="POST">
         <h1>Connexion</h1>
-        <div class="radio">
-            <input type="radio" name="choixconnect" value="Ecurie" checked>
-            <label><b>Ecurie</b></label>
-            <input type="radio" name="choixconnect" value="Equipe" >
-            <label><b>Equipe</b></label>
-            <input type="radio" name="choixconnect" value="Arbitre">
-            <label><b>Arbitre</b></label>
-            <input type="radio" name="choixconnect"  value="Administrateur">
-            <label><b>Administrateur</b></label>
-        </div>
+        <label for="roles">Choisissez un rôle :</label>
+        <select class="radio" name="roles">
+            <option value="Ecurie">Ecurie</option>
+            <option value="Equipe">Equipe</option>
+            <option value="Arbitre">Arbitre</option>
+            <option value="Administrateur">Administrateur</option>
+        </select> <br>
         
         <label><b>Nom d'utilisateur</b></label>
         <input type="text" placeholder="Entrer le nom d'utilisateur" name="username" required>
@@ -32,7 +38,7 @@
         <input type="password" placeholder="Entrer le mot de passe" name="password" required>
 
         <input type="submit" id='submit' value='LOGIN' >
-        <input type="submit" id='annuler' value='ANNULER' >
+        <input type="button" value='ANNULER' onclick="history.back()"> <!--Permet de retourner à la page d'avant (historique)-->
     </form>
  </div>
  </body>
