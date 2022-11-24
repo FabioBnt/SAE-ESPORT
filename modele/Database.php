@@ -35,12 +35,10 @@ class Database {
         $data = $stmt->fetchAll();
         return $data;
     }
-    public function Insert(string $table, string $values){
+    public function Insert(string $table, int $num, array $values){
         $pdo = $this->getPDO();
-        $stmt = $pdo->prepare("INSERT INTO".$table." VALUES (".$values.")");
-        $stmt->execute(); 
-        $data = $stmt->fetchAll();
-        return $data;
+        $stmt = $pdo->prepare("INSERT INTO ".$table." VALUES (".str_repeat("?, ", $num-1).'?)');
+        $res = $stmt->execute($values);
     }
 }
 ?>
