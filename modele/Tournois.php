@@ -90,10 +90,14 @@ class Tournois
     }
     public function afficherTournois()
     {
-        echo "<table border='1'><br />";
+        //echo "<table border='1'><br />";
         for ($ligne = 0; $ligne < count($this->tournois); $ligne ++) {
         echo "<tr>";
-            echo "<td>", $this->tournois[$ligne], "</td>";
+            $tournoi = $this->tournois[$ligne]->listeInfo();
+            for($col = 0; $col < count($tournoi); $col++){
+                echo "<td>", $tournoi[$col], "</td>"; 
+            }
+            echo "<td><a href=\"./DetailsTournoi.html\">+</a></td>";
         echo "</tr>";
         }
         echo "</table>";

@@ -56,20 +56,12 @@ $listeTournois->tousLesTournois();
                             <th>Lieu</th>
                             <th>Heure de début</th>
                             <th>Date</th>
+                            <th>Plus d'info</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $listeTournois->afficherTournois();?>
                         <tr>
-                            <?php foreach ($listeTournois->getTournois() as $key => $value) {
-                                echo '<td>'. ['nom']. '</td>';
-                                echo '<td>'. ['cashPrize']. '</td>';
-                                echo '<td>'. ['notorieté']. '</td>';
-                                echo '<td>'. ['lieu']. '</td>';
-                                echo '<td>'. ['heureDebut']. '</td>';
-                                echo '<td>'. ['date']->date->format('d/m/Y'). '</td>';
-                            } { 
-                                # code...
-                            }?>
                             <td><a href="./DetailsTournoi.html">+</a></td>
                         </tr>
                     </tbody>
