@@ -7,20 +7,12 @@ if(!isset($_SESSION["connexion"]))
     $singleton = Connexion::getInstance();
     $_SESSION['connexion'] = $singleton;
 }
-foreach ($_POST as $key => $value) {
-    echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
-}
 $connx = $_SESSION['connexion'];
-if(isset($_Post['submit'])){
+if(isset($_POST['name'])){
     if($connx->getRole() == Role::Administrateur){
-        foreach ($_POST as $key => $value) {
-            echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
-        }
         $Admin = new Administrateur();
-        $Admin->creerEcurie($_Post['name'], $_Post['username'], $_Post['password'], $_Post['typeE']);
-        foreach ($_POST as $key => $value) {
-            echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
-        }
+        $Admin->creerEcurie($_POST['name'], $_POST['username'], $_POST['password'], $_POST['typeE']);
+        echo '<script>alert("Ligne a ete bien insere")</script>';
     }
 }
 
