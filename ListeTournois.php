@@ -78,9 +78,7 @@ if(isset($_GET['nom'])){
                     </thead>
                     <tbody>
                         <?php $listeTournois->afficherTournois();?>
-                        <tr>
-                            <td><a href="./DetailsTournoi.html">+</a></td>
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>
