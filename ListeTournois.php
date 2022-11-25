@@ -1,17 +1,16 @@
 ﻿<?php
 include './modele/Connexion.php';
 include './modele/Tournois.php';
-session_start();
-if(!isset($_SESSION["connexion"]))
-{
-    $singleton = Connexion::getInstance();
-    $_SESSION['connexion'] = $singleton;
-}
-$connx = $_SESSION['connexion'];
+$connx = Connexion::getInstance();
 $listeTournois = new Tournois();
-
 $listeTournois->tousLesTournois();
-
+if(isset($_GET['nom'])){
+    if($_GET['nom']){
+        $listeTournois->tournoiDe($_GET['nom'], -1,-1,"", "","", "");
+    }else{
+        $listeTournois->tousLesTournois();
+    }
+}
 ?>
 
 
@@ -32,7 +31,7 @@ $listeTournois->tousLesTournois();
             <div class="menunav">
             <nav class="navig">
                 <a href="./index.php">Home</a>
-                <a href="./ListeTournois.html">Liste des Tournois</a>
+                <a href="./ListeTournois.php">Liste des Tournois</a>
                 <a href="./Classement.html">Classement</a>
             </nav>
             <div class="menucenter">
@@ -45,7 +44,7 @@ $listeTournois->tousLesTournois();
                         if($connx->getRole() == Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
-                            echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>';
+                            echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter"> se deconnecter </a>';
                         }
                     ?>
                 </div>
@@ -53,9 +52,18 @@ $listeTournois->tousLesTournois();
         </div>
     </header>
     <main>
+    
         <div class="tournoismain">
             <h1>Liste des Tournois</h1>
             <div>
+            <div>
+                <h3> Saisir nom jeu pour rechercher</h3>
+                <form action="ListeTournois.php" method="GET">
+                Nom Jeu: <input type="text" name="nom" value=""><br>
+                <input type="submit" value="rechercher">
+                <input type="submit" value="reset">
+                </form>
+            </div>
                 <table>
                     <thead>
                         <tr>

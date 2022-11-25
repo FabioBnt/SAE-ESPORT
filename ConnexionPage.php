@@ -1,13 +1,8 @@
 ﻿<?php
     include './modele/Connexion.php';
-    session_start();
-    if(!isset($_SESSION["connexion"]))
-    {
-        $singleton = Connexion::getInstance();
-        $_SESSION['connexion'] = $singleton;
-    }
+    $connx = Connexion::getInstance();
+
     if(isset($_POST['username']) && isset($_POST['password'])){
-        $connx = $_SESSION['connexion'];
         $connx->seConnecter($_POST['username'], $_POST['password'], $_POST['roles']);
         if($connx->getRole() == $_POST['roles']){
             header("Location: index.php");

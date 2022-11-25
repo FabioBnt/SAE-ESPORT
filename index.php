@@ -1,18 +1,9 @@
 <?php
     include './modele/Connexion.php';
-    session_start();
-    if(!isset($_SESSION["connexion"]))
-    {
-        $singleton = Connexion::getInstance();
-        $_SESSION['connexion'] = $singleton;
-    }
-    $connx = $_SESSION['connexion'];
+    $connx = Connexion::getInstance();
     if (isset($_GET['sedeconnecter'])) {
         $connx->seDeconnecter();
-      }
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="fr">

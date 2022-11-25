@@ -1,23 +1,19 @@
 ﻿<?php 
 include './modele/Connexion.php';
 include './modele/Administrateur.php';
-session_start();
-
-if (!isset($_SESSION["connexion"])){
-    $singleton = Connexion::getInstance();
-    $_SESSION["connexion"] = $singleton;
-}
 
 foreach($_POST as $key => $value){
     echo $key."->".$value;
 }
 
-$connx = $_SESSION['connexion'];
+$connx = Connexion::getInstance();
 if(isset($_POST['name'])){
-    if($connx->$getRole() == Role::Administrateur){
+    if($connx->getRole() == Role::Administrateur){
         $Admin = new Administrateur();
-        $Admin->creerTournoi($_POST['name'], $_POST['cashprize'],$_POST['typeT'],$_POST['lieu'],$_POST['heureDebut'],$_POST['date']);
+        $Admin->creerTournoi($_POST['name'], $_POST['cashprize'],$_POST['typeT'],$_POST['lieu'],$_POST['heure'],$_POST['date']);
         echo '<script>alert("La ligne a bien été insérée")</script>';
+    }else{
+        echo '<script>alert("Il faut etre connecté en tant que Administateur")</script>';
     }
 }
 
@@ -54,7 +50,7 @@ if(isset($_POST['name'])){
                     if($connx->getRole() == Role::Visiteur){
                         echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                     }else{
-                        echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>';
+                        echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter"> se deconnecter </a>';
                     }
                 ?>
                 </div>

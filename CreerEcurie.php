@@ -1,13 +1,7 @@
 ﻿<?php
 include './modele/Connexion.php';
 include './modele/Administrateur.php';
-session_start();
-if(!isset($_SESSION["connexion"]))
-{
-    $singleton = Connexion::getInstance();
-    $_SESSION['connexion'] = $singleton;
-}
-$connx = $_SESSION['connexion'];
+$connx = Connexion::getInstance();
 if(isset($_POST['name'])){
     if($connx->getRole() == Role::Administrateur){
         $Admin = new Administrateur();
@@ -47,7 +41,7 @@ if(isset($_POST['name'])){
                         if($connx->getRole() == Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
-                            echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>';
+                            echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter"> se deconnecter </a>';
                         }
                     ?>
                 </div>

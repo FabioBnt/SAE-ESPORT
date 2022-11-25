@@ -14,11 +14,15 @@ class Connexion {
   }
   public static function getInstance()
   {
-    if (self::$instance == null)
+    if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+    if(!isset($_SESSION[self::class]))
     {
-      self::$instance = new Connexion();
+        $singleton = new Connexion();
+        $_SESSION[self::class] = $singleton;
     }
-    return self::$instance;
+    return $_SESSION[self::class];
   }
   function seConnecter(string $identifiant, string $password, $role) {
     if ($role == Role::Administrateur || $role == Role::Arbitre) {
