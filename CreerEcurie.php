@@ -12,7 +12,7 @@ if(isset($_POST['name'])){
     if($connx->getRole() == Role::Administrateur){
         $Admin = new Administrateur();
         $Admin->creerEcurie($_POST['name'], $_POST['username'], $_POST['password'], $_POST['typeE']);
-        echo '<script>alert("Ligne a ete bien insere")</script>';
+        echo '<script>alert("La ligne a bien été inserée")</script>';
     }
 }
 
