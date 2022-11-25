@@ -32,7 +32,7 @@ if(isset($_POST['name'])){
                 <a href="Classement.html">Classement</a>
             </nav>
             <div class="menucenter">
-                <img class="logo" src="/img/logo header.png">
+                <img class="logo" src="./img/logo header.png">
             </div>
             </div>
             <div class="menuright">
