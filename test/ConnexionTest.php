@@ -4,7 +4,6 @@ class ConnexionTest extends \PHPUnit\Framework\TestCase {
     private $user;
     protected function setUp(): void {
         $this->user = Connexion::getInstance();
-        $this->tournois->Tournois::getTournois();
     } 
 
     protected function tearDown(): void {
@@ -97,10 +96,6 @@ class ConnexionTest extends \PHPUnit\Framework\TestCase {
         $user = Connexion::getInstance();
         $user->seConnecter("user", "\$iutinfo", Role::Administrateur);
         $this->assertNotSame($user->getRole(),Role::Administrateur);
-    }
-
-    public function testAfficherTournois(){
-        
     }
 }
 ?>
