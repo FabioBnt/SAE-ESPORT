@@ -1,4 +1,31 @@
-﻿<!DOCTYPE html>
+﻿<?php 
+include './modele/Connexion.php';
+include './modele/Administrateur.php';
+session_start();
+
+if (!isset($_SESSION["connexion"])){
+    $singleton = Connexion::getInstance();
+    $_SESSION["connexion"] = $singleton;
+}
+
+foreach($_POST as $key => $value){
+    echo $key."->".$value;
+}
+
+$connx = $_SESSION['connexion'];
+if(isset($_POST['name'])){
+    if($connx->$getRole() == Role::Administrateur){
+        $Admin = new Administrateur();
+        $Admin->creerTournoi($_POST['name'], $_POST['cashprize'],$_POST['typeT'],$_POST['lieu'],$_POST['heureDebut'],$_POST['date']);
+        echo '<script>alert("La ligne a bien été insérée")</script>';
+    }
+}
+
+?>
+
+
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -23,33 +50,44 @@
             </div>
             <div class="menuright">
                 <div class="connecter">
-                    <a href="./ConnexionPage.php" id="connexion">Se Connecter</a>
+                <?php 
+                    if($connx->getRole() == Role::Visiteur){
+                        echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
+                    }else{
+                        echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>';
+                    }
+                ?>
                 </div>
             </div>
         </div>
     </header>
     <main>
         <div class="tournoimain">
-            <form action="index.php" id="formetournoi" method="POST">
+            <form action="CreerTournoi.php" id="formetournoi" method="POST">
                 <h1>Créer un tournoi</h1>
                 <div class="formulaire">
                     <label id="Tforml1"><b>Nom du tournoi</b></label>
                     <input id="Tformi1" type="text" placeholder="Entrer le nom du tournoi" name="name" required>
                     <label id="Tforml2"><b>Date</b></label>
-                    <input id="Tformi2" type="text" placeholder="Entrer la date" name="date" required>
+                    <input id="Tformi2" type="date" name="date" required>
                     <label id="Tforml3"><b>Heure</b></label>
-                    <input id="Tformi3" type="text" placeholder="Entrer l'heure" name="heure" required>
+                    <input id="Tformi3" type="time" name="heure" required>
                     <label id="Tforml4"><b>Lieu</b></label>
                     <input id="Tformi4" type="text" placeholder="Entrer le lieu" name="lieu" required>
                     <label id="Tforml5"><b>Cashprize</b></label>
-                    <input id="Tformi5" type="text" placeholder="Entrer la récompense" name="cashprize" required>
+                    <input id="Tformi5" type="text" placeholder="Entrer le montant du cashprize" name="cashprize" required>
                     <label id="Tforml6"><b>Notoriété</b></label>
-                    <input id="Tformt1" type=text list=typeE placeholder="Choisissez la notoriété">
+                    <select id="Tformt1" name="typeT">
+                	    <option value="Local">Local</option>
+                        <option value="Regional">Regional</option>
+                        <option value="International">International</option>
+                    </select>
+                    <!-- <input id="Tformt1" type=text list=typeE placeholder="Choisissez la notoriété">
                         <datalist id=typeE >
                         <option> Local
                         <option> Régional
                         <option> International
-                        </datalist>
+                        </datalist> -->
                     <table id="TabTournoi">
                         <thead>
                             <tr>
@@ -66,7 +104,7 @@
                         </tbody>
                     </table>
                     <input type="submit" class="buttonE" id="validerT" value='VALIDER' >
-                    <input type="submit" class="buttonE" id="annulerT" value='ANNULER' >
+                    <input type="submit" class="buttonE" id="annulerT" value='ANNULER' onclick="history.back()" >
                 </div>
             </form>
         </div>

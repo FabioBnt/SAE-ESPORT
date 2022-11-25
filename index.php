@@ -56,7 +56,7 @@
                 <h1> Gestionnaire d'une saison de compétition de Esport </h1>
             </div>
             <div id="divbutton">
-                <button class="buttonM" onclick="window.location.href = 'CreerTournoi.html';" type="button"> Créer un tournoi </button>
+                <button class="buttonM" onclick="window.location.href = 'CreerTournoi.php';" type="button"> Créer un tournoi </button>
                 <button class="buttonM" onclick="window.location.href = 'ListeEquipe.html';" type="button"> Liste des équipes </button>
                 <button class="buttonM" onclick="window.location.href = 'CreerEcurie.php';" type="button"> Créer une écurie </button>
             </div>

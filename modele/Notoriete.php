@@ -4,6 +4,7 @@
 abstract class Notoriete
 {
     const International = 'International';
-    Const Local = 'Local';
+    const Local = 'Local';
+    const Regional = 'Regional';
 }
 ?>
