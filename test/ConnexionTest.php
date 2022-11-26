@@ -3,7 +3,7 @@ include(dirname(__DIR__).'/modele/Connexion.php');
 class ConnexionTest extends \PHPUnit\Framework\TestCase {
     private $user;
     protected function setUp(): void {
-        $this->user = Connexion::getInstance();
+        $this->user = Connexion::getInstanceSansSession();
     } 
 
     protected function tearDown(): void {
@@ -93,9 +93,8 @@ class ConnexionTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testConnexionNonValideIdAdministrateur(){
-        $user = Connexion::getInstance();
-        $user->seConnecter("user", "\$iutinfo", Role::Administrateur);
-        $this->assertNotSame($user->getRole(),Role::Administrateur);
+        $this->user->seConnecter("user", "\$iutinfo", Role::Administrateur);
+        $this->assertNotSame($this->user->getRole(),Role::Administrateur);
     }
 }
 ?>

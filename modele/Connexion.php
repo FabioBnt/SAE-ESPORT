@@ -41,6 +41,12 @@ class Connexion {
       }
     }
   }
+  public static function getInstanceSansSession(){
+    if(self::$instance == null){
+        self::$instance = new Connexion();
+    }
+    return self::$instance;
+  }
   public function seDeconnecter(){
     $this->role = Role::Visiteur;
     $this->identifiant = "Guest";
