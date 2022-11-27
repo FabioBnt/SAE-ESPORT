@@ -9,9 +9,9 @@ class Tournoi
     private $heureDebut;
     private $date;
     private $poules = array();
-    private $jeu = array();
+    private $jeux = array();
 
-    function __construct($nom, $cashPrize, $notoriete, $lieu, $heureDebut, $date){
+    function __construct($nom, $cashPrize, $notoriete, $lieu, $heureDebut, $date, array $jeux){
         $this->nom = $nom;
         $this->cashPrize = $cashPrize;
         $this->notoriete = $notoriete;
@@ -19,7 +19,7 @@ class Tournoi
         $this->heureDebut = $heureDebut;
         $this->date = $date;
         $this->poules = null;
-        $this->jeu = null;
+        $this->jeux = $jeux;
     }
     
     public function toString()
@@ -54,7 +54,20 @@ class Tournoi
     }
 
     public function listeInfo(){
-        return array($this->nom,$this->cashPrize,$this->notoriete,$this->lieu,$this->heureDebut,$this->date);
+        
+        return array($this->nom,$this->cashPrize,$this->notoriete,$this->lieu,$this->heureDebut,$this->date, $this->nomsJeux());
+    }
+    private function nomsJeux(){
+        $nomjeux ="";
+        foreach($this->jeux as $jeu){
+            $nomjeux.=$jeu->getNom().', ';
+        }
+        $nomjeux = substr($nomjeux, 0, -2);
+        return $nomjeux;
+
+    }
+    public function ajouterJeu($jeu){
+        $this->jeu[] = $jeu;
     }
 }
 

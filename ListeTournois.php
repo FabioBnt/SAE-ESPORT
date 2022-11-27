@@ -6,7 +6,7 @@ $listeTournois = new Tournois();
 $listeTournois->tousLesTournois();
 if(isset($_GET['nom'])){
     if($_GET['nom']){
-        $listeTournois->tournoiDe($_GET['nom'], -1,-1,"", "","", "");
+        $listeTournois->tournoiDe($_GET['nom']);
     }else{
         $listeTournois->tousLesTournois();
     }
@@ -73,6 +73,7 @@ if(isset($_GET['nom'])){
                             <th>Lieu</th>
                             <th>Heure de début</th>
                             <th>Date</th>
+                            <th>Jeu</th>
                             <th>Plus d'info</th>
                         </tr>
                     </thead>

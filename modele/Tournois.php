@@ -1,6 +1,7 @@
 <?php
 include_once "Tournoi.php";
 include_once "Database.php";
+include_once "Jeu.php";
 class Tournois
 {
     private $tournois;
@@ -9,64 +10,37 @@ class Tournois
     }
     private function selectTournoi(string $cond=""){
         $mysql = Database::getInstance();
-        $data =null;
-        if($cond==""){
-            $data = $mysql->select("*", "Tournois");
-        }else{
-            $data = $mysql->select("*", "Tournois", $cond);
-        }
+        $data = $mysql->select("T.*, J.*", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
+            AND C.IdTournoi = T.IdTournoi ".$cond);
         $this->misAJourListeTournois($data);
     }
-    private function selectTournoiParJeu(string $cond=""){
-        $mysql = Database::getInstance();
-        $data = null;
-        if($cond==""){
-            $data = $mysql->select("*", "Tournois");
-        }else{
-            $data = $mysql->select("T.*", "Tournois T, Contenir C, Jeu J", $cond);
-        }
-        $this->misAJourListeTournois($data);
-    }
+    
     private function misAJourListeTournois($data){
         $this->tournois = array();
+        $last = -1;
         foreach ($data as $ligne) {
-            $tempsHeure = explode(" ", $ligne['DateHeureTournois']);
-            $this->tournois[] = new Tournoi($ligne['NomTournoi'], $ligne['CashPrize'],
-            $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0]);
+            if($last != $ligne['IdTournoi']){ 
+                $tempsHeure = explode(" ", $ligne['DateHeureTournois']);
+                $this->tournois[] = new Tournoi($ligne['NomTournoi'], $ligne['CashPrize'],
+                $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0], 
+                array(new Jeu($ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
+                $last = $ligne['IdTournoi'];
+            }else{
+                $this->tournois[-1]->ajouterJeu(new Jeu($ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
+            }
         }
     }
     public function tousLesTournois()
     {
         $this->selectTournoi();
     }
-    private function tournoiDeJeuCond(string $jeu) : string
-    {
-        return (" Lower(J.NomJeu) like Lower('%$jeu%')");
-    }
-    public function tournoiDeNotoriete($notoriete)
-    {
-        $this->selectTournoi("where Notoriete = '$notoriete'");
-    }
-    public function tournoiAuraLieu($lieu)
-    {
-        $this->selectTournoi("where Lower(Lieu) like Lower('%$lieu%')");
-    }
-    public function tournoiAvecPrixSuperieurA($prix)
-    {
-        $this->selectTournoi("where CashPrize > $prix");
-    }
-    public function tournoiCommenceApres($date)
-    {
-        $this->selectTournoi("where Date(DateHeureTournois) >= '$date'");
-    }
     public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=-1,float $prixMax=-1,string $notoriete="",string $lieu="",string $date=""){
         if($nomJeu=="" && $nomTournois="" && $prixMin==-1 && $prixMax==-1 && $notoriete=="" && $lieu=="" && $date==""){
             throw new Exception("Accun Argument passé");
         }
-        $cond = "where C.IdJeu = J.IdJeu
-        AND C.IdTournoi = T.IdTournoi AND";
+        $cond = "AND";
         if($nomJeu != ""){
-            $cond.= ' '.$this->tournoiDeJeuCond($nomJeu).' AND';
+            $cond.= " Lower(J.NomJeu) like Lower('%$nomJeu%') AND";
         }
         if($nomTournois != ""){
             $cond.=" T.NomTournoi <= $nomTournois AND";
@@ -87,7 +61,7 @@ class Tournois
             $cond.=" Date(T.DateHeureTournois) >= '$date' AND";
         }
         $cond = substr($cond, 0, -3);
-        $this->selectTournoiParJeu($cond);
+        $this->selectTournoi($cond);
     }
     public function afficherTournois()
     {
