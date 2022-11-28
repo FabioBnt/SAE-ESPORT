@@ -2,9 +2,10 @@
 include './modele/Connexion.php';
 include './modele/Administrateur.php';
 
-foreach($_POST as $key => $value){
-    echo $key."->".$value;
-}
+//? Print errors at launch
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $connx = Connexion::getInstance();
 if(isset($_POST['name'])){
@@ -50,7 +51,8 @@ if(isset($_POST['name'])){
                     if($connx->getRole() == Role::Visiteur){
                         echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                     }else{
-                        echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter"> se deconnecter </a>';
+                        //! changer l'IHM !!
+                        echo '<h3 class="bonjourRole">Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter" class="deconnecter"> se deconnecter </a>';
                     }
                 ?>
                 </div>

@@ -15,7 +15,7 @@ class Administrateur {
     }
 
     public function creerTournoi(string $nom, int $cashPrize,string $notoriete, string $lieu,string $heureDebut,string $date){
-        Database::getInstance()->insert("Tournois (Nom, CashPrize, Notoriete, Lieu, DateHeureTournois)", 5
+        Database::getInstance()->insert("Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois)", 5
             , array($nom, $cashPrize, $notoriete, $lieu, $date.' '.$heureDebut.':00'));
     }
 }
