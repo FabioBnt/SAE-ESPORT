@@ -18,7 +18,8 @@ class Equipe
 
     public function inscrire($tournoi) {
     }
-
+    public static function getEquipe($id){
+    }
     public function toString() {
         return $this->nom;
     }

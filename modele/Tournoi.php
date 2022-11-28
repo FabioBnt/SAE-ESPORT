@@ -69,6 +69,9 @@ class Tournoi
     public function ajouterJeu($jeu){
         $this->jeu[] = $jeu;
     }
+    public function getIdTournoi(){
+        
+    }
 }
 
 ?>
