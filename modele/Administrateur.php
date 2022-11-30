@@ -1,7 +1,7 @@
 <?php
-
+include_once 'Connexion.php';
 include_once 'Database.php';
-include_once 'TypeEcurie.php';
+include_once 'Role.php';
 
 class Administrateur {
     public function __construct()
@@ -17,5 +17,8 @@ class Administrateur {
     public function creerTournoi(string $nom, int $cashPrize,string $notoriete, string $lieu,string $heureDebut,string $date){
         Database::getInstance()->insert("Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois)", 5
             , array($nom, $cashPrize, $notoriete, $lieu, $date.' '.$heureDebut.':00'));
+    }
+    public function estConnecter(){
+        return Connexion::estConnecterEnTantQue(Role::Administrateur);
     }
 }

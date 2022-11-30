@@ -2,16 +2,16 @@
 include_once "Database.php";
 class Jeu
 {
-    
+    private $id;
     private $nom;
     private $type;
     private $temps;
     private $limiteInscription;
-    function __construct($nom, $type, $temps, $limiteInscription){
+    function __construct($id, $nom, $type, $temps, $limiteInscription){
         $this->nom = $nom;
         $this->type = $type;
         $this->temps = $temps;
-        $this->limiteInscription = $limiteInscription;
+        $this->limiteInscription = date($limiteInscription);
     }
     public function getNom(){
         return $this->nom;
@@ -22,7 +22,15 @@ class Jeu
     }
     public static function tousLesJeux()
     {
-        return (Database::getInstance()->select('*', 'Jeu'));
+        $data = Database::getInstance()->select('*', 'Jeu');
+        $jeux = array();
+        foreach($data as $ligne){
+            $jeux[] = new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']);
+        }
+        return ($jeux);
+    }
+    public function getlimiteInscription(){
+        return $this->limiteInscription;
     }
 }
 

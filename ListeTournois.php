@@ -73,6 +73,7 @@ if(isset($_GET['nom'])){
                             <th>Lieu</th>
                             <th>Heure de début</th>
                             <th>Date</th>
+                            <th>Fin Inscription</th>
                             <th>Jeu</th>
                             <th>Plus d'info</th>
                         </tr>

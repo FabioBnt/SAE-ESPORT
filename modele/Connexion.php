@@ -1,4 +1,7 @@
 <?php
+
+use phpDocumentor\Reflection\Types\Boolean;
+
 include "Role.php";
 include "Database.php";
 class Connexion {
@@ -19,8 +22,8 @@ class Connexion {
 }
     if(!isset($_SESSION[self::class]))
     {
-        $singleton = new Connexion();
-        $_SESSION[self::class] = $singleton;
+        self::$instance = new Connexion();
+        $_SESSION[self::class] = self::$instance;
     }
     return $_SESSION[self::class];
   }
@@ -51,6 +54,14 @@ class Connexion {
     $this->role = Role::Visiteur;
     $this->identifiant = "Guest";
   }
+
+  public function estConnecterEnTantQue($role){
+    if($this->getRole()== $role){
+      return true;
+    }
+    return false;
+  }
+
   function getIdentifiant() {
     return $this->identifiant;
   }

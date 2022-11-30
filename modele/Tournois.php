@@ -20,13 +20,12 @@ class Tournois
         $last = -1;
         foreach ($data as $ligne) {
             if($last != $ligne['IdTournoi']){ 
-                $tempsHeure = explode(" ", $ligne['DateHeureTournois']);
-                $this->tournois[] = new Tournoi($ligne['NomTournoi'], $ligne['CashPrize'],
-                $ligne['Notoriete'], $ligne['Lieu'], $tempsHeure[1], $tempsHeure[0], 
-                array(new Jeu($ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
+                $this->tournois[] = new Tournoi($ligne['IdTournoi'],$ligne['NomTournoi'], $ligne['CashPrize'],
+                $ligne['Notoriete'], $ligne['Lieu'], $ligne['DateHeureTournois'], 
+                array(new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
                 $last = $ligne['IdTournoi'];
             }else{
-                $this->tournois[-1]->ajouterJeu(new Jeu($ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
+                $this->tournois[-1]->ajouterJeu(new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
             }
         }
     }
@@ -81,6 +80,11 @@ class Tournois
     public function getTournois(){
         return $this->tournois;
     }
+    
 }
+    $t =  new tournois();
+    $t->tousLesTournois();
+    $s = $t->getTournois();
+    echo $s[0]->getIdTournoi();
 
 ?>

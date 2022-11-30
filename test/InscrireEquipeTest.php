@@ -17,9 +17,10 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
         $this->equipe = null;
     }
 
-    public function testEquipeIscriptionValide() {
+    public function testEquipeInscriptionValide() {
+        Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
         $this->tournois->tousLesTournois();
-        $tournoi =  $this->tournois->getTournois()[0];
+        $tournoi = $this->tournois->getTournois()[0];
         $idT = $tournoi->getIdTournoi();
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
