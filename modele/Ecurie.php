@@ -1,6 +1,6 @@
 <?php
 
-include 'Connexion.php';
+include_once 'Connexion.php';
 
 class Ecurie {
     private $designation;

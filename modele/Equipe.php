@@ -1,6 +1,6 @@
 <?php
 
-include 'Connexion.php';
+include_once 'Connexion.php';
 
 
 class Equipe
@@ -17,8 +17,10 @@ class Equipe
     }
 
     public function inscrire($tournoi) {
+        return 1;
     }
     public static function getEquipe($id){
+        return new Equipe("test", 100, "test", "test");
     }
     public function toString() {
         return $this->nom;

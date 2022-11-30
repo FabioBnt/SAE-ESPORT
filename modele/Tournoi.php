@@ -70,7 +70,7 @@ class Tournoi
         $this->jeu[] = $jeu;
     }
     public function getIdTournoi(){
-        
+        return 1;
     }
 }
 

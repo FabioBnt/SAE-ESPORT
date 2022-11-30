@@ -1,7 +1,7 @@
 <?php
 
 include_once 'Database.php';
-include 'TypeEcurie.php';
+include_once 'TypeEcurie.php';
 
 class Administrateur {
     public function __construct()

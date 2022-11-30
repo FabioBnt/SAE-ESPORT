@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-include(dirname(__DIR__).'/modele/Connexion.php');
+include_once(dirname(__DIR__).'/modele/Connexion.php');
 class ConnexionTest extends \PHPUnit\Framework\TestCase {
     private $user;
     protected function setUp(): void {

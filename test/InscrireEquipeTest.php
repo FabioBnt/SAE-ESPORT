@@ -2,7 +2,7 @@
 
 use function PHPUnit\Framework\assertSame;
 
-include(dirname(__DIR__).'/modele/Equipe.php');
+include_once(dirname(__DIR__).'/modele/Equipe.php');
 class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $equipe;
@@ -19,13 +19,14 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
 
     public function testEquipeIscriptionValide() {
         $this->tournois->tousLesTournois();
-        $idT =  $this->tournois->getIdTournoi();
+        $tournoi =  $this->tournois->getTournois()[0];
+        $idT = $tournoi->getIdTournoi();
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
-        $totalInscription = $this->mysql->select('count(*) as total', 'Inscriptions', "where IdTournois = $idT");
+        $totalInscription = $this->mysql->select('count(*) as total', 'Participer', "where IdTournoi = $idT");
         $numInscriptions = $totalInscription[0]['total']-'0';
-        $this->equipe->Inscrire($this->tournois->getTournois()[0]);
-        $totalInscription = $this->mysql->select('count(*) as total', 'Inscriptions', "where IdTournois = $idT");
+        $this->equipe->Inscrire($tournoi);
+        $totalInscription = $this->mysql->select('count(*) as total', 'Participer', "where IdTournoi = $idT");
         assertSame($totalInscription[0]['total']-'0', $numInscriptions+ 1);
         $pdo->rollBack();
     }

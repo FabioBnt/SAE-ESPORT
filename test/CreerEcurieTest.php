@@ -2,7 +2,7 @@
 
 use function PHPUnit\Framework\assertSame;
 
-include(dirname(__DIR__).'/modele/Administrateur.php');
+include_once(dirname(__DIR__).'/modele/Administrateur.php');
 class CreerEcurieTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $admin;

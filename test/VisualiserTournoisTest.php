@@ -2,7 +2,7 @@
 
 use function PHPUnit\Framework\assertSame;
 
-include(dirname(__DIR__).'/modele/Tournois.php');
+include_once(dirname(__DIR__).'/modele/Tournois.php');
 class VisualiserTournoisTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $tournois;
