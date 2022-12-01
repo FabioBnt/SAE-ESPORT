@@ -71,7 +71,7 @@ class Tournois
             for($col = 0; $col < count($tournoi); $col++){
                 echo "<td>", $tournoi[$col], "</td>"; 
             }
-            echo "<td><a href=\"./DetailsTournoi.html\">+</a></td>";
+            echo "<td><a href=\"./DetailsTournoi.php?IDT=".$tournoi[$ligne]->getIdTournoi()."\>+</a></td>";
         echo "</tr>";
         }
         echo "</table>";
@@ -82,9 +82,6 @@ class Tournois
     }
     
 }
-    $t =  new tournois();
-    $t->tousLesTournois();
-    $s = $t->getTournois();
-    echo $s[0]->getIdTournoi();
+    
 
 ?>

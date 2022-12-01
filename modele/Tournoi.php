@@ -55,6 +55,15 @@ class Tournoi
     public function getNom(){
         return $this->nom;
     }
+    public function getNotoriete(){
+        return $this->notoriete;
+    }
+    public function getLieu(){
+        return $this->lieu;
+    }
+    public function getCashprize(){
+        return $this->cashPrize;
+    }
     public function getDate(){
         return $this->date;
     }

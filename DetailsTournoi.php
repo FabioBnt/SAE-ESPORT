@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿<?php
+        include './modele/Connexion.php';
+        include './modele/Tournois.php';
+        $connx = Connexion::getInstance();
+        $mysql = Database::getInstance();
+        $tournoi = $mysql->select("T.*","Tournois T","where T.IdTournoi =".$_GET['IDT']);
+
+ ?>
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -29,29 +38,22 @@
         </div>
     </header>
     <main>
-        <?php
-        include './modele/Connexion.php';
-        include './modele/Tournois.php';
-        $connx = Connexion::getInstance();
-        $data = $connx->select("T.*", "Tournois T", "where NomTournoi=".$_POST["IDT"]);
-
-        ?>
         <div class="detailstournoimain">
             <div class="Divdetails">
                 <h1>Details d'un Tournoi</h1>
                 <div class="gridDetails">
                     <label id="Dgridl1"><b>Nom du tournoi</b></label>
-                    <input id="Dgridi1" type="text" name="nameT" value="" readonly>
+                    <input id="Dgridi1" type="text" name="nameT" value='$tournoi->getNom()' readonly>
                     <label id="Dgridl2"><b>Date du tournoi</b></label>
-                    <input id="Dgridi2" type="text" name="dateT" value="" readonly>
+                    <input id="Dgridi2" type="text" name="dateT" value='$tournoi->getDate()' readonly>
                     <label id="Dgridl3"><b>Heure du tournoi</b></label>
-                    <input id="Dgridi3" type="text" name="heureT" value="" readonly>
+                    <input id="Dgridi3" type="text" name="heureT" value='$tournoi->toString()' readonly>
                     <label id="Dgridl4"><b>Lieu du tournoi</b></label>
-                    <input id="Dgridi4" type="text" name="lieuT" value="" readonly>
+                    <input id="Dgridi4" type="text" name="lieuT" value='$tournoi->getLieu()' readonly>
                     <label id="Dgridl5"><b>CashPrize</b></label>
-                    <input id="Dgridi5" type="text" name="cashprizeT" value="" readonly>
+                    <input id="Dgridi5" type="text" name="cashprizeT" value='$tournoi->getCashPrize()' readonly>
                     <label id="Dgridl6"><b>Notoriété</b></label>
-                    <input id="Dgridi6" type="text" name="notorieteT" value="" readonly>
+                    <input id="Dgridi6" type="text" name="notorieteT" value='$tournoi->getNotoriete()' readonly>
                     <table id="Dgridt1">
                         <thead>
                             <tr>
