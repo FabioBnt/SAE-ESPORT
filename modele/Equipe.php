@@ -26,10 +26,22 @@ class Equipe
         if(strtotime($tournoi->getDateLimiteInscription()) > strtotime(date("Y/m/d"))){
             throw new Exception('Inscription est fermée pour cette tournoi');
         }
+        if($this->estParticipant($tournoi)){
+            throw new Exception('Deja Inscrit');
+        }
         $mysql = Database::getInstance();
         $mysql->Insert('Participer  (IdTournoi, IdEquipe)', 2, array($tournoi->getIdTournoi(), $this->id));
 
         return 1;
+    }
+
+    public function estParticipant(Tournoi $tournoi){
+        $mysql = Database::getInstance();
+        $data = $mysql->select('count(*) as total', 'Participer', 'where IdTournoi ='.$tournoi->getIdTournoi().' AND IdEquipe = '.$this->id);
+        if ($data[0]['total'] > 0){
+            return true;
+        }
+        return false;
     }
     // a modifier
     public static function getEquipe($id){

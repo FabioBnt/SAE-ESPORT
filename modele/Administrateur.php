@@ -19,6 +19,6 @@ class Administrateur {
             , array($nom, $cashPrize, $notoriete, $lieu, $date.' '.$heureDebut.':00'));
     }
     public function estConnecter(){
-        return Connexion::estConnecterEnTantQue(Role::Administrateur);
+        return Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Administrateur);
     }
 }
