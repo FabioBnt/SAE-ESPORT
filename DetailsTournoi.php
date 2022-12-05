@@ -1,9 +1,15 @@
 ﻿<?php
+        //! to remove after debugging
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
         include './modele/Connexion.php';
         include './modele/Tournois.php';
         $connx = Connexion::getInstance();
         $mysql = Database::getInstance();
-        $tournoi = $mysql->select("T.*","Tournois T","where T.IdTournoi =".$_GET['IDT']);
+        $idTournoi = $_GET['IDT'];
+        echo $idTournoi;
+        $tournoi = $mysql->select("T.*","Tournois T","where T.IdTournoi =".$idTournoi);
 
  ?>
 
