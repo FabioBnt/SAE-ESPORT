@@ -100,14 +100,24 @@ class Tournoi
         return $this->dateLimiteInscription;
     }
 
+    public function contienJeu(Jeu $jeu){
+        foreach($this->jeux as $j){
+            if($j = $jeu){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function lesEquipesParticipants(){
         $equipes = array();
         $mysql = Database::getInstance();
         $data = $mysql->select('*', 'Participer', 'where IdTournoi ='.$this->getIdTournoi());
         foreach($data as $ligne){
-            $dataE = $mysql->select('*', 'Equipe', 'where IdEquipe ='.$ligne['IdEquipe']);
+            $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu');
             foreach($dataE as $ligneE){
-                $equipes[] = new Equipe($ligneE['IdEquipe'], $ligneE['NomE'], $ligneE['NbPointsE'], $ligneE['IDEcurie'], $ligneE['IdJeu']);
+                $equipes[] = new Equipe($ligneE['IdEquipe'], $ligneE['NomE'], $ligneE['NbPointsE'], $ligneE['IDEcurie'], 
+                new Jeu($ligneE['IdJeu'],$ligneE['NomJeu'], $ligneE['TypeJeu'], $ligneE['TempsDeJeu'], $ligneE['DateLimiteInscription']));
             }
         }
         return $equipes;

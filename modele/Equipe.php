@@ -22,6 +22,9 @@ class Equipe
         if(!$this->estConnecter()){
             throw new Exception('action qui nécessite une connexion en tant que membre du groupe');
         }
+        if(!$tournoi->contienJeu($this->jeu)){
+            throw new Exception('L\'equipe n\'est pas expert dans les jeux de tournoi');
+        }
         // a verifier
         if(strtotime($tournoi->getDateLimiteInscription()) > strtotime(date("Y/m/d"))){
             throw new Exception('Inscription est fermée pour cette tournoi');
@@ -45,7 +48,14 @@ class Equipe
     }
     // a modifier
     public static function getEquipe($id){
-        return new Equipe(1, "test", 100, "test", "test");
+        $equipe = null;
+        $mysql = Database::getInstance();
+        $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$id.' AND j.IdJeu = e.IdJeu');
+            foreach($dataE as $ligneE){
+                $equipe = new Equipe($ligneE['IdEquipe'], $ligneE['NomE'], $ligneE['NbPointsE'], $ligneE['IDEcurie'], 
+                new Jeu($ligneE['IdJeu'],$ligneE['NomJeu'], $ligneE['TypeJeu'], $ligneE['TempsDeJeu'], $ligneE['DateLimiteInscription']));
+            }
+        return $equipe;
     }
     public function __toString() {
         return $this->nom;
