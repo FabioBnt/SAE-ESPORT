@@ -100,7 +100,7 @@ class Tournoi
         return $this->dateLimiteInscription;
     }
 
-    public function contienJeu(Jeu $jeu){
+    public function contientJeu(Jeu $jeu){
         foreach($this->jeux as $j){
             if($j = $jeu){
                 return true;

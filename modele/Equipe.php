@@ -22,7 +22,7 @@ class Equipe
         if(!$this->estConnecter()){
             throw new Exception('action qui nécessite une connexion en tant que membre du groupe');
         }
-        if(!$tournoi->contienJeu($this->jeu)){
+        if(!$tournoi->contientJeu($this->jeu)){
             throw new Exception('L\'equipe n\'est pas expert dans les jeux de tournoi');
         }
         // a verifier
