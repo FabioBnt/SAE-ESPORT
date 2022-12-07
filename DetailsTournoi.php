@@ -78,8 +78,27 @@
                             </tr>
                         </tbody>
                     </table>
+                    <a href="./Inscription.php" class="buttonE" id="Dgrida1">S'inscrire</a>
+                    <table id="Dgridt2">
+                        <thead>
+                            <tr>
+                                <th >Participant</th>
+                                <th >Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>TestEquipe</td>
+                                <td><a href="DetailsEquipe.html">+</a></td>
+                            </tr>
+                            <tr>
+                                <td>TestEquipe</td>
+                                <td><a href="DetailsEquipe.html">+</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <a href="./ListeTournois.php" class="buttonE">Retour</a>
+                <a href="javascript:history.go(-1)" class="buttonE">Retour</a>
             </div>
         </div>
     </main>

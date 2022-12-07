@@ -152,8 +152,8 @@ header a{
 }
 /*PAGE CREER ECURIE*/
 /*BODY*/
-/*FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE*/
-.ecurie,.tournois,.detailstournoi,.classement,.listeEquipe,.equipe,.equipeD,.tournoi,.score{
+/*FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE INSCRIPTION*/
+.ecurie,.tournois,.detailstournoi,.classement,.listeEquipe,.equipe,.equipeD,.tournoi,.score,.inscription{
     margin:0;
     background-color:#2a3250;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -183,7 +183,7 @@ header a{
     display: block;
 }
 /*GRID MOD*/
-.formulaire,.gridDetails{
+.formulaire,.gridDetails,.InscriptionM{
     display:grid;
     gap:10px;
 }
@@ -349,10 +349,17 @@ td,th{
     grid-column: 2;
     grid-row: 6;
 }
-#Dgridt1 a{
+#Dgridt1 a, #Dgridt2 a{
     color:black;
 }
-
+#Dgridt2{
+    grid-column: 3;
+    grid-row: 6;
+}
+#Dgrida1{
+    grid-column: 3;
+    grid-row: 9;
+}
 /*MODIFICATION TABLEAU*/
 .Divdetails table{
     background-color: white;
@@ -560,4 +567,13 @@ td,th{
 #EDgridb1{
     grid-column: 1;
     grid-row: 8;
+}
+/*PAGE INSCRIPTION*/
+#gridIa1{
+    grid-column: 1;
+    grid-row: 2;
+}
+#gridIa2{
+    grid-column: 3;
+    grid-row: 2;
 }
