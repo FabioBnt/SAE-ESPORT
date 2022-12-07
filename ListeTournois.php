@@ -62,7 +62,7 @@ if(isset($_GET['nom'])){
             <div>
             <div>
                 <h3> Saisir nom jeu pour rechercher</h3>
-                <form action="ListeTournois.php" method="GET">
+                <form action="ListeTournois.php" class="RechercheL" method="GET">
                 Nom Jeu: <input type="text" name="nom" value=""><br>
                 <input type="submit" value="rechercher">
                 <input type="submit" value="reset">

@@ -183,7 +183,7 @@ header a{
     display: block;
 }
 /*GRID MOD*/
-.formulaire,.gridDetails,.InscriptionM{
+.formulaire,.gridDetails,.InscriptionM,.scoredetails{
     display:grid;
     gap:10px;
 }
@@ -244,7 +244,15 @@ header a{
 .tournoismain,.classementmain,.listeEquipemain{
     color:white;
 }
-
+.tournoismain h3, .RechercheL{
+    padding:0.4em;
+}
+.RechercheL input{
+    border: solid 1px;
+    border-radius:5px;
+    padding:0.5em;
+    font-size: 18px;
+}
 /*TABLEAU*/
 .tournoismain a,.classementmain a{
     color:white;
@@ -576,4 +584,29 @@ td,th{
 #gridIa2{
     grid-column: 3;
     grid-row: 2;
+}
+/*PAGE SCORE*/
+#tableS1{
+    grid-column: 1;
+    grid-row: 1;
+}
+#tableS2{
+    grid-column: 2;
+    grid-row: 1;
+}
+#tableS3{
+    grid-column: 3;
+    grid-row: 1;
+}
+#tableS4{
+    grid-column: 1;
+    grid-row: 2;
+}
+#tableS5{
+    grid-column: 2;
+    grid-row: 2;
+}
+#tableS6{
+    grid-column: 3;
+    grid-row: 3;
 }
