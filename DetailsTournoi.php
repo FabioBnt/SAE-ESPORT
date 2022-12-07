@@ -1,8 +1,4 @@
 ﻿<?php
-        //! to remove after debugging
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
-        error_reporting(E_ALL);
         include './modele/Connexion.php';
         include './modele/Tournois.php';
         $connx = Connexion::getInstance();
@@ -51,17 +47,17 @@
                 <h1>Details d'un Tournoi</h1>
                 <div class="gridDetails">
                     <label id="Dgridl1"><b>Nom du tournoi</b></label>
-                    <input id="Dgridi1" type="text" name="nameT" value='$tournoi->getNom()' readonly>
+                    <input id="Dgridi1" type="text" name="nameT" value='<?php echo $tournoi->getNom(); ?>' readonly>
                     <label id="Dgridl2"><b>Date du tournoi</b></label>
-                    <input id="Dgridi2" type="text" name="dateT" value='$tournoi->getDate()' readonly>
+                    <input id="Dgridi2" type="text" name="dateT" value='<?php echo $tournoi->getDate() ?>' readonly>
                     <label id="Dgridl3"><b>Heure du tournoi</b></label>
-                    <input id="Dgridi3" type="text" name="heureT" value='$tournoi->toString()' readonly>
+                    <input id="Dgridi3" type="text" name="heureT" value='<?php echo $tournoi->getHeureDebut(); ?>' readonly>
                     <label id="Dgridl4"><b>Lieu du tournoi</b></label>
-                    <input id="Dgridi4" type="text" name="lieuT" value='$tournoi->getLieu()' readonly>
+                    <input id="Dgridi4" type="text" name="lieuT" value='<?php echo $tournoi->getLieu(); ?>' readonly>
                     <label id="Dgridl5"><b>CashPrize</b></label>
-                    <input id="Dgridi5" type="text" name="cashprizeT" value='$tournoi->getCashPrize()' readonly>
+                    <input id="Dgridi5" type="text" name="cashprizeT" value='<?php echo $tournoi->getCashPrize(); ?>' readonly>
                     <label id="Dgridl6"><b>Notoriété</b></label>
-                    <input id="Dgridi6" type="text" name="notorieteT" value='$tournoi->getNotoriete()' readonly>
+                    <input id="Dgridi6" type="text" name="notorieteT" value='<?php echo $tournoi->getNotoriete() ?>' readonly>
                     <table id="Dgridt1">
                         <thead>
                             <tr>

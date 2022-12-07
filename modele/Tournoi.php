@@ -62,12 +62,16 @@ class Tournoi
     public function getLieu(){
         return $this->lieu;
     }
-    public function getCashprize(){
+    public function getCashPrize(){
         return $this->cashPrize;
     }
     public function getDate(){
         return $this->date;
     }
+    public function getHeureDebut(){
+        return $this->heureDebut;
+    }
+
     public function __toString()
     {
         return $this->nom.' '.$this->cashPrize.'€ '.
