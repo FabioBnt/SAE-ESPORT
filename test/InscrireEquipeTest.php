@@ -44,6 +44,17 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
         $this->equipe->Inscrire($tournoi);
         $pdo->rollBack();
     }
+    public function testJeuIncompatible() {
+        $this->expectException(Exception::class);
+        Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        $this->tournois->tousLesTournois();
+        $tournoi = $this->tournois->getTournois()[1];
+        $idT = $tournoi->getIdTournoi();
+        $pdo = $this->mysql->getPDO();
+        $pdo->beginTransaction();
+        $this->equipe->Inscrire($tournoi);
+        $pdo->rollBack();
+    }
 
 }
 ?>
