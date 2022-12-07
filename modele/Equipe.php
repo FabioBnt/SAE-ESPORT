@@ -47,7 +47,7 @@ class Equipe
     public static function getEquipe($id){
         return new Equipe(1, "test", 100, "test", "test");
     }
-    public function toString() {
+    public function __toString() {
         return $this->nom;
     }
     public function estConnecter(){
