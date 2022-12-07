@@ -8,6 +8,7 @@
         $connx = Connexion::getInstance();
         $mysql = Database::getInstance();
         $listeTournois = new Tournois;
+        $listeTournois->tousLesTournois();
         $idTournoi = $_GET['IDT'];
         echo $idTournoi;
         $tournoi = $listeTournois->getTournoi($idTournoi);
