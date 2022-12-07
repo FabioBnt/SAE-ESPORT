@@ -1,5 +1,6 @@
 <?php
-
+include_once "Database.php";
+include_once "Equipe.php";
 class Tournoi
 {
     private $id;
@@ -97,6 +98,19 @@ class Tournoi
     }
     public function getDateLimiteInscription(){
         return $this->dateLimiteInscription;
+    }
+
+    public function lesEquipesParticipants(){
+        $equipes = array();
+        $mysql = Database::getInstance();
+        $data = $mysql->select('*', 'Participer', 'where IdTournoi ='.$this->getIdTournoi());
+        foreach($data as $ligne){
+            $dataE = $mysql->select('*', 'Equipe', 'where IdEquipe ='.$ligne['IdEquipe']);
+            foreach($dataE as $ligneE){
+                $equipes[] = new Equipe($ligneE['IdEquipe'], $ligneE['NomE'], $ligneE['NbPointsE'], $ligneE['IDEcurie'], $ligneE['IdJeu']);
+            }
+        }
+        return $equipes;
     }
 }
 
