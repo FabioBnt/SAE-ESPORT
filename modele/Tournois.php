@@ -5,6 +5,7 @@ include_once "Jeu.php";
 class Tournois
 {
     private $tournois;
+    private $posMap;
     function __construct(){
         $this->tournois = array();
     }
@@ -17,16 +18,20 @@ class Tournois
     
     private function misAJourListeTournois($data){
         $this->tournois = array();
+        $this->posMap = array();
         $last = -1;
+        $index = -1;
         foreach ($data as $ligne) {
             if($last != $ligne['IdTournoi']){ 
                 $this->tournois[] = new Tournoi($ligne['IdTournoi'],$ligne['NomTournoi'], $ligne['CashPrize'],
                 $ligne['Notoriete'], $ligne['Lieu'], $ligne['DateHeureTournois'], 
                 array(new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
                 $last = $ligne['IdTournoi'];
+                $index+=1;
             }else{
                 $this->tournois[-1]->ajouterJeu(new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
             }
+            $this->posMap[$ligne['IdTournoi']] =  $index;
         }
     }
     public function tousLesTournois()
@@ -80,8 +85,17 @@ class Tournois
     public function getTournois(){
         return $this->tournois;
     }
+
+    public function getTournoi($id){
+        return $this->tournois[$this->posMap[$id]];
+    }
     
 }
+
+$apple = new Tournois();
+$apple->tousLesTournois();
+echo $apple->getTournoi(1);
+
     
 
 ?>
