@@ -70,11 +70,11 @@
                         <tbody>
                             <tr>
                                 <td>Minecraft</td>
-                                <td><a href="Score.html">+</a></td>
+                                <td><a href="Score.php">+</a></td>
                             </tr>
                             <tr>
                                 <td>Fortnite</td>
-                                <td><a href="Score.html">+</a></td>
+                                <td><a href="Score.php">+</a></td>
                             </tr>
                         </tbody>
                     </table>

@@ -610,3 +610,7 @@ td,th{
     grid-column: 3;
     grid-row: 3;
 }
+#ModifS7{
+    grid-column: 2;
+    grid-row: 4;
+}
