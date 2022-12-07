@@ -92,10 +92,6 @@ class Tournois
     
 }
 
-$apple = new Tournois();
-$apple->tousLesTournois();
-echo $apple->getTournoi(1);
-
     
 
 ?>

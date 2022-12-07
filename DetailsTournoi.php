@@ -7,9 +7,10 @@
         include './modele/Tournois.php';
         $connx = Connexion::getInstance();
         $mysql = Database::getInstance();
+        $listeTournois = new Tournois;
         $idTournoi = $_GET['IDT'];
         echo $idTournoi;
-        $tournoi = $mysql->select("T.*","Tournois T","where T.IdTournoi =".$idTournoi);
+        $tournoi = $listeTournois->getTournoi($idTournoi);
 
  ?>
 
