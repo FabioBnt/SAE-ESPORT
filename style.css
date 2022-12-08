@@ -15,7 +15,7 @@ table,td {
     margin-right: auto;
 }
 thead{
-    background-color: rgb(118, 118, 118);
+    background-color: rgb(154, 63, 154);
 }
 td,th{
     padding:1em;
@@ -30,7 +30,7 @@ td,th{
     margin:0.7em;
 }
 .Divdetails thead{
-    background-color: #2a3250;
+    background-color: rgb(154, 63, 154);
     color:white;
 }
 .Divdetails td{
@@ -42,7 +42,7 @@ LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE INSCRIPTION        */
 /*----------------------------------------------------------*/
 .ecurie,.tournois,.detailstournoi,.classement,.listeEquipe,.equipe,.equipeD,.tournoi,.score,.inscription{
     margin:0;
-    background-color:#2a3250;
+    background-image: url("./img/fond_chaise.png");
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 /*--------------------------*/
@@ -61,7 +61,7 @@ header {
     box-sizing: border-box;
     padding: 1vw 4vw;
     pointer-events: auto;
-    background-color: rgb(118, 118, 118);
+    background-color: rgb(154, 63, 154);
     border-bottom: solid 5px;
 }
 header a{
@@ -207,7 +207,7 @@ header a{
 #formecurie,#formeequipe,#formetournoi {
     padding: 2em;
     border: 2px solid white;
-    background-color: lightgray;;
+    background-color: rgb(194, 173, 224);
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 #formecurie h1,#formeequipe h1,#formetournoi h1{
@@ -289,7 +289,15 @@ header a{
 /*MAIN*/
 /*----*/
 .tournoismain,.classementmain,.listeEquipemain{
-    color:white;
+    border:solid 2px;
+    background-color: rgb(194, 173, 224);
+    border-radius: 10px;
+    margin: 1.8em;
+    padding:50px;
+}
+.classementmain,.listeEquipemain{
+    margin-left: 300px;
+    margin-right: 300px;
 }
 .tournoismain h3,.RechercheL{
     padding-left:15px;
@@ -320,8 +328,9 @@ header a{
 /*--------------*/
 .Divdetails{
     padding: 2em;
-    border: 2px solid white;
-    background-color: lightgray;
+    border: 2px solid ;
+    border-radius: 10px;
+    background-color: rgb(194, 173, 224);
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 /*------------*/

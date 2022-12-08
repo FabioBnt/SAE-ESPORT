@@ -34,7 +34,7 @@
    }
    
    input[type=submit], input[type=button]{
-    background-color: gray;
+    background-color: rgb(194, 173, 224);
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
