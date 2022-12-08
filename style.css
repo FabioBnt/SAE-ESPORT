@@ -1,10 +1,59 @@
-﻿/*PAGE ACCUEIL*/
-/*BODY*/
+﻿/*------------*/
+/*PAGE ACCUEIL*/
+/*    BODY    */
+/*------------*/
 .accueil{
     margin:0;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+/*------------*/
+/*  TABLEAU   */
+/*------------*/
+table,td {
+    border: 1px solid white;
+    margin-left: auto;
+    margin-right: auto;
+}
+thead{
+    background-color: rgb(118, 118, 118);
+}
+td,th{
+    padding:1em;
+    text-align: center;
+}
+/*--------------------*/
+/*MODIFICATION TABLEAU*/
+/*--------------------*/
+.Divdetails table{
+    background-color: white;
+    border:2px solid;
+    margin:0.7em;
+}
+.Divdetails thead{
+    background-color: #2a3250;
+    color:white;
+}
+.Divdetails td{
+    border-top: solid 2px;
+}
+/*----------------------------------------------------------*/
+/* FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, 
+LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE INSCRIPTION        */
+/*----------------------------------------------------------*/
+.ecurie,.tournois,.detailstournoi,.classement,.listeEquipe,.equipe,.equipeD,.tournoi,.score,.inscription{
+    margin:0;
+    background-color:#2a3250;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+/*--------------------------*/
+/*MAIN ECURIE EQUIPE TOURNOI*/
+/*--------------------------*/
+.ecuriemain,.equipemain,.equipeDmain,.tournoimain,.detailstournoimain,.detailsequipemain{
+    margin:5em;
+}
+/*------------*/
 /*HEADER MENU*/
+/*------------*/
 header {
     position: relative;
     z-index: 2;
@@ -27,7 +76,9 @@ header a{
     margin-left: 45px;
     margin-right: auto;
 }
+/*------------*/
 /*LOGO MENU*/
+/*------------*/
 .logo{
     display: block;
     margin-left: auto;
@@ -44,7 +95,9 @@ header a{
     align-items: center;
     padding:0.3em;
 }
+/*---------------*/
 /*NAVIGATION MENU*/
+/*---------------*/
 .navig{
         display: inline-flex;
         flex-wrap: wrap;
@@ -70,7 +123,9 @@ header a{
 .connecter{
     justify-content: flex-end;
 }
+/*------------------*/
 /*BUTTON SECONNECTER*/
+/*------------------*/
 #connexion,.buttonE{
         line-height: normal;
         border-style: solid;
@@ -81,19 +136,22 @@ header a{
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
 }
-/*MAIN*/
+/*------------*/
+/*    MAIN    */
 /*FOND DU MAIN*/
+/*------------*/
 .accueilmain{
-    height: 1000px;
+    height: 566px;
     background-image:url("./img/fondecranpasflou.jpg");
 }
 .mainA{
     display:grid;
     gap:10px;
-    grid-auto-rows:325px;
     grid-template-columns: repeat(3, 1fr);
 }
+/*-----------------*/
 /*TITRE APPLICATION*/
+/*-----------------*/
 .titre{
     grid-column: 2;
     grid-row: 2;
@@ -112,19 +170,9 @@ header a{
     grid-row: 1;
     margin: auto;
 }
-#paragraphe{
-    color: white;
-    grid-column: 1;
-    grid-row: 3;
-    margin:auto;
-}
-#paragraphe2{
-    color: white;
-    grid-column: 3;
-    grid-row: 3;
-    margin: auto;
-}
+/*------*/
 /*BUTTON*/
+/*------*/
 .buttonM,#connexion,.buttonE{
     padding:1em;
     margin:2em;
@@ -150,20 +198,12 @@ header a{
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
 }
+/*-----------------*/
 /*PAGE CREER ECURIE*/
-/*BODY*/
-/*FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE INSCRIPTION*/
-.ecurie,.tournois,.detailstournoi,.classement,.listeEquipe,.equipe,.equipeD,.tournoi,.score,.inscription{
-    margin:0;
-    background-color:#2a3250;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-/*MAIN ECURIE EQUIPE TOURNOI DETAILSTOURNOI*/
-.ecuriemain,.equipemain,.equipeDmain,.tournoimain{
-    padding:auto;
-    margin:5em;
-}
+/*-----------------*/
+/*----------*/
 /*FORMULAIRE*/
+/*----------*/
 #formecurie,#formeequipe,#formetournoi {
     padding: 2em;
     border: 2px solid white;
@@ -182,7 +222,9 @@ header a{
     padding:0.6em;
     display: block;
 }
+/*--------*/
 /*GRID MOD*/
+/*--------*/
 .formulaire,.gridDetails,.InscriptionM,.scoredetails{
     display:grid;
     gap:10px;
@@ -227,7 +269,9 @@ header a{
     grid-column: 2;
     grid-row: 3;
 }
+/*----------------------*/
 /*BUTTON VALIDER ANNULER*/
+/*----------------------*/
 .buttonE:hover {
     color: grey;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
@@ -239,60 +283,50 @@ header a{
 #annuler:hover{
     background-color: crimson;
 }
+/*-------------------------------------------------*/
 /*PAGE VISUALISER TOURNOIS, CLASSEMENT, LISTEEQUIPE*/
+/*-------------------------------------------------*/
 /*MAIN*/
+/*----*/
 .tournoismain,.classementmain,.listeEquipemain{
     color:white;
 }
-.tournoismain h3, .RechercheL{
-    padding:0.4em;
+.tournoismain h3,.RechercheL{
+    padding-left:15px;
 }
 .RechercheL input{
     border: solid 1px;
     border-radius:5px;
     padding:0.5em;
+    margin:0.5em;
     font-size: 18px;
 }
+.tournoismain table {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+/*--------*/
 /*TABLEAU*/
+/*-------*/
 .tournoismain a,.classementmain a{
     color:white;
 }
-
 .tournoismain h1,.classementmain h1,.listeEquipemain h1{
     padding: 0.5em;
     text-align: center;
 }
-
-table,td {
-    border: 1px solid white;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-thead{
-    background-color: rgb(118, 118, 118);
-}
-
-td,th{
-    padding:1em;
-    text-align: center;
-}
-
-/*PAGE DETAILS TOURNOI EQUIPE*/
-/*MAIN */
-.detailstournoimain,.detailsequipemain{
-    padding:auto;
-    margin:5em;
-}
-
+/*--------------*/
+/*DIV DE DETAILS*/
+/*--------------*/
 .Divdetails{
     padding: 2em;
     border: 2px solid white;
     background-color: lightgray;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-
-/*GRID*/
+/*------------*/
+/*   GRID     */
+/*------------*/
 .Divdetails h1{
     text-align: center;
 }
@@ -368,23 +402,9 @@ td,th{
     grid-column: 3;
     grid-row: 9;
 }
-/*MODIFICATION TABLEAU*/
-.Divdetails table{
-    background-color: white;
-    border:2px solid;
-    margin:0.7em;
-}
-
-.Divdetails thead{
-    background-color: #2a3250;
-    color:white;
-}
-
-.Divdetails td{
-    border-top: solid 2px;
-}
-
+/*------------------*/
 /*PAGE LISTE EQUIPES*/
+/*------------------*/
 #TabEquipe td{
     padding-left: 5em;
     padding-right: 5em;
@@ -400,8 +420,9 @@ td,th{
     margin:1.8em;
     margin-top: 50px;
 }
-
+/*-----------------*/
 /*FORMULAIRE EQUIPE*/
+/*-----------------*/
 #validerE{
     grid-row: 7;
     grid-column: 3;
@@ -452,7 +473,9 @@ td,th{
 #annulerE:hover{
     background-color: crimson;
 }
+/*------------------------*/
 /*PAGE CREEREQUIPE TABLEAU*/
+/*------------------------*/
 #TabEquipeC{
     border: 1px solid #2a3250;
 }
@@ -464,7 +487,9 @@ td,th{
 #TabEquipeC a{
     color: #2a3250;
 }
+/*------------------*/
 /*FORMULAIRE TOURNOI*/
+/*------------------*/
 #validerT{
     grid-row: 9;
     grid-column: 3;
@@ -531,7 +556,9 @@ td,th{
 #annulerT:hover{
     background-color: crimson;
 }
+/*-------------------------*/
 /*PAGE CREERTOURNOI TABLEAU*/
+/*-------------------------*/
 #TabTournoi{
     border: 1px solid #2a3250;
 }
@@ -543,7 +570,9 @@ td,th{
 #TabTournoi a{
     color: #2a3250;
 }
+/*-------------------*/
 /*PAGE DETAILS EQUIPE*/
+/*-------------------*/
 #EDgridi1{
     grid-column: 1;
     grid-row: 2;
@@ -576,7 +605,9 @@ td,th{
     grid-column: 1;
     grid-row: 8;
 }
+/*----------------*/
 /*PAGE INSCRIPTION*/
+/*----------------*/
 #gridIa1{
     grid-column: 1;
     grid-row: 2;
@@ -585,32 +616,50 @@ td,th{
     grid-column: 3;
     grid-row: 2;
 }
+/*----------*/
 /*PAGE SCORE*/
+/*----------*/
 #tableS1{
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 3;
 }
 #tableS2{
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 3;
 }
 #tableS3{
     grid-column: 3;
-    grid-row: 1;
+    grid-row: 3;
 }
 #tableS4{
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 5;
 }
 #tableS5{
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 5;
 }
 #tableS6{
     grid-column: 3;
-    grid-row: 3;
+    grid-row: 5;
 }
 #ModifS7{
+    grid-column: 3;
+    grid-row: 1;
+}
+#labelS1{
     grid-column: 2;
-    grid-row: 4;
+    grid-row: 1;
+}
+#ModifS8{
+    grid-column: 1;
+    grid-row: 1;
+}
+.scoredetails{
+    color:white;
+    padding:0.8em;
+}
+.scoredetails h1{
+    padding:0.4em;
+    text-align: center;
 }

@@ -15,7 +15,7 @@
             <nav class="navig">
                 <a href="./index.php">Home</a>
                 <a href="./ListeTournois.php">Liste des Tournois</a>
-                <a href="./Classement.php">Classement</a>
+                <a href="./Classement.html">Classement</a>
             </nav>
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
@@ -29,13 +29,14 @@
         </div>
     </header>
     <main class="scoredetails">
+        <h1 id="labelS1">Score du Tournoi TATATA</h1>
         <table id="tableS1">
             <thead>
                 <tr>
-                    <th>Poule</th>
+                    <th>Poule 1</th>
                     <th></th>
                     <th></th>
-                    <th>1</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +47,31 @@
                     <td>0</td>
                 </tr>
                 <tr>
+                    <td>Equipe 3</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
                     <td>Equipe 1</td>
+                    <td>Equipe 3</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 2</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 1</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 3</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
@@ -56,21 +81,45 @@
         <table id="tableS2">
             <thead>
                 <tr>
-                    <th>Poule</th>
+                    <th>Poule 2</th>
                     <th></th>
                     <th></th>
-                    <th>2</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+            <tr>
                     <td>Equipe 1</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
                 </tr>
                 <tr>
+                    <td>Equipe 3</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
                     <td>Equipe 1</td>
+                    <td>Equipe 3</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 2</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 1</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 3</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
@@ -80,21 +129,45 @@
         <table id="tableS3">
             <thead>
                 <tr>
-                    <th>Poule</th>
+                    <th>Poule 3</th>
                     <th></th>
                     <th></th>
-                    <th>3</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+            <tr>
                     <td>Equipe 1</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
                 </tr>
                 <tr>
+                    <td>Equipe 3</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
                     <td>Equipe 1</td>
+                    <td>Equipe 3</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 2</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 1</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 3</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
@@ -104,21 +177,45 @@
         <table id="tableS4">
             <thead>
                 <tr>
-                    <th>Poule</th>
+                    <th>Poule 4</th>
                     <th></th>
                     <th></th>
-                    <th>4</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+            <tr>
                     <td>Equipe 1</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
                 </tr>
                 <tr>
+                    <td>Equipe 3</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
                     <td>Equipe 1</td>
+                    <td>Equipe 3</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 2</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 1</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 3</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
@@ -128,21 +225,45 @@
         <table id="tableS5">
             <thead>
                 <tr>
-                    <th>Poule</th>
+                    <th>Poule Finale</th>
                     <th></th>
                     <th></th>
-                    <th>Finale</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+            <tr>
                     <td>Equipe 1</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
                 </tr>
                 <tr>
+                    <td>Equipe 3</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
                     <td>Equipe 1</td>
+                    <td>Equipe 3</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 2</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 1</td>
+                    <td>Equipe 4</td>
+                    <td>2</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Equipe 3</td>
                     <td>Equipe 2</td>
                     <td>2</td>
                     <td>0</td>
@@ -162,12 +283,21 @@
                     <td>1</td>
                 </tr>
                 <tr>
-                    <td>Equipe 2</td>
+                    <td>Equipe 3</td>
                     <td>2</td>
+                </tr>
+                <tr>
+                    <td>Equipe 4</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Equipe 2</td>
+                    <td>4</td>
                 </tr>
             </tbody>
         </table>
         <a href="#" class="buttonE" id="ModifS7">Modification</a>
+        <a href="javascript:history.go(-1)" class="buttonE" id="RetourS8">Retour</a>
     </main>
 </body>
 </html>

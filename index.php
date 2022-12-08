@@ -51,16 +51,6 @@
                 <button class="buttonM" onclick="window.location.href = 'ListeEquipe.html';" type="button"> Liste des équipes </button>
                 <button class="buttonM" onclick="window.location.href = 'CreerEcurie.php';" type="button"> Créer une écurie </button>
             </div>
-            <div id="paragraphe">
-                <p>
-                    WIP
-                </p>
-            </div>
-            <div id="paragraphe2">
-                <p>
-                    WIP
-                </p>
-            </div>
         </div>
     </main>
 </body>
