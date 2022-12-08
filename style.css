@@ -5,6 +5,11 @@
 .accueil{
     margin:0;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background: url("./img/fondecranpasflou.jpg") no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 /*------------*/
 /*  TABLEAU   */
@@ -63,6 +68,7 @@ header {
     pointer-events: auto;
     background-color: rgb(154, 63, 154);
     border-bottom: solid 5px;
+    border-color: white;
 }
 header a{
     text-decoration: none;
@@ -73,7 +79,7 @@ header a{
 .menucenter{
     padding:0.8em;
     display: block;
-    margin-left: 45px;
+    margin-left: auto;
     margin-right: auto;
 }
 /*------------*/
@@ -91,8 +97,6 @@ header a{
     display: flex;
     width: 100%;
     box-sizing: border-box;
-    justify-content: flex-start;
-    align-items: center;
     padding:0.3em;
 }
 /*---------------*/
@@ -141,8 +145,11 @@ header a{
 /*FOND DU MAIN*/
 /*------------*/
 .accueilmain{
-    height: 566px;
-    background-image:url("./img/fondecranpasflou.jpg");
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 .mainA{
     display:grid;
