@@ -16,6 +16,10 @@ class Jeu
     public function getNom(){
         return $this->nom;
     }
+
+    public function getId(){
+        return $this->id;
+    }
     public function toString()
     {
         return $this->nom . $this->type . $this->temps . strval($this->limiteInscription);

@@ -580,10 +580,10 @@ header a{
     grid-column: 1;
     grid-row: 3;
 }
-#TabTournoi{
+/* #TabTournoi{
     grid-column: 2;
     grid-row: 7;
-}
+} */
 #validerT:hover {
     background-color: lightgreen;
 }

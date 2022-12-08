@@ -1,6 +1,7 @@
 ﻿<?php 
 include './modele/Connexion.php';
 include './modele/Administrateur.php';
+include './modele/Jeu.php';
 
 //? Print errors at launch
 ini_set('display_errors', 1);
@@ -8,6 +9,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $connx = Connexion::getInstance();
+$listeJeux = Jeu::tousLesJeux();
 if(isset($_POST['name'])){
     if($connx->getRole() == Role::Administrateur){
         $Admin = new Administrateur();
@@ -80,21 +82,16 @@ if(isset($_POST['name'])){
                         <option value="Regional">Regional</option>
                         <option value="International">International</option>
                     </select>
-                    <table id="TabTournoi">
-                        <thead>
-                            <tr>
-                                <th >Jeu</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Minecraft</td>
-                            </tr>
-                            <tr>
-                                <td>Fortnite</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <label id="Tforms7">Jeux</label>
+                    <select name="jeuT" id="Tformt2" multiple>
+                        <?php 
+                        $i = 0;
+                        foreach ($listeJeux[$i]->getNom() as $jeu) {
+                            echo '<option value='.$jeu->getNom().'>'.$jeu->getNom().'</option>';
+                            $i++;
+                        } 
+                        ?>
+                    </select>
                     <input type="submit" class="buttonE" id="validerT" value='VALIDER' >
                     <input type="submit" class="buttonE" id="annulerT" value='ANNULER' onclick="history.back()" >
                 </div>
