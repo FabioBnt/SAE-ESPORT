@@ -80,12 +80,6 @@ if(isset($_POST['name'])){
                         <option value="Regional">Regional</option>
                         <option value="International">International</option>
                     </select>
-                    <!-- <input id="Tformt1" type=text list=typeE placeholder="Choisissez la notoriété">
-                        <datalist id=typeE >
-                        <option> Local
-                        <option> Régional
-                        <option> International
-                        </datalist> -->
                     <table id="TabTournoi">
                         <thead>
                             <tr>

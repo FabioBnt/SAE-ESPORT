@@ -34,7 +34,7 @@
                         if($connx->getRole() == Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
-                            echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter"> se deconnecter </a>';
+                            echo '<div class="deconnect"><h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" name="deconnecter" id="deconnexion">Deconnexion</a></div>';
                         }
                     ?>
                 </div>
@@ -44,7 +44,7 @@
     <main class="accueilmain">
         <div class="mainA">
             <div class="titre">
-                <h1> Gestionnaire d'une saison de compétition de Esport </h1>
+                <h1> Gestionnaire d'une saison de compétition d'E-Sport </h1>
             </div>
             <div id="divbutton">
                 <button class="buttonM" onclick="window.location.href = 'CreerTournoi.php';" type="button"> Créer un tournoi </button>

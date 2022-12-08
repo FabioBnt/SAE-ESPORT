@@ -71,6 +71,9 @@ class Tournoi
     public function getHeureDebut(){
         return $this->heureDebut;
     }
+    public function getJeux(){
+        return $this->jeux;
+    }
 
     public function __toString()
     {

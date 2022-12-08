@@ -1,10 +1,14 @@
-﻿/*------------*/
+﻿
+*{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+/*------------*/
 /*PAGE ACCUEIL*/
 /*    BODY    */
 /*------------*/
 .accueil{
     margin:0;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     background: url("./img/fondecranpasflou.jpg") no-repeat center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -48,7 +52,6 @@ LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE INSCRIPTION        */
 .ecurie,.tournois,.detailstournoi,.classement,.listeEquipe,.equipe,.equipeD,.tournoi,.score,.inscription{
     margin:0;
     background-image: url("./img/fond_chaise.png");
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 /*--------------------------*/
 /*MAIN ECURIE EQUIPE TOURNOI*/
@@ -112,6 +115,12 @@ header a{
         padding:1em;
         margin:0.5em;
 }
+.navig a{
+    font-weight: bold;
+}
+.navig a:hover{
+    color: black;
+}
 .menunav{
     display: flex;
     flex-wrap: nowrap;
@@ -130,7 +139,7 @@ header a{
 /*------------------*/
 /*BUTTON SECONNECTER*/
 /*------------------*/
-#connexion,.buttonE{
+#connexion,#deconnexion,.buttonE{
         line-height: normal;
         border-style: solid;
 }
@@ -139,6 +148,15 @@ header a{
     background-color: lightgreen;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
+}
+#deconnexion:hover{
+    color: grey;
+    background-color: lightcoral;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+#deconnexion{
+    color: black;
 }
 /*------------*/
 /*    MAIN    */
@@ -180,7 +198,7 @@ header a{
 /*------*/
 /*BUTTON*/
 /*------*/
-.buttonM,#connexion,.buttonE{
+.buttonM,#connexion,.buttonE,#deconnexion{
     padding:1em;
     margin:2em;
     font-size: 18px;

@@ -66,14 +66,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Minecraft</td>
-                                <td><a href="Score.php">+</a></td>
-                            </tr>
-                            <tr>
-                                <td>Fortnite</td>
-                                <td><a href="Score.php">+</a></td>
-                            </tr>
+                            
+                            <?php foreach ($tournoi->getJeux() as $jeu) {
+                                echo '<tr>'.'<td>'.$jeu->getNom().'</td>'.'<td><a href="Score.php">+</a></td>'.'</tr>';
+                            } ?>
+                            
                         </tbody>
                     </table>
                     <a href="./Inscription.php" class="buttonE" id="Dgrida1">S'inscrire</a>
