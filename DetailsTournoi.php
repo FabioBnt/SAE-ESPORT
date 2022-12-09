@@ -82,14 +82,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>TestEquipe</td>
-                                <td><a href="DetailsEquipe.html">+</a></td>
-                            </tr>
-                            <tr>
-                                <td>TestEquipe</td>
-                                <td><a href="DetailsEquipe.html">+</a></td>
-                            </tr>
+                            <?php foreach ($tournoi->lesEquipesParticipants() as $participant) {
+                                echo '<tr>'.'<td>'.$participant.'</td>'.'<td><a href="DetailsEquipe.html">+</a></td>'.'</tr>';
+                            } ?>
                         </tbody>
                     </table>
                 </div>
