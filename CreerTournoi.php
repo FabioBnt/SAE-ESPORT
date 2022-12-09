@@ -12,7 +12,7 @@ $connx = Connexion::getInstance();
 $listeJeux = Jeu::tousLesJeux();
 if(isset($_POST['jeuT'])){
     foreach ($_POST['jeuT'] as $jeu) {
-        echo "Jeux sélectionnés : ".$jeu;
+        echo "Jeux sélectionnés :".$jeu."\n";
     }
 }
 if(isset($_POST['name'])){
@@ -92,7 +92,7 @@ if(isset($_POST['name'])){
                         <?php 
                         $i = 0;
                         foreach ($listeJeux as $jeu) {
-                            echo '<option value='.$jeu->getNom().'>'.$jeu->getNom().'</option>';
+                            echo '<option value='.$jeu->getId().'>'.$jeu->getNom().'</option>';
                         } 
                         ?>
                     </select>
