@@ -10,10 +10,15 @@ error_reporting(E_ALL);
 
 $connx = Connexion::getInstance();
 $listeJeux = Jeu::tousLesJeux();
+if(isset($_POST['jeuT'])){
+    foreach ($_POST['jeuT'] as $jeu) {
+        echo "Jeux sélectionnés : ".$jeu;
+    }
+}
 if(isset($_POST['name'])){
     if($connx->getRole() == Role::Administrateur){
         $Admin = new Administrateur();
-        $Admin->creerTournoi($_POST['name'], $_POST['cashprize'],$_POST['typeT'],$_POST['lieu'],$_POST['heure'],$_POST['date']);
+        $Admin->creerTournoi($_POST['name'], $_POST['cashprize'],$_POST['typeT'],$_POST['lieu'],$_POST['heure'],$_POST['date'],$_POST['jeuT']);
         echo '<script>alert("La ligne a bien été insérée")</script>';
     }else{
         echo '<script>alert("Il faut etre connecté en tant que Administateur")</script>';
@@ -83,12 +88,11 @@ if(isset($_POST['name'])){
                         <option value="International">International</option>
                     </select>
                     <label id="Tforms7">Jeux</label>
-                    <select name="jeuT" id="Tformt2" multiple>
+                    <select name="jeuT[]" id="Tformt2" multiple>
                         <?php 
                         $i = 0;
-                        foreach ($listeJeux[$i]->getNom() as $jeu) {
+                        foreach ($listeJeux as $jeu) {
                             echo '<option value='.$jeu->getNom().'>'.$jeu->getNom().'</option>';
-                            $i++;
                         } 
                         ?>
                     </select>
