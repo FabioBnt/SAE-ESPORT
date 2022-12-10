@@ -25,11 +25,11 @@ class Tournois
             if($last != $ligne['IdTournoi']){ 
                 $this->tournois[] = new Tournoi($ligne['IdTournoi'],$ligne['NomTournoi'], $ligne['CashPrize'],
                 $ligne['Notoriete'], $ligne['Lieu'], $ligne['DateHeureTournois'], 
-                array(new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
+                array($ligne['IdJeu'], new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
                 $last = $ligne['IdTournoi'];
                 $index+=1;
             }else{
-                $this->tournois[-1]->ajouterJeu(new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
+                $this->tournois[-1]->ajouterJeu($ligne['IdJeu'],new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
             }
             $this->posMap[$ligne['IdTournoi']] =  $index;
         }

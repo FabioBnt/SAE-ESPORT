@@ -2,12 +2,17 @@
 
 class Poule
 {
+    private $id;
     private $numero;
     private $matchs = array();
+    private $estFinale;
+    private $jeu;
 
-    function __construct($numero, $matchs){
+    function __construct($id, $numero, $estFinale, $jeu){
+        $this->id = $id;
         $this->numero = $numero;
-        $this->matchs = $matchs;
+        $this->estFinale = $estFinale;
+        $this->jeu = $jeu;
     }
 
     public function mellieurEquipe(){

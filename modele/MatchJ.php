@@ -1,14 +1,16 @@
 <?php
-class EMatch
+class MatchJ
 {
     private $date;
     private $heure;
-    private $scoreEquipe = array();
+    private $equipe1;
+    private $equipe2;
+    private $scores = array();
     function __construct($date, $heure, $equipe1, $equipe2){
         $this->date = $date;
         $this->heure = $heure;
-        $this->scoreEquipe[$equipe1] = 0;
-        $this->scoreEquipe[$equipe2] = 0;
+        $this->scores[$equipe1] = 0;
+        $this->scores[$equipe2] = 0;
     }
     public function toString()
     {

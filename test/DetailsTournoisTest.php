@@ -31,9 +31,9 @@ class DetailsTournoisTest extends \PHPUnit\Framework\TestCase {
     }
     public function testMatchsTournoi() {
         $id = $this->tournoi->getIdTournoi();
-        $totalPoules = $this->mysql->select("count(M.*) as total", "MatchJ M, Poule P", "where P.IdPoule = M.IdPoule AND P.IdTournoi = $id");
-        $listePoules = $this->tournoi->getPoules();
-        assertSame($totalPoules[0]['total']-'0', count($listePoules));
+        $totalMatchs = $this->mysql->select("count(M.*) as total", "MatchJ M, Poule P", "where P.IdPoule = M.IdPoule AND P.IdTournoi = $id");
+        $listeMatchs = $this->tournoi->getPoules()[0]->getMatchs();
+        assertSame($totalMatchs[0]['total']-'0', count($listeMatchs));
     }
 
 }
