@@ -1,16 +1,19 @@
 <?php
 class MatchJ
 {
+    private $numero;
     private $date;
     private $heure;
-    private $equipe1;
-    private $equipe2;
+    private $equipes = array();
     private $scores = array();
-    function __construct($date, $heure, $equipe1, $equipe2){
+    function __construct($numero, $date, $heure){
+        $this->numero = $numero;
         $this->date = $date;
         $this->heure = $heure;
-        $this->scores[$equipe1] = 0;
-        $this->scores[$equipe2] = 0;
+    }
+    public function addequipeScore($equipe, $score){
+        $this->scores[$equipe->getId()] = $score;
+        $this->equipes[$equipe->getId()] = $equipe;
     }
     public function toString()
     {

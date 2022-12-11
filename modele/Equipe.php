@@ -37,6 +37,9 @@ class Equipe
 
         return 1;
     }
+    public function getId(){
+        return $this->id;
+    }
 
     public function estParticipant(Tournoi $tournoi){
         $mysql = Database::getInstance();

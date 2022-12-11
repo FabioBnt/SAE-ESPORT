@@ -1,5 +1,5 @@
 <?php
-
+include_once "MatchJ.php";
 class Poule
 {
     private $id;
@@ -14,12 +14,23 @@ class Poule
         $this->estFinale = $estFinale;
         $this->jeu = $jeu;
     }
-
+    public function addMatch($numero, $date, $heure, $equipes){
+        $this->matchs[$numero] = new MatchJ($numero, $date, $heure);
+        $mysql = Database::getInstance();
+        $data = $mysql->select('*', 'Concourir', 'where IdPoule ='.$this->id.' AND Numero = '.$numero);
+        foreach($data as $ligne){
+            $this->matchs[$numero]->addEquipeScore($equipes[$ligne['IdEquipe']], $ligne['Score']);
+        }
+    }
     public function mellieurEquipe(){
 
     }
     private function nbMatchsGange($equipe){
         return 0;
+    }
+
+    public function getMatchs(){
+        return $this->matchs;
     }
 }
 

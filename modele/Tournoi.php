@@ -46,15 +46,16 @@ class Tournoi
     }
     private function recupererPoules()
     {
+        $equipes = $this->lesEquipesParticipants();
         $this->poules = array();
         $mysql = Database::getInstance();
         $data = $mysql->select('*', 'Poule', 'where IdTournoi ='.$this->getIdTournoi());
         foreach($data as $ligne){
-            $this->poules[] = new Poule($ligne['IdPoule'], $ligne['NumeroPoule'], $ligne['EstPouleFinale'], $this->jeux[$ligne['IdJeu']]);
-            // $dataM = $mysql->select('*', 'MatchJ', 'where IdPoule ='.$ligne['IdPoule']);
-            // foreach($dataM as $ligneM){
-            //     $this->poules[-1]->addMatch();
-            // }
+            $this->poules[$ligne['IdPoule']] = new Poule($ligne['IdPoule'], $ligne['NumeroPoule'], $ligne['EstPouleFinale'], $this->jeux[$ligne['IdJeu']]);
+            $dataM = $mysql->select('*', 'MatchJ', 'where IdPoule ='.$ligne['IdPoule']);
+            foreach($dataM as $ligneM){
+                $this->poules[$ligne['IdPoule']]->addMatch($ligneM['Numero'], $ligneM['dateM'], $ligneM['HeureM'],$equipes);
+            }
         }
     }
     public function toString()
@@ -143,7 +144,7 @@ class Tournoi
         foreach($data as $ligne){
             $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu');
             foreach($dataE as $ligneM){
-                $equipes[] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
+                $equipes[$ligneM['IdEquipe']] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
                 new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
             }
         }
