@@ -1,7 +1,7 @@
 ﻿<?php 
-include './modele/Connexion.php';
-include './modele/Administrateur.php';
-include './modele/Jeu.php';
+include_once './modele/Connexion.php';
+include_once './modele/Administrateur.php';
+include_once './modele/Jeu.php';
 
 //? Print errors at launch
 ini_set('display_errors', 1);
