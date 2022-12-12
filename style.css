@@ -80,8 +80,9 @@ header a{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    max-width: 15%;
-    max-height: 15%;
+    max-width: 12%;
+    max-height: 12%;
+    border:solid;
 }
 .Menu{
     position: relative;
@@ -158,6 +159,7 @@ header a{
     transform: translateY(-50%);
 }
 .mainA{
+    margin-top: 10%;
     display:grid;
     gap:10px;
     grid-template-columns: repeat(3, 1fr);

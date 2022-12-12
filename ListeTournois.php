@@ -4,9 +4,9 @@ include './modele/Tournois.php';
 $connx = Connexion::getInstance();
 $listeTournois = new Tournois();
 $listeTournois->tousLesTournois();
-if(isset($_GET['nom'])){
-    if($_GET['nom']){
-        $listeTournois->tournoiDe($_GET['nom']);
+if(isset($_GET['jeu'])){
+    if($_GET['jeu']){
+        $listeTournois->tournoiDe($_GET['jeu']);
     }else{
         $listeTournois->tousLesTournois();
     }
@@ -57,11 +57,15 @@ if(isset($_GET['nom'])){
             <h1>Liste des Tournois</h1>
             <div>
             <div>
-                <h3> Saisir nom jeu pour rechercher</h3>
+                <h3> Filtre de recherche : </h3>
                 <form action="ListeTournois.php" class="RechercheL" method="GET">
-                Nom Jeu: <input type="text" name="nom" value=""><br>
-                <input type="submit" value="rechercher">
+                Jeu : <input type="text" name="jeu" value="">
+                Nom : <input type="text" name="nom" value=""> <!--non fonctionnel-->
+                Notoriete : <input type="text" name="notoriete" value=""><br> <!--non fonctionnel-->
+                Date : <input type="text" name="date" value=""> <!--non fonctionnel-->
+                Lieu : <input type="text" name="lieu" value=""><br> <!--non fonctionnel-->
                 <input type="submit" value="reset">
+                <input type="submit" value="rechercher">
                 </form>
             </div>
                 <table>
