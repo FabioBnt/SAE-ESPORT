@@ -10,11 +10,6 @@ error_reporting(E_ALL);
 
 $connx = Connexion::getInstance();
 $listeJeux = Jeu::tousLesJeux();
-if(isset($_POST['jeuT'])){
-    foreach ($_POST['jeuT'] as $jeu) {
-        echo "Jeux sélectionnés :".$jeu."\n";
-    }
-}
 if(isset($_POST['name'])){
     if($connx->getRole() == Role::Administrateur){
         $Admin = new Administrateur();
@@ -46,7 +41,7 @@ if(isset($_POST['name'])){
             <nav class="navig">
                 <a href="./index.php">Home</a>
                 <a href="./ListeTournois.php">Liste des Tournois</a>
-                <a href="./Classement.html">Classement</a>
+                <a href="./Classement.php">Classement</a>
             </nav>
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
@@ -92,12 +87,12 @@ if(isset($_POST['name'])){
                         <?php 
                         $i = 0;
                         foreach ($listeJeux as $jeu) {
-                            echo '<option value='.$jeu->getId().'>'.$jeu->getNom().'</option>';
+                            echo '<option value='.$jeu->getNom().'>'.$jeu->getNom().'</option>';
                         } 
                         ?>
                     </select>
                     <input type="submit" class="buttonE" id="validerT" value='VALIDER' >
-                    <input type="submit" class="buttonE" id="annulerT" value='ANNULER' onclick="history.back()" >
+                    <input type="button" class="buttonE" id="annulerT" value='ANNULER' onclick="history.back()" >
                 </div>
             </form>
         </div>

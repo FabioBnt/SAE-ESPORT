@@ -44,7 +44,7 @@
     </header>
     <main>
         <div class="equipemain">
-            <form action="ListeEquipe.html" id="formeequipe" method="POST">
+            <form action="ListeEquipe.php" id="formeequipe" method="POST">
                 <h1>Créer une équipe</h1>
                 <div class="formulaire">
                     <label id="Eqforml1"><b>Nom de l'équipe</b></label>
@@ -80,7 +80,7 @@
                         </tbody>
                     </table>
                     <input type="submit" class="buttonE" id="validerE" value='VALIDER' >
-                    <input type="submit" class="buttonE" id="annulerE" value='ANNULER' >
+                    <input type="button" class="buttonE" id="annulerE" value='ANNULER' onclick="history.back()" >
                 </div>
             </form>
         </div>

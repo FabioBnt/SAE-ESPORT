@@ -27,7 +27,7 @@
             <nav class="navig">
                 <a href="./index.php">Home</a>
                 <a href="./ListeTournois.php">Liste des Tournois</a>
-                <a href="./Classement.html">Classement</a>
+                <a href="./Classement.php">Classement</a>
             </nav>
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
@@ -82,7 +82,7 @@
                         </thead>
                         <tbody>
                             <?php foreach ($tournoi->lesEquipesParticipants() as $participant) {
-                                echo '<tr>'.'<td>'.$participant.'</td>'.'<td><a href="DetailsEquipe.html">+</a></td>'.'</tr>';
+                                echo '<tr>'.'<td>'.$participant.'</td>'.'<td><a href="DetailsEquipe.php">+</a></td>'.'</tr>';
                             } ?>
                         </tbody>
                     </table>
