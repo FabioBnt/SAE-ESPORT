@@ -67,7 +67,7 @@
                         <tbody>
                             
                             <?php foreach ($tournoi->getJeux() as $jeu) {
-                                echo '<tr>'.'<td>'.$jeu->getNom().'</td>'.'<td><a href="Score.php">+</a></td>'.'</tr>';
+                                echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDT=".$jeu->getId()."'>+</a></td>".'</tr>';
                             } ?>
                             
                         </tbody>

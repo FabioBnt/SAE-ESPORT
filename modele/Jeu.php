@@ -8,6 +8,7 @@ class Jeu
     private $temps;
     private $limiteInscription;
     function __construct($id, $nom, $type, $temps, $limiteInscription){
+        $this->id = $id;
         $this->nom = $nom;
         $this->type = $type;
         $this->temps = $temps;
