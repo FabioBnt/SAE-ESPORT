@@ -48,7 +48,7 @@
             </div>
             <div id="divbutton">
                 <button class="buttonM" onclick="window.location.href = 'CreerTournoi.php';" type="button"> Créer un tournoi </button>
-                <button class="buttonM" onclick="window.location.href = 'ListeEquipe.html';" type="button"> Liste des équipes </button>
+                <button class="buttonM" onclick="window.location.href = 'ListeEquipe.php';" type="button"> Liste des équipes </button>
                 <button class="buttonM" onclick="window.location.href = 'CreerEcurie.php';" type="button"> Créer une écurie </button>
             </div>
         </div>
