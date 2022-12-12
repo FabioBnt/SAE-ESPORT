@@ -1,6 +1,5 @@
 <?php
 include_once "MatchJ.php";
-include_once "Database.php";
 class Poule
 {
     private $id;
