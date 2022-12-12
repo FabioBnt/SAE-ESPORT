@@ -87,8 +87,8 @@
                             } ?>
                         </tbody>
                     </table>
+                    <a href="javascript:history.go(-1)" class="buttonE" id="Dgrida2">Retour</a>
                 </div>
-                <a href="javascript:history.go(-1)" class="buttonE">Retour</a>
             </div>
         </div>
     </main>

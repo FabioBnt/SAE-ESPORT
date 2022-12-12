@@ -18,32 +18,20 @@
 /*------------*/
 /*  TABLEAU   */
 /*------------*/
-table,td {
-    border: 1px solid white;
-    margin-left: auto;
+table{
+    background-color: white;
+    border:2px solid;
+    margin-left:auto;
     margin-right: auto;
 }
 thead{
     background-color: rgb(154, 63, 154);
-}
-td,th{
-    padding:1em;
-    text-align: center;
-}
-/*--------------------*/
-/*MODIFICATION TABLEAU*/
-/*--------------------*/
-.Divdetails table{
-    background-color: white;
-    border:2px solid;
-    margin:0.7em;
-}
-.Divdetails thead{
-    background-color: rgb(154, 63, 154);
     color:white;
 }
-.Divdetails td{
+td,th{
     border-top: solid 2px;
+    padding:1em;
+    text-align: center;
 }
 /*----------------------------------------------------------*/
 /* FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, 
@@ -341,9 +329,6 @@ header a{
 /*--------*/
 /*TABLEAU*/
 /*-------*/
-.tournoismain a,.classementmain a{
-    color:white;
-}
 .tournoismain h1,.classementmain h1,.listeEquipemain h1{
     padding: 0.5em;
     text-align: center;
@@ -423,17 +408,21 @@ header a{
 }
 #Dgridt1{
     grid-column: 2;
-    grid-row: 6;
+    grid-row: 5;
 }
 #Dgridt1 a, #Dgridt2 a{
     color:black;
 }
 #Dgridt2{
-    grid-column: 3;
+    grid-column: 2;
     grid-row: 6;
 }
 #Dgrida1{
     grid-column: 3;
+    grid-row: 9;
+}
+#Dgrida2{
+    grid-column: 1;
     grid-row: 9;
 }
 /*------------------*/
