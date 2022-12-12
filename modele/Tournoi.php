@@ -51,10 +51,10 @@ class Tournoi
         $mysql = Database::getInstance();
         $data = $mysql->select('*', 'Poule', 'where IdTournoi ='.$this->getIdTournoi());
         foreach($data as $ligne){
-            $this->poules[$ligne['IdPoule']] = new Poule($ligne['IdPoule'], $ligne['NumeroPoule'], $ligne['EstPouleFinale'], $this->jeux[$ligne['IdJeu']]);
+            $this->poules[$ligne['IdJeu']] = new Poule($ligne['IdPoule'], $ligne['NumeroPoule'], $ligne['EstPouleFinale'], $this->jeux[$ligne['IdJeu']]);
             $dataM = $mysql->select('*', 'MatchJ', 'where IdPoule ='.$ligne['IdPoule']);
             foreach($dataM as $ligneM){
-                $this->poules[$ligne['IdPoule']]->addMatch($ligneM['Numero'], $ligneM['dateM'], $ligneM['HeureM'],$equipes);
+                $this->poules[$ligne['IdJeu']]->addMatch($ligneM['Numero'], $ligneM['dateM'], $ligneM['HeureM'],$equipes);
             }
         }
     }

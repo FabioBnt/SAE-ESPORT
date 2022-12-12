@@ -30,8 +30,8 @@ class DetailsTournoisTest extends \PHPUnit\Framework\TestCase {
         assertSame($totalPoules[0]['total']-'0', count($listePoules));
     }
     public function testMatchsTournoi() {
-        $id = 3;
-        $totalMatchs = $this->mysql->select("count(*) as total", "MatchJ", "where IdPoule = $id");
+        $id = 1;
+        $totalMatchs = $this->mysql->select("count(*) as total", "MatchJ M, Poule P", "where M.IdPoule = P.IdPoule AND P.IdJeu = $id");
         $listeMatchs = $this->tournoi->getPoules()[$id]->getMatchs();
         assertSame($totalMatchs[0]['total']-'0', count($listeMatchs));
     }

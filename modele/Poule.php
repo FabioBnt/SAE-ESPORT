@@ -1,5 +1,6 @@
 <?php
 include_once "MatchJ.php";
+include_once "Database.php";
 class Poule
 {
     private $id;
@@ -31,6 +32,10 @@ class Poule
 
     public function getMatchs(){
         return $this->matchs;
+    }
+    public function __toString()
+    {
+        return $this->id;
     }
 }
 
