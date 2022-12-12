@@ -65,7 +65,7 @@ if(isset($_POST['name'])){
                         <option value="Associative">Associative</option>
                     </select>
                     <input type="submit" class="buttonE" id="valider" value='VALIDER' >
-                    <input type="submit" class="buttonE" id="annuler" value='ANNULER' onclick="history.back()" >
+                    <input type="button" class="buttonE" id="annuler" value='ANNULER' onclick="history.back()" >
                 </div>
             </form>
         </div>

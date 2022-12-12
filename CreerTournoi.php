@@ -97,7 +97,7 @@ if(isset($_POST['name'])){
                         ?>
                     </select>
                     <input type="submit" class="buttonE" id="validerT" value='VALIDER' >
-                    <input type="submit" class="buttonE" id="annulerT" value='ANNULER' onclick="history.back()" >
+                    <input type="button" class="buttonE" id="annulerT" value='ANNULER' onclick="history.back()" >
                 </div>
             </form>
         </div>

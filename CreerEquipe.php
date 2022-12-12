@@ -80,7 +80,7 @@
                         </tbody>
                     </table>
                     <input type="submit" class="buttonE" id="validerE" value='VALIDER' >
-                    <input type="submit" class="buttonE" id="annulerE" value='ANNULER' >
+                    <input type="button" class="buttonE" id="annulerE" value='ANNULER' onclick="history.back()" >
                 </div>
             </form>
         </div>
