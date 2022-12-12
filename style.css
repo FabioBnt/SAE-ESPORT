@@ -219,8 +219,9 @@ header a{
 /*----------*/
 #formecurie,#formeequipe,#formetournoi {
     padding: 2em;
-    border: 2px solid white;
+    border: 2px solid;
     background-color: rgb(194, 173, 224);
+    border-radius: 10px;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 #formecurie h1,#formeequipe h1,#formetournoi h1{
@@ -428,13 +429,6 @@ header a{
 /*------------------*/
 /*PAGE LISTE EQUIPES*/
 /*------------------*/
-#TabEquipe td{
-    padding-left: 5em;
-    padding-right: 5em;
-}
-#TabEquipe a{
-    color: white;
-}
 #BtnCEquipe{
     padding:1.2em;
     margin-right: auto;
@@ -499,17 +493,6 @@ header a{
 /*------------------------*/
 /*PAGE CREEREQUIPE TABLEAU*/
 /*------------------------*/
-#TabEquipeC{
-    border: 1px solid #2a3250;
-}
-#TabEquipeC td{
-    padding-left: 5em;
-    padding-right: 5em;
-    border: 1px solid #2a3250;
-}
-#TabEquipeC a{
-    color: #2a3250;
-}
 /*------------------*/
 /*FORMULAIRE TOURNOI*/
 /*------------------*/
@@ -578,20 +561,6 @@ header a{
 }
 #annulerT:hover{
     background-color: crimson;
-}
-/*-------------------------*/
-/*PAGE CREERTOURNOI TABLEAU*/
-/*-------------------------*/
-#TabTournoi{
-    border: 1px solid #2a3250;
-}
-#TabTournoi td{
-    padding-left: 5em;
-    padding-right: 5em;
-    border: 1px solid #2a3250;
-}
-#TabTournoi a{
-    color: #2a3250;
 }
 /*-------------------*/
 /*PAGE DETAILS EQUIPE*/
