@@ -29,6 +29,7 @@
         </div>
     </header>
     <main class="InscriptionM">
+        <label>Etes-vous sûr de vouloir s'inscrire à ce tournoi ?</label>
         <a href="./ListeTournois.php" class="buttonE" id="gridIa1">Retour</a>
         <a href="./ListeTournois.php" class="buttonE" id="gridIa2">Valider</a>
     </main>
