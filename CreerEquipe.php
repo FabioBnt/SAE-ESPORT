@@ -44,7 +44,7 @@
     </header>
     <main>
         <div class="equipemain">
-            <form action="ListeEquipe.html" id="formeequipe" method="POST">
+            <form action="ListeEquipe.php" id="formeequipe" method="POST">
                 <h1>Créer une équipe</h1>
                 <div class="formulaire">
                     <label id="Eqforml1"><b>Nom de l'équipe</b></label>

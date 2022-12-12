@@ -13,9 +13,9 @@
         <div class="Menu">
             <div class="menunav">
             <nav class="navig">
-                <a href="./index.html">Home</a>
-                <a href="./ListeTournois.html">Liste des Tournois</a>
-                <a href="./Classement.html">Classement</a>
+                <a href="./index.php">Home</a>
+                <a href="./ListeTournois.php">Liste des Tournois</a>
+                <a href="./Classement.php">Classement</a>
             </nav>
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
@@ -23,7 +23,7 @@
             </div>
             <div class="menuright">
                 <div class="connecter">
-                    <a href="./Connexion.html" id="connexion">Se Connecter</a>
+                    <a href="./Connexion.php" id="connexion">Se Connecter</a>
                 </div>
             </div>
         </div>

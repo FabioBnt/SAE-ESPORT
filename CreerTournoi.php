@@ -46,7 +46,7 @@ if(isset($_POST['name'])){
             <nav class="navig">
                 <a href="./index.php">Home</a>
                 <a href="./ListeTournois.php">Liste des Tournois</a>
-                <a href="./Classement.html">Classement</a>
+                <a href="./Classement.php">Classement</a>
             </nav>
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
