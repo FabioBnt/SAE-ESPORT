@@ -6,7 +6,6 @@
         $listeTournois = new Tournois;
         $listeTournois->tousLesTournois();
         $idTournoi = $_GET['IDT'];
-        echo $idTournoi;
         $tournoi = $listeTournois->getTournoi($idTournoi);
 
  ?>
