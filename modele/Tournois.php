@@ -11,7 +11,8 @@ class Tournois
     }
     private function selectTournoi(string $cond=""){
         $mysql = Database::getInstance();
-        $data = $mysql->select("T.*, J.*", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
+        $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
+          J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
             AND C.IdTournoi = T.IdTournoi ".$cond);
         $this->misAJourListeTournois($data);
     }

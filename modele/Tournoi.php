@@ -11,7 +11,7 @@ class Tournoi
     private $heureDebut;
     private $date;
     private $dateLimiteInscription;
-    private $poules = array();
+    private $poules = null;
     private $jeux = array();
 
     function __construct($id, $nom, $cashPrize, $notoriete, $lieu, $heureDateDebut, $idEtJeu){
@@ -25,7 +25,7 @@ class Tournoi
         $this->poules = null;
         $this->jeux[$idEtJeu[0]] = $idEtJeu[1];
         $this->calculerDateLimite($heureDateDebut);
-        $this->recupererPoules();
+        
 
     }
     
@@ -150,6 +150,8 @@ class Tournoi
         return $equipes;
     }
     public function getPoules(){
+        if($this->poules == null)
+            $this->recupererPoules();
         return $this->poules;
     }
 }
