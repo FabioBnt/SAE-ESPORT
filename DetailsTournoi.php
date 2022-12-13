@@ -67,7 +67,7 @@
                         <tbody>
                             
                             <?php foreach ($tournoi->getJeux() as $jeu) {
-                                echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDJ=".$jeu->getId()."'>+</a></td>".'</tr>';
+                                echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDJ=".$jeu->getId().'&NomT='.$tournoi->getNom()."'>+</a></td>".'</tr>';
                                 $_SESSION['jeu'.$jeu->getId()] = $tournoi->getPoules();
                             } ?>
                             

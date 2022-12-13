@@ -646,12 +646,13 @@ header a{
     grid-row: 1;
 }
 .scoredetails{
-    color:white;
+    color: black;
     padding:0.8em;
 }
 .scoredetails h1{
     padding:0.4em;
     text-align: center;
+    color: white;
 }
 /*----------------*/
 /*PAGE INSCRIPTION*/

@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿
+<?php
+include './modele/Connexion.php';
+include './modele/Tournois.php';
+$connx = Connexion::getInstance();
+$mysql = Database::getInstance();
+$listePoules = $_SESSION['jeu'.$_GET['IDJ']];
+$nomTournoi = $_GET['NomT'];
+?>
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -23,13 +33,19 @@
             </div>
             <div class="menuright">
                 <div class="connecter">
-                    <a href="./Connexion.php" id="connexion">Se Connecter</a>
+                    <?php
+                    if($connx->getRole() === Role::Visiteur){
+                        echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
+                    }else{
+                        echo '<div class="deconnect"><h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" name="deconnecter" id="deconnexion">Deconnexion</a></div>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
     </header>
     <main class="scoredetails">
-        <h1 id="labelS1">Score du Tournoi TATATA</h1>
+        <h1 id="labelS1">Score du Tournoi <?php echo (string)$nomTournoi ?></h1>
         <table id="tableS1">
             <thead>
                 <tr>
