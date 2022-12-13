@@ -23,9 +23,9 @@ class Administrateur {
     public function creerTournoi(string $nom, int $cashPrize,string $notoriete, string $lieu,string $heureDebut,string $date,array $jeux){
         Database::getInstance()->insert("Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois)", 5
             , array($nom, $cashPrize, $notoriete, $lieu, $date.' '.$heureDebut.':00'));
-        $idTournoi = Database::getInstance()->select('T.*','Tournois T','where T.NomTournoi = '."$nom");
+        $idTournoi = Database::getInstance()->select('T.IdTournoi','Tournois T','where T.NomTournoi = '."'$nom'");
         foreach ($jeux as $jeu) {
-            Database::getInstance()->insert("Contenir",2,array($jeu,$idTournoi));
+            Database::getInstance()->insert("Contenir",2,array($jeu,$idTournoi[0]['IdTournoi']));
         }
     }
     public function estConnecter(){
