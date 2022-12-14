@@ -36,30 +36,25 @@ if(isset($_POST['name'])){
 <body class="tournoi">
     <!--Menu de navigation-->
     <header>
-        <div class="Menu">
             <div class="menunav">
-            <nav class="navig">
-                <a href="./index.php">Home</a>
-                <a href="./ListeTournois.php">Liste des Tournois</a>
-                <a href="./Classement.php">Classement</a>
-            </nav>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
+                <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
+            </div>
+
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
             </div>
-            </div>
-            <div class="menuright">
-                <div class="connecter">
-                <?php 
-                    if($connx->getRole() == Role::Visiteur){
-                        echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
-                    }else{
-                        //! changer l'IHM !!
-                        echo '<h3 class="bonjourRole">Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter" class="deconnecter"> se deconnecter </a>';
-                    }
-                ?>
-                </div>
-            </div>
-        </div>
+
+            <div class="menuright">  
+                    <?php 
+                        if($connx->getRole() == Role::Visiteur){
+                            echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
+                        }else{
+                            echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
+                        }
+                    ?>
+            </div>      
     </header>
     <main>
         <div class="tournoimain">

@@ -17,19 +17,17 @@
 <body class="accueil">
     <!--Menu de navigation-->
     <header>
-        <div class="Menu">
             <div class="menunav">
-            <nav class="navig">
-                <button class="buttonMenu" onclick="window.location.href='./index.php'">Home</button>
-                <button class="buttonMenu" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
-                <button class="buttonMenu" onclick="window.location.href='./Classement.php'">Classement</button>
-            </nav>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
+                <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
+            </div>
+
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
             </div>
-            </div>
-            <div class="menuright">
-                <div class="connecter">
+
+            <div class="menuright">  
                     <?php 
                         if($connx->getRole() == Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
@@ -37,9 +35,7 @@
                             echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
                         }
                     ?>
-                </div>
-            </div>
-        </div>       
+            </div>      
     </header>
     <main class="accueilmain">
         <div class="mainA">
