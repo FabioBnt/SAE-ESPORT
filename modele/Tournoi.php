@@ -8,11 +8,10 @@ class Tournoi
     private $cashPrize;
     private $notoriete;
     private $lieu;
-    private $heureDebut;
-    private $date;
     private $dateLimiteInscription;
     private $poules = null;
     private $jeux = array();
+    private $dateHeure;
 
     function __construct($id, $nom, $cashPrize, $notoriete, $lieu, $heureDateDebut, $idEtJeu){
         $this->id =$id;
@@ -20,8 +19,7 @@ class Tournoi
         $this->cashPrize = $cashPrize;
         $this->notoriete = $notoriete;
         $this->lieu = $lieu;
-        $this->heureDebut = date("h:m:s" ,strtotime($heureDateDebut));
-        $this->date = date("d/m/y" ,strtotime($heureDateDebut));
+        $this->dateHeure = $heureDateDebut;
         $this->poules = null;
         $this->jeux[$idEtJeu[0]] = $idEtJeu[1];
         $this->calculerDateLimite($heureDateDebut);
@@ -61,7 +59,42 @@ class Tournoi
     {
         return $this->heureDebut;
     }
-    private function genererLesPoules(){
+
+    function comparatorEquipe(Equipe $e1, Equipe $e2) {
+        return ($e1->getPoints() > $e2->getPoints());
+    }
+    private function genererLesPoules($idJeu){
+        if(!array_key_exists($idJeu, $this->jeux)){
+            throw new Exception('Jeu n\'appartient pas au Tournois');
+        }
+        $equipes = $this->lesEquipesParticipants($idJeu);
+        if(count($equipes) != 16){
+            throw new Exception('Tournoi n\'a pas assez des participants');
+        }
+        /*
+        if(strtotime($this->getDateLimiteInscription()) < strtotime(date("Y/m/d"))){
+            throw new Exception('Inscriptions n\'est pas fermé');
+        }
+        */
+        usort($equipes, 'comparatorEquipe');
+        $mysql = Database::getInstance();
+        for($i = 1; $i < 5; $i++ ){
+            $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array($i, 0, $idJeu, $this->id));
+        }
+        $data = $mysql->select('IdPoule','Poule ', 'where IdJeu ='.$idJeu.' AND IdTournoi = '.$this->id);
+        $i = 0;
+        $n = 1;
+        $date = $this->dateHeure;
+        foreach($equipes as $equipe){
+            $i%=4;
+            $mysql->Insert('MatchJ (IdPoule, Numero, dateM, HeureM)', 4, array($data[$i]['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($this->heureDateDebut))));            
+            $i++;
+            if($i == 4){
+                $n++;
+                $date = date('Y-m-d H:i:s', strtotime($date. ' + '.$n.' hours'));
+            }
+        }
+
     }
     public function genererPouleFinale()
     {
@@ -86,10 +119,10 @@ class Tournoi
         return $this->cashPrize;
     }
     public function getDate(){
-        return $this->date;
+        return date("d/m/y" ,strtotime($this->dateHeure));
     }
     public function getHeureDebut(){
-        return $this->heureDebut;
+        return date("h:m:s" ,strtotime($this->dateHeure));
     }
     public function getJeux(){
         return $this->jeux;
@@ -106,7 +139,7 @@ class Tournoi
 
     public function listeInfo(){
         
-        return array($this->nom,$this->cashPrize,$this->notoriete,$this->lieu,$this->heureDebut,$this->date,$this->dateLimiteInscription , $this->nomsJeux());
+        return array($this->nom,$this->cashPrize,$this->notoriete,$this->lieu,$this->getHeureDebut(),$this->getDate(),$this->dateLimiteInscription , $this->nomsJeux());
     }
     private function nomsJeux(){
         $nomjeux ="";
@@ -136,15 +169,25 @@ class Tournoi
         return false;
     }
 
-    public function lesEquipesParticipants(){
+    public function lesEquipesParticipants($idJeu = null){
         $equipes = array();
         $mysql = Database::getInstance();
         $data = $mysql->select('*', 'Participer', 'where IdTournoi ='.$this->getIdTournoi());
-        foreach($data as $ligne){
-            $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu');
-            foreach($dataE as $ligneM){
-                $equipes[$ligneM['IdEquipe']] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
-                new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
+        if ($idJeu == null){
+            foreach($data as $ligne){
+                $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu');
+                foreach($dataE as $ligneM){
+                    $equipes[$ligneM['IdEquipe']] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
+                    new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
+                }
+            }
+        }else{
+            foreach($data as $ligne){
+                $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu AND j.IdJeu='.$idJeu);
+                foreach($dataE as $ligneM){
+                    $equipes[$ligneM['IdEquipe']] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
+                    new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
+                }
             }
         }
         return $equipes;

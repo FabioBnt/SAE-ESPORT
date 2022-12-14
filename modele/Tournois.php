@@ -13,7 +13,7 @@ class Tournois
         $mysql = Database::getInstance();
         $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
           J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
-            AND C.IdTournoi = T.IdTournoi ".$cond);
+            AND C.IdTournoi = T.IdTournoi ".$cond.' ORDER BY  IdTournoi');
         $this->misAJourListeTournois($data);
     }
     
@@ -30,7 +30,7 @@ class Tournois
                 $last = $ligne['IdTournoi'];
                 $index+=1;
             }else{
-                $this->tournois[-1]->ajouterJeu($ligne['IdJeu'],new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
+                $this->tournois[$this->posMap[$ligne['IdTournoi']]]->ajouterJeu($ligne['IdJeu'],new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
             }
             $this->posMap[$ligne['IdTournoi']] =  $index;
         }

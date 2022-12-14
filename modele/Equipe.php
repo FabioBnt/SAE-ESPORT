@@ -68,5 +68,8 @@ class Equipe
         return Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Equipe);
     }
 
+    public function getPoints(){
+        return $this->points;
+    }
 
 }
