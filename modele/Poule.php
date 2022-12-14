@@ -8,7 +8,7 @@ class Poule
     private $estFinale;
     private $jeu;
 
-    function __construct($id, $numero, $estFinale, $jeu){
+    public function __construct($id, $numero, $estFinale, $jeu){
         $this->id = $id;
         $this->numero = $numero;
         $this->estFinale = $estFinale;
@@ -26,11 +26,13 @@ class Poule
     public function meilleurEquipe(){
 
     }
-    private function nbMatchsGagnes($equipe){
+    private function nbMatchsGagnes($equipe): int
+    {
         return 0;
     }
 
-    public function getMatchs(){
+    public function getMatchs(): array
+    {
         return $this->matchs;
     }
     public function __toString()
@@ -39,4 +41,3 @@ class Poule
     }
 }
 
-?>
