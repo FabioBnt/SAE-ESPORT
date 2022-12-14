@@ -622,6 +622,9 @@ header .buttonM,header #connexion, header #deconnexion{
     text-align: center;
     color: white;
 }
+.scoredetails td{
+    font-style: italic;
+}
 /*----------------*/
 /*PAGE INSCRIPTION*/
 /*----------------*/
