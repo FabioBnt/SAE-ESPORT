@@ -51,87 +51,50 @@ LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE INSCRIPTION        */
 /*HEADER MENU*/
 /*------------*/
 header {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    box-sizing: border-box;
+    display: grid;
+    gap:10px;
+    width: auto;
+    grid-template-columns: repeat(3, 1fr);
+    box-sizing: content-box;
     padding: 1vw 4vw;
     pointer-events: auto;
     background-color: rgb(154, 63, 154);
     border-bottom: solid 5px;
     border-color: white;
 }
-header a{
-    text-decoration: none;
-    backface-visibility: hidden;
-    padding:0.5em 0.8em;
-    font-size: 16px;
-}
-.menucenter{
-    padding:0.8em;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+header .buttonM,header #connexion, header #deconnexion{
+    margin: 0.2em;
 }
 /*------------*/
 /*LOGO MENU*/
 /*------------*/
 .logo{
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 12%;
-    max-height: 12%;
+    margin:auto;
+    max-width: 30%;
     border:solid;
-}
-.Menu{
-    position: relative;
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
-    padding:0.3em;
 }
 /*---------------*/
 /*NAVIGATION MENU*/
 /*---------------*/
-.navig{
-        display: inline-flex;
-        flex-wrap: wrap;
-        background-color: white;
-        border: 2px solid #1A1A1A;
-        border-radius: 8px;
-        font-size: 16px;
-        padding:1em;
-        margin:0.5em;
-}
-.navig a{
-    font-weight: bold;
-}
-.navig a:hover{
-    color: black;
+.menucenter{
+    grid-column: 2;
+    grid-row: 1;
 }
 .menunav{
-    display: flex;
-    flex-wrap: nowrap;
-    flex: 1 0 67%;
-    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 .menuright{
-    flex-grow: 0;
-    flex-shrink: 1;
-    display: inline-flex;
-    align-items: center; 
-}
-.connecter{
-    justify-content: flex-end;
+    grid-column: 3;
+    grid-row: 1;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 /*------------------*/
 /*BUTTON SECONNECTER*/
 /*------------------*/
-#connexion,#deconnexion,.buttonE{
-        line-height: normal;
-        border-style: solid;
-}
 #connexion:hover {
     color: grey;
     background-color: lightgreen;
@@ -147,19 +110,21 @@ header a{
 #deconnexion{
     color: black;
 }
+.disconnect h3{
+    color: white;
+}
 /*------------*/
 /*    MAIN    */
 /*FOND DU MAIN*/
 /*------------*/
 .accueilmain{
     margin: 0;
-    position: absolute;
-    top: 50%;
+    top: 30%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 .mainA{
-    margin-top: 10%;
+    margin-top: 20%;
     display:grid;
     gap:10px;
     grid-template-columns: repeat(3, 1fr);
@@ -640,6 +605,9 @@ header a{
 #labelS1{
     grid-column: 2;
     grid-row: 1;
+    background-color: white;
+    color: blueviolet;
+    border: solid black;
 }
 #ModifS8{
     grid-column: 1;

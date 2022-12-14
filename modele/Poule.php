@@ -8,13 +8,14 @@ class Poule
     private $estFinale;
     private $jeu;
 
-    function __construct($id, $numero, $estFinale, $jeu){
+    public function __construct($id, $numero, $estFinale, $jeu){
         $this->id = $id;
         $this->numero = $numero;
         $this->estFinale = $estFinale;
         $this->jeu = $jeu;
     }
-    public function addMatch($numero, $date, $heure, $equipes){
+    public function addMatch($numero, $date, $heure, $equipes): void
+    {
         $this->matchs[$numero] = new MatchJ($numero, $date, $heure);
         $mysql = Database::getInstance();
         $data = $mysql->select('*', 'Concourir', 'where IdPoule ='.$this->id.' AND Numero = '.$numero);
@@ -22,14 +23,16 @@ class Poule
             $this->matchs[$numero]->addEquipeScore($equipes[$ligne['IdEquipe']], $ligne['Score']);
         }
     }
-    public function mellieurEquipe(){
+    public function meilleurEquipe(){
 
     }
-    private function nbMatchsGange($equipe){
+    private function nbMatchsGagnes($equipe): int
+    {
         return 0;
     }
 
-    public function getMatchs(){
+    public function getMatchs(): array
+    {
         return $this->matchs;
     }
     public function __toString()
@@ -38,4 +41,3 @@ class Poule
     }
 }
 
-?>

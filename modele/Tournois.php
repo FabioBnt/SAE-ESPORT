@@ -70,17 +70,15 @@ class Tournois
     }
     public function afficherTournois()
     {
-        //echo "<table border='1'><br />";
-        for ($ligne = 0; $ligne < count($this->tournois); $ligne ++) {
+        foreach ($this->tournois as $ligneValue) {
         echo "<tr>";
-            $tournoi = $this->tournois[$ligne]->listeInfo();
-            for($col = 0; $col < count($tournoi); $col++){
-                echo "<td>", $tournoi[$col], "</td>"; 
+            $tournoi = $ligneValue->listeInfo();
+            foreach ($tournoi as $colValue) {
+                echo "<td>", $colValue, "</td>";
             }
-            echo "<td><a href='./DetailsTournoi.php?IDT=".$this->tournois[$ligne]->getIdTournoi()."'>+</a></td>";
+            echo "<td><a href='./DetailsTournoi.php?IDT=". $ligneValue->getIdTournoi()."'>+</a></td>";
         echo "</tr>";
         }
-        echo "</table>";
     }
 
     public function getTournois(){

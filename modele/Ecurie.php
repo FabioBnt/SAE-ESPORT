@@ -22,6 +22,24 @@ class Ecurie {
     public function getEquipe($nom) {
         return null;
     }
+    public static function getEcurie($id): ?Ecurie
+    {
+        $ecurie = null;
+        $mysql = Database::getInstance();
+        $dataE = $mysql->select('*', 'Ecurie e', 'where IdEcurie ='.$id);
+        foreach($dataE as $ligneE){
+            $ecurie = new Ecurie($ligneE['Designation'],$ligneE['TypeE'],null);
+        }
+        return $ecurie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDesignation(): mixed
+    {
+        return $this->designation;
+    }
 
 
 }
