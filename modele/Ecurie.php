@@ -36,7 +36,7 @@ class Ecurie {
     /**
      * @return mixed
      */
-    public function getDesignation(): mixed
+    public function getDesignation()
     {
         return $this->designation;
     }

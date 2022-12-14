@@ -4,7 +4,7 @@ class MatchJ
     private $numero;
     private $date;
     private $heure;
-    private array $equipes = array();
+    private $equipes = array();
     private $scores = array();
     function __construct($numero, $date, $heure){
         $this->numero = $numero;
@@ -35,14 +35,12 @@ class MatchJ
     }
 
     public function afficherEquipes(){
-        foreach ($this->equipes as $key => $ligneValue) {
-            $ou = Equipe::getEquipe($key);
-            echo "<tr>";
-                $equipe = $ou->listeInfo();
-            foreach ($equipe as $colValue) {
-                echo "<td>", $colValue, "</td>";
-            }
-            echo "</tr>";
+        echo "<tr>";
+        foreach ($this->scores as $key => $ligneValue) {
+            $equipe = $this->equipes[$key];
+            echo "<td>", $equipe, "</td>";
+            echo "<td>", $ligneValue, "</td>"; 
         }
+        echo "</tr>";
     }
 }
