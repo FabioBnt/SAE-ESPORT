@@ -17,7 +17,7 @@ class Tournoi
     private $jeux = array();
     private $dateHeure;
 
-    function __construct($id, $nom, $cashPrize, $notoriete, $lieu, $heureDateDebut, $idEtJeu){
+    public function __construct($id, $nom, $cashPrize, $notoriete, $lieu, $heureDateDebut, $idEtJeu){
         $this->id =$id;
         $this->nom = $nom;
         $this->cashPrize = $cashPrize;
@@ -31,7 +31,7 @@ class Tournoi
 
     }
     
-    private function calculerDateLimite($heureDateDebut)
+    private function calculerDateLimite($heureDateDebut): void
     {
         // on prend le numero de jours le plus grande entre les jeux de tournoi
         $maxJour = reset($this->jeux)->getlimiteInscription();
@@ -45,7 +45,7 @@ class Tournoi
         $intervalJours = date_interval_create_from_date_string("$maxJour days");
         $this->dateLimiteInscription = date_format(date_sub($datetime,$intervalJours),"d/m/y");
     }
-    private function recupererPoules()
+    private function recupererPoules(): void
     {
         $equipes = $this->lesEquipesParticipants();
         $this->poules = array();
@@ -64,7 +64,8 @@ class Tournoi
         return $this->heureDebut;
     }
 
-    public function genererLesPoules($idJeu){
+    public function genererLesPoules($idJeu): void
+    {
         if(!array_key_exists($idJeu, $this->jeux)){
             throw new Exception('Jeu n\'appartient pas au Tournois');
         }
@@ -167,7 +168,8 @@ class Tournoi
         
         return array($this->nom,$this->cashPrize,$this->notoriete,$this->lieu,$this->getHeureDebut(),$this->getDate(),$this->dateLimiteInscription , $this->nomsJeux());
     }
-    private function nomsJeux(){
+    private function nomsJeux(): string
+    {
         $nomjeux ="";
         foreach($this->jeux as $jeu){
             $nomjeux.=$jeu->getNom().', ';

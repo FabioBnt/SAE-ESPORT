@@ -24,7 +24,7 @@
             </div>
 
             <div class="menucenter">
-                <img class="logo" src="./img/logo header.png">
+                <img class="logo" src="./img/logo header.png" alt="Logo Esporter">
             </div>
 
             <div class="menuright">  

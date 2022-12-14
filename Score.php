@@ -6,6 +6,7 @@ $connx = Connexion::getInstance();
 $mysql = Database::getInstance();
 $listePoules = $_SESSION['jeu'.$_GET['IDJ']];
 $nomTournoi = $_GET['NomT'];
+$nomJeu = $_GET['JeuT'];
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -45,7 +46,7 @@ error_reporting(E_ALL);
             </div>      
     </header>
     <main class="scoredetails">
-        <h1 id="labelS1">Score du Tournoi <?php echo (string)$nomTournoi ?></h1>
+        <h1 id="labelS1">Score du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
         <table id="tableS1">
             <thead>
                 <tr>
