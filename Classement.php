@@ -57,13 +57,13 @@
                             <td>1</td>
                             <td>Vitality</td>
                             <td>2455</td>
-                            <td><a href="DetailsEquipe.html">+</a></td>
+                            <td><a href="DetailsEquipe.php">+</a></td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>MenwizzGaming</td>
                             <td>2420</td>
-                            <td><a href="DetailsEquipe.html">+</a></td>
+                            <td><a href="DetailsEquipe.php">+</a></td>
                         </tr>
                     </tbody>
                 </table>

@@ -46,7 +46,9 @@ error_reporting(E_ALL);
             </div>      
     </header>
     <main class="scoredetails">
+        <a href="javascript:history.go(-1)" class="buttonE" id="RetourS8">Retour</a>
         <h1 id="labelS1">Score du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
+        <a href="#" class="buttonE" id="ModifS7">Modification</a>
         <?php
         $i = 0;
         foreach ($listePoules[$_GET['IDJ']] as $poule) {
@@ -84,8 +86,6 @@ error_reporting(E_ALL);
                 </tr>
             </tbody>
         </table>
-        <a href="#" class="buttonE" id="ModifS7">Modification</a>
-        <a href="javascript:history.go(-1)" class="buttonE" id="RetourS8">Retour</a>
     </main>
 </body>
 </html>
