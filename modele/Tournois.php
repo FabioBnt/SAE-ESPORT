@@ -62,7 +62,7 @@ class Tournois
         if($lieu != ""){
             $cond.=" Lower(T.Lieu) like Lower('%$lieu%') AND";
         }
-        if($lieu != ""){
+        if($date != ""){
             $cond.=" Date(T.DateHeureTournois) >= '$date' AND";
         }
         $cond = substr($cond, 0, -3);

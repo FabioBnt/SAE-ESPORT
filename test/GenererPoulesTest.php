@@ -37,6 +37,7 @@ class GenererPoulesTest extends \PHPUnit\Framework\TestCase {
         $listePoules = $t->getPoules();
         $pdo->rollBack();
         assertSame($totalPoules[0]['total']-'0', 4);
+        assertSame($totalPoules[0]['total']-'0', count($listePoules[$idJeu]));
         
     }
 
