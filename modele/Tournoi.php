@@ -177,7 +177,7 @@ class Tournoi
 
     }
     public function ajouterJeu($id,$jeu){
-        $this->jeu[$id] = $jeu;
+        $this->jeux[$id] = $jeu;
     }
     public function getIdTournoi(){
         return $this->id;
