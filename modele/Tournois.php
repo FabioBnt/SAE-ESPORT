@@ -39,8 +39,8 @@ class Tournois
     {
         $this->selectTournoi();
     }
-    public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=-1,float $prixMax=-1,string $notoriete="",string $lieu="",string $date=""){
-        if($nomJeu=="" && $nomTournois="" && $prixMin==-1 && $prixMax==-1 && $notoriete=="" && $lieu=="" && $date==""){
+    public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date=""){
+        if($nomJeu=="" && $nomTournois==="" && $prixMin===0 && $prixMax===0 && $notoriete==="" && $lieu==="" && $date===""){
             throw new Exception("Accun Argument passé");
         }
         $cond = "AND";
@@ -50,10 +50,10 @@ class Tournois
         if($nomTournois != ""){
             $cond.=" T.NomTournoi <= $nomTournois AND";
         }
-        if($prixMax != -1){
+        if($prixMax != 0){
             $cond.=" T.CashPrize <= $prixMax AND";
         }
-        if($prixMin != -1){
+        if($prixMin != 0){
             $cond.=" T.CashPrize >= $prixMin AND";
         }
         if($notoriete != ""){
