@@ -39,7 +39,11 @@ class MatchJ
         foreach ($this->scores as $key => $ligneValue) {
             $equipe = $this->equipes[$key];
             echo "<td>", $equipe, "</td>";
-            echo "<td>", $ligneValue, "</td>"; 
+            if($ligneValue == null){
+                echo "<td>", 'TBD', "</td>"; 
+            }else{
+                echo "<td>", $ligneValue, "</td>"; 
+            }
         }
         echo "</tr>";
     }

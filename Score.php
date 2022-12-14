@@ -1,12 +1,50 @@
 ﻿
 <?php
-include './modele/Connexion.php';
-include './modele/Tournois.php';
+include_once './modele/Administrateur.php';
+include_once './modele/Connexion.php';
+include_once './modele/Tournois.php';
 $connx = Connexion::getInstance();
 $mysql = Database::getInstance();
-$listePoules = $_SESSION['jeu'.$_GET['IDJ']];
-$nomTournoi = $_GET['NomT'];
-$nomJeu = $_GET['JeuT'];
+$listePoules;
+$nomTournoi;
+$nomJeu;
+$idJeu;
+if(isset($_GET['IDJ'])){
+    $listePoules = $_SESSION['jeu'.$_GET['IDJ']];
+    $nomTournoi = $_GET['NomT'];
+    $nomJeu = $_GET['JeuT'];
+    $idJeu = $_GET['IDJ'];
+}else{
+    $listePoules = array();
+    $nomTournoi = "Inconnu";
+    $nomJeu = 'Jeu Inconnu';
+    $idJeu = null;
+}
+if(isset($_GET['test'])){
+    Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
+    $tournoi = new Tournois();
+    $pdo = Database::getInstance()->getPDO();
+    $pdo->beginTransaction();
+    $idJeu = 8;
+    $admin = new Administrateur();
+    $admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/01/2023',array($idJeu));
+    $id = $mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
+    $tournoi->tousLesTournois();
+    $t = $tournoi->getTournoi($id[0]['IdTournoi']);
+    Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+    $idE = $mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
+    $i = 0;
+    while($i < 16){
+        $equipe = Equipe::getEquipe($idE[$i]['IdEquipe']);
+        $equipe->Inscrire($t);
+        $i++;
+    }
+    $t->genererLesPoules($idJeu);
+    $listePoules = $t->getPoules();
+    $nomTournoi = $t->getNom();
+    $nomJeu = $t->getJeux()[$idJeu]->getNom();
+    $pdo->rollBack();
+}
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -51,15 +89,17 @@ error_reporting(E_ALL);
         <a href="#" class="buttonE" id="ModifS7">Modification</a>
         <?php
         $i = 0;
-        foreach ($listePoules[$_GET['IDJ']] as $poule) {
-            $i++;
-            echo '<table id="tableS'.$i.'"><thead><tr><th colspan="4">Poule ';
-             if($i==5){echo'Finale';}else{echo $i;};
-              echo '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
-            foreach ($poule->getMatchs() as $match){
-                echo $match->afficherEquipes();
+        if($idJeu != null){
+            foreach ($listePoules[$idJeu] as $poule) {
+                $i++;
+                echo '<table id="tableS'.$i.'"><thead><tr><th colspan="4">Poule ';
+                if($i==5){echo'Finale';}else{echo $i;};
+                echo '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
+                foreach ($poule->getMatchs() as $match){
+                    echo $match->afficherEquipes();
+                }
+                echo '</tbody></table>';
             }
-            echo '</tbody></table>';
         }
         ?>
         <table id="tableS6">
