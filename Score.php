@@ -53,7 +53,9 @@ error_reporting(E_ALL);
         $i = 0;
         foreach ($listePoules[$_GET['IDJ']] as $poule) {
             $i++;
-            echo '<table id="tableS'.$i.'"><thead><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
+            echo '<table id="tableS'.$i.'"><thead><tr><th colspan="4">Poule ';
+             if($i==5){echo'Finale';}else{echo $i;};
+              echo '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
             foreach ($poule->getMatchs() as $match){
                 echo $match->afficherEquipes();
             }
