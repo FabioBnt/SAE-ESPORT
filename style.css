@@ -94,15 +94,11 @@ header a{
 /*---------------*/
 /*NAVIGATION MENU*/
 /*---------------*/
-.navig{
-        display: inline-flex;
-        flex-wrap: wrap;
-        background-color: white;
-        border: 2px solid #1A1A1A;
-        border-radius: 8px;
-        font-size: 16px;
-        padding:1em;
-        margin:0.5em;
+.buttonMenu{
+    float: left;
+    font-size: 16px;
+    padding: 1em;
+    margin: 0.5em;
 }
 .navig a{
     font-weight: bold;
@@ -110,15 +106,14 @@ header a{
 .navig a:hover{
     color: black;
 }
+
 .menunav{
-    display: flex;
+    display: inline-block;
     flex-wrap: nowrap;
     flex: 1 0 67%;
     align-items: center;
 }
 .menuright{
-    flex-grow: 0;
-    flex-shrink: 1;
     display: inline-flex;
     align-items: center; 
 }
@@ -144,8 +139,18 @@ header a{
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
 }
+
+.disconnect{
+    width: 100%;
+}
+
 #deconnexion{
     color: black;
+    display: inline-block;
+}
+.disconnect h3{
+    display: inline-block;
+    color: white;
 }
 /*------------*/
 /*    MAIN    */

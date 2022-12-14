@@ -20,9 +20,9 @@
         <div class="Menu">
             <div class="menunav">
             <nav class="navig">
-                <a href="./index.php">Home</a>
-                <a href="./ListeTournois.php">Liste des Tournois</a>
-                <a href="./Classement.php">Classement</a>
+                <button class="buttonMenu" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonMenu" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
+                <button class="buttonMenu" onclick="window.location.href='./Classement.php'">Classement</button>
             </nav>
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
@@ -34,7 +34,7 @@
                         if($connx->getRole() == Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
-                            echo '<div class="deconnect"><h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" name="deconnecter" id="deconnexion">Deconnexion</a></div>';
+                            echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
                         }
                     ?>
                 </div>
