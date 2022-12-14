@@ -645,6 +645,9 @@ header a{
 #labelS1{
     grid-column: 2;
     grid-row: 1;
+    background-color: white;
+    color: blueviolet;
+    border: solid black;
 }
 #ModifS8{
     grid-column: 1;

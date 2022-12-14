@@ -6,6 +6,10 @@ $connx = Connexion::getInstance();
 $mysql = Database::getInstance();
 $listePoules = $_SESSION['jeu'.$_GET['IDJ']];
 $nomTournoi = $_GET['NomT'];
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ?>
 
 <!DOCTYPE html>
@@ -50,57 +54,24 @@ $nomTournoi = $_GET['NomT'];
             <thead>
                 <tr>
                     <th>Poule 1</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>Points</th>
+                    <th>Ecurie</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Equipe 1</td>
-                    <td>Equipe 2</td>
-                    <td>2</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Equipe 3</td>
-                    <td>Equipe 4</td>
-                    <td>2</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Equipe 1</td>
-                    <td>Equipe 3</td>
-                    <td>2</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Equipe 2</td>
-                    <td>Equipe 4</td>
-                    <td>2</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Equipe 1</td>
-                    <td>Equipe 4</td>
-                    <td>2</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Equipe 3</td>
-                    <td>Equipe 2</td>
-                    <td>2</td>
-                    <td>0</td>
-                </tr>
+                <?php
+                    foreach ($listePoules[$_GET['IDJ']] as $poule) {
+                        foreach ($poule->getMatchs() as $match){
+                            echo $match->afficherEquipes();
+                        }
+                    }
+                ?>
             </tbody>
         </table>
         <table id="tableS2">
             <thead>
                 <tr>
                     <th>Poule 2</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -146,9 +117,6 @@ $nomTournoi = $_GET['NomT'];
             <thead>
                 <tr>
                     <th>Poule 3</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -194,9 +162,6 @@ $nomTournoi = $_GET['NomT'];
             <thead>
                 <tr>
                     <th>Poule 4</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -242,9 +207,6 @@ $nomTournoi = $_GET['NomT'];
             <thead>
                 <tr>
                     <th>Poule Finale</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
