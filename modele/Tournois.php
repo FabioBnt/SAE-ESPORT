@@ -92,12 +92,13 @@ class Tournois
     }
     
 }
-
+/*
 include_once "Tournois.php";
 $apple = new Tournois();
     $apple->tousLesTournois();
-    $t = $apple->getTournoi(1);
+    $t = $apple->getTournoi(2);
     foreach ($t->getPoules() as $m){
         echo $m;
     }
+    */
 ?>

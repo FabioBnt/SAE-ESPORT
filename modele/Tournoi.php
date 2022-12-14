@@ -1,6 +1,10 @@
 <?php
 include_once "Equipe.php";
 include_once "Poule.php";
+
+function comparatorEquipe(Equipe $e1, Equipe $e2) {
+    return ($e1->getPoints() > $e2->getPoints());
+}
 class Tournoi
 {
     private $id;
@@ -60,10 +64,7 @@ class Tournoi
         return $this->heureDebut;
     }
 
-    function comparatorEquipe(Equipe $e1, Equipe $e2) {
-        return ($e1->getPoints() > $e2->getPoints());
-    }
-    private function genererLesPoules($idJeu){
+    public function genererLesPoules($idJeu){
         if(!array_key_exists($idJeu, $this->jeux)){
             throw new Exception('Jeu n\'appartient pas au Tournois');
         }
@@ -82,17 +83,41 @@ class Tournoi
             $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array($i, 0, $idJeu, $this->id));
         }
         $data = $mysql->select('IdPoule','Poule ', 'where IdJeu ='.$idJeu.' AND IdTournoi = '.$this->id);
-        $i = 0;
-        $n = 1;
         $date = $this->dateHeure;
-        foreach($equipes as $equipe){
-            $i%=4;
-            $mysql->Insert('MatchJ (IdPoule, Numero, dateM, HeureM)', 4, array($data[$i]['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($this->heureDateDebut))));            
-            $i++;
-            if($i == 4){
-                $n++;
-                $date = date('Y-m-d H:i:s', strtotime($date. ' + '.$n.' hours'));
+        for($i = 0; $i < 6 ; $i++){
+            $n = $i + 1;
+            foreach($data as $ligne){
+                $mysql->Insert('MatchJ (IdPoule, Numero, dateM, HeureM)', 4, array($ligne['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($date))));              
             }
+            $date = date('Y-m-d H:i:s', strtotime($date. ' + '.$n.' hours'));
+        }
+        $i = 0;
+        $equipesPoules = array();
+        foreach($equipes as $equipe){
+            $i %= 4;
+            $mysql->Insert('`Faire_partie` (IdPoule, IdEquipe)', 2, array($data[$i]['IdPoule'], $equipe->getId()));
+            $equipesPoules[$data[$i]['IdPoule']][] = $equipe->getId();
+            $i++;
+        }
+        foreach($equipesPoules as $key => $value){
+            $n = 1;
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));
+            $n++;
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));
+            $n++;
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));
+            $n++;
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));   
+            $n++;
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL)); 
+            $n++;
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));  
+            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));    
         }
 
     }
@@ -193,8 +218,7 @@ class Tournoi
         return $equipes;
     }
     public function getPoules(){
-        if($this->poules == null)
-            $this->recupererPoules();
+        $this->recupererPoules();
         return $this->poules;
     }
 }
