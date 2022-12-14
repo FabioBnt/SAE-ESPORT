@@ -137,7 +137,8 @@ class Tournoi
         $this->date;
     }
 
-    public function listeInfo(){
+    public function listeInfo(): array
+    {
         
         return array($this->nom,$this->cashPrize,$this->notoriete,$this->lieu,$this->getHeureDebut(),$this->getDate(),$this->dateLimiteInscription , $this->nomsJeux());
     }

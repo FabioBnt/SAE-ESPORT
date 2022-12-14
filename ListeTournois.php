@@ -41,7 +41,7 @@ if(isset($_GET['jeu'])){
             <div class="menuright">
                 <div class="connecter">
                 <?php 
-                        if($connx->getRole() == Role::Visiteur){
+                        if($connx->getRole() === Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
                             echo '<h3>Bonjour '.$connx->getRole().' '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?sedeconnecter=true" name="deconnecter"> se deconnecter </a>';

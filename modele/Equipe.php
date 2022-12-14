@@ -1,6 +1,7 @@
 <?php
 
 include_once 'Connexion.php';
+include_once 'Ecurie.php';
 
 
 class Equipe
@@ -18,7 +19,8 @@ class Equipe
         $this->jeu = $jeu;
     }
 
-    public function inscrire(Tournoi $tournoi) {
+    public function inscrire(Tournoi $tournoi): int
+    {
         if(!$this->estConnecter()){
             throw new Exception('action qui nécessite une connexion en tant que membre du groupe');
         }
@@ -50,7 +52,8 @@ class Equipe
         return false;
     }
     // a modifier
-    public static function getEquipe($id){
+    public static function getEquipe($id): ?Equipe
+    {
         $equipe = null;
         $mysql = Database::getInstance();
         $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$id.' AND j.IdJeu = e.IdJeu');
@@ -63,13 +66,18 @@ class Equipe
     public function __toString() {
         return $this->nom;
     }
-    public function estConnecter(){
+    public function estConnecter(): bool
+    {
         // pour le test
         return Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Equipe);
     }
 
     public function getPoints(){
         return $this->points;
+    }
+
+    public function listeInfo() : array{
+        return array($this->nom,$this->points,Ecurie::getEcurie($this->ecurie)->getDesignation());
     }
 
 }
