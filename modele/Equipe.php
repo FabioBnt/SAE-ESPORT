@@ -123,7 +123,7 @@ class Equipe
     /**
      * @return mixed
      */
-    public function getPoints(): mixed
+    public function getPoints()
     {
         return $this->points;
     }
