@@ -224,6 +224,11 @@ class Tournoi
         $this->recupererPoules();
         return $this->poules;
     }
+    public function numeroParticipants($idJeu){
+        $mysql = Database::getInstance();
+        $data = $mysql->select('count(e.IdEquipe) as total', 'Participer p, Equipe e', 'where p.IdTournoi ='.$this->getIdTournoi().' AND e.IdEquipe = p.IdEquipe AND e.IdJeu = '.$idJeu);
+        return($data[0]['total'] - '0');
+    }
 }
 
 ?>

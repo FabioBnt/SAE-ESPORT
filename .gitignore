@@ -3,3 +3,4 @@ composer.phar
 .idea
 .vscode
 .phpunit.result.cache
+.VSCodeCounter

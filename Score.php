@@ -39,7 +39,6 @@ if(isset($_GET['test'])){
         $equipe->Inscrire($t);
         $i++;
     }
-    $t->genererLesPoules($idJeu);
     $listePoules = $t->getPoules();
     $nomTournoi = $t->getNom();
     $nomJeu = $t->getJeux()[$idJeu]->getNom();
@@ -89,7 +88,7 @@ error_reporting(E_ALL);
         <a href="#" class="buttonE" id="ModifS7">Modification</a>
         <?php
         $i = 0;
-        if($idJeu != null){
+        if(array_key_exists("$idJeu",$listePoules)){
             foreach ($listePoules[$idJeu] as $poule) {
                 $i++;
                 echo '<table id="tableS'.$i.'"><thead><tr><th colspan="4">Poule ';
@@ -100,7 +99,6 @@ error_reporting(E_ALL);
                 }
                 echo '</tbody></table>';
             }
-        }
         ?>
         <table id="tableS6">
             <thead>
@@ -128,6 +126,14 @@ error_reporting(E_ALL);
                 </tr>
             </tbody>
         </table>
+        <?php
+        }
+        echo '<h2 class=\'buttonE\' style=\'position: absolute;
+        top: 85%;
+        width: 80%;
+        left: 50%;
+        transform: translate(-55%, -60%);\'> Le trounoi n\'a pas encore commencé </h2>';
+        ?>
     </main>
 </body>
 </html>

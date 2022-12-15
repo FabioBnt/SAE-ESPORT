@@ -31,14 +31,15 @@ class GenererPoulesTest extends \PHPUnit\Framework\TestCase {
             $this->equipe->Inscrire($t);
             $i++;
         }
-        $t->genererLesPoules($idJeu);
         $id = $t->getIdTournoi();
         $totalPoules = $this->mysql->select("count(*) as total", "Poule", "where IdTournoi = $id");
         $listePoules = $t->getPoules();
         $pdo->rollBack();
-        assertSame($totalPoules[0]['total']-'0', 4);
+        // $sum = 0;
+        // foreach($listePoules as $poule){
+        //     $sum +=  count($poule);
+        // }
         assertSame($totalPoules[0]['total']-'0', count($listePoules[$idJeu]));
-        
     }
 
 }

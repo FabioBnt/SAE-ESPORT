@@ -24,6 +24,10 @@ class Equipe
         if(!$this->estConnecter()){
             throw new Exception('action qui nécessite une connexion en tant que membre du groupe');
         }
+        $nbParti = $tournoi->numeroParticipants($this->jeu->getId());
+        if($nbParti ===16){
+            throw new Exception('tournoi complet');
+        }
         if(!$tournoi->contientJeu($this->jeu)){
             throw new Exception('L\'equipe n\'est pas expert dans les jeux de tournoi');
         }
@@ -36,6 +40,10 @@ class Equipe
         }
         $mysql = Database::getInstance();
         $mysql->Insert('Participer  (IdTournoi, IdEquipe)', 2, array($tournoi->getIdTournoi(), $this->id));
+        $nbParti++;
+        if($nbParti === 16){
+            $tournoi->genererLesPoules($this->jeu->getID());
+        }
 
         return 1;
     }
