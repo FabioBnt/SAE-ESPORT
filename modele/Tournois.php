@@ -48,7 +48,7 @@ class Tournois
             $cond.= " Lower(J.NomJeu) like Lower('%$nomJeu%') AND";
         }
         if($nomTournois != ""){
-            $cond.=" T.NomTournoi <= $nomTournois AND";
+            $cond.=" Lower(T.NomTournoi) like Lower('%$nomTournois%') AND";
         }
         if($prixMax != 0){
             $cond.=" T.CashPrize <= $prixMax AND";
