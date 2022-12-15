@@ -76,10 +76,8 @@ class Connexion
 
     public function estConnecterEnTantQue($role)
     {
-        if ($this->getRole() == $role) {
-            return true;
-        }
-        return false;
+        return ($this->getRole() == $role);
+        
     }
 
     function getIdentifiant()

@@ -117,7 +117,7 @@ class Equipe
     public function estConnecter(): bool
     {
         // pour le test
-        return Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Equipe);
+        return (Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Equipe) || Connexion::getInstance()->estConnecterEnTantQue(Role::Equipe));
     }
 
     /**

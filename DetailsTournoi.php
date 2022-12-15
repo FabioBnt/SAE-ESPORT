@@ -10,6 +10,17 @@ error_reporting(E_ALL);
         $listeTournois->tousLesTournois();
         $idTournoi = $_GET['IDT'];
         $tournoi = $listeTournois->getTournoi($idTournoi);
+        if(isset($_GET['inscrire'])){
+            $idEquipe = $_GET['inscrire'];
+            $equipe = Equipe::getEquipe($idEquipe);
+            try{
+                $equipe->inscrire($tournoi);
+                echo '<script>alert("Inscription valide")</script>';
+            }catch (Exception $e){
+                echo '<script>alert("'.$e->getMessage().'")</script>';
+            }
+
+        }
  ?>
 
 <!DOCTYPE html>
@@ -21,14 +32,6 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="./style.css" />
     <title>E-Sporter Manager</title>
 </head>
-<script>function confirmerInscription(){
-    if (confirm("Êtes vous sûr de vouloir vous inscrire?")){
-        <?php
-            // il faut un try catch 
-            $equipe->inscrire($tounroi) ?>
-        alert("Inscription valide")
-    }
-}</script>
 <body class="detailstournoi">
     <!--Menu de navigation-->
     <header>
@@ -86,11 +89,13 @@ error_reporting(E_ALL);
                         </tbody>
                     </table>
                     <?php
-                        $nomCompteEquipe = $connx->getIdentifiant();
-                        $idEquipe = $mysql->select('E.IdEquipe','Equipe E','where E.NomCompte = '."'$nomCompteEquipe'");
-                        $equipe = Equipe::getEquipe($idEquipe[0]['IdEquipe']);
-                        if ($tournoi->contientJeu($equipe->getJeu())) {
-                            echo '<button class="buttonE" id="Dgrida1" onclick="confirmerInscription()">S\'inscrire</button>';
+                        if(!isset($_GET['inscrire'])){
+                            $nomCompteEquipe = $connx->getIdentifiant();
+                            $idEquipe = $mysql->select('E.IdEquipe','Equipe E','where E.NomCompte = '."'$nomCompteEquipe'");
+                            $equipe = Equipe::getEquipe($idEquipe[0]['IdEquipe']);
+                            if ($tournoi->contientJeu($equipe->getJeu())) {
+                                echo '<button class="buttonE" id="Dgrida1" onclick="confirmerInscription('.$idTournoi.', '. $idEquipe[0]['IdEquipe'].')">S\'inscrire</button>';
+                            }
                         }
                     ?>
                     <!--<div id="data-equipe">
@@ -114,5 +119,10 @@ error_reporting(E_ALL);
             </div>
         </div>
     </main>
+    <script>
+    function confirmerInscription(idt, ide){
+    if (confirm("Êtes vous sûr de vouloir vous inscrire?")){
+        window.location.assign("./DetailsTournoi.php?IDT=" + idt + "&inscrire=" + ide);
+    }}</script>
 </body>
 </html>
