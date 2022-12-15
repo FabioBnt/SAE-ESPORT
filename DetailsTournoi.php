@@ -90,11 +90,13 @@ error_reporting(E_ALL);
                     </table>
                     <?php
                         if(!isset($_GET['inscrire'])){
-                            $nomCompteEquipe = $connx->getIdentifiant();
-                            $idEquipe = $mysql->select('E.IdEquipe','Equipe E','where E.NomCompte = '."'$nomCompteEquipe'");
-                            $equipe = Equipe::getEquipe($idEquipe[0]['IdEquipe']);
-                            if ($tournoi->contientJeu($equipe->getJeu())) {
-                                echo '<button class="buttonE" id="Dgrida1" onclick="confirmerInscription('.$idTournoi.', '. $idEquipe[0]['IdEquipe'].')">S\'inscrire</button>';
+                            if($connx->getRole() == Role::Equipe){
+                                $nomCompteEquipe = $connx->getIdentifiant();
+                                $idEquipe = $mysql->select('E.IdEquipe','Equipe E','where E.NomCompte = '."'$nomCompteEquipe'");
+                                $equipe = Equipe::getEquipe($idEquipe[0]['IdEquipe']);
+                                if ($tournoi->contientJeu($equipe->getJeu())) {
+                                    echo '<button class="buttonE" id="Dgrida1" onclick="confirmerInscription('.$idTournoi.', '. $idEquipe[0]['IdEquipe'].')">S\'inscrire</button>';
+                                }
                             }
                         }
                     ?>
