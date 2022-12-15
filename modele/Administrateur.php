@@ -27,6 +27,6 @@ class Administrateur {
         }
     }
     public function estConnecter(){
-        return Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Administrateur);
+        return (Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Administrateur)||Connexion::getInstance()->estConnecterEnTantQue(Role::Administrateur));
     }
 }

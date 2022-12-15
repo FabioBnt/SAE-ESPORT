@@ -215,7 +215,7 @@ class Tournoi
 
     public function contientJeu(Jeu $jeu){
         foreach($this->jeux as $j){
-            if($j = $jeu){
+            if($j == $jeu){
                 return true;
             }
         }
