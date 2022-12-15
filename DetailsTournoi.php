@@ -21,7 +21,14 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="./style.css" />
     <title>E-Sporter Manager</title>
 </head>
-<script src="./JS/prompt.js"></script>
+<script>function confirmerInscription(){
+    if (confirm("Êtes vous sûr de vouloir vous inscrire?")){
+        <?php
+            // il faut un try catch 
+            $equipe->inscrire($tounroi) ?>
+        alert("Inscription valide")
+    }
+}</script>
 <body class="detailstournoi">
     <!--Menu de navigation-->
     <header>
