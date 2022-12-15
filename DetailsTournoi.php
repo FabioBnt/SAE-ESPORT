@@ -21,6 +21,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="./style.css" />
     <title>E-Sporter Manager</title>
 </head>
+<script src="./JS/prompt.js"></script>
 <body class="detailstournoi">
     <!--Menu de navigation-->
     <header>
@@ -82,9 +83,12 @@ error_reporting(E_ALL);
                         $idEquipe = $mysql->select('E.IdEquipe','Equipe E','where E.NomCompte = '."'$nomCompteEquipe'");
                         $equipe = Equipe::getEquipe($idEquipe[0]['IdEquipe']);
                         if ($tournoi->contientJeu($equipe->getJeu())) {
-                            echo '<button class="buttonE" id="Dgrida1" onclick="'.confirm("Êtes vous sûr de vouloir vous inscrire?").'">S\'inscrire</button>';
+                            echo '<button class="buttonE" id="Dgrida1" onclick="confirmerInscription()">S\'inscrire</button>';
                         }
                     ?>
+                    <!--<div id="data-equipe">
+                        <?php /*echo htmlspecialchars($equipe); */?>
+                    </div>-->
                     <table id="Dgridt2">
                         <thead>
                             <tr>
