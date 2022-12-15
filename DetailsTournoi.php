@@ -1,4 +1,7 @@
 ﻿<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
         include './modele/Connexion.php';
         include './modele/Tournois.php';
         $connx = Connexion::getInstance();
@@ -7,7 +10,6 @@
         $listeTournois->tousLesTournois();
         $idTournoi = $_GET['IDT'];
         $tournoi = $listeTournois->getTournoi($idTournoi);
-
  ?>
 
 <!DOCTYPE html>
@@ -34,7 +36,7 @@
 
             <div class="menuright">  
                     <?php 
-                        if($connx->getRole() == Role::Visiteur){
+                        if($connx->getRole() === Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
                             echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
@@ -75,7 +77,14 @@
                             
                         </tbody>
                     </table>
-                    <a href="./Inscription.php" class="buttonE" id="Dgrida1">S'inscrire</a>
+                    <?php
+                        $nomCompteEquipe = $connx->getIdentifiant();
+                        $idEquipe = $mysql->select('E.IdEquipe','Equipe E','where E.NomCompte = '."'$nomCompteEquipe'");
+                        $equipe = Equipe::getEquipe($idEquipe[0]['IdEquipe']);
+                        if ($tournoi->contientJeu($equipe->getJeu())) {
+                            echo '<button class="buttonE" id="Dgrida1" onclick="'.confirm("Êtes vous sûr de vouloir vous inscrire?").'">S\'inscrire</button>';
+                        }
+                    ?>
                     <table id="Dgridt2">
                         <thead>
                             <tr>
