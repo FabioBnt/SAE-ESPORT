@@ -35,10 +35,17 @@ if(isset($_GET['test'])){
     Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
     $idE = $mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
     $i = 0;
-    while($i < 16){
+    $maxE = 16;
+    if($_GET['test'] === '1'){
+        $maxE = 14;
+    }
+    while($i < $maxE){
         $equipe = Equipe::getEquipe($idE[$i]['IdEquipe']);
         $equipe->Inscrire($t);
         $i++;
+    }
+    if($_GET['test'] === '1'){
+        $t->genererLesPoules($idJeu);
     }
     $listePoules = $t->getPoules();
     $nomTournoi = $t->getNom();
@@ -128,12 +135,10 @@ error_reporting(E_ALL);
             </tbody>
         </table>
         <?php
+        }else{
+            echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
+            transform: translate(-55%, -60%);\'> Le trounoi n\'a pas encore commencé </h2>';
         }
-        echo '<h2 class=\'buttonE\' style=\'position: absolute;
-        top: 85%;
-        width: 80%;
-        left: 50%;
-        transform: translate(-55%, -60%);\'> Le trounoi n\'a pas encore commencé </h2>';
         ?>
     </main>
 </body>

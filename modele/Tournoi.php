@@ -27,7 +27,7 @@ class Tournoi
         $this->poules = null;
         $this->jeux[$idEtJeu[0]] = $idEtJeu[1];
         $this->calculerDateLimite($heureDateDebut);
-        
+        $this->verifierPoules();
 
     }
     
@@ -44,6 +44,15 @@ class Tournoi
         $datetime = date_create($heureDateDebut);
         $intervalJours = date_interval_create_from_date_string("$maxJour days");
         $this->dateLimiteInscription = date_format(date_sub($datetime,$intervalJours),"d/m/y");
+    }
+    private function verifierPoules(): void{
+        if(strtotime($this->getDateLimiteInscription()) > strtotime(date("Y/m/d")) && strtotime($this->dateHeure) < strtotime(date("Y/m/d"))){
+            foreach($this->jeux as $jeu){
+                if($this->numeroPoules($jeu->getId()) < 4){
+                    $this->genererLesPoules($jeu->getId());
+                }
+            }
+        }
     }
     private function recupererPoules(): void
     {
@@ -70,10 +79,11 @@ class Tournoi
             throw new Exception('Jeu n\'appartient pas au Tournois');
         }
         $equipes = $this->lesEquipesParticipants($idJeu);
+        /*
         if(count($equipes) != 16){
             throw new Exception('Tournoi n\'a pas assez des participants');
         }
-        /*
+        
         if(strtotime($this->getDateLimiteInscription()) < strtotime(date("Y/m/d"))){
             throw new Exception('Inscriptions n\'est pas fermé');
         }
@@ -102,23 +112,38 @@ class Tournoi
         }
         foreach($equipesPoules as $key => $value){
             $n = 1;
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));
-            $n++;
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));
-            $n++;
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));
-            $n++;
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));   
-            $n++;
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL)); 
-            $n++;
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));  
-            $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));    
+            while(count($value) < 4){
+                $value[] = null;
+            }
+            if($value[0] && $value[1]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));
+                $n++;
+            }
+            if($value[0] && $value[2]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));
+                $n++;
+            }
+            if($value[0] && $value[3]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));
+                $n++;
+            }
+            if($value[1] && $value[2]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));   
+                $n++;
+            }
+            if($value[1] && $value[3]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL)); 
+                $n++;
+            }
+            if($value[2] && $value[3]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));  
+            }      
         }
 
     }
@@ -190,7 +215,7 @@ class Tournoi
 
     public function contientJeu(Jeu $jeu){
         foreach($this->jeux as $j){
-            if($j->getId() === $jeu->getId()){
+            if($j = $jeu){
                 return true;
             }
         }
@@ -228,6 +253,10 @@ class Tournoi
         $mysql = Database::getInstance();
         $data = $mysql->select('count(e.IdEquipe) as total', 'Participer p, Equipe e', 'where p.IdTournoi ='.$this->getIdTournoi().' AND e.IdEquipe = p.IdEquipe AND e.IdJeu = '.$idJeu);
         return($data[0]['total'] - '0');
+    }
+    public function numeroPoules($idJeu){
+        $totalPoules = $this->mysql->select("count(*) as total", "Poule", 'where IdTournoi = '.$this->getIdTournoi().'AND IdJeu = '.$idJeu);
+        return $totalPoules[0]['total']-'0';
     }
 }
 
