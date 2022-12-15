@@ -5,10 +5,11 @@ include_once './modele/Connexion.php';
 include_once './modele/Tournois.php';
 $connx = Connexion::getInstance();
 $mysql = Database::getInstance();
+$listePoules = null;
 $listePoules;
-$nomTournoi;
-$nomJeu;
-$idJeu;
+$nomTournoi = null;
+$nomJeu = null;
+$idJeu = null;
 if(isset($_GET['IDJ'])){
     $listePoules = $_SESSION['jeu'.$_GET['IDJ']];
     $nomTournoi = $_GET['NomT'];

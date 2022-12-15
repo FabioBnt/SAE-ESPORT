@@ -1,7 +1,7 @@
 <?php
     include './modele/Connexion.php';
     $connx = Connexion::getInstance();
-    if (isset($_GET['sedeconnecter'])) {
+    if (isset($_GET['SeDeconnecter'])) {
         $connx->seDeconnecter();
     }
 ?>

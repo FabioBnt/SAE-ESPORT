@@ -23,12 +23,13 @@ class VisualiserTournoisTest extends \PHPUnit\Framework\TestCase {
     }
     public function testTournoisFiltre() {
         $totalTournois = $this->mysql->select("count(*) as total", "Tournois", "where Notoriete = 'Local'
-        AND Lower(Lieu) like Lower('toulouse') AND CashPrize > 1 AND CashPrize < 100000 AND Lower(NomTournoi) like Lower('%g%') AND Date(DateHeureTournois) >= '2023-06-20'");
+        AND Lower(Lieu) like Lower('toulouse') AND CashPrize > 1 AND CashPrize < 100000 AND Lower(NomTournoi) like Lower('%g%') AND Date(DateHeureTournois) = '2023-06-20'");
         $this->tournois->tournoiDe('', 'g', 1, 100000, "Local", "toulouse", "2023-06-20");
         $listeTournois =  $this->tournois->getTournois();
         assertSame($totalTournois[0]['total']-'0', count($listeTournois));
     }
-    public function testTournoisFiltreParJeu() {
+    public function testTournoisFiltreParJeu(): void
+    {
         $totalTournois = $this->mysql->select("count(*) as total", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
         AND C.IdTournoi = T.IdTournoi AND Lower(J.NomJeu) like Lower('%league%')");
         $this->tournois->tournoiDe('league');

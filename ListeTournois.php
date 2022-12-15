@@ -4,15 +4,32 @@ include './modele/Tournois.php';
 $connx = Connexion::getInstance();
 $listeTournois = new Tournois();
 $listeTournois->tousLesTournois();
-if (isset($_GET['jeu'])) {
-    if ($_GET['jeu']) {
-        try {
-            $listeTournois->tournoiDe($_GET['jeu'], $_GET['nom'], $_GET['prixmin'] - '0', $_GET['prixmax'] - '0', $_GET['notoriete'], $_GET['lieu'], $_GET['date']);
-        } catch (Exception $e) {
-            echo "<script>alert('Filtrage impossible !')</script>";
-        }
-    } else {
-        $listeTournois->tousLesTournois();
+if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || isset($_GET['prixmax'])
+    || isset($_GET['notoriete']) || isset($_GET['lieu']) || isset($_GET['date'])) {
+    $jeu = "";
+    $nom = "";
+    $date = "";
+    $lieu = "";
+    $notoriete = "";
+    if ($_GET['jeu']){
+        $jeu = $_GET['jeu'];
+    }
+    if ($_GET['nom']){
+        $nom = $_GET['nom'];
+    }
+    if ($_GET['date']){
+        $date = $_GET['date'];
+    }
+    if($_GET['notoriete']){
+        $notoriete = $_GET['notoriete'];
+    }
+    if ($_GET['lieu']){
+        $lieu = $_GET['lieu'];
+    }
+    try {
+        $listeTournois->tournoiDe($jeu,$nom, (int)$_GET['prixmin'], (int)$_GET['prixmax'], $notoriete, $lieu, $date);
+    } catch (Exception $e) {
+        echo "<script>alert('Filtrage impossible !')</script>";
     }
 }
 ?>

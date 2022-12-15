@@ -11,7 +11,15 @@ class Equipe
     private $points;
     private $ecurie;
     private $jeu;
-    public function __construct($id ,$nom, $points, $ecurie, $jeu){
+
+    /**
+     * @param $id
+     * @param $nom
+     * @param $points
+     * @param $ecurie
+     * @param $jeu
+     */
+    public function __construct($id , $nom, $points, $ecurie, $jeu){
         $this->id =$id;
         $this->nom = $nom;
         $this->points = $points;
@@ -19,6 +27,11 @@ class Equipe
         $this->jeu = $jeu;
     }
 
+    /**
+     * @param Tournoi $tournoi
+     * @return int
+     * @throws Exception
+     */
     public function inscrire(Tournoi $tournoi): int
     {
         if(!$this->estConnecter()){
@@ -47,11 +60,29 @@ class Equipe
 
         return 1;
     }
+
+    /**
+     * @return mixed
+     */
     public function getId(){
         return $this->id;
     }
 
-    public function estParticipant(Tournoi $tournoi){
+    /**
+     * @return mixed
+     */
+    public function getJeu()
+    {
+        return $this->jeu;
+    }
+
+
+    /**
+     * @param Tournoi $tournoi
+     * @return bool
+     */
+    public function estParticipant(Tournoi $tournoi): bool
+    {
         $mysql = Database::getInstance();
         $data = $mysql->select('count(*) as total', 'Participer', 'where IdTournoi ='.$tournoi->getIdTournoi().' AND IdEquipe = '.$this->id);
         if ($data[0]['total'] > 0){
@@ -60,6 +91,11 @@ class Equipe
         return false;
     }
     // a modifier
+
+    /**
+     * @param $id
+     * @return Equipe|null
+     */
     public static function getEquipe($id): ?Equipe
     {
         $equipe = null;
@@ -74,16 +110,27 @@ class Equipe
     public function __toString() {
         return $this->nom;
     }
+
+    /**
+     * @return bool
+     */
     public function estConnecter(): bool
     {
         // pour le test
         return Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Equipe);
     }
 
-    public function getPoints(){
+    /**
+     * @return mixed
+     */
+    public function getPoints(): mixed
+    {
         return $this->points;
     }
 
+    /**
+     * @return array
+     */
     public function listeInfo() : array{
         return array($this->nom,$this->points,Ecurie::getEcurie($this->ecurie)->getDesignation());
     }

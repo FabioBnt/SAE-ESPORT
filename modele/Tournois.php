@@ -41,13 +41,13 @@ class Tournois
     }
     public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date=""){
         if($nomJeu=="" && $nomTournois==="" && $prixMin===0 && $prixMax===0 && $notoriete==="" && $lieu==="" && $date===""){
-            throw new Exception("Accun Argument passé");
+            throw new \RuntimeException("Accun Argument passé");
         }
         $cond = "AND";
-        if($nomJeu != ""){
+        if($nomJeu !== ""){
             $cond.= " Lower(J.NomJeu) like Lower('%$nomJeu%') AND";
         }
-        if($nomTournois != ""){
+        if($nomTournois !== ""){
             $cond.=" Lower(T.NomTournoi) like Lower('%$nomTournois%') AND";
         }
         if($prixMax != 0){
@@ -56,14 +56,14 @@ class Tournois
         if($prixMin != 0){
             $cond.=" T.CashPrize >= $prixMin AND";
         }
-        if($notoriete != ""){
+        if($notoriete !== ""){
             $cond.=" T.Notoriete = '$notoriete' AND";
         }
-        if($lieu != ""){
+        if($lieu !== ""){
             $cond.=" Lower(T.Lieu) like Lower('%$lieu%') AND";
         }
-        if($date != ""){
-            $cond.=" Date(T.DateHeureTournois) >= '$date' AND";
+        if($date !== ""){
+            $cond.=" Date(T.DateHeureTournois) = '$date' AND";
         }
         $cond = substr($cond, 0, -3);
         $this->selectTournoi($cond);

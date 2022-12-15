@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿<?php
+include_once './modele/Connexion.php';
+$connx = Connexion::getInstance();
+if (isset($_GET['sedeconnecter'])){
+    $connx->seDeconnecter();
+}
+?>
+
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +30,7 @@
 
             <div class="menuright">  
                     <?php 
-                        if($connx->getRole() == Role::Visiteur){
+                        if($connx->getRole() === Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
                             echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
