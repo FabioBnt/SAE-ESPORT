@@ -1,6 +1,6 @@
 # SAE-ESPORT
 
- Projet SAE Esport Web
+ Projet Universitaire Web ayant pour but de développer une application facilitant l'organisation d'une saison de tournois d'e-sport.
 
 ## How to run PHPUnit tests
 
