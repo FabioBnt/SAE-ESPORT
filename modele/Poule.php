@@ -31,6 +31,12 @@ class Poule
         return 0;
     }
 
+    public function getNumero(){
+        return $this->numero;
+    }
+    public function estPouleFinale(){
+        return $this->estFinale;
+    }
     public function getMatchs(): array
     {
         return $this->matchs;

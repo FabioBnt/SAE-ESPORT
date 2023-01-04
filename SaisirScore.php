@@ -92,11 +92,84 @@ error_reporting(E_ALL);
     </header>
     <main class="scoredetails">
         <a href="javascript:history.go(-1)" class="buttonE" id="RetourS8">Retour</a>
-        <h1 id="labelS1">Score du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
-        <a href="SaisirScore.php?IDJ=<?php echo $idJeu;?>&NomT=<?php echo $nomTournoi;?>&JeuT=<?php echo $nomJeu;?>" class="buttonE" id="ModifS7">Modification</a>
-        <?php
-        $i = 0;
+        <h1 id="labelS1">Saisir Scores du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
+        <a href="#" class="buttonE" id="ModifS7">Modification</a>
+        <?php 
         if(array_key_exists("$idJeu",$listePoules)){
+        ?>
+        <form action=<?php echo 'SaisirScore.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'&poule='.$_post["poule"];?> method="post">
+            <div>
+                <label for="poule">Numero Poule</label>
+                <select name="poule" id="poule" onchange='this.form.submit()'>
+                    <option default value="">--- Chosir numero de poule ---</option>
+                    <?php 
+                        foreach ($listePoules[$idJeu] as $poule) {
+                            $text = "";
+                            $num = $poule->getNumero();
+                            if($poule->estPouleFinale()){
+                                $text = "Finale";
+                            }else{
+                                $text = $num;
+                            }
+                            $temp = '';
+                            if(isset($_post['poule'])){
+                                if($_post['poule'] == $num){
+                                    $temp = 'selected';
+                                }
+                            }
+                            echo "<option ".$temp." value='".$poule->getNumero()."'>".$text."</option>";
+                        }
+                    ?>
+                </select>
+                <noscript><input type="submit" value="Submit"></noscript>
+            </div>
+        </form>
+        <form action="#" method="get">
+            <div>
+                <label for="poule">Equipe1</label>
+                <select name="poule" id="poule" onchange='this.form.submit()'>
+                    <option default value="">--- Chosir numero de poule ---</option>
+                    <?php 
+                        foreach ($listePoules[$idJeu] as $poule) {
+                            $text = "";
+                            $num = $poule->getNumero();
+                            if($poule->estPouleFinale()){
+                                $text = "Finale";
+                            }else{
+                                $text = $num;
+                            }
+                            $temp = '';
+                            echo "<option value='".$poule->getNumero()."'>".$text."</option>";
+                        }
+                    ?>
+                </select>
+                <noscript><input type="submit" value="Submit"></noscript>
+            </div>
+        </form>
+        <form action="#" method="get">
+            <div>
+                <label for="poule">score equipe1 </label>
+                <select name="poule" id="poule" onchange='this.form.submit()'>
+                    <option default value="">--- Chosir numero de poule ---</option>
+                    <?php 
+                        foreach ($listePoules[$idJeu] as $poule) {
+                            $text = "";
+                            $num = $poule->getNumero();
+                            if($poule->estPouleFinale()){
+                                $text = "Finale";
+                            }else{
+                                $text = $num;
+                            }
+                            echo "<option value='".$poule->getNumero()."'>".$text."</option>";
+                        }
+                    ?>
+                </select>
+                <noscript><input type="submit" value="Submit"></noscript>
+            </div>
+        </form>
+        <!---
+        $i = 0;
+        
             foreach ($listePoules[$idJeu] as $poule) {
                 $i++;
                 echo '<table id="tableS'.$i.'"><thead><tr><th colspan="4">Poule ';
@@ -107,33 +180,7 @@ error_reporting(E_ALL);
                 }
                 echo '</tbody></table>';
             }
-        ?>
-        <table id="tableS6">
-            <thead>
-                <tr>
-                    <th>Classement</th>
-                    <th>Place</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Equipe 1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>Equipe 3</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>Equipe 4</td>
-                    <td>3</td>
-                </tr>
-                <tr>
-                    <td>Equipe 2</td>
-                    <td>4</td>
-                </tr>
-            </tbody>
-        </table>
+        ?>--->
         <?php
         }else{
             echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;

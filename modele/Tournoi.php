@@ -70,7 +70,7 @@ class Tournoi
     }
     public function toString()
     {
-        return $this->heureDebut;
+        return $this->getHeureDebut();
     }
 
     public function genererLesPoules($idJeu): void
@@ -184,8 +184,8 @@ class Tournoi
         return $this->nom.' '.$this->cashPrize.'€ '.
         $this->notoriete.' '.
         $this->lieu.' '.
-        $this->heureDebut.' '.
-        $this->date;
+        $this->getHeureDebut().' '.
+        $this->getdate();
     }
 
     public function listeInfo(): array
@@ -255,7 +255,8 @@ class Tournoi
         return($data[0]['total'] - '0');
     }
     public function numeroPoules($idJeu){
-        $totalPoules = $this->mysql->select("count(*) as total", "Poule", 'where IdTournoi = '.$this->getIdTournoi().'AND IdJeu = '.$idJeu);
+        $mysql = Database::getInstance();
+        $totalPoules = $mysql->select("count(*) as total", "Poule", 'where IdTournoi = '.$this->getIdTournoi().'AND IdJeu = '.$idJeu);
         return $totalPoules[0]['total']-'0';
     }
 }
