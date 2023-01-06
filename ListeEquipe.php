@@ -1,15 +1,16 @@
-﻿<?php 
+﻿<?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-    include './modele/Connexion.php';
-    $connx = Connexion::getInstance();
+include './modele/Connexion.php';
+include './modele/Equipes.php';
+$connx = Connexion::getInstance();
+$listeEquipes = new Equipes();
+$listeEquipes->tousLesEquipes();
     if (isset($_GET['sedeconnecter'])) {
         $connx->seDeconnecter();
     }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -53,18 +54,13 @@ error_reporting(E_ALL);
                     <thead>
                         <tr>
                             <th >Nom</th>
+                            <th >Ecurie</th>
+                            <th >Jeu</th>
                             <th >Plus d'informations</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>WALA</td>
-                            <td><a href="./DetailsEquipe.php">+</a></td>
-                        </tr>
-                        <tr>
-                            <td>CMOI</td>
-                            <td><a href="./DetailsEquipe.php">+</a></td>
-                        </tr>
+                        <?php $listeEquipes->afficherEquipes(); ?>
                     </tbody>
                 </table>
             </div>
