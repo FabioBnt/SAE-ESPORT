@@ -54,7 +54,6 @@ $listeEquipes->tousLesEquipes();
                     <thead>
                         <tr>
                             <th >Nom</th>
-                            <th >Nb Points</th>
                             <th >Ecurie</th>
                             <th >Jeu</th>
                             <th >Plus d'informations</th>

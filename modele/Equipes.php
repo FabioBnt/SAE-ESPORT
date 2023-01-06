@@ -13,7 +13,7 @@ class Equipes
         //
         $mysql = Database::getInstance();
         $data = $mysql->select("E.IdEquipe, E.NomE, E.NomCompte, E.MDPCompte, E.NbPointsE, E.IdJeu, E.IdEcurie",
-         "Equipe E", "where E.IdEcurie ".$cond.' ORDER BY  IdEquipe');
+         "Equipe E", "where E.IdEcurie ".$cond.' ORDER BY  IdJeu');
         $this->misAJourListeEquipes($data);
     }
     
@@ -41,7 +41,7 @@ class Equipes
             $equipe = $ligneValue->listeInfo();
             $index=0;
             foreach ($equipe as $colValue) {
-                if($index==3){
+                if($index==2){
                     $mysql = Database::getInstance();
                     $data = $mysql->selectL("J.NomJeu",
                     "Jeu J", "where J.IdJeu =".$colValue.'');
@@ -51,7 +51,7 @@ class Equipes
                 }
                 $index++;
             }
-            echo "<td><a href='./DetailsEquipe.php?IDT=". $ligneValue->getId()."'>+</a></td>";
+            echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'>+</a></td>";
         echo "</tr>";
         }
     }
@@ -61,7 +61,7 @@ class Equipes
     }
 
     public function getEquipe($id){
-        return $this->equipes[$this->posMap[$id]];
+        return $this->equipes[$id];
     }
     
 }

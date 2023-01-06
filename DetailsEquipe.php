@@ -4,6 +4,13 @@
     if (isset($_GET['sedeconnecter'])) {
         $connx->seDeconnecter();
     }
+    include './modele/Tournois.php';
+    include './modele/Equipes.php';
+    $mysql = Database::getInstance();
+    $listeEquipes = new Equipes;
+    $listeEquipes->tousLesEquipes();
+    $idEquipe = $_GET['IDE'];
+    $equipe = $listeEquipes->getEquipe($idEquipe);
 ?>
 
 <!DOCTYPE html>
@@ -44,11 +51,16 @@
                 <h1>Details d'une équipe</h1>
                 <div class="gridDetails">
                     <label id="EDgridl1"><b>Nom de l'équipe</b></label>
-                    <input id="EDgridi1" type="text" name="nameE" readonly>
+                    <input id="EDgridi1" type="text" name="nameE" value='<?php echo $equipe->getNom(); ?>' readonly>
                     <label id="EDgridl2"><b>Nom du Jeu</b></label>
-                    <input id="EDgridi2" type="text" name="jeu" readonly>
+                    <input id="EDgridi2" type="text" name="jeu" value='<?php 
+                    $mysql = Database::getInstance();
+                    $data = $mysql->selectL("J.NomJeu",
+                    "Jeu J", "where J.IdJeu =".$equipe->getJeu().'');
+                    echo $data['NomJeu'];
+                    ?>' readonly>
                     <label id="EDgridl3"><b>Nom de l'écurie</b></label>
-                    <input id="EDgridi3" type="text" name="ecurieE" readonly>
+                    <input id="EDgridi3" type="text" name="ecurieE" value='<?php echo $equipe->getEcurie(); ?>' readonly>
                     <table id="EDgridt1">
                         <thead>
                             <tr>

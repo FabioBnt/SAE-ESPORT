@@ -68,6 +68,10 @@ class Equipe
         return $this->id;
     }
 
+    public function getNom(){
+        return $this->nom;
+    }
+
     /**
      * @return mixed
      */
@@ -76,6 +80,10 @@ class Equipe
         return $this->jeu;
     }
 
+    public function getEcurie()
+    {
+        return Ecurie::getEcurie($this->ecurie)->getDesignation();
+    }
 
     /**
      * @param Tournoi $tournoi
@@ -132,7 +140,7 @@ class Equipe
      * @return array
      */
     public function listeInfo() : array{
-        return array($this->nom,$this->points,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->jeu);
+        return array($this->nom,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->jeu);
     }
 
 }
