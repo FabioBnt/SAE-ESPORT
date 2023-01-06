@@ -1,6 +1,16 @@
 ﻿<?php 
     include './modele/Connexion.php';
+    include './modele/Ecurie.php';
+    include './modele/Jeu.php';
     $connx = Connexion::getInstance();
+    $listeJeux = Jeu::tousLesJeux();
+    if(isset($_POST['name'])){
+        if($connx->getRole() == Role::Ecurie){
+            $Ecurie = new Ecurie();
+            $Ecurie->creerEquipe($_POST['name'], $_POST['username'], $_POST['password'], $_POST['jeuE'], $Ecurie->getIDbyNomCompte($connx->getIdentifiant()) );
+            echo '<script>alert("La ligne a bien été inserée")</script>';
+        }
+    }
     if (isset($_GET['sedeconnecter'])) {
         $connx->seDeconnecter();
     }
@@ -49,14 +59,14 @@
                     <input id="Eqformi2" type="text" placeholder="Entrer l'identifiant" name="username" required>
                     <label id="Eqforml3"><b>Mot de passe</b></label>
                     <input id="Eqformi3" type="password" placeholder="Entrer le mot de passe" name="password" required>
-                    <label id="Eqforml4"><b>Type du jeu</b></label>
-                    <input id="Eqformt1" type=text list=typeE placeholder="Choisissez le type de jeu">
-                        <datalist id=typeE >
-                        <option> FPS
-                        <option> MOBA
-                        <option> SPORT
-                        <option> BATTLEROYALE
-                        </datalist>
+                    <label id="Eqforml4"><b>Jeu</b></label>
+                    <select name="jeuE" id="Eqformt1">
+                        <?php 
+                    foreach ($listeJeux as $jeu) {
+                            echo '<option value='.$jeu->getId().'>'.$jeu->getNom().'</option>';
+                        } 
+                        ?>
+                    </select>
                     <table id="TabEquipeC">
                         <thead>
                             <tr>

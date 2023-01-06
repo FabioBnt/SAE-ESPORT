@@ -80,7 +80,6 @@ if(isset($_POST['name'])){
                     <label id="Tforms7">Jeux</label>
                     <select name="jeuT[]" id="Tformt2" multiple>
                         <?php 
-                        $i = 0;
                         foreach ($listeJeux as $jeu) {
                             echo '<option value='.$jeu->getId().'>'.$jeu->getNom().'</option>';
                         } 

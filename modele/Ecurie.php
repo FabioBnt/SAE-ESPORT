@@ -1,18 +1,24 @@
 <?php
 
 include_once 'Connexion.php';
+include_once "Database.php";
 
 class Ecurie {
     private $designation;
     private $type;
     private $equipes = array();
+    private $id;
 
-    public function __construct($designation, $type, $equipes) {
+    public function __construct($id,$designation, $type, $equipes) {
         $this->designation = $designation;
         $this->type = $type;
         $this->equipes = $equipes;
+        $this->id = $id;
     }
-    public function creerEquipe($nom, $j1, $j2, $j3, $j4) {
+    public function creerEquipe(string $nom, string $compte, string $mdp, int $jeu, int $ecurie) 
+    {
+        Database::getInstance()->insert("Equipe (NomE, NomCompte, MDPCompte, IdJeu , IDEcurie)", 5
+         , array($nom, $compte, $mdp, $jeu, $ecurie));
     }
 
     public function getEquipes() {
@@ -41,5 +47,10 @@ class Ecurie {
         return $this->designation;
     }
 
+    public function getIDbyNomCompte($nomCompte) {
+        $mysql = Database::getInstance();
+        $data = $mysql-> select ("E.IDEcurie" , "Ecurie E" , "where E.NomCompteE =".$nomCompte);
+        return $data[0]['IDEcurie'];
+    }
 
 }
