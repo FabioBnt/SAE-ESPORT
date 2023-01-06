@@ -9,10 +9,9 @@ class Ecurie {
     private $equipes = array();
     private $id;
 
-    public function __construct($id,$designation, $type, $equipes) {
+    public function __construct($id,$designation, $type) {
         $this->designation = $designation;
         $this->type = $type;
-        $this->equipes = $equipes;
         $this->id = $id;
     }
     public function creerEquipe(string $nom, string $compte, string $mdp, int $jeu, int $ecurie) 
@@ -34,7 +33,7 @@ class Ecurie {
         $mysql = Database::getInstance();
         $dataE = $mysql->select('*', 'Ecurie e', 'where IdEcurie ='.$id);
         foreach($dataE as $ligneE){
-            $ecurie = new Ecurie($ligneE['Designation'],$ligneE['TypeE'],null);
+            $ecurie = new Ecurie(null,$ligneE['Designation'],$ligneE['TypeE']);
         }
         return $ecurie;
     }
@@ -47,9 +46,9 @@ class Ecurie {
         return $this->designation;
     }
 
-    public function getIDbyNomCompte($nomCompte) {
+    public static function getIDbyNomCompte($nomCompte) {
         $mysql = Database::getInstance();
-        $data = $mysql-> select ("E.IDEcurie" , "Ecurie E" , "where E.NomCompteE =".$nomCompte);
+        $data = $mysql->select("E.IDEcurie" , "Ecurie E" , "where E.NomCompte ="."'$nomCompte'");
         return $data[0]['IDEcurie'];
     }
 

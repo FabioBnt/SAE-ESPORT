@@ -1,4 +1,7 @@
-﻿<?php 
+﻿<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
     include './modele/Connexion.php';
     include './modele/Ecurie.php';
     include './modele/Jeu.php';
@@ -6,8 +9,9 @@
     $listeJeux = Jeu::tousLesJeux();
     if(isset($_POST['name'])){
         if($connx->getRole() == Role::Ecurie){
-            $Ecurie = new Ecurie();
-            $Ecurie->creerEquipe($_POST['name'], $_POST['username'], $_POST['password'], $_POST['jeuE'], $Ecurie->getIDbyNomCompte($connx->getIdentifiant()) );
+            $id = Ecurie::getIDbyNomCompte($connx->getIdentifiant());
+            $Ecurie = Ecurie::getEcurie($id);
+            $Ecurie->creerEquipe($_POST['name'], $_POST['username'], $_POST['password'], $_POST['jeuE'], Ecurie::getIDbyNomCompte($connx->getIdentifiant()) );
             echo '<script>alert("La ligne a bien été inserée")</script>';
         }
     }
@@ -50,7 +54,7 @@
     </header>
     <main>
         <div class="equipemain">
-            <form action="ListeEquipe.php" id="formeequipe" method="POST">
+            <form action="./CreerEquipe.php" id="formeequipe" method="POST">
                 <h1>Créer une équipe</h1>
                 <div class="formulaire">
                     <label id="Eqforml1"><b>Nom de l'équipe</b></label>
