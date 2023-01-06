@@ -97,10 +97,13 @@ error_reporting(E_ALL);
         <?php 
         if(array_key_exists("$idJeu",$listePoules)){
         ?>
-        <form action=<?php echo 'SaisirScore.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'&poule='.$_post["poule"];?> method="post">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
             <div>
+                <input type="hidden" name="NomT" value="<?php echo $nomTournoi;?>"/>
+                <input type="hidden" name="JeuT" value="<?php echo $nomJeu;?>"/>
+                <input type="hidden" name="IDJ" value="<?php echo $idJeu;?>"/>
                 <label for="poule">Numero Poule</label>
-                <select name="poule" id="poule" onchange='this.form.submit()'>
+                <select name="poule"  onchange='this.form.submit()'>
                     <option default value="">--- Chosir numero de poule ---</option>
                     <?php 
                         foreach ($listePoules[$idJeu] as $poule) {
@@ -112,8 +115,8 @@ error_reporting(E_ALL);
                                 $text = $num;
                             }
                             $temp = '';
-                            if(isset($_post['poule'])){
-                                if($_post['poule'] == $num){
+                            if(isset($_GET['poule'])){
+                                if($_GET['poule'] == $num){
                                     $temp = 'selected';
                                 }
                             }
@@ -124,49 +127,89 @@ error_reporting(E_ALL);
                 <noscript><input type="submit" value="Submit"></noscript>
             </div>
         </form>
-        <form action="#" method="get">
+        <?php if(isset($_GET['poule'])){ ?>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
             <div>
-                <label for="poule">Equipe1</label>
-                <select name="poule" id="poule" onchange='this.form.submit()'>
-                    <option default value="">--- Chosir numero de poule ---</option>
+                <input type="hidden" name="NomT" value="<?php echo $nomTournoi;?>"/>
+                <input type="hidden" name="JeuT" value="<?php echo $nomJeu;?>"/>
+                <input type="hidden" name="IDJ" value="<?php echo $idJeu;?>"/>
+                <input type="hidden" name="poule" value="<?php echo $_GET['poule'];?>"/>
+                <?php
+                 $equipe1 = null;
+                 if(isset($_GET['equipe1'])){
+                     $equipe1 = $_GET['equipe1'];
+                 }
+                $equipe2 = null;
+                if(isset($_GET['equipe2'])){
+                    $equipe2 = $_GET['equipe2'];
+                    echo '<input type="hidden" name="equipe2" value="'.$equipe2.'"/>';
+                }
+                ?>
+                <label for="equipe1">Equipe1</label>
+                <select name="equipe1" id="poule" onchange='this.form.submit()'>
+                    <option default value="">--- Choisir l'equipe ---</option>
                     <?php 
-                        foreach ($listePoules[$idJeu] as $poule) {
-                            $text = "";
-                            $num = $poule->getNumero();
-                            if($poule->estPouleFinale()){
-                                $text = "Finale";
-                            }else{
-                                $text = $num;
+                        foreach ($listePoules[$idJeu] as $poule) { 
+                            if($poule->getNumero() === $_GET['poule']){
+                                $temp = '';
+                                    if($equipe->getId() == $equipe1 ){
+                                        $temp = 'selected';
+                                    }
+                                foreach($poule->lesEquipes() as $equipe){
+                                    if($equipe2 != $equipe->getId()){
+                                        echo "<option ".$temp." value='".$equipe->getId()."'>".$equipe."</option>";
+                                    }
+                                }
+                                break;
                             }
-                            $temp = '';
-                            echo "<option value='".$poule->getNumero()."'>".$text."</option>";
+                        }
+                    ?>
+                </select>
+                <noscript><input type="submit" value="Submit"></noscript>
+            </div>
+            </form>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+            <div>
+                <input type="hidden" name="NomT" value="<?php echo $nomTournoi;?>"/>
+                <input type="hidden" name="JeuT" value="<?php echo $nomJeu;?>"/>
+                <input type="hidden" name="IDJ" value="<?php echo $idJeu;?>"/>
+                <input type="hidden" name="poule" value="<?php echo $_GET['poule'];?>"/>
+                <?php
+                $equipe1 = null;
+                if(isset($_GET['equipe1'])){
+                    $equipe1 = $_GET['equipe1'];
+                    echo '<input type="hidden" name="equipe1" value="'.$equipe1.'"/>';
+                }
+                $equipe2 = null;
+                if(isset($_GET['equipe2'])){
+                    $equipe2 = $_GET['equipe2'];
+                }
+                ?>
+                <label for="equipe2">Equipe2</label>
+                <select name="equipe2" id="poule" onchange='this.form.submit()'>
+                    <option default value="">--- Choisir l'equipe ---</option>
+                    <?php 
+                        foreach ($listePoules[$idJeu] as $poule) { 
+                            if($poule->getNumero() === $_GET['poule']){
+                                foreach($poule->lesEquipes() as $equipe){
+                                    $temp = '';
+                                    if($equipe->getId() == $equipe2 ){
+                                        $temp = 'selected';
+                                    }
+                                    if($equipe1 != $equipe->getId()){
+                                        echo "<option ".$temp." value='".$equipe->getId()."'>".$equipe."</option>";
+                                    }
+                                }
+                                break;
+                            }
                         }
                     ?>
                 </select>
                 <noscript><input type="submit" value="Submit"></noscript>
             </div>
         </form>
-        <form action="#" method="get">
-            <div>
-                <label for="poule">score equipe1 </label>
-                <select name="poule" id="poule" onchange='this.form.submit()'>
-                    <option default value="">--- Chosir numero de poule ---</option>
-                    <?php 
-                        foreach ($listePoules[$idJeu] as $poule) {
-                            $text = "";
-                            $num = $poule->getNumero();
-                            if($poule->estPouleFinale()){
-                                $text = "Finale";
-                            }else{
-                                $text = $num;
-                            }
-                            echo "<option value='".$poule->getNumero()."'>".$text."</option>";
-                        }
-                    ?>
-                </select>
-                <noscript><input type="submit" value="Submit"></noscript>
-            </div>
-        </form>
+        
+        <?php } ?>
         <!---
         $i = 0;
         

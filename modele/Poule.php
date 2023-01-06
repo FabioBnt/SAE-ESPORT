@@ -45,5 +45,16 @@ class Poule
     {
         return $this->id;
     }
+
+    public function lesEquipes(){
+        $mysql = Database::getInstance();
+        $data = $mysql->select('IdEquipe', '`Faire_partie`', 'where IdPoule ='.$this->id);
+        $equipes = array();
+        foreach($data as $ligne){
+            $equipes[$ligne['IdEquipe']] = Equipe::getEquipe($ligne['IdEquipe']);
+        }
+        return $equipes;
+        
+    }
 }
 
