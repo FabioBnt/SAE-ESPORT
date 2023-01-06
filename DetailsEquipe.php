@@ -1,18 +1,14 @@
 ﻿<?php 
     include './modele/Connexion.php';
-    $connx = Connexion::getInstance();
-    if (isset($_GET['sedeconnecter'])) {
-        $connx->seDeconnecter();
-    }
     include './modele/Tournois.php';
     include './modele/Equipes.php';
+    $connx = Connexion::getInstance();
     $mysql = Database::getInstance();
     $listeEquipes = new Equipes;
     $listeEquipes->tousLesEquipes();
     $idEquipe = $_GET['IDE'];
     $equipe = $listeEquipes->getEquipe($idEquipe);
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
