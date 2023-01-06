@@ -132,7 +132,7 @@ class Equipe
      * @return array
      */
     public function listeInfo() : array{
-        return array($this->nom,$this->points,Ecurie::getEcurie($this->ecurie)->getDesignation());
+        return array($this->nom,$this->points,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->jeu);
     }
 
 }

@@ -41,5 +41,12 @@ class Database {
         $stmt = $pdo->prepare("INSERT INTO ".$table." VALUES (".str_repeat("?, ", $num-1).'?)');
         $res = $stmt->execute($values);
     }
+    public function selectL(string $cols, string $tables, string $conditions=""){
+        $pdo = $this->getPDO();
+        $stmt = $pdo->prepare("select ".$cols." from ".$tables." ".$conditions);
+        $stmt->execute(); 
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
 }
 ?>
