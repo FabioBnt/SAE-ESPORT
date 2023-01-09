@@ -22,7 +22,7 @@
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>

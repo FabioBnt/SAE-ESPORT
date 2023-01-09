@@ -48,7 +48,7 @@ if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || iss
 <!--Menu de navigation-->
 <header>
     <div class="menunav">
-        <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+        <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
         <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
         <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
     </div>
@@ -94,8 +94,8 @@ if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || iss
                         <input type="number" name="prixmin" min="0">
                     </label>
                     PrixMax : <label><input type="number" name="prixmax" min="0"></label>
-                    <input type="submit" value="reset">
-                    <input type="submit" value="rechercher">
+                    <input type="submit" value="Rénitialiser">
+                    <input type="submit" value="Rechercher">
                 </form>
             </div>
             <table>
