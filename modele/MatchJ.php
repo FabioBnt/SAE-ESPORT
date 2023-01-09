@@ -19,7 +19,7 @@ class MatchJ
     {
         return $this->heure;
     }
-    public function setScore($scores)
+    public static function setScore($idPoule, $idEquipe1, $idEquipe2 , $score1, $score2)
     {
     }
     public function gagnant()
