@@ -52,4 +52,9 @@ class Ecurie {
         return $data[0]['IDEcurie'];
     }
 
+    public function ajouterJoueur(string $pseudo, string $nationalite, int $IdEquipe){
+        Database::getInstance()->insert("Joueur (Pseudo, Nationalite, IdEquipe)", 3
+         , array($pseudo, $nationalite, $IdEquipe));
+    }
+
 }

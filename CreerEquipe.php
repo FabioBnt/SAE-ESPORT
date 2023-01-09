@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 include './modele/Connexion.php';
 include './modele/Ecurie.php';
 include './modele/Jeu.php';
+include './modele/Equipe.php';
 $connx = Connexion::getInstance();
 $listeJeux = Jeu::tousLesJeux();
 if (isset($_POST['name'])) {
@@ -13,6 +14,15 @@ if (isset($_POST['name'])) {
         $Ecurie = Ecurie::getEcurie($id);
         $Ecurie->creerEquipe($_POST['name'], $_POST['username'], $_POST['password'], $_POST['jeuE'], Ecurie::getIDbyNomCompte($connx->getIdentifiant()));
         echo '<script>alert("La ligne a bien été inserée")</script>';
+        $IdEquipe = Equipe::getIDbyNom($_POST['name']);
+        if (!empty($_POST['pseudo1'])) {
+            $Ecurie->ajouterJoueur($_POST['pseudo1'], $_POST['nat1'], $IdEquipe);}
+        if (!empty($_POST['pseudo2'])) {
+            $Ecurie->ajouterJoueur($_POST['pseudo2'], $_POST['nat2'], $IdEquipe);}
+        if (!empty($_POST['pseudo3'])) {
+            $Ecurie->ajouterJoueur($_POST['pseudo3'], $_POST['nat3'], $IdEquipe);}
+        if (!empty($_POST['pseudo4'])) {
+            $Ecurie->ajouterJoueur($_POST['pseudo4'], $_POST['nat4'], $IdEquipe);}
     }
 }
 if (isset($_GET['sedeconnecter'])) {
@@ -82,12 +92,20 @@ if (isset($_GET['sedeconnecter'])) {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>BONJOUR</td>
-                                <td>FR</td>
+                                <td><input placeholder="Anonyme" type="text" name="pseudo1"></td>
+                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat1"></td>
                             </tr>
                             <tr>
-                                <td>BONSOIR</td>
-                                <td>EN</td>
+                                <td><input placeholder="Anonyme" type="text" name="pseudo2"></td>
+                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat2"></td>
+                            </tr>
+                            <tr>
+                                <td><input placeholder="Anonyme" type="text" name="pseudo3"></td>
+                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat3"></td>
+                            </tr>
+                            <tr>
+                                <td><input placeholder="Anonyme" type="text" name="pseudo4"></td>
+                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat4"></td>
                             </tr>
                         </tbody>
                     </table>
