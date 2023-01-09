@@ -18,7 +18,7 @@
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
@@ -43,9 +43,17 @@
                 <h1> Gestionnaire d'une saison de compétition d'E-Sport </h1>
             </div>
             <div id="divbutton">
-                <button class="buttonM" onclick="window.location.href = 'CreerTournoi.php';" type="button"> Créer un tournoi </button>
+                <?php 
+                        if($connx->getRole() == Role::Administrateur){
+                            echo "<button class='buttonM' onclick="."window.location.href='CreerTournoi.php';"." type='button'> Créer un tournoi </button>";
+                        };
+                    ?>
                 <button class="buttonM" onclick="window.location.href = 'ListeEquipe.php';" type="button"> Liste des équipes </button>
-                <button class="buttonM" onclick="window.location.href = 'CreerEcurie.php';" type="button"> Créer une écurie </button>
+                <?php 
+                        if($connx->getRole() == Role::Administrateur){
+                            echo "<button class='buttonM' onclick="."window.location.href='CreerEcurie.php';"." type='button'> Créer une écurie </button>";
+                        };
+                    ?>
             </div>
         </div>
     </main>

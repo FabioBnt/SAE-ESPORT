@@ -1,15 +1,4 @@
-﻿<?php 
-    include './modele/Connexion.php';
-    include './modele/Tournois.php';
-    include './modele/Equipes.php';
-    $connx = Connexion::getInstance();
-    $mysql = Database::getInstance();
-    $listeEquipes = new Equipes;
-    $listeEquipes->tousLesEquipes();
-    $idEquipe = $_GET['IDE'];
-    $equipe = $listeEquipes->getEquipe($idEquipe);
-?>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +11,7 @@
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
@@ -32,7 +21,17 @@
             </div>
 
             <div class="menuright">  
-                    <?php 
+            <?php 
+                include './modele/Connexion.php';
+                include './modele/Tournois.php';
+                include './modele/Equipes.php';
+                $connx = Connexion::getInstance();
+                $mysql = Database::getInstance();
+                $listeEquipes = new Equipes;
+                $listeEquipes->tousLesEquipes();
+                $idEquipe = $_GET['IDE'];
+                $equipe = $listeEquipes->getEquipe($idEquipe);
+
                         if($connx->getRole() == Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{

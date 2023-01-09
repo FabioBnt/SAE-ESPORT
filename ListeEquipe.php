@@ -1,11 +1,4 @@
-﻿<?php
-include './modele/Connexion.php';
-include './modele/Equipes.php';
-$connx = Connexion::getInstance();
-$listeEquipes = new Equipes();
-$listeEquipes->tousLesEquipes();
-?>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +11,7 @@ $listeEquipes->tousLesEquipes();
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
@@ -29,6 +22,13 @@ $listeEquipes->tousLesEquipes();
 
             <div class="menuright">  
             <?php
+            
+            include './modele/Connexion.php';
+            include './modele/Equipes.php';
+            $connx = Connexion::getInstance();
+            $listeEquipes = new Equipes();
+            $listeEquipes->tousLesEquipes();
+            
                 if ($connx->getRole() == Role::Visiteur) {
                     echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                 } else {
@@ -40,7 +40,11 @@ $listeEquipes->tousLesEquipes();
     <main>
         <div class="listeEquipemain">
             <div class="divEquip1">
-                <a href="./CreerEquipe.php" class="buttonE" id="BtnCEquipe">Créer Equipe</a>
+            <?php 
+                        if($connx->getRole() == Role::Ecurie){
+                            echo "<a href='./CreerEquipe.php' class='buttonE' id='BtnCEquipe'>Créer Equipe</a>";
+                        };
+                    ?>
             </div>
             <h1>Liste Des Equipes</h1>
             <div>
