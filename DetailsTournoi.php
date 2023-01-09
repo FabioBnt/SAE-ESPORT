@@ -36,7 +36,7 @@ error_reporting(E_ALL);
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
@@ -63,7 +63,7 @@ error_reporting(E_ALL);
                     <label id="Dgridl1"><b>Nom du tournoi</b></label>
                     <input id="Dgridi1" type="text" name="nameT" value='<?php echo $tournoi->getNom(); ?>' readonly>
                     <label id="Dgridl2"><b>Date du tournoi</b></label>
-                    <input id="Dgridi2" type="text" name="dateT" value='<?php echo $tournoi->getDate() ?>' readonly>
+                    <input id="Dgridi2" type="text" name="dateT" value='<?php echo $tournoi->getDate(); ?>' readonly>
                     <label id="Dgridl3"><b>Heure du tournoi</b></label>
                     <input id="Dgridi3" type="text" name="heureT" value='<?php echo $tournoi->getHeureDebut(); ?>' readonly>
                     <label id="Dgridl4"><b>Lieu du tournoi</b></label>
@@ -71,7 +71,7 @@ error_reporting(E_ALL);
                     <label id="Dgridl5"><b>CashPrize</b></label>
                     <input id="Dgridi5" type="text" name="cashprizeT" value='<?php echo $tournoi->getCashPrize(); ?>' readonly>
                     <label id="Dgridl6"><b>Notoriété</b></label>
-                    <input id="Dgridi6" type="text" name="notorieteT" value='<?php echo $tournoi->getNotoriete() ?>' readonly>
+                    <input id="Dgridi6" type="text" name="notorieteT" value='<?php echo $tournoi->getNotoriete(); ?>' readonly>
                     <table id="Dgridt1">
                         <thead>
                             <tr>
@@ -80,9 +80,8 @@ error_reporting(E_ALL);
                             </tr>
                         </thead>
                         <tbody>
-                            
                             <?php foreach ($tournoi->getJeux() as $jeu) {
-                                echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDJ=".$jeu->getId().'&NomT='.$tournoi->getNom().'&JeuT='.$jeu->getNom()."'>+</a></td>".'</tr>';
+                                echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDJ=".$jeu->getId().'&NomT='.$tournoi->getNom().'&JeuT='.$jeu->getNom()."'>+</a></td></tr>";
                                 $_SESSION['jeu'.$jeu->getId()] = $tournoi->getPoules();
                             } ?>
                             
@@ -112,7 +111,8 @@ error_reporting(E_ALL);
                         </thead>
                         <tbody>
                             <?php foreach ($tournoi->lesEquipesParticipants() as $participant) {
-                                echo '<tr>'.'<td>'.$participant.'</td>'.'<td><a href="DetailsEquipe.php">+</a></td>'.'</tr>';
+                                echo '<tr><td>'.$participant.'</td>';
+                                echo "<td><a href='DetailsEquipe.php?IDE=".$participant->getId()."'>+</a></td></tr>";
                             } ?>
                         </tbody>
                     </table>

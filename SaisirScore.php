@@ -74,7 +74,7 @@ error_reporting(E_ALL);
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
@@ -251,7 +251,7 @@ error_reporting(E_ALL);
         <?php }} 
         }else{
             echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
-            transform: translate(-55%, -60%);\'> Le trounoi n\'a pas encore commencé </h2>';
+            transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
         }
         ?>
     </main>

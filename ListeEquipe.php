@@ -1,17 +1,4 @@
-﻿<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-include './modele/Connexion.php';
-include './modele/Equipes.php';
-$connx = Connexion::getInstance();
-$listeEquipes = new Equipes();
-$listeEquipes->tousLesEquipes();
-    if (isset($_GET['sedeconnecter'])) {
-        $connx->seDeconnecter();
-    }
-?>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -24,7 +11,7 @@ $listeEquipes->tousLesEquipes();
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Home</button>
+                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
@@ -34,19 +21,30 @@ $listeEquipes->tousLesEquipes();
             </div>
 
             <div class="menuright">  
-                    <?php 
-                        if($connx->getRole() == Role::Visiteur){
-                            echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
-                        }else{
-                            echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
-                        }
-                    ?>
+            <?php
+            
+            include './modele/Connexion.php';
+            include './modele/Equipes.php';
+            $connx = Connexion::getInstance();
+            $listeEquipes = new Equipes();
+            $listeEquipes->tousLesEquipes();
+            
+                if ($connx->getRole() == Role::Visiteur) {
+                    echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
+                } else {
+                    echo '<div class="disconnect"><h3>Bonjour, ' . $connx->getIdentifiant() . '</h3>' . ' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
+                }
+                ?>
             </div>      
     </header>
     <main>
         <div class="listeEquipemain">
             <div class="divEquip1">
-                <a href="./CreerEquipe.php" class="buttonE" id="BtnCEquipe">Créer Equipe</a>
+            <?php 
+                        if($connx->getRole() == Role::Ecurie){
+                            echo "<a href='./CreerEquipe.php' class='buttonE' id='BtnCEquipe'>Créer Equipe</a>";
+                        };
+                    ?>
             </div>
             <h1>Liste Des Equipes</h1>
             <div>

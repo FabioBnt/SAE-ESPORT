@@ -61,6 +61,12 @@ class Equipe
         return 1;
     }
 
+    public static function getIDbyNom($nom) {
+        $mysql = Database::getInstance();
+        $data = $mysql->select("E.IdEquipe" , "Equipe E" , "where E.NomE ="."'$nom'");
+        return $data[0]['IdEquipe'];
+    }
+
     /**
      * @return mixed
      */
