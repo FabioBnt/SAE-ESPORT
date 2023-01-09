@@ -61,8 +61,11 @@ class Equipes
     }
 
     public function getEquipe($id){
-        return $this->equipes[$id];
-    }
-    
+        $mysql = Database::getInstance();
+        $data = $mysql->select("*",
+         "Equipe E", "where E.IdEquipe= ".$id."");
+         return $data;
+    } 
+
 }
 ?>

@@ -149,4 +149,12 @@ class Equipe
         return array($this->nom,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->jeu);
     }
 
+    public function getJoueurs($id)
+    {
+        $mysql = Database::getInstance();
+        $dataE = $mysql->selectL('Pseudo,Nationalite', 'Joueur j', 'where IdEquipe ='.$id);
+        return $dataE;
+    }
+
+
 }
