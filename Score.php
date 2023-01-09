@@ -133,7 +133,7 @@ if(isset($_GET['test'])){
         <?php
         }else{
             echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
-            transform: translate(-55%, -60%);\'> Le trounoi n\'a pas encore commencé </h2>';
+            transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
         }
         ?>
     </main>
