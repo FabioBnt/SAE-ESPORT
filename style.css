@@ -589,6 +589,16 @@ header .buttonM,header #connexion, header #deconnexion{
     grid-column: 2;
     grid-row: 2;
 }
+#saisirscore{
+    width: 60%;
+    grid-column: 1/3;
+    grid-row: 2;
+}
+#RetourS9{
+    width: 50%;
+    grid-column: 2;
+    grid-row: 3;
+}
 .scoredetails{
     color: black;
     padding:0.8em;

@@ -52,6 +52,9 @@ if(isset($_GET['test'])){
     $nomJeu = $t->getJeux()[$idJeu]->getNom();
     $pdo->rollBack();
 }
+if(isset($_GET['score1']) && isset($_GET['score2'])){
+    MatchJ::setScore($_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
+}
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -91,18 +94,20 @@ error_reporting(E_ALL);
             </div>      
     </header>
     <main class="scoredetails">
-        <a href="javascript:history.go(-1)" class="buttonE" id="RetourS8">Retour</a>
         <h1 id="labelS1">Saisir Scores du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
-        <a href="#" class="buttonE" id="ModifS7">Modification</a>
         <?php 
         if(array_key_exists("$idJeu",$listePoules)){
         ?>
+        <table id='saisirscore'>
+            <tr><td colspan="2">Saisir Score</td></tr>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
             <div>
                 <input type="hidden" name="NomT" value="<?php echo $nomTournoi;?>"/>
                 <input type="hidden" name="JeuT" value="<?php echo $nomJeu;?>"/>
                 <input type="hidden" name="IDJ" value="<?php echo $idJeu;?>"/>
-                <label for="poule">Numero Poule</label>
+                <tr>
+                <td><label for="poule">Numero Poule</label></td>
+                <td>
                 <select name="poule"  onchange='this.form.submit()'>
                     <option default value="">--- Chosir numero de poule ---</option>
                     <?php 
@@ -124,7 +129,9 @@ error_reporting(E_ALL);
                         }
                     ?>
                 </select>
-                <noscript><input type="submit" value="Envoyer"></noscript>
+                </td>
+                </tr>
+                <noscript><input type="submit" value="Submit"></noscript>
             </div>
         </form>
         <?php if(isset($_GET['poule'])){ ?>
@@ -145,17 +152,19 @@ error_reporting(E_ALL);
                     echo '<input type="hidden" name="equipe2" value="'.$equipe2.'"/>';
                 }
                 ?>
-                <label for="equipe1">Equipe1</label>
+                <tr>
+                <td><label for="equipe1">Equipe1</label></td>
+                <td>
                 <select name="equipe1" id="poule" onchange='this.form.submit()'>
                     <option default value="">--- Choisir l'equipe ---</option>
                     <?php 
                         foreach ($listePoules[$idJeu] as $poule) { 
-                            if($poule->getNumero() === $_GET['poule']){
-                                $temp = '';
+                            if($poule->getNumero() == $_GET['poule']){
+                                foreach($poule->lesEquipes() as $equipe){
+                                    $temp = '';
                                     if($equipe->getId() == $equipe1 ){
                                         $temp = 'selected';
                                     }
-                                foreach($poule->lesEquipes() as $equipe){
                                     if($equipe2 != $equipe->getId()){
                                         echo "<option ".$temp." value='".$equipe->getId()."'>".$equipe."</option>";
                                     }
@@ -165,7 +174,9 @@ error_reporting(E_ALL);
                         }
                     ?>
                 </select>
-                <noscript><input type="submit" value="Envoyer"></noscript>
+                </td>
+                </tr>
+                <noscript><input type="submit" value="Submit"></noscript>
             </div>
             </form>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
@@ -185,7 +196,9 @@ error_reporting(E_ALL);
                     $equipe2 = $_GET['equipe2'];
                 }
                 ?>
-                <label for="equipe2">Equipe2</label>
+                <tr>
+                <td><label for="equipe2">Equipe2</label></td>
+                <td>
                 <select name="equipe2" id="poule" onchange='this.form.submit()'>
                     <option default value="">--- Choisir l'equipe ---</option>
                     <?php 
@@ -205,26 +218,37 @@ error_reporting(E_ALL);
                         }
                     ?>
                 </select>
-                <noscript><input type="submit" value="Envoyer"></noscript>
+                </td>
+                </tr>
+                <noscript><input type="submit" value="Submit"></noscript>
             </div>
         </form>
-        
-        <?php } ?>
-        <!---
-        $i = 0;
-        
-            foreach ($listePoules[$idJeu] as $poule) {
-                $i++;
-                echo '<table id="tableS'.$i.'"><thead><tr><th colspan="4">Poule ';
-                if($i==5){echo'Finale';}else{echo $i;};
-                echo '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
-                foreach ($poule->getMatchs() as $match){
-                    echo $match->afficherEquipes();
-                }
-                echo '</tbody></table>';
-            }
-        ?>--->
-        <?php
+        <?php if(isset($_GET['equipe1']) && isset($_GET['equipe2'])){ ?>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+            <div>
+                <input type="hidden" name="NomT" value="<?php echo $nomTournoi;?>"/>
+                <input type="hidden" name="JeuT" value="<?php echo $nomJeu;?>"/>
+                <input type="hidden" name="IDJ" value="<?php echo $idJeu;?>"/>
+                <input type="hidden" name="poule" value="<?php echo $_GET['poule'];?>"/>
+                <input type="hidden" name="equipe1" value="<?php echo $_GET['equipe1'];?>"/>
+                <input type="hidden" name="equipe2" value="<?php echo $_GET['equipe2'];?>"/>
+                <tr>
+                    <td>Score equipe 1:</td>
+                    <td><input type="number" name="score1" min="0" required></td>
+                </tr>
+                <tr>
+                    <td>Score equipe 2:</td>
+                    <td><input type="number" name="score2" min="0" required></td>
+                </tr>
+                <tr>
+                <?php }?>
+                    <a href="javascript:history.go(-1)" class="buttonE">Retour</a>
+                    <?php if(isset($_GET['equipe1']) && isset($_GET['equipe2'])){ ?>
+                    <input  class="buttonE" type="submit" value="valider">
+                </tr>
+            </div>
+        </form>
+        <?php }} 
         }else{
             echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
             transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
