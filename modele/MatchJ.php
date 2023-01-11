@@ -19,8 +19,13 @@ class MatchJ
     {
         return $this->heure;
     }
-    public static function setScore($idPoule, $idEquipe1, $idEquipe2 , $score1, $score2)
+    public static function setScore(int $idPoule,int $idEquipe1,int $idEquipe2 ,int $score1,int $score2)
     {
+        $muysql = Database::getInstance()->getPDO();
+        $sql = "UPDATE Concourir SET Score = $score1 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe1";
+        $muysql->query($sql);
+        $sql = "UPDATE Concourir SET Score = $score2 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2";
+        $muysql->query($sql);
     }
     public function gagnant()
     {

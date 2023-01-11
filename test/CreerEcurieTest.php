@@ -12,7 +12,8 @@ class CreerEcurieTest extends \PHPUnit\Framework\TestCase {
     } 
 
     protected function tearDown(): void {
-        $this->tournois = null;
+        $this->mysql = null;
+        $this->admin = null;
     }
 
     public function testEcurieAjouteDansBDD() {
