@@ -38,12 +38,15 @@ class Classement
     public function afficherClassement($jeu){
         $this->returnClassement($jeu->getId());
         $listeEquipes = $this->getClassement();
-        print_r($listeEquipes);
         $i = 0;
         foreach ($listeEquipes as $equipe) {
             $i++;
             echo "<tr>";
-            echo '<td>'.$i.$equipe['NomE'].' '.$equipe['NbPointsE'].'</td>';
+            $infoEquipe = $equipe->listeInfoClassement();
+            foreach ($infoEquipe as $colValue) {
+                echo '<td>'.$colValue.'</td>';
+            }
+            // echo '<td>'.$i.$equipe['NomE'].' '.$equipe['NbPointsE'].'</td>';
             echo "<td><a href='./DetailsEquipe.php?idEquipe=".$equipe['IdEquipe']."'>+</a></td>";
             echo "</tr>";
         }

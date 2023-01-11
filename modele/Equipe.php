@@ -149,6 +149,10 @@ class Equipe
         return array($this->nom,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->jeu);
     }
 
+    public function listeInfoClassement() : array {
+        return array($this->nom,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->points);
+    }
+
     public function getJoueurs($id)
     {
         $mysql = Database::getInstance();
