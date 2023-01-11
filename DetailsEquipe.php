@@ -67,6 +67,18 @@
                     echo $data['Designation'];
                     ?>' readonly>  
                     </div>
+                    <div id="EDgridl5">
+                    <label ><b>Nb Tournois Gagnés</b></label>
+                    <input type="text" name="nbtg" value='<?php echo "X"; ?>' readonly>
+                    </div>
+                    <div id="EDgridl6">
+                    <label ><b>Gains Totaux</b></label>
+                    <input type="text" name="gt" value='<?php echo "X"; ?>' readonly>
+                    </div>
+                    <div id="EDgridl7">
+                    <label ><b>Nb Points</b></label>
+                    <input type="text" name="nbp" value='<?php echo "X"; ?>' readonly>
+                    </div>
                     <div id="EDgridl4">
                     </div>
                     <table id="EDgridt1">
