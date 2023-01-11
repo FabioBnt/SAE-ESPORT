@@ -42,24 +42,33 @@
     <main>
         <div class="detailsequipemain">
             <div class="Divdetails">
+            <a href="javascript:history.go(-1)" class="buttonE">Retour</a>
                 <h1>Details d'une équipe</h1>
                 <div class="gridDetails">
-                    <label id="EDgridl1"><b>Nom de l'équipe</b></label>
-                    <input id="EDgridi1" type="text" name="nameE" value='<?php echo $equipe[0]['NomE']; ?>' readonly>
-                    <label id="EDgridl2"><b>Nom du Jeu</b></label>
-                    <input id="EDgridi2" type="text" name="jeu" value='<?php 
+                    <div id="EDgridl1">
+                    <label ><b>Nom de l'équipe</b></label>
+                    <input type="text" name="nameE" value='<?php echo $equipe[0]['NomE']; ?>' readonly>
+                    </div>
+                    <div id="EDgridl2">
+                    <label ><b>Nom du Jeu</b></label>
+                    <input type="text" name="jeu" value='<?php 
                     $mysql = Database::getInstance();
                     $data = $mysql->selectL("J.NomJeu",
                     "Jeu J", "where J.IdJeu =".$equipe[0]['IdJeu'].'');
                     echo $data['NomJeu'];
                     ?>' readonly>
-                    <label id="EDgridl3"><b>Nom de l'écurie</b></label>
-                    <input id="EDgridi3" type="text" name="ecurieE" value='<?php 
+                    </div>
+                    <div id="EDgridl3">
+                    <label><b>Nom de l'écurie</b></label>
+                    <input type="text" name="ecurieE" value='<?php 
                     $mysql = Database::getInstance();
                     $data = $mysql->selectL("E.Designation",
                     "Ecurie E", "where E.IDEcurie =".$equipe[0]['IDEcurie'].'');
                     echo $data['Designation'];
-                    ?>' readonly>
+                    ?>' readonly>  
+                    </div>
+                    <div id="EDgridl4">
+                    </div>
                     <table id="EDgridt1">
                         <thead>
                             <tr>
@@ -101,8 +110,30 @@
                             ?>
                         </tbody>
                     </table>
-                    <a href="javascript:history.go(-1)" class="buttonE" id="EDgridb1">Retour</a>
                 </div>
+                <table>
+                <thead>
+                <tr><th colspan="9">Liste des Tournois Participés</th></tr>    
+                <tr>
+                    <th>Nom</th>
+                    <th>CashPrize</th>
+                    <th>Notoriété</th>
+                    <th>Lieu</th>
+                    <th>Heure de début</th>
+                    <th>Date</th>
+                    <th>Fin Inscription</th>
+                    <th>Jeu</th>
+                    <th>Plus d'info</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php 
+                $listeTournois = new Tournois();
+                $listeTournois->TournoisEquipe($idEquipe);
+                $listeTournois->afficherTournois(); ?>
+
+                </tbody>
+            </table>
             </div>
         </div>
     </main>
