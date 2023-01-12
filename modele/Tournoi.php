@@ -147,15 +147,36 @@ class Tournoi
         }
 
     }
-    public function genererPouleFinale()
+    public function genererPouleFinale($jeu)
     {
+        // get the fisrt of every poule and then make the poule finale
+        $equipes =  $this->meilleursEquipesPoulesNonFinale($jeu);
+        $mysql = Database::getInstance();
+        $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array(5, 1, $jeu, $this->id));
+        $data = $mysql->select('IdPoule','Poule ', 'where IdJeu ='.$jeu.' AND IdTournoi = '.$this->id);
+        foreach($equipes as $equipe){
+            $mysql->Insert('`Faire_partie` (IdPoule, IdEquipe)', 2, array($data[0]['IdPoule'], $equipe->getId()));
+        }
+        // TODO make the matchs of poule finale by dividing the teams in 2
+        
+
     }
-    private function meilleursEquipes()
+    private function meilleursEquipesPoulesNonFinale($jeu)
     {
-        return NULL;
+        // get the fisrt of every poule
+        $equipes = array();
+        $poules = $this->getPoules($jeu);
+        foreach($poules as $poule){
+            $equipes[] = $poule->meilleurEquipe();
+        }
+        return $equipes;
     }
     private function miseAJourDePoints()
     {
+        // TODO
+        // update the points of every team
+        //Combien de points gagne une équipe selon son classement  ?
+        // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
     }
     public function getNom(){
         return $this->nom;
@@ -246,6 +267,7 @@ class Tournoi
         return $equipes;
     }
     public function getPoules(){
+        $this->poules = array();
         $this->recupererPoules();
         return $this->poules;
     }

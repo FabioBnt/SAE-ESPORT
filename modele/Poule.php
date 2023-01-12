@@ -24,11 +24,28 @@ class Poule
         }
     }
     public function meilleurEquipe(){
+        $equipes = $this->lesEquipes();
+        $meilleur = null;
+        $meilleurScore = 0;
+        foreach ($equipes as $equipe) {
+            $score = $this->nbMatchsGagnes($equipe);
+            if($score > $meilleurScore){
+                $meilleur = $equipe;
+                $meilleurScore = $score;
+            }
+        }
+        return $meilleur;
 
     }
     private function nbMatchsGagnes($equipe): int
     {
-        return 0;
+        $nb = 0;
+        foreach ($this->matchs as $match) {
+            if($match->gagnant() == $equipe){
+                $nb++;
+            }
+        }
+        return $nb;
     }
 
     public function getNumero(){
