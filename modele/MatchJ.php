@@ -27,13 +27,13 @@ class MatchJ
         $sql = "UPDATE Concourir SET Score = $score2 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2";
         $muysql->query($sql);
         // check if all score are set in this poule and if it is poule finale
-        $sql = "SELECT Count(*) as total FROM Concourir WHERE IdPoule = $idPoule AND Score IS NOT NULL AND EstPouleFinale = 1";
+        /*$sql = "SELECT Count(*) as total FROM Concourir WHERE IdPoule = $idPoule AND Score IS NOT NULL AND EstPouleFinale = 1";
         $result = $muysql->query($sql);
         $row = $result->fetch();
         if($row['total'] == 6){
             //TODO calculer points miseAJourDePoints dans tournois.php
             
-        }
+        }*/
         // TODO check if the poule finale wasnt set before
         // if it wasnt set before and all scores were set in all 4 poules then genererPouleFinale
 
