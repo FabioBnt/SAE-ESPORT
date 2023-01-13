@@ -26,22 +26,24 @@ class Poule
     public function meilleurEquipe(){
         $equipes = $this->lesEquipes();
         $meilleur = null;
-        $meilleurScore = 0;
+        $meilleurScore = -1;
         foreach ($equipes as $equipe) {
-            $score = $this->nbMatchsGagnes($equipe);
+            $score = $this->nbMatchsGagnes($equipe->getId()); //nb match gagnés
             if($score > $meilleurScore){
                 $meilleur = $equipe;
                 $meilleurScore = $score;
-            }
+            } else if($score == $meilleurScore){
+                $meilleur=$this->getDiffPoint ($meilleur,$equipe);
+            };
         }
         return $meilleur;
 
     }
-    private function nbMatchsGagnes($equipe): int
+    public function nbMatchsGagnes($equipe): int
     {
         $nb = 0;
         foreach ($this->matchs as $match) {
-            if($match->gagnant() == $equipe){
+            if($match->gagnant()->getId() == $equipe){
                 $nb++;
             }
         }
@@ -72,6 +74,21 @@ class Poule
         }
         return $equipes;
         
+    }
+    //prend en entrer 2 id d'équipe d'une même poule et ressort l'id de l'équipe ayant le plus de point
+    public function getDiffPoint ($n1, $n2 ) {
+        $e1=$n1->getId();
+        $e2=$n2->getId();
+        $mysql = Database::getInstance();
+        $g1 = $mysql->select('SUM(Score)', '`Concourir`', 'where IdEquipe ='.$e1.' AND IdPoule = '.$this->id);
+        $g2 = $mysql->select('SUM(Score)', '`Concourir`', 'where IdEquipe ='.$e2.' AND IdPoule = '.$this->id);
+        //ID1 a gagné le plus de match ou égalité 
+        if($g1 >= $g2){
+            return $n1;
+        //ID2 a gagné le plus de match
+        } else {
+            return $n2;
+        }
     }
 }
 

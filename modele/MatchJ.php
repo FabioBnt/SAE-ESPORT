@@ -68,11 +68,14 @@ class MatchJ
     }
     public function gagnant()
     {
-        if($this->scores[0] > $this->scores[1]){
-            return $this->equipes[0];
-        }else{
-            return $this->equipes[1];
-        }
+        $t = array_keys($this->equipes);
+        if($this->scores[$t[0]] > $this->scores[$t[1]]){
+            return $this->equipes[$t[0]];
+        }else if($this->scores[$t[0]] == $this->scores[$t[1]]){
+            return new Equipe(0,"X",0,0,0);
+        } else {
+            return $this->equipes[$t[1]];
+        };
     }
 
     /**
