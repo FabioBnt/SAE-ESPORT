@@ -147,21 +147,53 @@ class Tournoi
         }
 
     }
-    public function genererPouleFinale($jeu)
+    public static function genererPouleFinale($idE, $idJeu)
     {
-        // get the fisrt of every poule and then make the poule finale
-        $equipes =  $this->meilleursEquipesPoulesNonFinale($jeu);
+        // get the fisrt of every poule and then make the poule finale wip
+        $tournoi = Tournois::getTournoi($idE);
+        $equipes =  $tournoi->meilleursEquipesPoulesNonFinale($idJeu);
         $mysql = Database::getInstance();
-        $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array(5, 1, $jeu, $this->id));
-        $data = $mysql->select('IdPoule','Poule ', 'where IdJeu ='.$jeu.' AND IdTournoi = '.$this->id);
+        $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array(5, 1, $idJeu, $tournoi->getIdTournoi()));
+        $data = $mysql->select('IdPoule','Poule ', 'where Numero = 5 AND IdJeu ='.$idJeu.' AND IdTournoi = '.$tournoi->getIdTournoi()->id);
+        $equipesPoules = array();
         foreach($equipes as $equipe){
             $mysql->Insert('`Faire_partie` (IdPoule, IdEquipe)', 2, array($data[0]['IdPoule'], $equipe->getId()));
+            $equipesPoules[$data[0]['IdPoule']][] = $equipe->getId();
         }
-        // TODO make the matchs of poule finale by dividing the teams in 2
+        foreach($equipesPoules as $key => $value){
+            $n = 5;
+            while(count($value) < 4){
+                $value[] = null;
+            }
+            if($value[0] && $value[1]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));
+            }
+            if($value[0] && $value[2]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));
+            }
+            if($value[0] && $value[3]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));
+            }
+            if($value[1] && $value[2]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));   
+            }
+            if($value[1] && $value[3]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL)); 
+            }
+            if($value[2] && $value[3]){
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));  
+                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));  
+            }      
+        }
         
 
     }
-    private function meilleursEquipesPoulesNonFinale($jeu)
+    public function meilleursEquipesPoulesNonFinale($jeu)
     {
         // get the fisrt of every poule
         $equipes = array();
@@ -171,7 +203,7 @@ class Tournoi
         }
         return $equipes;
     }
-    private function miseAJourDePoints()
+    public static function miseAJourDePoints($idT, $idJ)
     {
         // TODO
         // update the points of every team
