@@ -32,7 +32,7 @@ if (isset($_GET['sedeconnecter'])) {
         </div>
 
         <div class="menucenter">
-            <img class="logo" src="./img/logo header.png">
+            <img class="logo" src="./img/logo header.png" alt="logo">
         </div>
 
         <div class="menuright">
@@ -59,7 +59,10 @@ if (isset($_GET['sedeconnecter'])) {
                 </select>
                 <input class="buttonE" type="submit" value="Valider">
             </form>
-            <h1>Classement Général</h1>
+            <?php if(isset($_GET['jeuC'])){
+               echo '<h1>Classement du jeu '.$choix = Jeu::getJeuById($_GET['jeuC'])->getNom().'</h1>';
+            } ?>
+
             <div>
                 <table>
                     <thead>
@@ -72,9 +75,9 @@ if (isset($_GET['sedeconnecter'])) {
                     </thead>
                     <tbody>
                         <?php 
-                            if(isset($_POST['jeuC'])){
-                                $Classement = new Classement($_POST['jeuC']);
-                                $Classement->afficherClassement($_POST['jeuC']);
+                            if(isset($_GET['jeuC'])){
+                                $Classement = new Classement($_GET['jeuC']);
+                                $Classement->afficherClassement($_GET['jeuC']);
                             }
                          ?>
                     </tbody>

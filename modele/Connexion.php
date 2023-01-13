@@ -3,7 +3,7 @@
 use phpDocumentor\Reflection\Types\Boolean;
 
 include "Role.php";
-include "Database.php";
+include_once "Database.php";
 
 /**
  *

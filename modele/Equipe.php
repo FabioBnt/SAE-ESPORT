@@ -2,6 +2,7 @@
 
 include_once 'Connexion.php';
 include_once 'Ecurie.php';
+include_once 'Database.php';
 
 
 class Equipe
