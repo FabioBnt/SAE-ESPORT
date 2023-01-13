@@ -67,7 +67,6 @@
                     </div>
                     <div id="EDgridl5">
                     <label ><b>Nb Tournois Gagnés</b></label>
-                    <?php echo $equipe->getNbmatchG(); ?>
                     <input type="text" name="nbtg" value='<?php echo $equipe->getNbmatchG(); ?>' readonly>
                     </div>
                     <div id="EDgridl6">

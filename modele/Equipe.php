@@ -170,7 +170,6 @@ class Equipe
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $poule){
                     if($poule->estPouleFinale()=='1'){
-                        echo '('.$poule->meilleurEquipe().')';
                         if($poule->meilleurEquipe()->getId()==$this->id){
                             $nb++;
                         };
