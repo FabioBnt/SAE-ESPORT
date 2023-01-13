@@ -23,22 +23,29 @@ class Poule
             $this->matchs[$numero]->addEquipeScore($equipes[$ligne['IdEquipe']], $ligne['Score']);
         }
     }
-    public function meilleurEquipe(){
+    public function meilleuresEquipes(){
         $equipes = $this->lesEquipes();
-        $meilleur = null;
-        $meilleurScore = -1;
-        foreach ($equipes as $equipe) {
-            $score = $this->nbMatchsGagnes($equipe->getId()); //nb match gagnés
-            if($score > $meilleurScore){
-                $meilleur = $equipe;
-                $meilleurScore = $score;
-            } else if($score == $meilleurScore){
-                $meilleur=$this->getDiffPoint ($meilleur,$equipe);
-            };
+        $result = [];
+        while (count($equipes)>1 ) {
+            $meilleur = null;
+            $meilleurScore = -1;
+            foreach ($equipes as $equipe) {
+                $score = $this->nbMatchsGagnes($equipe->getId()); //nb match gagnés
+                if($score > $meilleurScore){
+                    $meilleur = $equipe;
+                    $meilleurScore = $score;
+                } else if($score == $meilleurScore){
+                    $meilleur=$this->getDiffPoint ($meilleur,$equipe);
+                };
+            }
+            array_push($result, $meilleur);
+            unset($equipes[$meilleur]);
         }
-        return $meilleur;
+        array_push($result, $equipes);
+        return $result;
 
     }
+
     public function nbMatchsGagnes($equipe): int
     {
         $nb = 0;
