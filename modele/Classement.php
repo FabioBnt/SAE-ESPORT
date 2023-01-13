@@ -39,7 +39,7 @@ class Classement
     public function afficherClassement($idJeu): void
     {
         $jeu = Jeu::getJeuById($idJeu);
-        $this->returnClassement(idJeu: ($jeu->getId()));
+        $this->returnClassement($jeu->getId());
         $listeEquipes = $this->getClassement();
         foreach ($listeEquipes as $equipe) {
             $equipe = new Equipe($equipe['IdEquipe'], $equipe['NomE'], $equipe['NbPointsE'], $equipe['IDEcurie'], $equipe['IdJeu']);

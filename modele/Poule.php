@@ -59,6 +59,16 @@ class Poule
         array_push($result, $equipes);
         return $result;
     }
+    public function classementEquipes(){
+        // add the number of match won by each team
+        $equipes = $this->lesEquipes();
+        $classement = array();
+        foreach ($equipes as $equipe) {
+            $classement[$equipe->getId()] = $this->nbMatchsGagnes($equipe->getId());
+        }
+        arsort($classement);
+        return $classement;
+    }
 
     public function nbMatchsGagnes($equipe): int
     {
