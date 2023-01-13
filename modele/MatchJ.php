@@ -27,16 +27,44 @@ class MatchJ
         $sql = "UPDATE Concourir SET Score = $score2 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2";
         $muysql->query($sql);
         // check if all score are set in this poule and if it is poule finale
-        /*$sql = "SELECT Count(*) as total FROM Concourir WHERE IdPoule = $idPoule AND Score IS NOT NULL AND EstPouleFinale = 1";
-        $result = $muysql->query($sql);
-        $row = $result->fetch();
-        if($row['total'] == 6){
-            //TODO calculer points miseAJourDePoints dans tournois.php
-            
-        }*/
-        // TODO check if the poule finale wasnt set before
+        $mysql = Database::getInstance();
+        $data = $mysql->select("Count(*) as total", "Concourir c, Poule p", "WHERE p.IdPoule = c.IdPoule AND c.IdPoule = $idPoule AND c.Score IS NOT NULL AND p.EstPouleFinale = 1");
+        $idT = self::getIdTournoi($idPoule);
+        $idJ = self::getIdJeu($idPoule);
+        if($data[0]['total'] == 12){
+            //calculer points miseAJourDePoints dans tournois.php
+            Tournoi::miseAJourDePoints($idT, $idJ);
+        }
+        // check if the poule finale wasnt set before
         // if it wasnt set before and all scores were set in all 4 poules then genererPouleFinale
-
+        $data = $mysql->select("Count(*) as total", "Poule p", "WHERE p.IdTournoi = $idT AND p.IdJeu = $idJ AND p.EstPouleFinale = 1");
+        if($data[0]['total']  ==  0){
+            //TODO genererPouleFinale
+            $data = $mysql->select("Count(*) as total", "Concourir c, Poule p", "WHERE  p.IdPoule = c.IdPoule AND p.IdTournoi = $idT AND p.IdJeu = $idJ AND c.Score IS NOT NULL");
+            if($data[0]['total'] == 48){
+                Tournoi::genererPouleFinale($idT, $idJ);
+            }
+        }
+        
+    }
+    public static function getIdTournoi($idPoule) : int{
+        $mysql = Database::getInstance();
+        $row = $mysql->select("IdTournoi, IdJeu", "Poule", "WHERE IdPoule = $idPoule");
+        return $row[0]['IdTournoi'];
+    }
+    public static function getIdJeu($idPoule): int{
+        $mysql = Database::getInstance();
+        $row = $mysql->select("IdJeu", "Poule", "WHERE IdPoule = $idPoule");
+        return $row[0]['IdJeu'];
+    }
+    // scores were set or not
+    public function isScoreSet()
+    {
+        if($this->scores[0] == null || $this->scores[1] == null || $this->scores[0] == "" || $this->scores[1] == ""){
+            return false;
+        }else{
+            return true;
+        }
     }
     public function gagnant()
     {
