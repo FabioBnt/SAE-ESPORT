@@ -234,7 +234,7 @@ class Tournoi
         $scores = array(100, 60, 30, 10);
         // for each equipe key and value
         foreach($equipes as $key => $value){
-            $mysql->query('UPDATE Equipe SET Score = Score + '.$scores[$i] * $multiplicateur + 5 * $value.' WHERE IdEquipe = '.$key);
+            $mysql->query('UPDATE Equipe SET Score = Score + '.($scores[$i] * $multiplicateur + 5 * $value).' WHERE IdEquipe = '.$key);
             $i++;
         }
 
