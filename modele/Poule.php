@@ -26,22 +26,26 @@ class Poule
     public function meilleurEquipe(){
         $equipes = $this->lesEquipes();
         $meilleur = null;
-        $meilleurScore = 0;
+        $meilleurScore = -1;
         foreach ($equipes as $equipe) {
-            $score = $this->nbMatchsGagnes($equipe);
+            echo $equipe.'X';
+            $score = $this->nbMatchsGagnes($equipe->getId()); //nb match gagnés
+            echo $score.'||';
             if($score > $meilleurScore){
                 $meilleur = $equipe;
                 $meilleurScore = $score;
-            }
+            } else if($score == $meilleurScore){
+                
+            };
         }
         return $meilleur;
 
     }
-    private function nbMatchsGagnes($equipe): int
+    public function nbMatchsGagnes($equipe): int
     {
         $nb = 0;
         foreach ($this->matchs as $match) {
-            if($match->gagnant() == $equipe){
+            if($match->gagnant()->getId() == $equipe){
                 $nb++;
             }
         }

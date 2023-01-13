@@ -27,10 +27,11 @@
                 include './modele/Equipes.php';
                 $connx = Connexion::getInstance();
                 $mysql = Database::getInstance();
-                $listeEquipes = new Equipes;
+                $listeEquipes = new Equipes();
                 $listeEquipes->tousLesEquipes();
                 $idEquipe = $_GET['IDE'];
-                $equipe = $listeEquipes->getEquipe($idEquipe);
+                $equipeT = $listeEquipes->getEquipe($idEquipe);
+                $equipe = new Equipe($equipeT[0]['IdEquipe'],$equipeT[0]['NomE'],$equipeT[0]['NbPointsE'],$equipeT[0]['IDEcurie'],$equipeT[0]['IdJeu']);
                         if($connx->getRole() == Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
@@ -47,29 +48,27 @@
                 <div class="gridDetails">
                     <div id="EDgridl1">
                     <label ><b>Nom de l'équipe</b></label>
-                    <input type="text" name="nameE" value='<?php echo $equipe[0]['NomE']; ?>' readonly>
+                    <input type="text" name="nameE" value='<?php echo $equipe->getNom(); ?>' readonly>
                     </div>
                     <div id="EDgridl2">
                     <label ><b>Nom du Jeu</b></label>
                     <input type="text" name="jeu" value='<?php 
                     $mysql = Database::getInstance();
                     $data = $mysql->selectL("J.NomJeu",
-                    "Jeu J", "where J.IdJeu =".$equipe[0]['IdJeu'].'');
+                    "Jeu J", "where J.IdJeu =".$equipe->getJeu().'');
                     echo $data['NomJeu'];
                     ?>' readonly>
                     </div>
                     <div id="EDgridl3">
                     <label><b>Nom de l'écurie</b></label>
                     <input type="text" name="ecurieE" value='<?php 
-                    $mysql = Database::getInstance();
-                    $data = $mysql->selectL("E.Designation",
-                    "Ecurie E", "where E.IDEcurie =".$equipe[0]['IDEcurie'].'');
-                    echo $data['Designation'];
+                    echo $equipe->getEcurie()
                     ?>' readonly>  
                     </div>
                     <div id="EDgridl5">
                     <label ><b>Nb Tournois Gagnés</b></label>
-                    <input type="text" name="nbtg" value='<?php echo "X"; ?>' readonly>
+                    <?php echo $equipe->getNbmatchG(); ?>
+                    <input type="text" name="nbtg" value='<?php echo $equipe->getNbmatchG(); ?>' readonly>
                     </div>
                     <div id="EDgridl6">
                     <label ><b>Gains Totaux</b></label>
@@ -77,7 +76,7 @@
                     </div>
                     <div id="EDgridl7">
                     <label ><b>Nb Points</b></label>
-                    <input type="text" name="nbp" value='<?php echo "X"; ?>' readonly>
+                    <input type="text" name="nbp" value='<?php echo $equipe->getPoints(); ?>' readonly>
                     </div>
                     <div id="EDgridl4">
                     </div>

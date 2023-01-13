@@ -160,5 +160,26 @@ class Equipe
         return $dataE;
     }
 
+    public function getNbmatchG(){
+        $listeTournois = new Tournois();
+        $listeTournois->TournoisEquipe($this->id);
+        $nb=0;
+        foreach($listeTournois->getTournois() as $tournoi){
+            $t=$tournoi->getPoules();
+            $n = $this->jeu;
+            if(array_key_exists($n,$t)){
+                foreach($t[$n] as $poule){
+                    if($poule->estPouleFinale()=='1'){
+                        echo '('.$poule->meilleurEquipe().')';
+                        if($poule->meilleurEquipe()->getId()==$this->id){
+                            $nb++;
+                        };
+                    };
+                };
+            };
+        };
+        return $nb;
+    }
+
 
 }
