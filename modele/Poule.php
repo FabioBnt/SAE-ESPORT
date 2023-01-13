@@ -73,5 +73,18 @@ class Poule
         return $equipes;
         
     }
+    //prend en entrer 2 id d'équipe d'une même poule et ressort l'id de l'équipe ayant le plus de point
+    public function getDiffPoint ($id1, $id2 ) {
+        $mysql = Database::getInstance();
+        $g1 = $mysql->select('SUM(Score)', '`Concourir`', 'where IdEquipe ='.$id1.' AND IdPoule = '.$this->id);
+        $g2 = $mysql->select('SUM(Score)', '`Concourir`', 'where IdEquipe ='.$id2.' AND IdPoule = '.$this->id);
+        //ID1 a gagné le plus de match ou égalité 
+        if($g1 >= $g2){
+            return $id1;
+        //ID2 a gagné le plus de match
+        } else {
+            return $id2;
+        }
+    }
 }
 
