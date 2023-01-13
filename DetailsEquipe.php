@@ -71,7 +71,7 @@
                     </div>
                     <div id="EDgridl6">
                     <label ><b>Gains Totaux</b></label>
-                    <input type="text" name="gt" value='<?php echo $equipe->SommeTournoiG(); ?>' readonly>
+                    <input type="text" name="gt" value='<?php echo $equipe->SommeTournoiG(); ?>€' readonly>
                     </div>
                     <div id="EDgridl7">
                     <label ><b>Nb Points</b></label>

@@ -171,7 +171,7 @@ class Equipe
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $poule){
                     if($poule->estPouleFinale()=='1'){
-                        if($poule->meilleurEquipe()->getId()==$this->id){
+                        if($poule->meilleureEquipe()->getId()==$this->id){
                             $nb++;
                         };
                     };
@@ -191,11 +191,11 @@ class Equipe
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $poule){
                     if($poule->estPouleFinale()=='1'){
-                        if($poule->meilleurEquipe()->getId()==$this->id){
+                        if($poule->meilleureEquipe()->getId()==$this->id){
                             $mysql = Database::getInstance();
-                            $res = $mysql->select("T.CashPrize",
+                            $res = $mysql->selectL("T.CashPrize",
                             "Tournois T", "where T.IdTournoi=".$tournoi->getIdTournoi().'');
-                            $nb=$nb+$res['0'];
+                            $nb=$nb+$res['CashPrize'];
                         };
                     };
                 };
