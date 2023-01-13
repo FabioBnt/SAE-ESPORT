@@ -209,6 +209,36 @@ class Tournoi
         // update the points of every team
         //Combien de points gagne une équipe selon son classement  ?
         // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
+        $tournoi = Tournois::getTournoi($idT);
+        $poules = $tournoi->getPoules();
+        $poules = $poules[$idJ];
+        $equipes = array();
+        foreach($poules as $poule){
+            if($poule->estPouleFinale()){
+                $equipes = $poule->classementEquipes();
+            }
+        }
+        // add equipe scores
+        $mysql = Database::getInstance()->getPDO();
+        // update table Equipe set score
+        // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
+        $multiplicateur = 0;
+        if($tournoi->getNotorité == Notoriete::Local){
+            $multiplicateur = 1;
+        }else if($tournoi->getNotorité == Notoriete::Regional){
+            $multiplicateur = 2;
+        }else if($tournoi->getNotorité == Notoriete::International){
+            $multiplicateur = 3;
+        }
+        $i = 0;
+        $scores = array(100, 60, 30, 10);
+        // for each equipe key and value
+        foreach($equipes as $key => $value){
+            $mysql->query('UPDATE Equipe SET Score = Score + '.$scores[$i] * $multiplicateur + 5 * $value.' WHERE IdEquipe = '.$key);
+            $i++;
+        }
+
+    
     }
     public function getNom(){
         return $this->nom;
