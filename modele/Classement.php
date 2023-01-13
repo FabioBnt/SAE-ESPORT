@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include_once 'Database.php';
 include_once 'Jeu.php';
+include_once 'Equipe.php';
 class Classement
 {
     private $jeu;
@@ -11,7 +12,6 @@ class Classement
 
     function __construct($jeu){
         $this->jeu = $jeu;
-        $this->classement[] = NULL;
     }
 
     public function getJeu()
@@ -25,7 +25,8 @@ class Classement
     }
 
     //Retourne le classement du tournoi pour le jeu passé en paramètre
-    public function returnClassement($idJeu){
+    public function returnClassement($idJeu): void
+    {
         $db = Database::getInstance();
         $this->classement = array();
         $data = $db->select('*','Equipe E','where E.IdJeu ='.$idJeu.' ORDER BY E.NbPointsE DESC');
@@ -35,19 +36,20 @@ class Classement
     }
 
     //Affiche le classement des équipes pour un jeu
-    public function afficherClassement($jeu){
-        $this->returnClassement($jeu->getId());
+    public function afficherClassement($idJeu): void
+    {
+        $jeu = Jeu::getJeuById($idJeu);
+        $this->returnClassement(idJeu: ($jeu->getId()));
         $listeEquipes = $this->getClassement();
-        $i = 0;
         foreach ($listeEquipes as $equipe) {
-            $i++;
+            $equipe = new Equipe($equipe['IdEquipe'], $equipe['NomE'], $equipe['NbPointsE'], $equipe['IDEcurie'], $equipe['IdJeu']);
             echo "<tr>";
             $infoEquipe = $equipe->listeInfoClassement();
             foreach ($infoEquipe as $colValue) {
                 echo '<td>'.$colValue.'</td>';
             }
             // echo '<td>'.$i.$equipe['NomE'].' '.$equipe['NbPointsE'].'</td>';
-            echo "<td><a href='./DetailsEquipe.php?idEquipe=".$equipe['IdEquipe']."'>+</a></td>";
+            echo "<td><a href='./DetailsEquipe.php?IDE=".$equipe->getId()."'>+</a></td>";
             echo "</tr>";
         }
     }
@@ -61,7 +63,7 @@ class Classement
         return NULL;
     }
 }
-// $jeu = new Jeu(1,'test','test',120,12);
-// $apple = new Classement($jeu);
-// $apple->afficherClassement($jeu);
+/*$jeu = new Jeu(1,'test','test',120,12);
+ $apple = new Classement($jeu);
+$apple->afficherClassement($jeu);*/
 ?>

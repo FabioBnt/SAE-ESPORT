@@ -54,7 +54,7 @@ if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || iss
     </div>
 
     <div class="menucenter">
-        <img class="logo" src="./img/logo header.png">
+        <img class="logo" src="./img/logo header.png" alt="logo">
     </div>
 
     <div class="menuright">
