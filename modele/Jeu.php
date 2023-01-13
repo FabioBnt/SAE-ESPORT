@@ -2,7 +2,7 @@
 include_once "Database.php";
 class Jeu
 {
-    private $id;
+    private int $id;
     private $nom;
     private $type;
     private $temps;
@@ -36,6 +36,12 @@ class Jeu
     }
     public function getlimiteInscription(){
         return $this->limiteInscription;
+    }
+
+    public static function getJeuById($id):Jeu {
+        $data = Database::getInstance()->select('*', 'Jeu', 'where IdJeu = '.$id);
+        $jeu = new Jeu($data[0]['IdJeu'],$data[0]['NomJeu'], $data[0]['TypeJeu'], $data[0]['TempsDeJeu'], $data[0]['DateLimiteInscription']);
+        return $jeu;
     }
 }
 
