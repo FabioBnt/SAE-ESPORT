@@ -180,5 +180,28 @@ class Equipe
         return $nb;
     }
 
+    public function SommeTournoiG(){
+        $listeTournois = new Tournois();
+        $listeTournois->TournoisEquipe($this->id);
+        $nb=0;
+        foreach($listeTournois->getTournois() as $tournoi){
+            $t=$tournoi->getPoules();
+            $n = $this->jeu;
+            if(array_key_exists($n,$t)){
+                foreach($t[$n] as $poule){
+                    if($poule->estPouleFinale()=='1'){
+                        if($poule->meilleurEquipe()->getId()==$this->id){
+                            $mysql = Database::getInstance();
+                            $res = $mysql->select("T.CashPrize",
+                            "Tournois T", "where T.IdTournoi=".$tournoi->getIdTournoi().'');
+                            $nb=$nb+$res['0'];
+                        };
+                    };
+                };
+            };
+        };
+        return $nb;
+    }
+
 
 }
