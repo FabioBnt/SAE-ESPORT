@@ -10,6 +10,9 @@
     $nomTournoi = null;
     $nomJeu = null;
     $idJeu = null;
+    if(isset($_GET['valide'])){
+        echo '<script>alert("Score enregistré")</script>';
+    }
     if(isset($_GET['IDJ'])){
         $listePoules = $_SESSION['jeu'.$_GET['IDJ']];
         $nomTournoi = $_GET['NomT'];

@@ -54,7 +54,8 @@ class MatchJ
     //récupéré un tournoi par son id de poule
     public static function getIdTournoi($idPoule) : int{
         $mysql = Database::getInstance();
-        $row = $mysql->select("IdTournoi, IdJeu", "Poule", "WHERE IdPoule = $idPoule");
+        echo $idPoule;
+        $row = $mysql->select("IdTournoi", "Poule", "WHERE IdPoule = $idPoule");
         return $row[0]['IdTournoi'];
     }
     //récupéré un jeu par son id de poule

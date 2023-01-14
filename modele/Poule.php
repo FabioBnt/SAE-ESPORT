@@ -128,5 +128,10 @@ class Poule
             return $n2;
         }
     }
+
+    // retounre l'id de la poule
+    public function getId(){
+        return $this->id;
+    }
 }
 ?>

@@ -53,7 +53,22 @@
         $pdo->rollBack();
     }
     if(isset($_GET['score1']) && isset($_GET['score2'])){
-        MatchJ::setScore($_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
+        try{
+            MatchJ::setScore($_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
+            //vers DetailsTournoi.php?IDT=
+            $idT = MatchJ::getIdTournoi($_GET['poule']);
+            header( 'Location:./DetailsTournoi.php?IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
+            exit();
+        }catch(Exception $e){
+            // redirect vers la page de SaissirScore.php
+            header('Location:./SaisirScore.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'&erreur='.$e->getMessage());
+            exit();
+        }
+
+    }
+    // si erreur
+    if(isset($_GET['erreur'])){
+        echo '<script>alert("'.$_GET['erreur'].'")</script>';
     }
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -225,7 +240,7 @@
                 <input type="hidden" name="NomT" value="<?php echo $nomTournoi;?>"/>
                 <input type="hidden" name="JeuT" value="<?php echo $nomJeu;?>"/>
                 <input type="hidden" name="IDJ" value="<?php echo $idJeu;?>"/>
-                <input type="hidden" name="poule" value="<?php echo $_GET['poule'];?>"/>
+                <input type="hidden" name="poule" value="<?php echo $poule->getId();;?>"/>
                 <input type="hidden" name="equipe1" value="<?php echo $_GET['equipe1'];?>"/>
                 <input type="hidden" name="equipe2" value="<?php echo $_GET['equipe2'];?>"/>
                 <tr>
