@@ -2,13 +2,15 @@
 include_once "Equipe.php";
 include_once "Database.php";
 include_once "Jeu.php";
+//créer la liste équipes
 class Equipes
 {
     private $equipes;
+    //constructeur
     function __construct(){
         $this->equipes = array();
     }
-
+    // select mysql d'une liste d'équipe
     private function selectEquipe(string $cond=""){
         //
         $mysql = Database::getInstance();
@@ -16,9 +18,8 @@ class Equipes
          "Equipe E", "where E.IdEcurie ".$cond.' ORDER BY  IdJeu');
         $this->misAJourListeEquipes($data);
     }
-    
+    //mettre a jour la liste
     private function misAJourListeEquipes($data){
-        //
         $this->equipes = array();
         $last = -1;
         $index = -1;
@@ -30,10 +31,12 @@ class Equipes
             }
         }
     }
+    //récupéré toutes les équipes bdd
     public function tousLesEquipes()
     {
         $this->selectEquipe();
     }
+    //afficher les informations des équipes
     public function afficherEquipes()
     {
         foreach ($this->equipes as $ligneValue) {
@@ -55,17 +58,16 @@ class Equipes
         echo "</tr>";
         }
     }
-
+    //récupéré les équipes de la liste
     public function getEquipes(){
         return $this->equipes;
     }
-
+    //récupéré une équipe par son id
     public function getEquipe($id){
         $mysql = Database::getInstance();
         $data = $mysql->select("*",
          "Equipe E", "where E.IdEquipe= ".$id."");
          return $data;
     } 
-
 }
 ?>

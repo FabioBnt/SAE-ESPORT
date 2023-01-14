@@ -5,25 +5,25 @@ error_reporting(E_ALL);
 include_once 'Database.php';
 include_once 'Jeu.php';
 include_once 'Equipe.php';
+//creer un classement
 class Classement
 {
     private $jeu;
     public $classement = array();
-
+    //constructeur
     function __construct($jeu){
         $this->jeu = $jeu;
     }
-
+    //recuperer le jeu du classement
     public function getJeu()
     {
         return $this->jeu;
     }
-
+    //recuperer le classement
     public function getClassement()
     {
         return $this->classement;
     }
-
     //Retourne le classement du tournoi pour le jeu passé en paramètre
     public function returnClassement($idJeu): void
     {
@@ -34,7 +34,6 @@ class Classement
             $this->classement[] = $ligne;
         }
     }
-
     //Affiche le classement des équipes pour un jeu
     public function afficherClassement($idJeu): void
     {
@@ -52,15 +51,6 @@ class Classement
             echo "<td><a href='./DetailsEquipe.php?IDE=".$equipe->getId()."'>+</a></td>";
             echo "</tr>";
         }
-    }
-    
-    public static function getInstance($jeu)
-    {
-        return NULL;
-    }
-    public function toString()
-    {
-        return NULL;
     }
 }
 /*$jeu = new Jeu(1,'test','test',120,12);

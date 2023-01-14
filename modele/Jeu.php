@@ -1,5 +1,6 @@
 <?php
 include_once "Database.php";
+//créer un jeu
 class Jeu
 {
     private int $id;
@@ -7,6 +8,7 @@ class Jeu
     private $type;
     private $temps;
     private $limiteInscription;
+    //constructeur
     function __construct($id, $nom, $type, $temps, $limiteInscription){
         $this->id = $id;
         $this->nom = $nom;
@@ -14,17 +16,20 @@ class Jeu
         $this->temps = $temps;
         $this->limiteInscription = date($limiteInscription);
     }
+    //récupéré le nom
     public function getNom(){
         return $this->nom;
     }
-
+    //récupéré l'id
     public function getId(){
         return $this->id;
     }
+    //récupéré les infos d'un jeu
     public function toString()
     {
         return $this->nom . $this->type . $this->temps . strval($this->limiteInscription);
     }
+    //récupéré tous les jeux
     public static function tousLesJeux()
     {
         $data = Database::getInstance()->select('*', 'Jeu');
@@ -34,15 +39,15 @@ class Jeu
         }
         return ($jeux);
     }
+    //récupéré la date limite d'inscription
     public function getlimiteInscription(){
         return $this->limiteInscription;
     }
-
+    //récupéré un jeu par son id
     public static function getJeuById($id):Jeu {
         $data = Database::getInstance()->select('*', 'Jeu', 'where IdJeu = '.$id);
         $jeu = new Jeu($data[0]['IdJeu'],$data[0]['NomJeu'], $data[0]['TypeJeu'], $data[0]['TempsDeJeu'], $data[0]['DateLimiteInscription']);
         return $jeu;
     }
 }
-
 ?>

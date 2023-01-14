@@ -1,11 +1,11 @@
-<?php declare(strict_types=1);
-
+<?php 
+declare(strict_types=1);
 use function PHPUnit\Framework\assertSame;
-
 include_once(dirname(__DIR__).'/modele/Tournois.php');
 include_once(dirname(__DIR__).'/modele/MatchJ.php');
+//créer un test de resultat
 class ResultatsTest extends \PHPUnit\Framework\TestCase {
-    
+    //test
     public function testSetScore() {
         Connexion::getInstanceSansSession()->seConnecter('Admin', '$iutinfo', Role::Administrateur);
         $mysql = Database::getInstance();
@@ -20,6 +20,5 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
         assertSame($score2, 5);
         $pdo->rollBack();
     }
-
 }
 ?>

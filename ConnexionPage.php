@@ -1,7 +1,6 @@
 ﻿<?php
     include './modele/Connexion.php';
     $connx = Connexion::getInstance();
-
     if(isset($_POST['username']) && isset($_POST['password'])){
         $connx->seConnecter($_POST['username'], $_POST['password'], $_POST['roles']);
         if($connx->getRole() == $_POST['roles']){
@@ -29,13 +28,10 @@
             <option value="Arbitre">Arbitre</option>
             <option value="Administrateur">Administrateur</option>
         </select> <br>
-        
         <label><b>Nom d'utilisateur</b></label>
         <input type="text" placeholder="Entrer le nom d'utilisateur" name="username" required>
-
         <label><b>Mot de passe</b></label>
         <input type="password" placeholder="Entrer le mot de passe" name="password" required>
-
         <input type="submit" id='submit' value='CONNEXION' >
         <input type="button" value='ANNULER' onclick="history.back()"> <!--Permet de retourner à la page d'avant (historique)-->
     </form>

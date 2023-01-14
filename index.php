@@ -22,11 +22,9 @@
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
-
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png" alt="Logo Esporter">
             </div>
-
             <div class="menuright">  
                     <?php 
                         if($connx->getRole() == Role::Visiteur){

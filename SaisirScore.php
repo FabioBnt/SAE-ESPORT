@@ -1,66 +1,64 @@
 ﻿
 <?php
-include_once './modele/Administrateur.php';
-include_once './modele/Connexion.php';
-include_once './modele/Tournois.php';
-$connx = Connexion::getInstance();
-$mysql = Database::getInstance();
-$listePoules = null;
-$listePoules;
-$nomTournoi = null;
-$nomJeu = null;
-$idJeu = null;
-if(isset($_GET['IDJ'])){
-    $listePoules = $_SESSION['jeu'.$_GET['IDJ']];
-    $nomTournoi = $_GET['NomT'];
-    $nomJeu = $_GET['JeuT'];
-    $idJeu = $_GET['IDJ'];
-}else{
-    $listePoules = array();
-    $nomTournoi = "Inconnu";
-    $nomJeu = 'Jeu Inconnu';
+    include_once './modele/Administrateur.php';
+    include_once './modele/Connexion.php';
+    include_once './modele/Tournois.php';
+    $connx = Connexion::getInstance();
+    $mysql = Database::getInstance();
+    $listePoules = null;
+    $listePoules;
+    $nomTournoi = null;
+    $nomJeu = null;
     $idJeu = null;
-}
-if(isset($_GET['test'])){
-    Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
-    $tournoi = new Tournois();
-    $pdo = Database::getInstance()->getPDO();
-    $pdo->beginTransaction();
-    $idJeu = 8;
-    $admin = new Administrateur();
-    $admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/01/2023',array($idJeu));
-    $id = $mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
-    $tournoi->tousLesTournois();
-    $t = $tournoi->getTournoi($id[0]['IdTournoi']);
-    Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
-    $idE = $mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
-    $i = 0;
-    $maxE = 16;
-    if($_GET['test'] === '1'){
-        $maxE = 14;
+    if(isset($_GET['IDJ'])){
+        $listePoules = $_SESSION['jeu'.$_GET['IDJ']];
+        $nomTournoi = $_GET['NomT'];
+        $nomJeu = $_GET['JeuT'];
+        $idJeu = $_GET['IDJ'];
+    }else{
+        $listePoules = array();
+        $nomTournoi = "Inconnu";
+        $nomJeu = 'Jeu Inconnu';
+        $idJeu = null;
     }
-    while($i < $maxE){
-        $equipe = Equipe::getEquipe($idE[$i]['IdEquipe']);
-        $equipe->Inscrire($t);
-        $i++;
+    if(isset($_GET['test'])){
+        Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
+        $tournoi = new Tournois();
+        $pdo = Database::getInstance()->getPDO();
+        $pdo->beginTransaction();
+        $idJeu = 8;
+        $admin = new Administrateur();
+        $admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/01/2023',array($idJeu));
+        $id = $mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
+        $tournoi->tousLesTournois();
+        $t = $tournoi->getTournoi($id[0]['IdTournoi']);
+        Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        $idE = $mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
+        $i = 0;
+        $maxE = 16;
+        if($_GET['test'] === '1'){
+            $maxE = 14;
+        }
+        while($i < $maxE){
+            $equipe = Equipe::getEquipe($idE[$i]['IdEquipe']);
+            $equipe->Inscrire($t);
+            $i++;
+        }
+        if($_GET['test'] === '1'){
+            $t->genererLesPoules($idJeu);
+        }
+        $listePoules = $t->getPoules();
+        $nomTournoi = $t->getNom();
+        $nomJeu = $t->getJeux()[$idJeu]->getNom();
+        $pdo->rollBack();
     }
-    if($_GET['test'] === '1'){
-        $t->genererLesPoules($idJeu);
+    if(isset($_GET['score1']) && isset($_GET['score2'])){
+        MatchJ::setScore($_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
     }
-    $listePoules = $t->getPoules();
-    $nomTournoi = $t->getNom();
-    $nomJeu = $t->getJeux()[$idJeu]->getNom();
-    $pdo->rollBack();
-}
-if(isset($_GET['score1']) && isset($_GET['score2'])){
-    MatchJ::setScore($_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
-}
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -78,19 +76,17 @@ error_reporting(E_ALL);
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
-
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
             </div>
-
             <div class="menuright">  
-                    <?php 
-                        if($connx->getRole() == Role::Visiteur){
-                            echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
-                        }else{
-                            echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
-                        }
-                    ?>
+            <?php 
+                if($connx->getRole() == Role::Visiteur){
+                    echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
+                }else{
+                    echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
+                }
+            ?>
             </div>      
     </header>
     <main class="scoredetails">
@@ -178,7 +174,7 @@ error_reporting(E_ALL);
                 </tr>
                 <noscript><input type="submit" value="Submit"></noscript>
             </div>
-            </form>
+        </form>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
             <div>
                 <input type="hidden" name="NomT" value="<?php echo $nomTournoi;?>"/>

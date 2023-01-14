@@ -1,18 +1,19 @@
-<?php declare(strict_types=1);
-
+<?php 
+declare(strict_types=1);
 use function PHPUnit\Framework\assertSame;
-
 include_once(dirname(__DIR__).'/modele/Equipe.php');
+//créer un test inscrire equipe
 class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $equipe;
     private $tournois;
+    //mettre en place
     protected function setUp(): void {
         $this->mysql = Database::getInstance();
         $this->equipe = Equipe::getEquipe(1);
         $this->tournois = new Tournois();
     } 
-
+    //rénitialiser
     protected function tearDown(): void {
         $this->equipe = null;
     }
@@ -31,7 +32,7 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
         assertSame($totalInscription[0]['total']-'0', $numInscriptions+ 1);
         $pdo->rollBack();
     }*/
-
+    //test
     public function testEquipeDejaInscrit() {
         $this->expectException(Exception::class);
         Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
@@ -44,6 +45,7 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
         $this->equipe->Inscrire($tournoi);
         $pdo->rollBack();
     }
+    //test
     public function testJeuIncompatible() {
         $this->expectException(Exception::class);
         Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
@@ -55,6 +57,5 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
         $this->equipe->Inscrire($tournoi);
         $pdo->rollBack();
     }
-
 }
 ?>

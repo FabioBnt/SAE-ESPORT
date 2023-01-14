@@ -1,11 +1,10 @@
 ﻿<?php
-include_once './modele/Connexion.php';
-$connx = Connexion::getInstance();
-if (isset($_GET['sedeconnecter'])){
-    $connx->seDeconnecter();
-}
+    include_once './modele/Connexion.php';
+    $connx = Connexion::getInstance();
+    if (isset($_GET['sedeconnecter'])){
+        $connx->seDeconnecter();
+    }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,11 +22,9 @@ if (isset($_GET['sedeconnecter'])){
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
-
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
             </div>
-
             <div class="menuright">  
                     <?php 
                         if($connx->getRole() === Role::Visiteur){

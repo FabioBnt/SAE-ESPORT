@@ -1,4 +1,5 @@
 <?php
+//créer un match
 class MatchJ
 {
     private $numero;
@@ -6,19 +7,23 @@ class MatchJ
     private $heure;
     private $equipes = array();
     private $scores = array();
+    //constructeur
     function __construct($numero, $date, $heure){
         $this->numero = $numero;
         $this->date = $date;
         $this->heure = $heure;
     }
+    //ajouter le score de l'équipe
     public function addequipeScore($equipe, $score){
         $this->scores[$equipe->getId()] = $score;
         $this->equipes[$equipe->getId()] = $equipe;
     }
+    //renvoie l'heure du match
     public function toString()
     {
         return $this->heure;
     }
+    //initialise le score
     public static function setScore(int $idPoule,int $idEquipe1,int $idEquipe2 ,int $score1,int $score2)
     {
         $muysql = Database::getInstance()->getPDO();
@@ -45,19 +50,20 @@ class MatchJ
                 Tournoi::genererPouleFinale($idT, $idJ);
             }
         }
-        
     }
+    //récupéré un tournoi par son id de poule
     public static function getIdTournoi($idPoule) : int{
         $mysql = Database::getInstance();
         $row = $mysql->select("IdTournoi, IdJeu", "Poule", "WHERE IdPoule = $idPoule");
         return $row[0]['IdTournoi'];
     }
+    //récupéré un jeu par son id de poule
     public static function getIdJeu($idPoule): int{
         $mysql = Database::getInstance();
         $row = $mysql->select("IdJeu", "Poule", "WHERE IdPoule = $idPoule");
         return $row[0]['IdJeu'];
     }
-    // scores were set or not
+    // savoir si le score est initialisé ou non
     public function isScoreSet()
     {
         if($this->scores[0] == null || $this->scores[1] == null || $this->scores[0] == "" || $this->scores[1] == ""){
@@ -66,6 +72,7 @@ class MatchJ
             return true;
         }
     }
+    //savoir qui est le gagnant du match
     public function gagnant()
     {
         $t = array_keys($this->equipes);
@@ -75,17 +82,17 @@ class MatchJ
             return new Equipe(0,"X",0,0,0);
         } else {
             return $this->equipes[$t[1]];
-        };
+        }
     }
-
     /**
      * @return array
      */
+    //récupéré les équipes
     public function getEquipes(): array
     {
         return $this->equipes;
     }
-
+    //afficher les informations des équipes
     public function afficherEquipes(){
         echo "<tr>";
         foreach ($this->scores as $key => $ligneValue) {
@@ -100,3 +107,4 @@ class MatchJ
         echo "</tr>";
     }
 }
+?>

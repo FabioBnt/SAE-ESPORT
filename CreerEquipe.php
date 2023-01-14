@@ -29,10 +29,8 @@ if (isset($_GET['sedeconnecter'])) {
     $connx->seDeconnecter();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +38,6 @@ if (isset($_GET['sedeconnecter'])) {
     <link rel="stylesheet" href="./style.css" />
     <title>E-Sporter Manager</title>
 </head>
-
 <body class="equipe">
     <!--Menu de navigation-->
     <header>
@@ -49,11 +46,9 @@ if (isset($_GET['sedeconnecter'])) {
             <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
             <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
         </div>
-
         <div class="menucenter">
             <img class="logo" src="./img/logo header.png">
         </div>
-
         <div class="menuright">
             <?php
             if ($connx->getRole() == Role::Visiteur) {
@@ -116,5 +111,4 @@ if (isset($_GET['sedeconnecter'])) {
         </div>
     </main>
 </body>
-
 </html>

@@ -1,28 +1,27 @@
 ﻿<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-        include './modele/Connexion.php';
-        include './modele/Tournois.php';
-        $connx = Connexion::getInstance();
-        $mysql = Database::getInstance();
-        $listeTournois = new Tournois;
-        $listeTournois->tousLesTournois();
-        $idTournoi = $_GET['IDT'];
-        $tournoi = $listeTournois->getTournoi($idTournoi);
-        if(isset($_GET['inscrire'])){
-            $idEquipe = $_GET['inscrire'];
-            $equipe = Equipe::getEquipe($idEquipe);
-            try{
-                $equipe->inscrire($tournoi);
-                echo '<script>alert("Inscription valide")</script>';
-            }catch (Exception $e){
-                echo '<script>alert("'.$e->getMessage().'")</script>';
-            }
-
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    include './modele/Connexion.php';
+    include './modele/Tournois.php';
+    $connx = Connexion::getInstance();
+    $mysql = Database::getInstance();
+    $listeTournois = new Tournois;
+    $listeTournois->tousLesTournois();
+    $idTournoi = $_GET['IDT'];
+    $tournoi = $listeTournois->getTournoi($idTournoi);
+    if(isset($_GET['inscrire'])){
+        $idEquipe = $_GET['inscrire'];
+        $equipe = Equipe::getEquipe($idEquipe);
+        try{
+            $equipe->inscrire($tournoi);
+            echo '<script>alert("Inscription valide")</script>';
+        }catch (Exception $e){
+            echo '<script>alert("'.$e->getMessage().'")</script>';
         }
- ?>
 
+    }
+ ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -40,11 +39,9 @@ error_reporting(E_ALL);
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
-
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
             </div>
-
             <div class="menuright">  
                     <?php 
                         if($connx->getRole() === Role::Visiteur){
@@ -83,8 +80,7 @@ error_reporting(E_ALL);
                             <?php foreach ($tournoi->getJeux() as $jeu) {
                                 echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDJ=".$jeu->getId().'&NomT='.$tournoi->getNom().'&JeuT='.$jeu->getNom()."'>+</a></td></tr>";
                                 $_SESSION['jeu'.$jeu->getId()] = $tournoi->getPoules();
-                            } ?>
-                            
+                            } ?>    
                         </tbody>
                     </table>
                     <?php

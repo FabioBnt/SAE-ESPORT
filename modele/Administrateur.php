@@ -3,18 +3,19 @@ include_once 'Connexion.php';
 include_once 'Database.php';
 include_once 'Role.php';
 include_once 'Jeu.php';
-
+//Creer un administrateur
 class Administrateur {
+    //constructeur
     public function __construct()
     {
     }
+    //creer une ecurie
     public function creerEcurie(string $nom, string $compte, string $mdp, string $type)
-    {
-        
+    { 
         Database::getInstance()->insert("Ecurie (Designation, TypeE, NomCompte, MDPCompte)", 4
          , array($nom, $type, $compte, $mdp));
     }
-
+    //creer un tournoi
     public function creerTournoi(string $nom, int $cashPrize,string $notoriete, string $lieu,string $heureDebut,string $date,array $jeux){
         if(!$this->estConnecter()){
             throw new Exception('action qui nécessite une connexion en tant que membre du groupe');
@@ -26,7 +27,9 @@ class Administrateur {
             Database::getInstance()->insert("Contenir",2,array($jeu,$idTournoi[0]['IdTournoi']));
         }
     }
+    //verifier si administrateur est connecté
     public function estConnecter(){
         return (Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Administrateur)||Connexion::getInstance()->estConnecterEnTantQue(Role::Administrateur));
     }
 }
+?>

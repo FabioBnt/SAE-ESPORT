@@ -1,22 +1,21 @@
 <?php
 use function PHPUnit\Framework\assertSame;
-
 include_once(dirname(__DIR__).'/modele/Administrateur.php');
-
+//créer un test de créer tournoi
 class CreerTournoiTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $admin;
-
+    //mettre en place
     protected function setUp(): void {
         $this->mysql = Database::getInstance();
         $this->admin = new Administrateur();
     }
-
+    //rénitialiser
     protected function tearDown(): void {
         $this->mysql = null;
         $this->admin = null;
     }
-
+    //test
     public function testTournoiCreationValide(){
         Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
         $pdo = $this->mysql->getPDO();
@@ -27,3 +26,4 @@ class CreerTournoiTest extends \PHPUnit\Framework\TestCase {
         $pdo->rollBack();
     }
 }
+?>

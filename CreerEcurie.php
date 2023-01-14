@@ -9,8 +9,6 @@ if(isset($_POST['name'])){
         echo '<script>alert("La ligne a bien été inserée")</script>';
     }
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -29,11 +27,9 @@ if(isset($_POST['name'])){
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
-
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
             </div>
-
             <div class="menuright">  
                     <?php 
                         if($connx->getRole() == Role::Visiteur){

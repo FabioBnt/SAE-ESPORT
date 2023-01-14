@@ -1,5 +1,6 @@
 <?php
 include_once "MatchJ.php";
+//créer une poule
 class Poule
 {
     private $id;
@@ -7,13 +8,14 @@ class Poule
     private $matchs = array();
     private $estFinale;
     private $jeu;
-
+    //constructeur
     public function __construct($id, $numero, $estFinale, $jeu){
         $this->id = $id;
         $this->numero = $numero;
         $this->estFinale = $estFinale;
         $this->jeu = $jeu;
     }
+    //ajouter un match a la poule
     public function addMatch($numero, $date, $heure, $equipes): void
     {
         $this->matchs[$numero] = new MatchJ($numero, $date, $heure);
@@ -23,6 +25,7 @@ class Poule
             $this->matchs[$numero]->addEquipeScore($equipes[$ligne['IdEquipe']], $ligne['Score']);
         }
     }
+    //récupéré la meilleur équipe de la poule
     public function meilleureEquipe(){
         $equipes = $this->lesEquipes();
             $meilleur = null;
@@ -34,10 +37,11 @@ class Poule
                     $meilleurScore = $score;
                 } else if($score == $meilleurScore){
                     $meilleur=$this->getDiffPoint ($meilleur,$equipe);
-                }};
+                }
+            }
         return $meilleur;
     }
-
+    //récupéré la liste des meilleures équipes Top4
     public function meilleuresEquipes(){
         $equipes = $this->lesEquipes();
         $result = [];
@@ -51,7 +55,7 @@ class Poule
                     $meilleurScore = $score;
                 } else if($score == $meilleurScore){
                     $meilleur=$this->getDiffPoint ($meilleur,$equipe);
-                };
+                }
             }
             array_push($result, $meilleur);
             unset($equipes[array_search($meilleur,$equipes)]);
@@ -59,6 +63,7 @@ class Poule
         array_push($result, $equipes);
         return $result;
     }
+    //récupéré le classement des équipes
     public function classementEquipes(){
         // add the number of match won by each team
         $equipes = $this->lesEquipes();
@@ -69,7 +74,7 @@ class Poule
         arsort($classement);
         return $classement;
     }
-
+    //récupéré le nb de match gagné d'une équipe sur la poule
     public function nbMatchsGagnes($equipe): int
     {
         $nb = 0;
@@ -80,22 +85,25 @@ class Poule
         }
         return $nb;
     }
-
+    //récupéré le numéro de la poule
     public function getNumero(){
         return $this->numero;
     }
+    //savoir si la poule est finale ou non
     public function estPouleFinale(){
         return $this->estFinale;
     }
+    //récupéré la liste des matchs de la poule
     public function getMatchs(): array
     {
         return $this->matchs;
     }
+    //récupéré l'id de la poule
     public function __toString()
     {
         return $this->id;
     }
-
+    //récupéré les équipes de la poule
     public function lesEquipes(){
         $mysql = Database::getInstance();
         $data = $mysql->select('IdEquipe', '`Faire_partie`', 'where IdPoule ='.$this->id);
@@ -104,7 +112,6 @@ class Poule
             $equipes[$ligne['IdEquipe']] = Equipe::getEquipe($ligne['IdEquipe']);
         }
         return $equipes;
-        
     }
     //prend en entrer 2 id d'équipe d'une même poule et ressort l'id de l'équipe ayant le plus de point
     public function getDiffPoint ($n1, $n2 ) {
@@ -122,4 +129,4 @@ class Poule
         }
     }
 }
-
+?>

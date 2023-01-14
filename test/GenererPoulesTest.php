@@ -1,20 +1,21 @@
-<?php declare(strict_types=1);
-
+<?php 
+declare(strict_types=1);
 use function PHPUnit\Framework\assertSame;
-
 include_once(dirname(__DIR__).'/modele/Tournois.php');
+//créer un test generer poule
 class GenererPoulesTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $tournoi;
     private $admin;
     private $equipe;
+    //mettre en place
     protected function setUp(): void {
         $this->mysql = Database::getInstance();
         $this->admin = new Administrateur();
         Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
         $this->tournoi = new Tournois();
     } 
-
+    //test
     public function testGenererPoules(){
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
@@ -41,5 +42,5 @@ class GenererPoulesTest extends \PHPUnit\Framework\TestCase {
         // }
         assertSame($totalPoules[0]['total']-'0', count($listePoules[$idJeu]));
     }
-
 }
+?>

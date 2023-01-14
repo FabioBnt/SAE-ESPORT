@@ -2,7 +2,6 @@
 *{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-
 /*------------*/
 /*PAGE ACCUEIL*/
 /*    BODY    */
@@ -638,6 +637,3 @@ header .buttonM,header #connexion, header #deconnexion{
         grid-row: 1;
     }
 }
-/*----------------*/
-/*PAGE INSCRIPTION*/
-/*----------------*/

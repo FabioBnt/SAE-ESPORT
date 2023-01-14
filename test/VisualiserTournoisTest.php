@@ -1,26 +1,28 @@
-<?php declare(strict_types=1);
-
+<?php 
+declare(strict_types=1);
 use function PHPUnit\Framework\assertSame;
-
 include_once(dirname(__DIR__).'/modele/Tournois.php');
+//créer un test de visualiser tournoi
 class VisualiserTournoisTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $tournois;
+    //mettre en place
     protected function setUp(): void {
         $this->mysql = Database::getInstance();
         $this->tournois = new Tournois();
     } 
-
+    //rénitialiser
     protected function tearDown(): void {
         $this->tournois = null;
     }
-
+    //test
     public function testVisualiserTousLesTournois() {
         $totalTournois = $this->mysql->select("count(IdTournoi) as total", "Tournois");
         $this->tournois->tousLesTournois();
         $listeTournois =  $this->tournois->getTournois();
         assertSame($totalTournois[0]['total']-'0', count($listeTournois));
     }
+    //test
     public function testTournoisFiltre() {
         $totalTournois = $this->mysql->select("count(*) as total", "Tournois", "where Notoriete = 'Local'
         AND Lower(Lieu) like Lower('toulouse') AND CashPrize > 1 AND CashPrize < 100000 AND Lower(NomTournoi) like Lower('%g%') AND Date(DateHeureTournois) = '2023-06-20'");
@@ -28,6 +30,7 @@ class VisualiserTournoisTest extends \PHPUnit\Framework\TestCase {
         $listeTournois =  $this->tournois->getTournois();
         assertSame($totalTournois[0]['total']-'0', count($listeTournois));
     }
+    //test
     public function testTournoisFiltreParJeu(): void
     {
         $totalTournois = $this->mysql->select("count(*) as total", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
@@ -36,6 +39,5 @@ class VisualiserTournoisTest extends \PHPUnit\Framework\TestCase {
         $listeTournois =  $this->tournois->getTournois();
         assertSame($totalTournois[0]['total']-'0', count($listeTournois));
     }
-
 }
 ?>

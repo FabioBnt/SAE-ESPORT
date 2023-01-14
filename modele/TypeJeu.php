@@ -1,6 +1,5 @@
-
 <?php
-//enum is not naitvaly supported in this version of php
+//créer un type jeu
 abstract class TypeJeu
 {
     const Course = 'Course';

@@ -1,7 +1,5 @@
-
 <?php
-
-//enum is not naitvaly supported in this version of php
+//créer les rôles
 class Role
 {
     const Visiteur = 'Visiteur';

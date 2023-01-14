@@ -1,20 +1,15 @@
 <?php
-
 use phpDocumentor\Reflection\Types\Boolean;
-
 include "Role.php";
 include_once "Database.php";
-
-/**
- *
- */
+//creer une connexion
 class Connexion
 {
     private $role;
     private $identifiant;
     private static $instance = null;
     private $comptes = array();
-
+    //constructeur
     private function __construct()
     {
         $this->role = Role::Visiteur;
@@ -22,7 +17,7 @@ class Connexion
         $this->comptes[Role::Administrateur] = ["admin", "\$iutinfo"];
         $this->comptes[Role::Arbitre] = ["arbitre", "\$iutinfo"];
     }
-
+    //recuperer l'instance de la connexion
     public static function getInstance()
     {
         if (session_status() == PHP_SESSION_NONE) {
@@ -34,13 +29,13 @@ class Connexion
         }
         return $_SESSION[self::class];
     }
-
     /**
      * @param string $identifiant
      * @param string $password
      * @param $role
      * @return void
      */
+    //se connecter
     function seConnecter(string $identifiant, string $password, $role)
     {
         if ($role == Role::Administrateur || $role == Role::Arbitre) {
@@ -59,7 +54,7 @@ class Connexion
             }
         }
     }
-
+    // recuperer l'instance sans avoir de session
     public static function getInstanceSansSession()
     {
         if (self::$instance == null) {
@@ -67,28 +62,27 @@ class Connexion
         }
         return self::$instance;
     }
-
+    // se deconnecter
     public function seDeconnecter()
     {
         $this->role = Role::Visiteur;
         $this->identifiant = "Guest";
     }
-
+    // savoir le rôle de la connexion
     public function estConnecterEnTantQue($role)
     {
         return ($this->getRole() == $role);
         
     }
-
+    //récupéré l'identifiant de la connexion
     function getIdentifiant()
     {
         return $this->identifiant;
     }
-
+    //récupéré le rôle de la connexion
     function getRole()
     {
         return $this->role;
     }
 }
-
 ?>

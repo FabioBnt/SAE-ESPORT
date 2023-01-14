@@ -2,13 +2,16 @@
 include_once "Tournoi.php";
 include_once "Database.php";
 include_once "Jeu.php";
+//créer la liste de tournoi
 class Tournois
 {
     private $tournois;
     private $posMap;
+    //constructeur
     function __construct(){
         $this->tournois = array();
     }
+    //selectionner un tournoi mysql
     private function selectTournoi(string $cond=""){
         $mysql = Database::getInstance();
         $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
@@ -16,7 +19,7 @@ class Tournois
             AND C.IdTournoi = T.IdTournoi ".$cond.' ORDER BY  IdTournoi');
         $this->misAJourListeTournois($data);
     }
-    
+    //mettre a jour la liste des tournois
     private function misAJourListeTournois($data){
         $this->tournois = array();
         $this->posMap = array();
@@ -35,10 +38,12 @@ class Tournois
             $this->posMap[$ligne['IdTournoi']] =  $index;
         }
     }
+    //récupéré tous les tournois
     public function tousLesTournois()
     {
         $this->selectTournoi();
     }
+    //récupéré les tournois par équipes
     public function TournoisEquipe($cond)
     {
         $mysql = Database::getInstance();
@@ -47,6 +52,7 @@ class Tournois
           AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=".$cond.' ORDER BY  IdTournoi');
         $this->misAJourListeTournois($data);
     }
+    //selection de tournois (filtre)
     public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date=""){
         if($nomJeu=="" && $nomTournois==="" && $prixMin===0 && $prixMax===0 && $notoriete==="" && $lieu==="" && $date===""){
             throw new \RuntimeException("Accun Argument passé");
@@ -76,6 +82,7 @@ class Tournois
         $cond = substr($cond, 0, -3);
         $this->selectTournoi($cond);
     }
+    //afficher les infos des tournois
     public function afficherTournois()
     {
         foreach ($this->tournois as $ligneValue) {
@@ -88,15 +95,14 @@ class Tournois
         echo "</tr>";
         }
     }
-
+    //récupéré les tournois
     public function getTournois(){
         return $this->tournois;
     }
-
+    //récupéré un tournoi par son id
     public function getTournoi($id){
         return $this->tournois[$this->posMap[$id]];
     }
-    
 }
 /*
 include_once "Tournois.php";

@@ -1,15 +1,13 @@
-﻿body{
-    background-image: url("./img/ESL_stadium.jpg");
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-size:cover;
-}
-
+﻿    body{
+        background-image: url("./img/ESL_stadium.jpg");
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        background-size:cover;
+    }
    #seconnecter{
     width:400px;
     margin:auto;
     margin-top:10%;
    }
-   
    form {
     width:100%;
     padding: 2em;
@@ -17,13 +15,11 @@
     background: #fff;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
    }
-
    #seconnecter h1{
     width: 38%;
     margin: 0 auto;
     padding-bottom: 10px;
    }
-   
    input[type=text], input[type=password] {
     width: 100%;
     padding: 12px 20px;
@@ -32,7 +28,6 @@
     border: 1px solid #ccc;
     box-sizing: border-box;
    }
-   
    input[type=submit], input[type=button]{
     background-color: rgb(194, 173, 224);
     color: white;
@@ -51,8 +46,6 @@
     padding-top: 20;
     padding-bottom: 20;
    }
-
    input[type=button]{
     background-color: crimson;
    }
-   

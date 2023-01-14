@@ -1,6 +1,5 @@
-
 <?php
-//enum is not naitvaly supported in this version of php
+//créer une notoriété
 abstract class Notoriete
 {
     const International = 'International';

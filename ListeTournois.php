@@ -1,10 +1,10 @@
 ﻿<?php
-include './modele/Connexion.php';
-include './modele/Tournois.php';
-$connx = Connexion::getInstance();
-$listeTournois = new Tournois();
-$listeTournois->tousLesTournois();
-if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || isset($_GET['prixmax'])
+    include './modele/Connexion.php';
+    include './modele/Tournois.php';
+    $connx = Connexion::getInstance();
+    $listeTournois = new Tournois();
+    $listeTournois->tousLesTournois();
+    if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || isset($_GET['prixmax'])
     || isset($_GET['notoriete']) || isset($_GET['lieu']) || isset($_GET['date'])) {
     $jeu = "";
     $nom = "";
@@ -33,8 +33,6 @@ if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || iss
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -52,11 +50,9 @@ if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || iss
         <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
         <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
     </div>
-
     <div class="menucenter">
         <img class="logo" src="./img/logo header.png" alt="logo">
     </div>
-
     <div class="menuright">
         <?php
         if ($connx->getRole() == Role::Visiteur) {
@@ -68,7 +64,6 @@ if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || iss
     </div>
 </header>
 <main>
-
     <div class="tournoismain">
         <h1>Liste des Tournois</h1>
         <div>
@@ -114,7 +109,6 @@ if (isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || iss
                 </thead>
                 <tbody>
                 <?php $listeTournois->afficherTournois(); ?>
-
                 </tbody>
             </table>
         </div>

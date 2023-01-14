@@ -2,12 +2,10 @@
 include_once './modele/Connexion.php';
 include_once './modele/Administrateur.php';
 include_once './modele/Jeu.php';
-
 //? Print errors at launch
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 $connx = Connexion::getInstance();
 $listeJeux = Jeu::tousLesJeux();
 if(isset($_POST['name'])){
@@ -19,11 +17,7 @@ if(isset($_POST['name'])){
         echo '<script>alert("Il faut etre connecté en tant que Administateur")</script>';
     }
 }
-
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -41,11 +35,9 @@ if(isset($_POST['name'])){
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
-
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png">
             </div>
-
             <div class="menuright">  
                     <?php 
                         if($connx->getRole() == Role::Visiteur){
