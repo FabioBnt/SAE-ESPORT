@@ -11,7 +11,11 @@ $listeJeux = Jeu::tousLesJeux();
 if(isset($_POST['name'])){
     if($connx->getRole() == Role::Administrateur){
         $Admin = new Administrateur();
-        $Admin->creerTournoi($_POST['name'], $_POST['cashprize'],$_POST['typeT'],$_POST['lieu'],$_POST['heure'],$_POST['date'],$_POST['jeuT']);
+        $cash=$_POST['cashprize'];
+        if($cash < 0){
+            $cash=0;
+        }
+        $Admin->creerTournoi($_POST['name'],$cash,$_POST['typeT'],$_POST['lieu'],$_POST['heure'],$_POST['date'],$_POST['jeuT']);
         echo '<script>alert("La ligne a bien été insérée")</script>';
     }else{
         echo '<script>alert("Il faut etre connecté en tant que Administateur")</script>';

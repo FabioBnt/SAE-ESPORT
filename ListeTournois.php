@@ -68,6 +68,11 @@
         <h1>Liste des Tournois</h1>
         <div>
             <div>
+                <p><b>Information :</b> Les points d'un tournoi sont donnés aux 4 premières équipes par Jeu et des
+                    multiplicateurs sont associés en fonction de la notoriété. Le cashprize revient à la première équipe !
+                </p>
+            </div>
+            <div>
                 <h3> Filtre de recherche : </h3>
                 <form action="ListeTournois.php" class="RechercheL" method="GET">
                     Jeu : <label>

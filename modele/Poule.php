@@ -60,7 +60,10 @@ class Poule
             array_push($result, $meilleur);
             unset($equipes[array_search($meilleur,$equipes)]);
         }
-        array_push($result, $equipes);
+        foreach ($equipes as $equipe) {
+            $p=$equipe->getId();
+        }
+        array_push($result,$equipes[$p]);
         return $result;
     }
     //récupéré le classement des équipes

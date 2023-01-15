@@ -66,7 +66,7 @@
                     <label id="Dgridl4"><b>Lieu du tournoi</b></label>
                     <input id="Dgridi4" type="text" name="lieuT" value='<?php echo $tournoi->getLieu(); ?>' readonly>
                     <label id="Dgridl5"><b>CashPrize</b></label>
-                    <input id="Dgridi5" type="text" name="cashprizeT" value='<?php echo $tournoi->getCashPrize(); ?>' readonly>
+                    <input id="Dgridi5" type="text" name="cashprizeT" value='<?php echo $tournoi->getCashPrize(); ?>€' readonly>
                     <label id="Dgridl6"><b>Notoriété</b></label>
                     <input id="Dgridi6" type="text" name="notorieteT" value='<?php echo $tournoi->getNotoriete(); ?>' readonly>
                     <table id="Dgridt1">

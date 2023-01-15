@@ -303,7 +303,7 @@ class Tournoi
     //récupéré la liste des infos du tournoi
     public function listeInfo(): array
     {
-        return array($this->nom,$this->cashPrize,$this->notoriete,$this->lieu,$this->getHeureDebut(),$this->getDate(),$this->dateLimiteInscription , $this->nomsJeux());
+        return array($this->nom,$this->cashPrize."€",$this->notoriete,$this->lieu,$this->getHeureDebut(),$this->getDate(),$this->dateLimiteInscription , $this->nomsJeux());
     }
     //récupéré le nom des jeux
     private function nomsJeux(): string

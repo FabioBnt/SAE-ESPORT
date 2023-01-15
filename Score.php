@@ -128,6 +128,10 @@
                 }
                 echo '</tbody></table>';
             }
+        }else{
+            echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
+            transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
+        }
         ?>
         <table id="tableS6">
             <thead>
@@ -137,30 +141,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Equipe 1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>Equipe 3</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>Equipe 4</td>
-                    <td>3</td>
-                </tr>
-                <tr>
-                    <td>Equipe 2</td>
-                    <td>4</td>
-                </tr>
+                <?php
+            $i = 0;
+            if(array_key_exists("$idJeu",$listePoules)){
+                foreach ($listePoules[$idJeu] as $poule) {
+                    $i++;
+                    if($i==5){
+                        $p = $poule -> meilleuresEquipes();
+                        $in=1;
+                        foreach($p as $e){
+                            echo "<tr>";
+                            echo "<td>$in</td>";
+                            echo "<td>";
+                            echo $e->getNom();
+                            echo "</td>";
+                            echo "</tr>";
+                            $in++;
+                        }
+                    }
+                }
+            }
+            ?>
             </tbody>
         </table>
-        <?php
-        }else{
-            echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
-            transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
-        }
-        ?>
     </main>
 </body>
 </html>
