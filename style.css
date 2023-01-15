@@ -637,3 +637,11 @@ header .buttonM,header #connexion, header #deconnexion{
         grid-row: 1;
     }
 }
+
+/*----------------*/
+/*PAGE CLASSEMENT */
+/*----------------*/
+.formClassement{
+    align-items: center;
+    display: grid;
+}

@@ -42,7 +42,7 @@ if (isset($_GET['sedeconnecter'])) {
     </header>
     <main>
         <div class="classementmain">
-            <form action="./Classement.php">
+            <form action="./Classement.php" class="formClassement">
                 <h1>Sélectionner un jeu</h1>
                 <select name="jeuC" id="Clformt1">
                     <?php
