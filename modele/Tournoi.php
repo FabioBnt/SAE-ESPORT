@@ -1,6 +1,7 @@
 <?php
 include_once "Equipe.php";
 include_once "Poule.php";
+include_once "Notoriete.php";
 //comparateur d'équipe
 function comparatorEquipe(Equipe $e1, Equipe $e2) {
     return ($e1->getPoints() > $e2->getPoints());
@@ -112,6 +113,41 @@ class Tournoi
             $equipesPoules[$data[$i]['IdPoule']][] = $equipe->getId();
             $i++;
         }
+        //insert les matchs
+        $this->insertConcourir($equipesPoules);
+    }
+    //généré la poule finale
+    public static function genererPouleFinale($idT, $idJeu)
+    {
+        // get the fisrt of every poule and then make the poule finale wip
+        $tournoi = new Tournois();
+        // tous les tounrois
+        $tournoi->tousLesTournois();
+        $tournoi = $tournoi->getTournoi($idT);
+        $equipes =  $tournoi->meilleursEquipesPoulesNonFinale($idJeu);
+        $mysql = Database::getInstance();
+        $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array(5, 1, $idJeu, $idT));
+        $data = $mysql->select('IdPoule','Poule', 'where NumeroPoule = 5 AND IdJeu = '.$idJeu.' AND IdTournoi = '.$idT);
+        // todays date
+        $date = date("Y/m/d");
+        for($i = 0; $i < 6 ; $i++){
+            $n = $i + 1;
+            foreach($data as $ligne){
+                $mysql->Insert('MatchJ (IdPoule, Numero, dateM, HeureM)', 4, array($ligne['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($date))));              
+            }
+            $date = date('Y-m-d H:i:s', strtotime($date. ' + '.$n.' hours'));
+        }
+        $equipesPoules = array();
+        foreach($equipes as $equipe){
+            $mysql->Insert('`Faire_partie` (IdPoule, IdEquipe)', 2, array($data[0]['IdPoule'], $equipe->getId()));
+            $equipesPoules[$data[0]['IdPoule']][] = $equipe->getId();
+        }
+        //insert les matchs
+        $tournoi->insertConcourir($equipesPoules);
+    }
+    // insert concourir function
+    public function insertConcourir($equipesPoules){
+        $mysql = Database::getInstance();
         foreach($equipesPoules as $key => $value){
             $n = 1;
             while(count($value) < 4){
@@ -147,71 +183,50 @@ class Tournoi
                 $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));  
             }      
         }
+        // foreach($equipesPoules as $key => $value){
+        //     $n = 1;
+        //     while(count($value) < 4){
+        //         $value[] = null;
+        //     }
+        //     while($n < 7){
+        //         // insert for $value[0] and $value[1] then $value[0] and $value[2] then $value[0] and $value[3] then $value[1] and $value[2] then $value[1] and $value[3] then $value[2] and $value[3]
+        //         $i = 0;
+        //         $j = 1;
+        //         if($value[$i] && $value[$j]){
+        //             $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[$i], $key, $n, NULL));  
+        //             $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[$j], $key, $n, NULL));
+        //             $n++;
+        //         }
+        //         $j++;
+        //         if($j == 4){
+        //             $i++;
+        //             $j = $i + 1;
+        //         }
+        //     }
+        // }
     }
-    //généré la poule finale
-    public static function genererPouleFinale($idE, $idJeu)
-    {
-        // get the fisrt of every poule and then make the poule finale wip
-        $tournoi = Tournois::getTournoi($idE);
-        $equipes =  $tournoi->meilleursEquipesPoulesNonFinale($idJeu);
-        $mysql = Database::getInstance();
-        $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array(5, 1, $idJeu, $tournoi->getIdTournoi()));
-        $data = $mysql->select('IdPoule','Poule ', 'where Numero = 5 AND IdJeu ='.$idJeu.' AND IdTournoi = '.$tournoi->getIdTournoi()->id);
-        $equipesPoules = array();
-        foreach($equipes as $equipe){
-            $mysql->Insert('`Faire_partie` (IdPoule, IdEquipe)', 2, array($data[0]['IdPoule'], $equipe->getId()));
-            $equipesPoules[$data[0]['IdPoule']][] = $equipe->getId();
-        }
-        foreach($equipesPoules as $key => $value){
-            $n = 5;
-            while(count($value) < 4){
-                $value[] = null;
-            }
-            if($value[0] && $value[1]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));
-            }
-            if($value[0] && $value[2]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));
-            }
-            if($value[0] && $value[3]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));
-            }
-            if($value[1] && $value[2]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));   
-            }
-            if($value[1] && $value[3]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL)); 
-            }
-            if($value[2] && $value[3]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));  
-            }      
-        }
-    }
+
     //récupéré les meilleures équipe d'un jeu des poules (non finale)
     public function meilleursEquipesPoulesNonFinale($jeu)
     {
         // get the fisrt of every poule
         $equipes = array();
-        $poules = $this->getPoules($jeu);
+        $poules = $this->getPoules()[$jeu];
         foreach($poules as $poule){
-            $equipes[] = $poule->meilleurEquipe();
+            $equipes[] = $poule->meilleureEquipe();
         }
         return $equipes;
     }
     //mettre a jour les points
     public static function miseAJourDePoints($idT, $idJ)
     {
-        // TODO
         // update the points of every team
         //Combien de points gagne une équipe selon son classement  ?
         // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
-        $tournoi = Tournois::getTournoi($idT);
+        $tournoi = new Tournois();
+        // tous les tounrois
+        $tournoi->tousLesTournois();
+        $tournoi = $tournoi->getTournoi($idT);
         $poules = $tournoi->getPoules();
         $poules = $poules[$idJ];
         $equipes = array();
@@ -225,19 +240,23 @@ class Tournoi
         // update table Equipe set score
         // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
         $multiplicateur = 0;
-        if($tournoi->getNotorité == Notoriete::Local){
+        if($tournoi->getNotoriete() == Notoriete::Local){
             $multiplicateur = 1;
-        }else if($tournoi->getNotorité == Notoriete::Regional){
+        }else if($tournoi->getNotoriete() == Notoriete::Regional){
             $multiplicateur = 2;
-        }else if($tournoi->getNotorité == Notoriete::International){
+        }else if($tournoi->getNotoriete() == Notoriete::International){
             $multiplicateur = 3;
         }
         $i = 0;
         $scores = array(100, 60, 30, 10);
         // for each equipe key and value
         foreach($equipes as $key => $value){
-            $mysql->query('UPDATE Equipe SET Score = Score + '.($scores[$i] * $multiplicateur + 5 * $value).' WHERE IdEquipe = '.$key);
+            // update the score
+            $points = ($scores[$i] * $multiplicateur + 5 * $value);
+            $mysql->query('UPDATE Equipe SET NbPointsE = NbPointsE + '.$points.' WHERE IdEquipe = '.$key);
             $i++;
+            // to avoid out of range error
+            $i = $i % 4;
         }
     }
     //récupéré le nom du tournoi
@@ -255,6 +274,10 @@ class Tournoi
     //récupéré le cashprize du tournoi
     public function getCashPrize(){
         return $this->cashPrize;
+    }
+    //get date heure
+    public function getDateHeure(){
+        return $this->dateHeure;
     }
     //récupéré la date du tournoi
     public function getDate(){

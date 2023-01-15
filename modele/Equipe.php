@@ -119,7 +119,7 @@ class Equipe
     }
     //to string
     public function __toString() {
-        return $this->nom;
+        return ''.$this->nom;
     }
     /**
      * @return bool

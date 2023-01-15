@@ -50,6 +50,23 @@
         if($_GET['test'] === '1'){
             $t->genererLesPoules($idJeu);
         }
+        // if test = 2, on set les scores des matchs
+        if($_GET['test'] == '2'){
+            $poules = $t->getPoules()[$idJeu];
+            foreach($poules as $p){
+                $matchs = $p->getMatchs();
+                $j = 0;
+                foreach($matchs as $m){
+                    // keys of teams
+                    $keys = array_keys($m->getEquipes());
+                    MatchJ::setScore($poules,$p->getId(),$keys[0],$keys[1],rand(0,$j+3),rand(0,$j+4));
+                    $j++;
+                    if ($j == 5) {
+                        $poules = $t->getPoules()[$idJeu];
+                    }
+                }
+            }
+        }
         $listePoules = $t->getPoules();
         $nomTournoi = $t->getNom();
         $nomJeu = $t->getJeux()[$idJeu]->getNom();
@@ -89,7 +106,15 @@
     <main class="scoredetails">
         <a href="javascript:history.go(-1)" class="buttonE" id="RetourS8">Retour</a>
         <h1 id="labelS1">Score du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
-        <a href="SaisirScore.php?IDJ=<?php echo $idJeu;?>&NomT=<?php echo $nomTournoi;?>&JeuT=<?php echo $nomJeu;?>" class="buttonE" id="ModifS7">Modification</a>
+        <?php 
+            if($connx->getRole() == Role::Arbitre && isset($listePoules[$idJeu])){
+                foreach($listePoules[$idJeu] as $poule){
+                    if($poule->estPouleFinale() && !$poule->checkIfAllScoreSet()){
+                        echo '<a href="SaisirScore.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'" class="buttonE" id="ModifS7">Modification</a>';
+                    }
+                }
+            }
+            ?>
         <?php
         $i = 0;
         if(array_key_exists("$idJeu",$listePoules)){

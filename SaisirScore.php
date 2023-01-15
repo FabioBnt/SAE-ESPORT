@@ -6,7 +6,6 @@
     $connx = Connexion::getInstance();
     $mysql = Database::getInstance();
     $listePoules = null;
-    $listePoules;
     $nomTournoi = null;
     $nomJeu = null;
     $idJeu = null;
@@ -21,44 +20,13 @@
         $nomJeu = 'Jeu Inconnu';
         $idJeu = null;
     }
-    if(isset($_GET['test'])){
-        Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
-        $tournoi = new Tournois();
-        $pdo = Database::getInstance()->getPDO();
-        $pdo->beginTransaction();
-        $idJeu = 8;
-        $admin = new Administrateur();
-        $admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/01/2023',array($idJeu));
-        $id = $mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
-        $tournoi->tousLesTournois();
-        $t = $tournoi->getTournoi($id[0]['IdTournoi']);
-        Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
-        $idE = $mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
-        $i = 0;
-        $maxE = 16;
-        if($_GET['test'] === '1'){
-            $maxE = 14;
-        }
-        while($i < $maxE){
-            $equipe = Equipe::getEquipe($idE[$i]['IdEquipe']);
-            $equipe->Inscrire($t);
-            $i++;
-        }
-        if($_GET['test'] === '1'){
-            $t->genererLesPoules($idJeu);
-        }
-        $listePoules = $t->getPoules();
-        $nomTournoi = $t->getNom();
-        $nomJeu = $t->getJeux()[$idJeu]->getNom();
-        $pdo->rollBack();
-    }
     if(isset($_GET['score1']) && isset($_GET['score2'])){
         try{
-            MatchJ::setScore($_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
+            MatchJ::setScore($listePoules[$idJeu],$_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
             //vers DetailsTournoi.php?IDT=
             $idT = MatchJ::getIdTournoi($_GET['poule']);
-            header( 'Location:./DetailsTournoi.php?IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
-            exit();
+            //header( 'Location:./DetailsTournoi.php?IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
+            //exit();
         }catch(Exception $e){
             // redirect vers la page de SaissirScore.php
             header('Location:./SaisirScore.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'&erreur='.$e->getMessage());

@@ -77,9 +77,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($tournoi->getJeux() as $jeu) {
+                            <?php
+                            $poulesJeux  =  $tournoi->getPoules();
+                             foreach ($tournoi->getJeux() as $jeu) {
                                 echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDJ=".$jeu->getId().'&NomT='.$tournoi->getNom().'&JeuT='.$jeu->getNom()."'>+</a></td></tr>";
-                                $_SESSION['jeu'.$jeu->getId()] = $tournoi->getPoules();
+                                $_SESSION['jeu'.$jeu->getId()] = $poulesJeux;
                             }
                             if(isset($_GET['IDJ'])){
                                 header('Location:./Score.php?IDJ='.$_GET['IDJ'].'&NomT='.$_GET['NomT'].'&JeuT='.$_GET['JeuT'].'&valide');

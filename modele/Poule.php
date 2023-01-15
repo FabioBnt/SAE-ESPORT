@@ -101,7 +101,7 @@ class Poule
     //récupéré l'id de la poule
     public function __toString()
     {
-        return $this->id;
+        return ''.$this->id;
     }
     //récupéré les équipes de la poule
     public function lesEquipes(){
@@ -132,6 +132,22 @@ class Poule
     // retounre l'id de la poule
     public function getId(){
         return $this->id;
+    }
+
+    // vérifie si tous les scores sont renseignés
+    public function checkIfAllScoreSet(): bool
+    {
+        foreach ($this->matchs as $match) {
+            if(!$match->isScoreSet()){
+                return false;
+            }
+        }
+        return true;
+    }
+    public function setScoreMatch($numero, $idEquipe1, $idEquipe2, $score1, $score2): void
+    {
+        $this->matchs[$numero]->setEquipeScore($idEquipe1, $score1);
+        $this->matchs[$numero]->setEquipeScore($idEquipe2, $score2);
     }
 }
 ?>
