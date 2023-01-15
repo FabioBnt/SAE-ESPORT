@@ -141,6 +141,30 @@
                 $listeTournois->afficherTournois(); ?>
                 </tbody>
             </table>
+            <div id="EDgridl4">
+            </div>
+            <table>
+                <thead>
+                <tr><th colspan="9">SUGGESTION de tournois</th></tr>    
+                <tr>
+                    <th>Nom</th>
+                    <th>CashPrize</th>
+                    <th>Notoriété</th>
+                    <th>Lieu</th>
+                    <th>Heure de début</th>
+                    <th>Date</th>
+                    <th>Fin Inscription</th>
+                    <th>Jeu</th>
+                    <th>Plus d'info</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php 
+                $listeTournois = new Tournois();
+                $listeTournois->TournoisEquipeNJ($equipe->getJeu(),$idEquipe);
+                $listeTournois->afficherTournois(); ?>
+                </tbody>
+            </table>
             </div>
         </div>
     </main>
