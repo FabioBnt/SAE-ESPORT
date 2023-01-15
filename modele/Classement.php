@@ -40,10 +40,13 @@ class Classement
         $jeu = Jeu::getJeuById($idJeu);
         $this->returnClassement($jeu->getId());
         $listeEquipes = $this->getClassement();
+        $i = 1;
         foreach ($listeEquipes as $equipe) {
             $equipe = new Equipe($equipe['IdEquipe'], $equipe['NomE'], $equipe['NbPointsE'], $equipe['IDEcurie'], $equipe['IdJeu']);
             echo "<tr>";
             $infoEquipe = $equipe->listeInfoClassement();
+            echo '<td>'.$i.'</td>';
+            $i++;
             foreach ($infoEquipe as $colValue) {
                 echo '<td>'.$colValue.'</td>';
             }

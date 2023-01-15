@@ -146,7 +146,7 @@ class Equipe
     }
     //récupéré la liste des infos pour le classement
     public function listeInfoClassement() : array {
-        return array($this->nom,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->points);
+        return array($this->nom,$this->points);
     }
     //récupéré les joueurs d'une équipe id
     public function getJoueurs($id)
