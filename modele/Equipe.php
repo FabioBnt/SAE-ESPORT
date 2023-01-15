@@ -146,6 +146,9 @@ class Equipe
     }
     //récupéré la liste des infos pour le classement
     public function listeInfoClassement() : array {
+        if($this->points==""){
+            $this->points=0;
+        }
         return array($this->nom,$this->points);
     }
     //récupéré les joueurs d'une équipe id
