@@ -42,6 +42,32 @@
                 };
             ?>
             </div>
+            <?php
+            if ($connx->getRole() == Role::Ecurie) {
+                $identifiant = $connx->getIdentifiant();
+                $mysql = Database::getInstance();
+                $data = $mysql->selectL("E.IDEcurie,E.NomCompte",
+                "Ecurie E", "where E.NomCompte ='".$identifiant."'");
+                $id = $data['IDEcurie'];
+                echo "<h1>Mes Equipes</h1>";
+                echo "<div>";
+                echo "<table id='TabEquipe'>";
+                echo "<thead>";
+                echo "<tr>";
+                echo "<th >Nom</th>";
+                echo "<th >Jeu</th>";
+                echo "<th >Plus dinformations</th>";
+                echo "</tr>";
+                echo "</thead>";
+                echo "<tbody>";
+                    $listeE = new Equipes();
+                    $listeE ->selectEquipe("=".$id);
+                    $listeE->afficherEquipesE();
+                echo "</tbody>";
+                echo "</table>";
+                echo "</div>";
+            }
+            ?>
             <h1>Liste Des Equipes</h1>
             <div>
                 <table id="TabEquipe">

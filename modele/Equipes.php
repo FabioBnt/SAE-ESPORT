@@ -11,7 +11,7 @@ class Equipes
         $this->equipes = array();
     }
     // select mysql d'une liste d'équipe
-    private function selectEquipe(string $cond=""){
+    public function selectEquipe(string $cond=""){
         //
         $mysql = Database::getInstance();
         $data = $mysql->select("E.IdEquipe, E.NomE, E.NomCompte, E.MDPCompte, E.NbPointsE, E.IdJeu, E.IdEcurie",
@@ -69,5 +69,19 @@ class Equipes
          "Equipe E", "where E.IdEquipe= ".$id."");
          return $data;
     } 
+    //afficher les informations des équipes d'une écurie
+    public function afficherEquipesE()
+    {
+        foreach ($this->equipes as $ligneValue) {
+            echo "<tr>";
+            echo "<td>",$ligneValue->getNom(), "</td>";
+            $mysql = Database::getInstance();
+            $data = $mysql->selectL("J.NomJeu",
+            "Jeu J", "where J.IdJeu =".$ligneValue->getJeu().'');
+            echo "<td>",$data['NomJeu'], "</td>";
+            echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'>+</a></td>";
+            echo "</tr>";
+        }
+    }
 }
 ?>
