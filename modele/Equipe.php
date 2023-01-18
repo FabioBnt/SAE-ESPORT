@@ -5,11 +5,12 @@ include_once 'Database.php';
 //créer une equipe
 class Equipe
 {
-    private $id;
-    private $nom;
-    private $points;
+    private int $id;
+    private string $nom;
+    private int $points;
     private $ecurie;
     private $jeu;
+
     /**
      * @param $id
      * @param $nom
@@ -30,24 +31,24 @@ class Equipe
      * @return int
      * @throws Exception
      */
-    //inscrire une equipe a une tournoi
+    //inscrire une équipe a un tournoi
     public function inscrire(Tournoi $tournoi): int
     {
         if(!$this->estConnecter()){
-            throw new Exception('action qui nécessite une connexion en tant que membre du groupe');
+            throw new \RuntimeException('action qui nécessite une connexion en tant que membre du groupe');
         }
         $nbParti = $tournoi->numeroParticipants($this->jeu->getId());
         if($nbParti ===16){
-            throw new Exception('tournoi complet');
+            throw new \RuntimeException('tournoi complet');
         }
         if(!$tournoi->contientJeu($this->jeu)){
-            throw new Exception('L\'equipe n\'est pas expert dans les jeux de tournoi');
+            throw new \RuntimeException('L\'equipe n\'est pas expert dans les jeux de tournoi');
         }
         if(strtotime($tournoi->getDateLimiteInscription()) > strtotime(date("Y/m/d"))){
-            throw new Exception('Inscription est fermée pour cette tournoi');
+            throw new \RuntimeException('Inscription est fermée pour cette tournoi');
         }
         if($this->estParticipant($tournoi)){
-            throw new Exception('Deja Inscrit');
+            throw new \RuntimeException('Deja Inscrit');
         }
         $mysql = Database::getInstance();
         $mysql->Insert('Participer  (IdTournoi, IdEquipe)', 2, array($tournoi->getIdTournoi(), $this->id));
@@ -57,34 +58,39 @@ class Equipe
         }
         return 1;
     }
-    //récupéré l'id par le nom de l'équipe
-    public static function getIDbyNom($nom) {
+    //récupère l'id par le nom de l'équipe
+    public static function getIDbyNom($nom) : int {
         $mysql = Database::getInstance();
         $data = $mysql->select("E.IdEquipe" , "Equipe E" , "where E.NomE ="."'$nom'");
         return $data[0]['IdEquipe'];
     }
     /**
-     * @return mixed
+     * @return int
      */
-    //récupéré l'id de l'équipe
-    public function getId(){
+    //récupère l'id de l'équipe
+    public function getId() : int{
         return $this->id;
     }
-    //récupéré le nom de l'équipe
-    public function getNom(){
+    //récupère le nom de l'équipe
+
+    /**
+     * @return string
+     */
+    public function getNom() : string{
         return $this->nom;
     }
+    
+    //récupère l'id jeu de l'équipe
     /**
-     * @return mixed
+     * @return Jeu
      */
-    //récupéré l'id jeu de l'équipe
-    public function getJeu()
+    public function getJeu() : Jeu
     {
         return $this->jeu;
     }
-    //récupéré la désignation de l'écurie de l'équipe
-    public function getEcurie()
-    {
+    
+    //récupère la désignation de l'écurie de l'équipe
+    public function getEcurie() : string{
         return Ecurie::getEcurie($this->ecurie)->getDesignation();
     }
     /**
@@ -96,17 +102,14 @@ class Equipe
     {
         $mysql = Database::getInstance();
         $data = $mysql->select('count(*) as total', 'Participer', 'where IdTournoi ='.$tournoi->getIdTournoi().' AND IdEquipe = '.$this->id);
-        if ($data[0]['total'] > 0){
-            return true;
-        }
-        return false;
+        return $data[0]['total'] > 0;
     }
     /**
      * @param $id
-     * @return Equipe|null
+     * @return Equipe
      */
-    //récupéré une équipe par son ID
-    public static function getEquipe($id): ?Equipe
+    //récupère une équipe par son ID
+    public static function getEquipe($id): Equipe
     {
         $equipe = null;
         $mysql = Database::getInstance();
@@ -130,40 +133,41 @@ class Equipe
         return (Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Equipe) || Connexion::getInstance()->estConnecterEnTantQue(Role::Equipe));
     }
     /**
-     * @return mixed
+     * @return int
      */
-    //récupéré le nb de points
-    public function getPoints()
+    //récupère le nb de points
+    public function getPoints(): int
     {
-        if($this->points==""){
+        if($this->points===""){
             return 0;
-        } else {
-            return $this->points;
         }
+
+        return $this->points;
     }
     /**
      * @return array
      */
-    //récupéré la liste des infos de l'équipe
+    //récupère la liste des infos de l'équipe
     public function listeInfo() : array{
         return array($this->nom,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->jeu);
     }
-    //récupéré la liste des infos pour le classement
+    //récupère la liste des infos pour le classement
     public function listeInfoClassement() : array {
-        if($this->points==""){
+        if($this->points===""){
             $this->points=0;
         }
         return array($this->nom,$this->points);
     }
-    //récupéré les joueurs d'une équipe id
+    //récupère les joueurs d'une équipe id
     public function getJoueurs($id)
     {
         $mysql = Database::getInstance();
         $dataE = $mysql->selectL('Pseudo,Nationalite', 'Joueur j', 'where IdEquipe ='.$id);
         return $dataE;
     }
-    //récupéré le nb de match gagné de l'équipe
-    public function getNbmatchG(){
+    //récupère le nb de match gagné de l'équipe
+    public function getNbmatchG(): int
+    {
         $listeTournois = new Tournois();
         $listeTournois->TournoisEquipe($this->id);
         $nb=0;
@@ -172,8 +176,8 @@ class Equipe
             $n = $this->jeu;
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $poule){
-                    if($poule->estPouleFinale()=='1'){
-                        if($poule->meilleureEquipe()->getId()==$this->id){
+                    if($poule->estPouleFinale()==='1'){
+                        if($poule->meilleureEquipe()->getId()===$this->id){
                             $nb++;
                         }
                     }
@@ -182,7 +186,7 @@ class Equipe
         }
         return $nb;
     }
-    //récupéré la somme des gains gagnés
+    //récupère la somme des gains gagnés
     public function SommeTournoiG(){
         $listeTournois = new Tournois();
         $listeTournois->TournoisEquipe($this->id);
@@ -192,12 +196,12 @@ class Equipe
             $n = $this->jeu;
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $poule){
-                    if($poule->estPouleFinale()=='1'){
-                        if($poule->meilleureEquipe()->getId()==$this->id){
+                    if($poule->estPouleFinale()==='1'){
+                        if($poule->meilleureEquipe()->getId()===$this->id){
                             $mysql = Database::getInstance();
                             $res = $mysql->selectL("T.CashPrize",
                             "Tournois T", "where T.IdTournoi=".$tournoi->getIdTournoi().'');
-                            $nb=$nb+$res['CashPrize'];
+                            $nb += $res['CashPrize'];
                         }
                     }
                 }
@@ -206,4 +210,3 @@ class Equipe
         return $nb;
     }
 }
-?>

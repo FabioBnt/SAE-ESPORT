@@ -9,18 +9,18 @@ include_once 'Equipe.php';
 class Classement
 {
     private $jeu;
-    public $classement = array();
+    public array $classement = array();
     //constructeur
-    function __construct($jeu){
+    public function __construct($jeu){
         $this->jeu = $jeu;
     }
     //recuperer le jeu du classement
-    public function getJeu()
+    public function getJeu(): Jeu
     {
         return $this->jeu;
     }
     //recuperer le classement
-    public function getClassement()
+    public function getClassement(): array
     {
         return $this->classement;
     }
@@ -59,4 +59,3 @@ class Classement
 /*$jeu = new Jeu(1,'test','test',120,12);
  $apple = new Classement($jeu);
 $apple->afficherClassement($jeu);*/
-?>
