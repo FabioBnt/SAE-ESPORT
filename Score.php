@@ -51,7 +51,7 @@
             $t->genererLesPoules($idJeu);
         }
         // if test = 2, on set les scores des matchs
-        if($_GET['test'] == '2'){
+        if($_GET['test'] === '2'){
             $poules = $t->getPoules()[$idJeu];
             foreach($poules as $p){
                 $matchs = $p->getMatchs();
@@ -61,7 +61,7 @@
                     $keys = array_keys($m->getEquipes());
                     MatchJ::setScore($poules,$p->getId(),$keys[0],$keys[1],rand(0,$j+3),rand(0,$j+4));
                     $j++;
-                    if ($j == 5) {
+                    if ($j === 5) {
                         $poules = $t->getPoules()[$idJeu];
                     }
                 }

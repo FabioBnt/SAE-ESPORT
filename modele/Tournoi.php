@@ -117,7 +117,7 @@ class Tournoi
         $this->insertConcourir($equipesPoules);
     }
     //généré la poule finale
-    public static function genererPouleFinale($idT, $idJeu)
+    public static function genererPouleFinale($idT, $idJeu): void
     {
         // get the fisrt of every poule and then make the poule finale wip
         $tournoi = new Tournois();
