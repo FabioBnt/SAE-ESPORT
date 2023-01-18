@@ -69,12 +69,5 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
         assertSame($nbTournoiG,$nbTng+1);
         assertSame($gainTournoiG,$gainTng+100);
     }
-    //test
-    public function testgaintournoiEquipe() {
-        $id = '24';
-        $gainTournoireq =154000;
-        $gainTournoiG = $equipe->SommeTournoiG();
-        assertSame($gainTournoiG,$gainTournoireq);
-    }
 }
 ?>

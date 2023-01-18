@@ -84,7 +84,7 @@ class Equipe
     /**
      * @return Jeu
      */
-    public function getJeu() : Jeu
+    public function getJeu() : string
     {
         return $this->jeu;
     }
