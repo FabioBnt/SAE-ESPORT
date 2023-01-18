@@ -7,10 +7,12 @@ include './modele/Ecurie.php';
 include './modele/Jeu.php';
 include './modele/Equipe.php';
 $connx = Connexion::getInstance();
-$listeJeux = Jeu::tousLesJeux();
+if ($connx->getRole() == Role::Ecurie) {
+    $id = Ecurie::getIDbyNomCompte($connx->getIdentifiant());
+}
+$listeJeux = Jeu::JeuEquipeNJ($id);   
 if (isset($_POST['name'])) {
     if ($connx->getRole() == Role::Ecurie) {
-        $id = Ecurie::getIDbyNomCompte($connx->getIdentifiant());
         $Ecurie = Ecurie::getEcurie($id);
         $Ecurie->creerEquipe($_POST['name'], $_POST['username'], $_POST['password'], $_POST['jeuE'], Ecurie::getIDbyNomCompte($connx->getIdentifiant()));
         echo '<script>alert("La ligne a bien été inserée")</script>';
@@ -24,7 +26,7 @@ if (isset($_POST['name'])) {
         if (!empty($_POST['pseudo4'])) {
             $Ecurie->ajouterJoueur($_POST['pseudo4'], $_POST['nat4'], $IdEquipe);}
     }
-}
+} 
 if (isset($_GET['sedeconnecter'])) {
     $connx->seDeconnecter();
 }
