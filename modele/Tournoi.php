@@ -330,7 +330,7 @@ class Tournoi
     //savoir si le tournoi contient un jeu
     public function contientJeu(Jeu $jeu){
         foreach($this->jeux as $j){
-            if($j == $jeu){
+            if($j->getId() == $jeu->getId()){
                 return true;
             }
         }
