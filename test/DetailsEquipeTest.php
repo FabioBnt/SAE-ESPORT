@@ -1,13 +1,18 @@
 ﻿<?php 
-declare(strict_types=1);
 use function PHPUnit\Framework\assertSame;
 include_once(dirname(__DIR__).'/modele/Equipe.php');
 //créer un test details tournoi
 class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
+    private Tournois $tournoi;
+    private Administrateur $admin;
+    private Equipe $equipe;
     //mettre en place
     protected function setUp(): void {
         $this->mysql = Database::getInstance();
+        $this->admin = new Administrateur();
+        Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
+        $this->tournoi = new Tournois();
     } 
     //test
     public function testnbtournoigagneEquipe() {
@@ -47,15 +52,15 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
             $idp = ($p->getId() - '0');
             if($poule->estPouleFinale()){
                 $keys = array_keys($poule->lesEquipes());
-                $equipe = $poule->lesEquipes()[$keys[0]];
+                $equipeT = $poule->lesEquipes()[$keys[0]];
                 $nbTng= $equipe->getNbmatchG();
                 $gainTng = $equipe->SommeTournoiG();
                 foreach($matchs as $m){
                     // keys of teams
                     $keys = array_keys($m->getEquipes());
-                    if($keys[0]==$equipe){
+                    if($keys[0]==$equipeT){
                         MatchJ::setScore($poules,$idp,$keys[0],$keys[1],5,0);
-                    } else if($keys[1]==$equipe){
+                    } else if($keys[1]==$equipeT){
                         MatchJ::setScore($poules,$idp,$keys[0],$keys[1],0,5);
                     } else {
                         MatchJ::setScore($poules,$idp,$keys[0],$keys[1],random_int(0,$j+3),random_int(0,$j+4));
@@ -64,8 +69,8 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
                 }
             }
         }
-        $nbTournoiG = $equipe->getNbmatchG();
-        $gainTournoiG = $equipe->SommeTournoiG();
+        $nbTournoiG = $equipeT->getNbmatchG();
+        $gainTournoiG = $equipeT->SommeTournoiG();
         assertSame($nbTournoiG,$nbTng+1);
         assertSame($gainTournoiG,$gainTng+100);
     }
