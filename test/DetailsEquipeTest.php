@@ -1,6 +1,8 @@
 ﻿<?php 
 use function PHPUnit\Framework\assertSame;
 include_once(dirname(__DIR__).'/modele/Equipe.php');
+include_once(dirname(__DIR__).'/modele/Administrateur.php');
+include_once (dirname(__DIR__).'/modele/Tournois.php');
 //créer un test details tournoi
 class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
@@ -33,39 +35,37 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
         }
         $id = $t->getIdTournoi();
         $poules = $t->getPoules()[$idJeu];
-        foreach($poules as $p){
+        $equipeT = null;
+        foreach($poules as $p) {
             $matchs = $p->getMatchs();
             $j = 0;
             $idp = ($p->getId() - '0');
-            foreach($matchs as $m){
-                // keys of teams
-                $keys = array_keys($m->getEquipes());
-                MatchJ::setScore($poules,$idp,$keys[0],$keys[1],random_int(0,$j+3),random_int(0,$j+4));
-                $j++;
-                if ($j == 5) {
-                    $poules = $t->getPoules()[$idJeu];
-                }
-            }
-        }
-        foreach($t->getPoules()[$idJeu] as $poule){
-            $matchs = $p->getMatchs();
-            $idp = ($p->getId() - '0');
-            if($poule->estPouleFinale()){
-                $keys = array_keys($poule->lesEquipes());
-                $equipeT = $poule->lesEquipes()[$keys[0]];
-                $nbTng= $equipe->getNbmatchG();
-                $gainTng = $equipe->SommeTournoiG();
-                foreach($matchs as $m){
+            if ($p->estPouleFinale()) {
+                $keys = array_keys($p->lesEquipes());
+                $equipeT = $p->lesEquipes()[$keys[0]];
+                $nbTng = $equipeT->getNbmatchG();
+                $gainTng = $equipeT->SommeTournoiG();
+                foreach ($matchs as $m) {
                     // keys of teams
                     $keys = array_keys($m->getEquipes());
-                    if($keys[0]==$equipeT){
-                        MatchJ::setScore($poules,$idp,$keys[0],$keys[1],5,0);
-                    } else if($keys[1]==$equipeT){
-                        MatchJ::setScore($poules,$idp,$keys[0],$keys[1],0,5);
+                    if ($keys[0] === $equipeT) {
+                        MatchJ::setScore($poules, $idp, $keys[0], $keys[1], 5, 0);
+                    } else if ($keys[1] === $equipeT) {
+                        MatchJ::setScore($poules, $idp, $keys[0], $keys[1], 0, 5);
                     } else {
-                        MatchJ::setScore($poules,$idp,$keys[0],$keys[1],random_int(0,$j+3),random_int(0,$j+4));
+                        MatchJ::setScore($poules, $idp, $keys[0], $keys[1], random_int(0, $j + 3), random_int(0, $j + 4));
                     }
                     $j++;
+                }
+            } else {
+                foreach ($matchs as $m) {
+                    // keys of teams
+                    $keys = array_keys($m->getEquipes());
+                    MatchJ::setScore($poules, $idp, $keys[0], $keys[1], random_int(0, $j + 3), random_int(0, $j + 4));
+                    $j++;
+                    if ($j == 5) {
+                        $poules = $t->getPoules()[$idJeu];
+                    }
                 }
             }
         }
