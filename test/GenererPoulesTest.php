@@ -72,21 +72,22 @@ class GenererPoulesTest extends TestCase {
             $i++;
         }
         $id = $t->getIdTournoi();
-        /*$poules = $t->getPoules()[$idJeu];
+        $poules = $t->getPoules()[$idJeu];
         foreach($poules as $p){
             $matchs = $p->getMatchs();
             $j = 0;
+            $idp = ($p->getId() - '0');
             foreach($matchs as $m){
                 // keys of teams
                 $keys = array_keys($m->getEquipes());
-                MatchJ::setScore($poules,$p->getId(),$keys[0],$keys[1],random_int(0,$j+3),random_int(0,$j+4));
+                MatchJ::setScore($poules,$idp,$keys[0],$keys[1],random_int(0,$j+3),random_int(0,$j+4));
                 $j++;
                 if ($j == 5) {
                     $poules = $t->getPoules()[$idJeu];
                 }
             }
-        }*/
-        $t->genererPouleFinale($id,$idJeu);
+        }
+        //$t->genererPouleFinale($id,$idJeu);
         $listePoules = $t->getPoules()[$idJeu];
         $totalPoules = $this->mysql->select("count(*) as total", "Poule", "where IdTournoi = $id");
         $pdo->rollBack();
