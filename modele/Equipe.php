@@ -7,7 +7,7 @@ class Equipe
 {
     private int $id;
     private string $nom;
-    private int $points;
+    private $points;
     private $ecurie;
     private $jeu;
 
@@ -138,10 +138,9 @@ class Equipe
     //récupère le nb de points
     public function getPoints(): int
     {
-        if($this->points===""){
+        if($this->points==""){
             return 0;
         }
-
         return $this->points;
     }
     /**
@@ -153,7 +152,7 @@ class Equipe
     }
     //récupère la liste des infos pour le classement
     public function listeInfoClassement() : array {
-        if($this->points===""){
+        if($this->points==""){
             $this->points=0;
         }
         return array($this->nom,$this->points);
