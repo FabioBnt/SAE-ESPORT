@@ -40,7 +40,7 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
             $matchs = $p->getMatchs();
             $j = 0;
             $idp = ($p->getId() - '0');
-            if ($p->estPouleFinale()) {
+            if ($p->estPouleFinale()==1) {
                 $keys = array_keys($p->lesEquipes());
                 $equipeT = $p->lesEquipes()[$keys[0]];
                 $nbTng = $equipeT->getNbmatchG();
