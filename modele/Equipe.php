@@ -135,7 +135,11 @@ class Equipe
     //récupéré le nb de points
     public function getPoints()
     {
-        return $this->points;
+        if($this->points==""){
+            return 0;
+        } else {
+            return $this->points;
+        }
     }
     /**
      * @return array

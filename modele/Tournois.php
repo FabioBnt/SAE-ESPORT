@@ -57,8 +57,9 @@ class Tournois
     {
         $mysql = Database::getInstance();
         $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-        J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription","Tournois T, Contenir C, Jeu J , Equipe E, Participer P"," where C.IdJeu = J.IdJeu
-        AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND  J.IdJeu='".$cond."' AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
+        J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription","Tournois T, Contenir C, Jeu J"," where C.IdJeu = J.IdJeu
+        AND C.IdTournoi = T.IdTournoi AND  J.IdJeu='".$cond."' 
+        AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
         AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='".$id."')");
         $this->misAJourListeTournois($data);
     }
