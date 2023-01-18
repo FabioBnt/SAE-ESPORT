@@ -80,11 +80,16 @@ class Equipe
         return $this->nom;
     }
     
-    //récupère l'id jeu de l'équipe
+    //récupère le jeu de l'équipe
     /**
      * @return Jeu
      */
-    public function getJeu() : string
+    public function getJeu() : Jeu
+    {
+        return $this->jeu;
+    }
+    //récupère l'id jeu de l'équipe
+    public function getJeuS() : string
     {
         return $this->jeu;
     }

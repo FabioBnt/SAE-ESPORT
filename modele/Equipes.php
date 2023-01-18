@@ -77,7 +77,7 @@ class Equipes
             echo "<td>",$ligneValue->getNom(), "</td>";
             $mysql = Database::getInstance();
             $data = $mysql->selectL("J.NomJeu",
-            "Jeu J", "where J.IdJeu =".$ligneValue->getJeu().'');
+            "Jeu J", "where J.IdJeu =".$ligneValue->getJeuS().'');
             echo "<td>",$data['NomJeu'], "</td>";
             echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'>+</a></td>";
             echo "</tr>";
