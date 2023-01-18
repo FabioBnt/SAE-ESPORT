@@ -132,6 +132,9 @@
             echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
             transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
         }
+        if($listePoules[$idJeu]->estPouleFinale()){
+            if($listePoules[$idJeu]->checkIfAllScoreSet()){
+                
         ?>
         <table id="tableS6">
             <thead>
@@ -160,6 +163,8 @@
                         }
                     }
                 }
+            }
+            }
             }
             ?>
             </tbody>
