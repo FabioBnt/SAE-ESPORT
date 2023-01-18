@@ -49,5 +49,15 @@ class Jeu
         $jeu = new Jeu($data[0]['IdJeu'],$data[0]['NomJeu'], $data[0]['TypeJeu'], $data[0]['TempsDeJeu'], $data[0]['DateLimiteInscription']);
         return $jeu;
     }
+    //récupéré les jeux par équipes pas créé
+    public static function JeuEquipeNJ($id)
+    {
+        $data = Database::getInstance()->select("*","Jeu J"," where J.IDjeu not in (SELECT E.IdJeu FROM Equipe E WHERE E.IDEcurie='".$id."')");
+        $jeux = array();
+        foreach($data as $ligne){
+            $jeux[] = new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']);
+        }
+        return ($jeux);
+    }
 }
 ?>
