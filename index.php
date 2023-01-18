@@ -27,7 +27,7 @@
             </div>
             <div class="menuright">  
                     <?php 
-                        if($connx->getRole() == Role::Visiteur){
+                        if($connx->getRole() === Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
                             echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';

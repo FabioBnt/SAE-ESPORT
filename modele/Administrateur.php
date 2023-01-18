@@ -19,7 +19,7 @@ class Administrateur {
     public function creerTournoi(string $nom, int $cashPrize,string $notoriete, string $lieu,string $heureDebut,string $date,array $jeux): void
     {
         if(!$this->estConnecter()){
-            throw new \RuntimeException('action qui nécessite une connexion en tant que membre du groupe');
+            throw new RuntimeException('action qui nécessite une connexion en tant que membre du groupe');
         }
         Database::getInstance()->insert("Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois)", 5
             , array($nom, $cashPrize, $notoriete, $lieu, $date.' '.$heureDebut.':00'));
