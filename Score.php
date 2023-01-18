@@ -117,11 +117,15 @@
             ?>
         <?php
         $i = 0;
+        $pouleF = null;
         if(array_key_exists("$idJeu",$listePoules)){
             foreach ($listePoules[$idJeu] as $poule) {
                 $i++;
                 echo '<table id="tableS'.$i.'"><thead><tr><th colspan="4">Poule ';
-                if($i==5){echo'Finale';}else{echo $i;};
+                if($i==5){
+                    echo'Finale';
+                    $pouleF= $poule;
+                }else{echo $i;};
                 echo '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
                 foreach ($poule->getMatchs() as $match){
                     echo $match->afficherEquipes();
@@ -132,8 +136,8 @@
             echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
             transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
         }
-        if($listePoules[$idJeu]->estPouleFinale()){
-            if($listePoules[$idJeu]->checkIfAllScoreSet()){
+        if($pouleF!=null){
+            if($pouleF->checkIfAllScoreSet()){
                 
         ?>
         <table id="tableS6">
