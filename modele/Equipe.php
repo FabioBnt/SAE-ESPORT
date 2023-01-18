@@ -7,7 +7,7 @@ class Equipe
 {
     private int $id;
     private string $nom;
-    private int $points;
+    private $points;
     private $ecurie;
     private $jeu;
 
