@@ -69,12 +69,11 @@ class Poule
     //récupéré le classement des équipes
     public function classementEquipes(){
         // add the number of match won by each team
-        $equipes = $this->lesEquipes();
+        $equipes = $this->meilleuresEquipes();
         $classement = array();
         foreach ($equipes as $equipe) {
             $classement[$equipe->getId()] = $this->nbMatchsGagnes($equipe->getId());
         }
-        arsort($classement);
         return $classement;
     }
     //récupéré le nb de match gagné d'une équipe sur la poule
