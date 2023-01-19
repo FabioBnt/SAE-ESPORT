@@ -26,10 +26,6 @@
             $tournoi = new Tournois();
             $tournoi->tousLesTournois();
             $idT = MatchJ::getIdTournoi($_GET['poule']);
-            // $t = $tournoi->getTournoi($idT);
-            // $poules = $t->getPoules();
-            //replace the session $_SESSION['jeu'.$_GET['IDJ']]
-            // $_SESSION['jeu'.$_GET['IDJ']] = $poules;
             //vers DetailsTournoi.php?IDT=
             header( 'Location:./DetailsTournoi.php?IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
             exit();

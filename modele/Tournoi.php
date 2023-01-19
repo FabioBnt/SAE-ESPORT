@@ -230,8 +230,10 @@ class Tournoi
         $poules = $tournoi->getPoules();
         $poules = $poules[$idJ];
         $equipes = array();
+        $poulefin = array();
         foreach($poules as $poule){
             if($poule->estPouleFinale()){
+                $poulefin = $poule;
                 $equipes = $poule->classementEquipes();
             }
         }
@@ -253,7 +255,15 @@ class Tournoi
         foreach($equipes as $key => $value){
             // update the score
             $points = ($scores[$i] * $multiplicateur + 5 * $value);
-            $mysql->query('UPDATE Equipe SET NbPointsE = NbPointsE + '.$points.' WHERE IdEquipe = '.$key);
+            // verify if the nb of points of the team is not null
+            $equipes = $poulefin->lesEquipes();
+            $equipe = $equipes[$key];
+            if($equipe->getPoints() != null){
+                $mysql->query('UPDATE Equipe SET NbPointsE = NbPointsE + '.$points.' WHERE IdEquipe = '.$key);
+            }
+            else{
+                $mysql->query('UPDATE Equipe SET NbPointsE = '.$points.' WHERE IdEquipe = '.$key);
+            }
             $i++;
             // to avoid out of range error
             $i = $i % 4;
