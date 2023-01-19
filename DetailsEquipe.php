@@ -53,7 +53,7 @@
                     <input type="text" name="jeu" value='<?php 
                     $mysql = Database::getInstance();
                     $data = $mysql->selectL("J.NomJeu",
-                    "Jeu J", "where J.IdJeu =".$equipe->getJeu().'');
+                    "Jeu J", "where J.IdJeu =".$equipe->getJeuS().'');
                     echo $data['NomJeu'];
                     ?>' readonly>
                     </div>
@@ -161,7 +161,7 @@
                 <tbody>
                 <?php 
                 $listeTournois = new Tournois();
-                $listeTournois->TournoisEquipeNJ($equipe->getJeu(),$idEquipe);
+                $listeTournois->TournoisEquipeNJ($equipe->getJeuS(),$idEquipe);
                 $listeTournois->afficherTournois(); ?>
                 </tbody>
             </table>
