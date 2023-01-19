@@ -1,8 +1,9 @@
 # SAE-ESPORT
 
  Projet Universitaire Web ayant pour but de développer une application facilitant l'organisation d'une saison de tournois d'e-sport.
+ Academic Web project aiming at developing an application facilitating the organization of a season of e-sport tournaments.
 
-## How to run PHPUnit tests / Comment lancer les tests PHPUnit
+## How to run PHPUnit tests / Comment lancer les tests PHPUnit (WINDOWS)
 
 ### 1- install composer / installer composer
 
