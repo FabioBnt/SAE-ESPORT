@@ -108,10 +108,17 @@
         <h1 id="labelS1">Score du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
         <?php 
             if($connx->getRole() == Role::Arbitre && isset($listePoules[$idJeu])){
+                $pouleFinaleExiste = false;
                 foreach($listePoules[$idJeu] as $poule){
-                    if($poule->estPouleFinale() && !$poule->checkIfAllScoreSet()){
-                        echo '<a href="SaisirScore.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'" class="buttonE" id="ModifS7">Modification</a>';
+                    if($poule->estPouleFinale()){
+                        $pouleFinaleExiste = true;
+                        if (!$poule->checkIfAllScoreSet()) {
+                            echo '<a href="SaisirScore.php?IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Modification</a>';
+                        }
                     }
+                }
+                if(!$pouleFinaleExiste){
+                    echo '<a href="SaisirScore.php?IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Modification</a>';
                 }
             }
             ?>

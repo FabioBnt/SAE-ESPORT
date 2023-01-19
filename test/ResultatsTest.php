@@ -45,8 +45,10 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
         // get les points de l'equipe 15
         $classement = $poules[8][5]->classementEquipes();
         // get keys des equipes
-        $keys = array_keys($classement);
-        $pointsa = $equipes[$keys[0]]->getPoints();
+        $pointsa = array();
+        foreach($classement as $key => $value){
+            $pointsa[] = $equipes[$key]->getPoints();
+        }
         // get scores of match 15 vs 16
         $score = $mysql->select('Score', 'Concourir', 'WHERE IdPoule = 7 AND IdEquipe = 13');
         $score1 = $score[0]['Score']-'0';
@@ -56,10 +58,13 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
         $poules = $t->getPoules();
         // les equies de la poule
         $equipes = $poules[8][5]->lesEquipes();
-        $points = $equipes[$keys[0]]->getPoints();
+        $points = array();
+        foreach($classement as $key => $value){
+            $points[] = $equipes[$key]->getPoints();
+        }
         $pdo->rollBack();
-        //410?
-        assertSame($points, 125);
+        assertSame($points[0], $pointsa[0] + 30);
+
     }
 }
 ?>
