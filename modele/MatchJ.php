@@ -37,9 +37,9 @@ class MatchJ
         $numero = $data[0]['Numero'];
         $poules[$idPoule]->setScoreMatch($numero, $idEquipe1, $idEquipe2, $score1, $score2);
         $muysql = $mysql->getPDO();
-        $sql = "UPDATE Concourir SET Score = $score1 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe1";
+        $sql = "UPDATE Concourir SET Score = $score1 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe1 AND Numero = $numero";
         $muysql->query($sql);
-        $sql = "UPDATE Concourir SET Score = $score2 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2";
+        $sql = "UPDATE Concourir SET Score = $score2 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2 AND Numero = $numero";
         $muysql->query($sql);
 
         //get id tournoi and id jeu
@@ -88,12 +88,12 @@ class MatchJ
     // savoir si le score est initialisé ou non
     public function isScoreSet()
     {
-        $t = array_keys($this->equipes);
-        if($this->scores[$t[0]] == null || $this->scores[$t[1]] == null || $this->scores[$t[0]] == "" || $this->scores[$t[1]] == ""){
-            return false;
-        }else{
-            return true;
+        foreach($this->scores as $score){
+            if($score == null){
+                return false;
+            }
         }
+        return true;
     }
     //savoir qui est le gagnant du match
     public function gagnant()
