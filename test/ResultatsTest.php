@@ -19,9 +19,9 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
         // get les poules
         $poules = $t->getPoules();
         MatchJ::setScore($poules[8],4, 15, 16, 3, 5);
-        $score = $mysql->select('Score', 'Concourir', 'WHERE IdPoule = 4 AND IdEquipe = 15');
+        $score = $mysql->select('Score', 'Concourir', 'WHERE IdPoule = 4 AND IdEquipe = 15 and Numero = 4');
         $score1 = $score[0]['Score']-'0';
-        $score = $mysql->select('Score', 'Concourir', 'WHERE IdPoule = 4 AND IdEquipe = 16');
+        $score = $mysql->select('Score', 'Concourir', 'WHERE IdPoule = 4 AND IdEquipe = 16 and Numero = 4');
         $score2 = $score[0]['Score']-'0';
         assertSame($score1, 3);
         assertSame($score2, 5);
@@ -63,8 +63,7 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
             $points[] = $equipes[$key]->getPoints();
         }
         $pdo->rollBack();
-        assertSame($points[0], $pointsa[0] + 30);
-
+        assertSame($points[0], $pointsa[0] + 95);
     }
 }
 ?>

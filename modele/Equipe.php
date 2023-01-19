@@ -177,7 +177,13 @@ class Equipe
         $nb=0;
         foreach($listeTournois->getTournois() as $tournoi){
             $t=$tournoi->getPoules();
-            $n = $this->jeu;
+            $n = null;
+            // if jeu is of a class ype Jeu then else 
+            if ($this->jeu instanceof Jeu) {
+                $n = $this->jeu->getId();
+            }else{
+                $n = $this->jeu - '0';
+            }
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $poule){
                     if($poule->estPouleFinale()==='1'){
@@ -197,7 +203,13 @@ class Equipe
         $nb=0;
         foreach($listeTournois->getTournois() as $tournoi){
             $t=$tournoi->getPoules();
-            $n = $this->jeu;
+            $n = null;
+            // if jeu is of a class ype Jeu then else 
+            if ($this->jeu instanceof Jeu) {
+                $n = $this->jeu->getId();
+            }else{
+                $n = $this->jeu - '0';
+            }
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $poule){
                     if($poule->estPouleFinale()==='1'){

@@ -35,9 +35,10 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
         }
         $id = $t->getIdTournoi();
         $poules = $t->getPoules()[$idJeu];
-        $k = array_keys($poules);
-        $keys = array_keys($poules[$k[0]]->lesEquipes());
-        $equipeT = $poules[$k[0]]->lesEquipes()[$keys[0]];
+        // last team
+        $equipeT = $this->equipe;
+        $nbTng = $equipeT->getNbmatchG();
+        $gainTng = $equipeT->SommeTournoiG();
         foreach($poules as $p) {
             $matchs = $p->getMatchs();
             $j = 0;
@@ -53,17 +54,20 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
                     MatchJ::setScore($poules, $idp, $keys[0], $keys[1], random_int(0, $j + 3), random_int(0, $j + 4));
                 }
                 $j++;
+                if ($j === 5) {
+                    $poules = $t->getPoules()[$idJeu];
+                }
             }
         }
+        // select count of poules
+        // force generation of poule finale
+        $t->genererPouleFinale($id, $idJeu);
         $poules = $t->getPoules()[$idJeu];
         foreach($poules as $p) {
             $matchs = $p->getMatchs();
             $j = 0;
             $idp = ($p->getId() - '0');
             if ($p->estPouleFinale()) {
-                $keys = array_keys($p->lesEquipes());
-                $nbTng = $equipeT->getNbmatchG();
-                $gainTng = $equipeT->SommeTournoiG();
                 foreach ($matchs as $m) {
                     // keys of teams
                     $keys = array_keys($m->getEquipes());
@@ -75,11 +79,15 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
                         MatchJ::setScore($poules, $idp, $keys[0], $keys[1], random_int(0, $j + 3), random_int(0, $j + 4));
                     }
                     $j++;
+                    if ($j === 5) {
+                        $poules = $t->getPoules()[$idJeu];
+                    }
                 }
             }
         }
         $nbTournoiG = $equipeT->getNbmatchG();
         $gainTournoiG = $equipeT->SommeTournoiG();
+        $pdo->rollBack();
         assertSame($nbTournoiG,$nbTng+1);
         assertSame($gainTournoiG,$gainTng+100);
     }
