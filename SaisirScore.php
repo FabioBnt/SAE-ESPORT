@@ -23,10 +23,16 @@
     if(isset($_GET['score1']) && isset($_GET['score2'])){
         try{
             MatchJ::setScore($listePoules[$idJeu],$_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
-            //vers DetailsTournoi.php?IDT=
+            $tournoi = new Tournois();
+            $tournoi->tousLesTournois();
             $idT = MatchJ::getIdTournoi($_GET['poule']);
-            //header( 'Location:./DetailsTournoi.php?IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
-            //exit();
+            // $t = $tournoi->getTournoi($idT);
+            // $poules = $t->getPoules();
+            //replace the session $_SESSION['jeu'.$_GET['IDJ']]
+            // $_SESSION['jeu'.$_GET['IDJ']] = $poules;
+            //vers DetailsTournoi.php?IDT=
+            header( 'Location:./DetailsTournoi.php?IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
+            exit();
         }catch(Exception $e){
             // redirect vers la page de SaissirScore.php
             header('Location:./SaisirScore.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'&erreur='.$e->getMessage());
