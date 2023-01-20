@@ -75,22 +75,22 @@
             </div>      
     </header>
     <main class="scoredetails">
-        <h1 id="labelS1">Saisir Scores du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
+        <h1 id="labelS1">Saisie des scores du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
         <?php 
         if(array_key_exists("$idJeu",$listePoules)){
         ?>
         <table id='saisirscore'>
-            <tr><td colspan="2">Saisir Score</td></tr>
+            <tr><td colspan="2">Saisie des scores</td></tr>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
             <div>
                 <input type="hidden" name="NomT" value="<?php echo $nomTournoi;?>"/>
                 <input type="hidden" name="JeuT" value="<?php echo $nomJeu;?>"/>
                 <input type="hidden" name="IDJ" value="<?php echo $idJeu;?>"/>
                 <tr>
-                <td><label for="poule">Numero Poule</label></td>
+                <td><label for="poule">Numéro de la Poule</label></td>
                 <td>
                 <select name="poule"  onchange='this.form.submit()'>
-                    <option default value="">--- Chosir numero de poule ---</option>
+                    <option default value="">--- Choisir numéro de la poule ---</option>
                     <?php 
                         foreach ($listePoules[$idJeu] as $poule) {
                             $text = "";
@@ -134,10 +134,10 @@
                 }
                 ?>
                 <tr>
-                <td><label for="equipe1">Equipe1</label></td>
+                <td><label for="equipe1">Equipe 1</label></td>
                 <td>
                 <select name="equipe1" id="poule" onchange='this.form.submit()'>
-                    <option default value="">--- Choisir l'equipe ---</option>
+                    <option default value="">--- Choisir l'équipe ---</option>
                     <?php 
                         foreach ($listePoules[$idJeu] as $poule) { 
                             if($poule->getNumero() == $_GET['poule']){
@@ -178,10 +178,10 @@
                 }
                 ?>
                 <tr>
-                <td><label for="equipe2">Equipe2</label></td>
+                <td><label for="equipe2">Equipe 2</label></td>
                 <td>
                 <select name="equipe2" id="poule" onchange='this.form.submit()'>
-                    <option default value="">--- Choisir l'equipe ---</option>
+                    <option default value="">--- Choisir l'équipe ---</option>
                     <?php 
                         foreach ($listePoules[$idJeu] as $poule) { 
                             if($poule->getNumero() === $_GET['poule']){
@@ -214,18 +214,18 @@
                 <input type="hidden" name="equipe1" value="<?php echo $_GET['equipe1'];?>"/>
                 <input type="hidden" name="equipe2" value="<?php echo $_GET['equipe2'];?>"/>
                 <tr>
-                    <td>Score equipe 1:</td>
+                    <td>Score équipe 1:</td>
                     <td><input type="number" name="score1" min="0" required></td>
                 </tr>
                 <tr>
-                    <td>Score equipe 2:</td>
+                    <td>Score équipe 2:</td>
                     <td><input type="number" name="score2" min="0" required></td>
                 </tr>
                 <tr>
                 <?php }?>
                     <a href="javascript:history.go(-1)" class="buttonE">Retour</a>
                     <?php if(isset($_GET['equipe1']) && isset($_GET['equipe2'])){ ?>
-                    <input  class="buttonE" type="submit" value="valider">
+                    <input  class="buttonE" type="submit" value="Valider">
                 </tr>
             </div>
         </form>

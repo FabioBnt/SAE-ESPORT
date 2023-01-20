@@ -54,7 +54,7 @@ class Equipes
                 }
                 $index++;
             }
-            echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'>+</a></td>";
+            echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>";
         echo "</tr>";
         }
     }
@@ -79,7 +79,7 @@ class Equipes
             $data = $mysql->selectL("J.NomJeu",
             "Jeu J", "where J.IdJeu =".$ligneValue->getJeuS().'');
             echo "<td>",$data['NomJeu'], "</td>";
-            echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'>+</a></td>";
+            echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>";
             echo "</tr>";
         }
     }

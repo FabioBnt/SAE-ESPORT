@@ -49,7 +49,7 @@
                 $data = $mysql->selectL("E.IDEcurie,E.NomCompte",
                 "Ecurie E", "where E.NomCompte ='".$identifiant."'");
                 $id = $data['IDEcurie'];
-                echo "<h1>Mes Equipes</h1>";
+                echo "<h1>Mes équipes</h1>";
                 echo "<div>";
                 echo "<table id='TabEquipe'>";
                 echo "<thead>";
@@ -68,7 +68,7 @@
                 echo "</div>";
             }
             ?>
-            <h1>Liste Des Equipes</h1>
+            <h1>Liste des équipes</h1>
             <div>
                 <table id="TabEquipe">
                     <thead>

@@ -66,7 +66,7 @@ if(isset($_POST['name'])){
                     <label id="Tforml4"><b>Lieu</b></label>
                     <input id="Tformi4" type="text" placeholder="Entrer le lieu" name="lieu" required>
                     <label id="Tforml5"><b>Cashprize</b></label>
-                    <input id="Tformi5" type="text" placeholder="Entrer le montant du cashprize" name="cashprize" required>
+                    <input id="Tformi5" type="number" placeholder="Entrer le montant du cashprize" name="cashprize" required>
                     <label id="Tforml6"><b>Notoriété</b></label>
                     <select id="Tformt1" name="typeT">
                 	    <option value="Local">Local</option>

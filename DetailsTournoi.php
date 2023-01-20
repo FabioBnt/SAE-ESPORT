@@ -55,7 +55,7 @@
     <main>
         <div class="detailstournoimain">
             <div class="Divdetails">
-                <h1>Details d'un Tournoi</h1>
+                <h1>Détails d'un Tournoi</h1>
                 <div class="gridDetails">
                     <label id="Dgridl1"><b>Nom du tournoi</b></label>
                     <input id="Dgridi1" type="text" name="nameT" value='<?php echo $tournoi->getNom(); ?>' readonly>
@@ -80,7 +80,7 @@
                             <?php
                             $poulesJeux  =  $tournoi->getPoules();
                              foreach ($tournoi->getJeux() as $jeu) {
-                                echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDJ=".$jeu->getId().'&NomT='.$tournoi->getNom().'&JeuT='.$jeu->getNom()."'>+</a></td></tr>";
+                                echo '<tr><td>'.$jeu->getNom()."<td><a href='./Score.php?IDJ=".$jeu->getId().'&NomT='.$tournoi->getNom().'&JeuT='.$jeu->getNom()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td></tr>";
                                 $_SESSION['jeu'.$jeu->getId()] = $poulesJeux;
                             }
                             if(isset($_GET['IDJ'])){
@@ -115,7 +115,7 @@
                         <tbody>
                             <?php foreach ($tournoi->lesEquipesParticipants() as $participant) {
                                 echo '<tr><td>'.$participant.'</td>';
-                                echo "<td><a href='DetailsEquipe.php?IDE=".$participant->getId()."'>+</a></td></tr>";
+                                echo "<td><a href='DetailsEquipe.php?IDE=".$participant->getId()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td></tr>";
                             } ?>
                         </tbody>
                     </table>

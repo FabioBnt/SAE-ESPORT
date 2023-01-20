@@ -42,7 +42,7 @@
         <div class="detailsequipemain">
             <div class="Divdetails">
             <a href="javascript:history.go(-1)" class="buttonE">Retour</a>
-                <h1>Details d'une équipe</h1>
+                <h1>Détails d'une équipe</h1>
                 <div class="gridDetails">
                     <div id="EDgridl1">
                     <label ><b>Nom de l'équipe</b></label>
@@ -93,8 +93,8 @@
                                 $i=0;
                                 while($i<4){
                                 echo"<tr>";
-                                echo "<td>X</td>";
-                                echo "<td>X</td>";
+                                echo "<td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>";
+                                echo "<td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>";
                                 echo "</tr>";
                                 $i++;
                                 } ;
@@ -109,8 +109,8 @@
                                     };
                                     while($ii<4){
                                         echo"<tr>";
-                                        echo "<td>X</td>";
-                                        echo "<td>X</td>";
+                                        echo "<td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>";
+                                        echo "<td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>";
                                         echo "</tr>";
                                         $ii++;
                                     };
@@ -145,7 +145,7 @@
             </div>
             <table>
                 <thead>
-                <tr><th colspan="9">SUGGESTION de tournois</th></tr>    
+                <tr><th colspan="9">SUGGESTION de Tournois</th></tr>    
                 <tr>
                     <th>Nom</th>
                     <th>CashPrize</th>

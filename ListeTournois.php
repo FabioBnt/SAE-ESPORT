@@ -81,7 +81,7 @@
                     Nom : <label>
                         <input type="text" name="nom" value="">
                     </label> <!--non fonctionnel-->
-                    Notoriete : <label>
+                    Notoriété : <label>
                         <input type="text" name="notoriete" value="">
                     </label><!--non fonctionnel-->
                     Date : <label>

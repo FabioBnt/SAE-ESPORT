@@ -51,7 +51,7 @@ class Classement
                 echo '<td>'.$colValue.'</td>';
             }
             // echo '<td>'.$i.$equipe['NomE'].' '.$equipe['NbPointsE'].'</td>';
-            echo "<td><a href='./DetailsEquipe.php?IDE=".$equipe->getId()."'>+</a></td>";
+            echo "<td><a href='./DetailsEquipe.php?IDE=".$equipe->getId()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>";
             echo "</tr>";
         }
     }

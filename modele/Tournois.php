@@ -102,7 +102,7 @@ class Tournois
             foreach ($tournoi as $colValue) {
                 echo "<td>", $colValue, "</td>";
             }
-            echo "<td><a href='./DetailsTournoi.php?IDT=". $ligneValue->getIdTournoi()."'>+</a></td>";
+            echo "<td><a href='./DetailsTournoi.php?IDT=". $ligneValue->getIdTournoi()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>";
         echo "</tr>";
         }
     }
