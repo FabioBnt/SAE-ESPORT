@@ -2,10 +2,6 @@
 include_once '../modele/Connexion.php';
 include_once '../modele/Administrateur.php';
 include_once '../modele/Jeu.php';
-//? Print errors at launch
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $connx = Connexion::getInstance();
 $listeJeux = Jeu::tousLesJeux();
 if(isset($_POST['name'])){
