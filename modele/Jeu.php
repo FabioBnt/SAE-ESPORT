@@ -16,20 +16,20 @@ class Jeu
         $this->temps = $temps;
         $this->limiteInscription = date($limiteInscription);
     }
-    //récupéré le nom
+    //récupérer le nom
     public function getNom(){
         return $this->nom;
     }
-    //récupéré l'id
+    //récupérer l'id
     public function getId(){
         return $this->id;
     }
-    //récupéré les infos d'un jeu
+    //récupérer les infos d'un jeu
     public function toString()
     {
         return $this->nom . $this->type . $this->temps . strval($this->limiteInscription);
     }
-    //récupéré tous les jeux
+    //récupérer tous les jeux
     public static function tousLesJeux()
     {
         $data = Database::getInstance()->select('*', 'Jeu');
@@ -39,17 +39,17 @@ class Jeu
         }
         return ($jeux);
     }
-    //récupéré la date limite d'inscription
+    //récupérer la date limite d'inscription
     public function getlimiteInscription(){
         return $this->limiteInscription;
     }
-    //récupéré un jeu par son id
+    //récupérer un jeu par son id
     public static function getJeuById($id):Jeu {
         $data = Database::getInstance()->select('*', 'Jeu', 'where IdJeu = '.$id);
         $jeu = new Jeu($data[0]['IdJeu'],$data[0]['NomJeu'], $data[0]['TypeJeu'], $data[0]['TempsDeJeu'], $data[0]['DateLimiteInscription']);
         return $jeu;
     }
-    //récupéré les jeux par équipes pas créé
+    //récupérer les jeux par équipes pas créé
     public static function JeuEquipeNJ($id)
     {
         $data = Database::getInstance()->select("*","Jeu J"," where J.IDjeu not in (SELECT E.IdJeu FROM Equipe E WHERE E.IDEcurie='".$id."')");

@@ -58,7 +58,7 @@ class Equipe
         }
         return 1;
     }
-    //récupère l'id par le nom de l'équipe
+    //récupérer l'id par le nom de l'équipe
     public static function getIDbyNom($nom) : int {
         $mysql = Database::getInstance();
         $data = $mysql->select("E.IdEquipe" , "Equipe E" , "where E.NomE ="."'$nom'");
@@ -67,11 +67,11 @@ class Equipe
     /**
      * @return int
      */
-    //récupère l'id de l'équipe
+    //récupérer l'id de l'équipe
     public function getId() : int{
         return $this->id;
     }
-    //récupère le nom de l'équipe
+    //récupérer le nom de l'équipe
 
     /**
      * @return string
@@ -80,7 +80,7 @@ class Equipe
         return $this->nom;
     }
     
-    //récupère le jeu de l'équipe
+    //récupérer le jeu de l'équipe
     /**
      * @return Jeu
      */
@@ -88,13 +88,13 @@ class Equipe
     {
         return $this->jeu;
     }
-    //récupère l'id jeu de l'équipe
+    //récupérer l'id jeu de l'équipe
     public function getJeuS() : string
     {
         return $this->jeu;
     }
     
-    //récupère la désignation de l'écurie de l'équipe
+    //récupérer la désignation de l'écurie de l'équipe
     public function getEcurie() : string{
         return Ecurie::getEcurie($this->ecurie)->getDesignation();
     }
@@ -113,7 +113,7 @@ class Equipe
      * @param $id
      * @return Equipe
      */
-    //récupère une équipe par son ID
+    //récupérer une équipe par son ID
     public static function getEquipe($id): Equipe
     {
         $equipe = null;
@@ -140,7 +140,7 @@ class Equipe
     /**
      * @return int
      */
-    //récupère le nb de points
+    //récupérer le nb de points
     public function getPoints(): int
     {
         if($this->points==""){
@@ -151,25 +151,25 @@ class Equipe
     /**
      * @return array
      */
-    //récupère la liste des infos de l'équipe
+    //récupérer la liste des infos de l'équipe
     public function listeInfo() : array{
         return array($this->nom,Ecurie::getEcurie($this->ecurie)->getDesignation(),$this->jeu);
     }
-    //récupère la liste des infos pour le classement
+    //récupérer la liste des infos pour le classement
     public function listeInfoClassement() : array {
         if($this->points==""){
             $this->points=0;
         }
         return array($this->nom,$this->points);
     }
-    //récupère les joueurs d'une équipe id
+    //récupérer les joueurs d'une équipe id
     public function getJoueurs($id)
     {
         $mysql = Database::getInstance();
         $dataE = $mysql->selectL('Pseudo,Nationalite', 'Joueur j', 'where IdEquipe ='.$id);
         return $dataE;
     }
-    //récupère le nb de match gagné de l'équipe
+    //récupérer le nb de match gagné de l'équipe
     public function getNbmatchG(): int
     {
         $listeTournois = new Tournois();
@@ -178,7 +178,6 @@ class Equipe
         foreach($listeTournois->getTournois() as $tournoi){
             $t=$tournoi->getPoules();
             $n = null;
-            // if jeu is of a class ype Jeu then else 
             if ($this->jeu instanceof Jeu) {
                 $n = $this->jeu->getId();
             }else{
@@ -196,15 +195,14 @@ class Equipe
         }
         return $nb;
     }
-    //récupère la somme des gains gagnés
+    //récupérer la somme des gains gagnés
     public function SommeTournoiG(){
         $listeTournois = new Tournois();
         $listeTournois->TournoisEquipe($this->id);
         $nb=0;
         foreach($listeTournois->getTournois() as $tournoi){
             $t=$tournoi->getPoules();
-            $n = null;
-            // if jeu is of a class ype Jeu then else 
+            $n = null; 
             if ($this->jeu instanceof Jeu) {
                 $n = $this->jeu->getId();
             }else{

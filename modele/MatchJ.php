@@ -22,15 +22,14 @@ class MatchJ
     public function setEquipeScore($equipeId, $score){
         $this->scores[$equipeId] = $score;
     }
-    //renvoie l'heure du match
+    //renvoyer l'heure du match
     public function toString()
     {
         return $this->heure;
     }
-    //initialise le score
+    //initialiser le score
     public static function setScore($poules, int $idPoule,int $idEquipe1,int $idEquipe2 ,int $score1,int $score2)
     {
-        // select number of match
         $mysql = Database::getInstance();
         $data = $mysql->select("Numero", "Concourir", "WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe1 AND Numero in
          (SELECT Numero FROM Concourir WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2)");
@@ -42,7 +41,7 @@ class MatchJ
         $sql = "UPDATE Concourir SET Score = $score2 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2 AND Numero = $numero";
         $muysql->query($sql);
 
-        //get id tournoi and id jeu
+        //get id tournoi et id jeu
         $idT = MatchJ::getIdTournoi($idPoule);
         $idJ = MatchJ::getIdJeu($idPoule);
 
@@ -53,8 +52,6 @@ class MatchJ
            if($poule->estPouleFinale()){
                 $pouleFinaleExiste = true;
                 if($poule->checkIfAllScoreSet()){
-                    // test echo alert
-                    // echo "<script>alert('test');</script>";
                     Tournoi::miseAJourDePoints($idT, $idJ);
                 }
            }
@@ -63,23 +60,18 @@ class MatchJ
                 $cmpt++;
            }
         }
-        // echo $cmpt;
-        // check if the poule finale wasnt set before
-        // if it wasnt set before and all scores were set in all 4 poules then genererPouleFinale
-        //Tournoi::genererPouleFinale($idT, $idJ);
         if(!$pouleFinaleExiste && $cmpt == 4){
-            // test echo alert
-            // echo "<script>alert('test');</script>";
+           
             Tournoi::genererPouleFinale($idT, $idJ);
         }
     }
-    //récupéré un tournoi par son id de poule
+    //récupérer un tournoi par son id de poule
     public static function getIdTournoi($idPoule) : int{
         $mysql = Database::getInstance();
         $row = $mysql->select("IdTournoi", "Poule", "WHERE IdPoule = $idPoule");
         return $row[0]['IdTournoi'];
     }
-    //récupéré un jeu par son id de poule
+    //récupérer un jeu par son id de poule
     public static function getIdJeu($idPoule): int{
         $mysql = Database::getInstance();
         $row = $mysql->select("IdJeu", "Poule", "WHERE IdPoule = $idPoule");
@@ -110,7 +102,7 @@ class MatchJ
     /**
      * @return array
      */
-    //récupéré les équipes
+    //récupérer les équipes
     public function getEquipes(): array
     {
         return $this->equipes;

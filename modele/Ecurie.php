@@ -19,11 +19,11 @@ class Ecurie {
         Database::getInstance()->insert("Equipe (NomE, NomCompte, MDPCompte, IdJeu , IDEcurie)", 5
          , array($nom, $compte, $mdp, $jeu, $ecurie));
     }
-    //récupéré les équipes de l'écurie
+    //récupérer les équipes de l'écurie
     public function getEquipes() {
         return $this->equipes;
     }
-    //récupéré les informations d'une écurie
+    //récupérer les informations d'une écurie
     public static function getEcurie($id): ?Ecurie
     {
         $ecurie = null;
@@ -37,12 +37,12 @@ class Ecurie {
     /**
      * @return mixed
      */
-    //récupéré la designation de l'écurie
+    //récupérer la designation de l'écurie
     public function getDesignation()
     {
         return $this->designation;
     }
-    //récupéré l'id de l'écurie par son nom de compte
+    //récupérer l'id de l'écurie par son nom de compte
     public static function getIDbyNomCompte($nomCompte) {
         $mysql = Database::getInstance();
         $data = $mysql->select("E.IDEcurie" , "Ecurie E" , "where E.NomCompte ="."'$nomCompte'");

@@ -38,12 +38,12 @@ class Tournois
             $this->posMap[$ligne['IdTournoi']] =  $index;
         }
     }
-    //récupéré tous les tournois
+    //récupérer tous les tournois
     public function tousLesTournois()
     {
         $this->selectTournoi();
     }
-    //récupéré les tournois par équipes
+    //récupérer les tournois par équipes
     public function TournoisEquipe($cond)
     {
         $mysql = Database::getInstance();
@@ -52,7 +52,7 @@ class Tournois
           AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=".$cond.' ORDER BY  IdTournoi');
         $this->misAJourListeTournois($data);
     }
-    //récupéré les tournois par équipes pas joué
+    //récupérer les tournois par équipes pas joué
     public function TournoisEquipeNJ($cond,$id)
     {
         $mysql = Database::getInstance();
@@ -102,26 +102,17 @@ class Tournois
             foreach ($tournoi as $colValue) {
                 echo "<td>", $colValue, "</td>";
             }
-            echo "<td><a href='./DetailsTournoi.php?IDT=". $ligneValue->getIdTournoi()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>";
+            echo "<td><a href='../page/DetailsTournoi.php?IDT=". $ligneValue->getIdTournoi()."'><img class='imgB' src='../img/Detail.png' alt='Details'></a></td>";
         echo "</tr>";
         }
     }
-    //récupéré les tournois
+    //récupérer les tournois
     public function getTournois(){
         return $this->tournois;
     }
-    //récupéré un tournoi par son id
+    //récupérer un tournoi par son id
     public function getTournoi($id){
         return $this->tournois[$this->posMap[$id]];
     }
 }
-/*
-include_once "Tournois.php";
-$apple = new Tournois();
-    $apple->tousLesTournois();
-    $t = $apple->getTournoi(2);
-    foreach ($t->getPoules() as $m){
-        echo $m;
-    }
-    */
 ?>

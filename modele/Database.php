@@ -16,7 +16,7 @@ class Database {
             die('Erreur : ' . $e->getMessage());
         }
     }
-    //récupéré l'instance
+    //récupérer l'instance
     public static function getInstance()
     {
         if (self::$instance == null)
@@ -25,11 +25,11 @@ class Database {
         }
         return self::$instance;
     }
-    //récupéré le pdo de la database
+    //récupérer le pdo de la database
     public function getPDO(){
         return $this->linkpdo;
     }
-    //créé un select Mysql et renvoie le résultat
+    //créer un select Mysql et renvoie le résultat
     public function select(string $cols, string $tables, string $conditions=""){
         $pdo = $this->getPDO();
         $stmt = $pdo->prepare("select ".$cols." from ".$tables." ".$conditions);
@@ -37,13 +37,13 @@ class Database {
         $data = $stmt->fetchAll();
         return $data;
     }
-    //créé un insert Mysql et renvoie le résultat
+    //créer un insert Mysql et renvoie le résultat
     public function Insert(string $table, int $num, array $values){
         $pdo = $this->getPDO();
         $stmt = $pdo->prepare("INSERT INTO ".$table." VALUES (".str_repeat("?, ", $num-1).'?)');
         $res = $stmt->execute($values);
     }
-    //créé un select Mysql et renvoie le résultat par ligne
+    //créer un select Mysql et renvoie le résultat par ligne
     public function selectL(string $cols, string $tables, string $conditions=""){
         $pdo = $this->getPDO();
         $stmt = $pdo->prepare("select ".$cols." from ".$tables." ".$conditions);

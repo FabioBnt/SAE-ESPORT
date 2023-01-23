@@ -25,7 +25,7 @@ class Poule
             $this->matchs[$numero]->addEquipeScore($equipes[$ligne['IdEquipe']], $ligne['Score']);
         }
     }
-    //récupéré la meilleur équipe de la poule
+    //récupérer la meilleur équipe de la poule
     public function meilleureEquipe(){
         $equipes = $this->lesEquipes();
             $meilleur = null;
@@ -41,7 +41,7 @@ class Poule
             }
         return $meilleur;
     }
-    //récupéré la liste des meilleures équipes Top4
+    //récupérer la liste des meilleures équipes Top4
     public function meilleuresEquipes(){
         $equipes = $this->lesEquipes();
         $result = [];
@@ -66,9 +66,8 @@ class Poule
         array_push($result,$equipes[$p]);
         return $result;
     }
-    //récupéré le classement des équipes
+    //récupérer le classement des équipes
     public function classementEquipes(){
-        // add the number of match won by each team
         $equipes = $this->meilleuresEquipes();
         $classement = array();
         foreach ($equipes as $equipe) {
@@ -76,7 +75,7 @@ class Poule
         }
         return $classement;
     }
-    //récupéré le nb de match gagné d'une équipe sur la poule
+    //récupérer le nb de match gagné d'une équipe sur la poule
     public function nbMatchsGagnes($equipe): int
     {
         $nb = 0;
@@ -87,7 +86,7 @@ class Poule
         }
         return $nb;
     }
-    //récupéré le numéro de la poule
+    //récupérer le numéro de la poule
     public function getNumero(){
         return $this->numero;
     }
@@ -95,17 +94,17 @@ class Poule
     public function estPouleFinale(){
         return $this->estFinale;
     }
-    //récupéré la liste des matchs de la poule
+    //récupérer la liste des matchs de la poule
     public function getMatchs(): array
     {
         return $this->matchs;
     }
-    //récupéré l'id de la poule
+    //récupérer l'id de la poule
     public function __toString()
     {
         return ''.$this->id;
     }
-    //récupéré les équipes de la poule
+    //récupérer les équipes de la poule
     public function lesEquipes(){
         $mysql = Database::getInstance();
         $data = $mysql->select('IdEquipe', '`Faire_partie`', 'where IdPoule ='.$this->id);
@@ -115,7 +114,7 @@ class Poule
         }
         return $equipes;
     }
-    //prend en entrer 2 id d'équipe d'une même poule et ressort l'id de l'équipe ayant le plus de point
+    //prend en entrée 2 id d'équipe d'une même poule et ressort l'id de l'équipe ayant le plus de point
     public function getDiffPoint ($n1, $n2 ) {
         $e1=$n1->getId();
         $e2=$n2->getId();
@@ -130,12 +129,10 @@ class Poule
             return $n2;
         }
     }
-
-    // retounre l'id de la poule
+    // retourne l'id de la poule
     public function getId(){
         return $this->id;
     }
-
     // vérifie si tous les scores sont renseignés
     public function checkIfAllScoreSet(): bool
     {
@@ -146,6 +143,7 @@ class Poule
         }
         return true;
     }
+    //inscrire les matchs
     public function setScoreMatch($numero, $idEquipe1, $idEquipe2, $score1, $score2): void
     {
         $this->matchs[$numero]->setEquipeScore($idEquipe1, $score1);

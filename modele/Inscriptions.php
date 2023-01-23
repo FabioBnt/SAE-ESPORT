@@ -14,12 +14,12 @@ class Inscriptions
     public function ajouterEquipe($equipe)
     {
     }
-    //récupéré les équipes
+    //récupérer les équipes
     public function getEquipes()
     {
         return $this->equipes;
     }
-    //récupéré l'instance d'un tournoi
+    //récupérer l'instance d'un tournoi
     public static function getInstance($tournoi)
     {
         return NULL;
@@ -29,7 +29,7 @@ class Inscriptions
     {
         return NULL;
     }
-    //récupéré le tournoi
+    //récupérer le tournoi
     public function getTournoi()
     {
         return $this->tournoi;

@@ -19,8 +19,8 @@
     <header>
             <div class="menunav">
                 <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
-                <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
-                <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
+                <button class="buttonM" onclick="window.location.href='./page/ListeTournois.php'">Liste des Tournois</button>
+                <button class="buttonM" onclick="window.location.href='./page/Classement.php'">Classement</button>
             </div>
             <div class="menucenter">
                 <img class="logo" src="./img/logo header.png" alt="Logo Esporter">
@@ -28,7 +28,7 @@
             <div class="menuright">  
                     <?php 
                         if($connx->getRole() === Role::Visiteur){
-                            echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
+                            echo '<a href="./page/ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
                             echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
                         }
@@ -43,13 +43,13 @@
             <div id="divbutton">
                 <?php 
                         if($connx->getRole() == Role::Administrateur){
-                            echo "<button class='buttonM' onclick="."window.location.href='CreerTournoi.php';"." type='button'> Créer un tournoi </button>";
+                            echo "<button class='buttonM' onclick="."window.location.href='./page/CreerTournoi.php';"." type='button'> Créer un tournoi </button>";
                         };
                     ?>
-                <button class="buttonM" onclick="window.location.href = 'ListeEquipe.php';" type="button"> Liste des équipes </button>
+                <button class="buttonM" onclick="window.location.href = './page/ListeEquipe.php';" type="button"> Liste des équipes </button>
                 <?php 
                         if($connx->getRole() == Role::Administrateur){
-                            echo "<button class='buttonM' onclick="."window.location.href='CreerEcurie.php';"." type='button'> Créer une écurie </button>";
+                            echo "<button class='buttonM' onclick="."window.location.href='./page/CreerEcurie.php';"." type='button'> Créer une écurie </button>";
                         };
                     ?>
             </div>

@@ -4,31 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="../style.css" />
     <title>E-Sporter Manager</title>
 </head>
 <body class="listeEquipe">
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
+                <button class="buttonM" onclick="window.location.href='../index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
             <div class="menucenter">
-                <img class="logo" src="./img/logo header.png">
+                <img class="logo" src="../img/logo header.png">
             </div>
             <div class="menuright">  
             <?php
-                include './modele/Connexion.php';
-                include './modele/Equipes.php';
+                include '../modele/Connexion.php';
+                include '../modele/Equipes.php';
                 $connx = Connexion::getInstance();
                 $listeEquipes = new Equipes();
                 $listeEquipes->tousLesEquipes();
                 if ($connx->getRole() == Role::Visiteur) {
                     echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                 } else {
-                    echo '<div class="disconnect"><h3>Bonjour, ' . $connx->getIdentifiant() . '</h3>' . ' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
+                    echo '<div class="disconnect"><h3>Bonjour, ' . $connx->getIdentifiant() . '</h3>' . ' <a href="../index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
                 }
             ?>
             </div>      

@@ -74,12 +74,12 @@ class Connexion
         return ($this->getRole() == $role);
         
     }
-    //récupéré l'identifiant de la connexion
+    //récupérer l'identifiant de la connexion
     function getIdentifiant()
     {
         return $this->identifiant;
     }
-    //récupéré le rôle de la connexion
+    //récupérer le rôle de la connexion
     function getRole()
     {
         return $this->role;

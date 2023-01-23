@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="../style.css" />
     <title>E-Sporter Manager</title>
 </head>
 <body class="equipeD">
     <!--Menu de navigation-->
     <header>
             <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
+                <button class="buttonM" onclick="window.location.href='../index.php'">Accueil</button>
                 <button class="buttonM" onclick="window.location.href='./ListeTournois.php'">Liste des Tournois</button>
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
             <div class="menucenter">
-                <img class="logo" src="./img/logo header.png">
+                <img class="logo" src="../img/logo header.png">
             </div>
             <div class="menuright">  
             <?php 
-                include './modele/Connexion.php';
-                include './modele/Tournois.php';
-                include './modele/Equipes.php';
+                include '../modele/Connexion.php';
+                include '../modele/Tournois.php';
+                include '../modele/Equipes.php';
                 $connx = Connexion::getInstance();
                 $mysql = Database::getInstance();
                 $listeEquipes = new Equipes();
@@ -33,7 +33,7 @@
                         if($connx->getRole() == Role::Visiteur){
                             echo '<a href="./ConnexionPage.php" id="connexion">Se Connecter</a>';
                         }else{
-                            echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
+                            echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="../index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
                         }
                     ?>
             </div>      
@@ -93,8 +93,8 @@
                                 $i=0;
                                 while($i<4){
                                 echo"<tr>";
-                                echo "<td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>";
-                                echo "<td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>";
+                                echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
+                                echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
                                 echo "</tr>";
                                 $i++;
                                 } ;
@@ -109,8 +109,8 @@
                                     };
                                     while($ii<4){
                                         echo"<tr>";
-                                        echo "<td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>";
-                                        echo "<td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>";
+                                        echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
+                                        echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
                                         echo "</tr>";
                                         $ii++;
                                     };

@@ -24,7 +24,7 @@ class Classement
     {
         return $this->classement;
     }
-    //Retourne le classement du tournoi pour le jeu passé en paramètre
+    //Retourner le classement du tournoi pour le jeu passé en paramètre
     public function returnClassement($idJeu): void
     {
         $db = Database::getInstance();
@@ -34,7 +34,7 @@ class Classement
             $this->classement[] = $ligne;
         }
     }
-    //Affiche le classement des équipes pour un jeu
+    //Afficher le classement des équipes pour un jeu
     public function afficherClassement($idJeu): void
     {
         $jeu = Jeu::getJeuById($idJeu);
@@ -50,12 +50,8 @@ class Classement
             foreach ($infoEquipe as $colValue) {
                 echo '<td>'.$colValue.'</td>';
             }
-            // echo '<td>'.$i.$equipe['NomE'].' '.$equipe['NbPointsE'].'</td>';
-            echo "<td><a href='./DetailsEquipe.php?IDE=".$equipe->getId()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>";
+            echo "<td><a href='../page/DetailsEquipe.php?IDE=".$equipe->getId()."'><img class='imgB' src='../img/Detail.png' alt='Details'></a></td>";
             echo "</tr>";
         }
     }
 }
-/*$jeu = new Jeu(1,'test','test',120,12);
- $apple = new Classement($jeu);
-$apple->afficherClassement($jeu);*/

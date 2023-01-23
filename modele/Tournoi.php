@@ -56,7 +56,7 @@ class Tournoi
             }
         }
     }
-    //récupéré les poules du tournoi
+    //récupérer les poules du tournoi
     private function recupererPoules(): void
     {
         $equipes = $this->lesEquipesParticipants();
@@ -71,26 +71,18 @@ class Tournoi
             }
         }
     }
-    //récupéré l'heure de début du tournoi
+    //récupérer l'heure de début du tournoi
     public function toString()
     {
         return $this->getHeureDebut();
     }
-    //généré les poules d'un jeu dans le tournoi
+    //générer les poules d'un jeu dans le tournoi
     public function genererLesPoules($idJeu): void
     {
         if(!array_key_exists($idJeu, $this->jeux)){
             throw new Exception('Jeu n\'appartient pas au Tournois');
         }
         $equipes = $this->lesEquipesParticipants($idJeu);
-        /*
-        if(count($equipes) != 16){
-            throw new Exception('Tournoi n\'a pas assez des participants');
-        }
-        if(strtotime($this->getDateLimiteInscription()) < strtotime(date("Y/m/d"))){
-            throw new Exception('Inscriptions n\'est pas fermé');
-        }
-        */
         usort($equipes, 'comparatorEquipe');
         $mysql = Database::getInstance();
         for($i = 1; $i < 5; $i++ ){
@@ -116,19 +108,18 @@ class Tournoi
         //insert les matchs
         $this->insertConcourir($equipesPoules);
     }
-    //généré la poule finale
+    //générer la poule finale
     public static function genererPouleFinale($idT, $idJeu): void
     {
-        // get the fisrt of every poule and then make the poule finale wip
         $tournoi = new Tournois();
-        // tous les tounrois
+        // tous les tournois
         $tournoi->tousLesTournois();
         $tournoi = $tournoi->getTournoi($idT);
         $equipes =  $tournoi->meilleursEquipesPoulesNonFinale($idJeu);
         $mysql = Database::getInstance();
         $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array(5, 1, $idJeu, $idT));
         $data = $mysql->select('IdPoule','Poule', 'where NumeroPoule = 5 AND IdJeu = '.$idJeu.' AND IdTournoi = '.$idT);
-        // todays date
+        //date du jour
         $date = date("Y/m/d");
         for($i = 0; $i < 6 ; $i++){
             $n = $i + 1;
@@ -145,7 +136,7 @@ class Tournoi
         //insert les matchs
         $tournoi->insertConcourir($equipesPoules);
     }
-    // insert concourir function
+    // insert concourir fonction
     public function insertConcourir($equipesPoules){
         $mysql = Database::getInstance();
         foreach($equipesPoules as $key => $value){
@@ -183,33 +174,10 @@ class Tournoi
                 $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));  
             }      
         }
-        // foreach($equipesPoules as $key => $value){
-        //     $n = 1;
-        //     while(count($value) < 4){
-        //         $value[] = null;
-        //     }
-        //     while($n < 7){
-        //         // insert for $value[0] and $value[1] then $value[0] and $value[2] then $value[0] and $value[3] then $value[1] and $value[2] then $value[1] and $value[3] then $value[2] and $value[3]
-        //         $i = 0;
-        //         $j = 1;
-        //         if($value[$i] && $value[$j]){
-        //             $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[$i], $key, $n, NULL));  
-        //             $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[$j], $key, $n, NULL));
-        //             $n++;
-        //         }
-        //         $j++;
-        //         if($j == 4){
-        //             $i++;
-        //             $j = $i + 1;
-        //         }
-        //     }
-        // }
     }
-
-    //récupéré les meilleures équipe d'un jeu des poules (non finale)
+    //récupérer les meilleures équipe d'un jeu des poules (non finale)
     public function meilleursEquipesPoulesNonFinale($jeu)
     {
-        // get the fisrt of every poule
         $equipes = array();
         $poules = $this->getPoules()[$jeu];
         foreach($poules as $poule){
@@ -220,11 +188,9 @@ class Tournoi
     //mettre a jour les points
     public static function miseAJourDePoints($idT, $idJ)
     {
-        // update the points of every team
-        //Combien de points gagne une équipe selon son classement  ?
         // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
         $tournoi = new Tournois();
-        // tous les tounrois
+        // tous les tournois
         $tournoi->tousLesTournois();
         $tournoi = $tournoi->getTournoi($idT);
         $poules = $tournoi->getPoules();
@@ -237,9 +203,9 @@ class Tournoi
                 $equipes = $poule->classementEquipes();
             }
         }
-        // add equipe scores
+        // ajouter equipe scores
         $mysql = Database::getInstance()->getPDO();
-        // update table Equipe set score
+        // mettre a jour table Equipe set score
         // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
         $multiplicateur = 0;
         if($tournoi->getNotoriete() == Notoriete::Local){
@@ -251,11 +217,8 @@ class Tournoi
         }
         $i = 0;
         $scores = array(100, 60, 30, 10);
-        // for each equipe key and value
         foreach($equipes as $key => $value){
-            // update the score
             $points = ($scores[$i] * $multiplicateur + 5 * $value);
-            // verify if the nb of points of the team is not null
             $equipes = $poulefin->lesEquipes();
             $equipe = $equipes[$key];
             if($equipe->getPoints() != null){
@@ -265,39 +228,38 @@ class Tournoi
                 $mysql->query('UPDATE Equipe SET NbPointsE = '.$points.' WHERE IdEquipe = '.$key);
             }
             $i++;
-            // to avoid out of range error
             $i = $i % 4;
         }
     }
-    //récupéré le nom du tournoi
+    //récupérer le nom du tournoi
     public function getNom(){
         return $this->nom;
     }
-    //récupéré la notoriété du tournoi
+    //récupérer la notoriété du tournoi
     public function getNotoriete(){
         return $this->notoriete;
     }
-    //récupéré le lieu du tournoi
+    //récupérer le lieu du tournoi
     public function getLieu(){
         return $this->lieu;
     }
-    //récupéré le cashprize du tournoi
+    //récupérer le cashprize du tournoi
     public function getCashPrize(){
         return $this->cashPrize;
     }
-    //get date heure
+    //récupérer date heure
     public function getDateHeure(){
         return $this->dateHeure;
     }
-    //récupéré la date du tournoi
+    //récupérer la date du tournoi
     public function getDate(){
         return date("d/m/y" ,strtotime($this->dateHeure));
     }
-    //récupéré l'heure du tournoi
+    //récupérer l'heure du tournoi
     public function getHeureDebut(){
         return date("h:m:s" ,strtotime($this->dateHeure));
     }
-    //récupéré les jeux du tournoi
+    //récupérer les jeux du tournoi
     public function getJeux(){
         return $this->jeux;
     }
@@ -310,12 +272,12 @@ class Tournoi
         $this->getHeureDebut().' '.
         $this->getdate();
     }
-    //récupéré la liste des infos du tournoi
+    //récupérer la liste des infos du tournoi
     public function listeInfo(): array
     {
         return array($this->nom,$this->cashPrize."€",$this->notoriete,$this->lieu,$this->getHeureDebut(),$this->getDate(),$this->dateLimiteInscription , $this->nomsJeux());
     }
-    //récupéré le nom des jeux
+    //récupérer le nom des jeux
     private function nomsJeux(): string
     {
         $nomjeux ="";
@@ -329,11 +291,11 @@ class Tournoi
     public function ajouterJeu($id,$jeu){
         $this->jeux[$id] = $jeu;
     }
-    //récupéré l'id du tournoi
+    //récupérer l'id du tournoi
     public function getIdTournoi(){
         return $this->id;
     }
-    //récupéré la date limite d'inscription
+    //récupérer la date limite d'inscription
     public function getDateLimiteInscription(){
         return $this->dateLimiteInscription;
     }
@@ -370,19 +332,19 @@ class Tournoi
         }
         return $equipes;
     }
-    //récupéré les poules
+    //récupérer les poules
     public function getPoules(){
         $this->poules = array();
         $this->recupererPoules();
         return $this->poules;
     }
-    //récupéré le nb de participants
+    //récupérer le nb de participants
     public function numeroParticipants($idJeu){
         $mysql = Database::getInstance();
         $data = $mysql->select('count(e.IdEquipe) as total', 'Participer p, Equipe e', 'where p.IdTournoi ='.$this->getIdTournoi().' AND e.IdEquipe = p.IdEquipe AND e.IdJeu = '.$idJeu);
         return($data[0]['total'] - '0');
     }
-    //récupéré le numéro des poules d'un jeu
+    //récupérer le numéro des poules d'un jeu
     public function numeroPoules($idJeu){
         $mysql = Database::getInstance();
         $totalPoules = $mysql->select("count(*) as total", "Poule", 'where IdTournoi = '.$this->getIdTournoi().'AND IdJeu = '.$idJeu);

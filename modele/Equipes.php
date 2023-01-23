@@ -31,7 +31,7 @@ class Equipes
             }
         }
     }
-    //récupéré toutes les équipes bdd
+    //récupérer toutes les équipes bdd
     public function tousLesEquipes()
     {
         $this->selectEquipe();
@@ -54,15 +54,15 @@ class Equipes
                 }
                 $index++;
             }
-            echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>";
+            echo "<td><a href='../page/DetailsEquipe.php?IDE=". $ligneValue->getId()."'><img class='imgB' src='../img/Detail.png' alt='Details'></a></td>";
         echo "</tr>";
         }
     }
-    //récupéré les équipes de la liste
+    //récupérer les équipes de la liste
     public function getEquipes(){
         return $this->equipes;
     }
-    //récupéré une équipe par son id
+    //récupérer une équipe par son id
     public function getEquipe($id){
         $mysql = Database::getInstance();
         $data = $mysql->select("*",
@@ -79,7 +79,7 @@ class Equipes
             $data = $mysql->selectL("J.NomJeu",
             "Jeu J", "where J.IdJeu =".$ligneValue->getJeuS().'');
             echo "<td>",$data['NomJeu'], "</td>";
-            echo "<td><a href='./DetailsEquipe.php?IDE=". $ligneValue->getId()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>";
+            echo "<td><a href='../page/DetailsEquipe.php?IDE=". $ligneValue->getId()."'><img class='imgB' src='../img/Detail.png' alt='Details'></a></td>";
             echo "</tr>";
         }
     }
