@@ -2,12 +2,16 @@
 include '../modele/Connexion.php';
 include '../modele/Administrateur.php';
 $connx = Connexion::getInstance();
+//if we are not connected as admin then we are redirected to the home page
+if($connx->getRole() != Role::Administrateur){
+    header('Location: ../index.php');
+}
+
+//if we are connected as an admin then we can create an ecurie
 if(isset($_POST['name'])){
-    if($connx->getRole() == Role::Administrateur){
-        $Admin = new Administrateur();
-        $Admin->creerEcurie($_POST['name'], $_POST['username'], $_POST['password'], $_POST['typeE']);
-        echo '<script>alert("La ligne a bien été inserée")</script>';
-    }
+    $Admin = new Administrateur();
+    $Admin->creerEcurie($_POST['name'], $_POST['username'], $_POST['password'], $_POST['typeE']);
+    echo '<script>alert("La ligne a bien été inserée")</script>';
 }
 ?>
 <!DOCTYPE html>
