@@ -56,7 +56,9 @@ if(isset($_POST['name'])){
                     <label id="Tforml1"><b>Nom du tournoi</b></label>
                     <input id="Tformi1" type="text" placeholder="Entrer le nom du tournoi" name="name" required>
                     <label id="Tforml2"><b>Date</b></label>
-                    <input id="Tformi2" type="date" name="date" required>
+                    <!-- date not before one month of today make that date as default date -->
+                    <?php $date = date('Y-m-d', strtotime('+1 month')); ?>
+                    <input id="Tformi2" type="date" name="date" min="<?php echo $date;?>" value="<?php echo $date;?>" required>
                     <label id="Tforml3"><b>Heure</b></label>
                     <input id="Tformi3" type="time" name="heure" required>
                     <label id="Tforml4"><b>Lieu</b></label>

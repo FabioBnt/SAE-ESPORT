@@ -31,7 +31,7 @@ class Database {
         return $this->linkpdo;
     }
     //créer un select Mysql et renvoie le résultat
-    public function select(string $cols, string $tables, string $conditions=""): bool|array
+    public function select(string $cols, string $tables, string $conditions="")
     {
         $pdo = $this->getPDO();
         $query = "SELECT ".$cols." FROM ".$tables;
