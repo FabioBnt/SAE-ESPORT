@@ -19,6 +19,10 @@ class Tournoi
     private $jeux = array();
     private $dateHeure;
     //constructeur
+
+    /**
+     * @throws Exception
+     */
     public function __construct($id, $nom, $cashPrize, $notoriete, $lieu, $heureDateDebut, $idEtJeu){
         $this->id =$id;
         $this->nom = $nom;
@@ -34,7 +38,7 @@ class Tournoi
     //calculer la date limite d'inscription
     private function calculerDateLimite($heureDateDebut): void
     {
-        // on prend le numero de jours le plus grande entre les jeux de tournoi
+        // on prend le numero de jours le plus grand entre les jeux de tournoi
         $maxJour = reset($this->jeux)->getlimiteInscription();
         foreach ($this->jeux as $jeu){
             $jours = $jeu->getlimiteInscription();
@@ -47,6 +51,10 @@ class Tournoi
         $this->dateLimiteInscription = date_format(date_sub($datetime,$intervalJours),"d/m/y");
     }
     //vérifier la création des poules
+
+    /**
+     * @throws Exception
+     */
     private function verifierPoules(): void{
         if(strtotime($this->getDateLimiteInscription()) > strtotime(date("Y/m/d")) && strtotime($this->dateHeure) < strtotime(date("Y/m/d"))){
             foreach($this->jeux as $jeu){
@@ -72,7 +80,7 @@ class Tournoi
         }
     }
     //récupérer l'heure de début du tournoi
-    public function toString()
+    public function toString(): string
     {
         return $this->getHeureDebut();
     }
@@ -347,8 +355,7 @@ class Tournoi
     //récupérer le numéro des poules d'un jeu
     public function numeroPoules($idJeu){
         $mysql = Database::getInstance();
-        $totalPoules = $mysql->select("count(*) as total", "Poule", 'where IdTournoi = '.$this->getIdTournoi().'AND IdJeu = '.$idJeu);
+        $totalPoules = $mysql->select("count(*) as total", "Poule", "where IdTournoi = ".$this->getIdTournoi()."AND IdJeu = ".$idJeu);
         return $totalPoules[0]['total']-'0';
     }
 }
-?>

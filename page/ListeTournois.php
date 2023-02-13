@@ -1,4 +1,9 @@
 ﻿<?php
+// Print errors
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// Include files
     include '../modele/Connexion.php';
     include '../modele/Tournois.php';
     $connx = Connexion::getInstance();

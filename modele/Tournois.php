@@ -8,15 +8,16 @@ class Tournois
     private $tournois;
     private $posMap;
     //constructeur
-    function __construct(){
+    public function __construct(){
         $this->tournois = array();
     }
     //selectionner un tournoi mysql
-    private function selectTournoi(string $cond=""){
+    private function selectTournoi(string $cond=""): void
+    {
         $mysql = Database::getInstance();
         $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
           J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
-            AND C.IdTournoi = T.IdTournoi ".$cond.' ORDER BY  IdTournoi');
+            AND C.IdTournoi = T.IdTournoi ".$cond.' ORDER BY IdTournoi');
         $this->misAJourListeTournois($data);
     }
     //mettre a jour la liste des tournois
@@ -64,7 +65,8 @@ class Tournois
         $this->misAJourListeTournois($data);
     }
     //selection de tournois (filtre)
-    public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date=""){
+    public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date=""): void
+    {
         if($nomJeu=="" && $nomTournois==="" && $prixMin===0 && $prixMax===0 && $notoriete==="" && $lieu==="" && $date===""){
             throw new \RuntimeException("Accun Argument passé");
         }
