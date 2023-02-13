@@ -31,15 +31,18 @@ class Database {
         return $this->linkpdo;
     }
     //créer un select Mysql et renvoie le résultat
-    public function select(string $cols, string $tables, string $conditions=""): bool|array
+    public function select(string $cols, string $tables, string $conditions="")
     {
         $pdo = $this->getPDO();
         $query = "SELECT ".$cols." FROM ".$tables;
         if ($conditions) {
             $query .= " ".$conditions;
         }
-        return $pdo->query($query)->fetchAll();
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
+
 
     //créer un insert Mysql et renvoie le résultat
     public function Insert(string $table, int $num, array $values): void
@@ -54,4 +57,3 @@ class Database {
         return $pdo->query("select ".$cols." from ".$tables." ".$conditions)->fetch(PDO::FETCH_ASSOC);
     }
 }
-?>

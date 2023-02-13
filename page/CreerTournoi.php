@@ -69,8 +69,7 @@ if(isset($_POST['name'])){
                         <option value="Regional">Regional</option>
                         <option value="International">International</option>
                     </select>
-                    <label id="Tforms7">Jeux</label>
-                    <select name="jeuT[]" id="Tformt2" multiple>
+                    <label for="Tformt2">Jeux</label><select name="jeuT[]" id="Tformt2" multiple required>
                         <?php 
                         foreach ($listeJeux as $jeu) {
                             echo '<option value='.$jeu->getId().'>'.$jeu->getNom().'</option>';
