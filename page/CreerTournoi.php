@@ -4,6 +4,10 @@ include_once '../modele/Administrateur.php';
 include_once '../modele/Jeu.php';
 $connx = Connexion::getInstance();
 $listeJeux = Jeu::tousLesJeux();
+//Checks if the user is connected and if he is an admin
+if($connx == null || $connx->getRole() != Role::Administrateur){
+    header('Location: ../index.php');
+}
 if(isset($_POST['name'])){
     if($connx->getRole() == Role::Administrateur){
         $Admin = new Administrateur();
