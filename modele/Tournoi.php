@@ -33,7 +33,7 @@ class Tournoi
         $this->poules = null;
         $this->jeux[$idEtJeu[0]] = $idEtJeu[1];
         $this->calculerDateLimite($heureDateDebut);
-        $this->verifierPoules();
+        
     }
     //calculer la date limite d'inscription
     private function calculerDateLimite($heureDateDebut): void
@@ -342,6 +342,7 @@ class Tournoi
     }
     //récupérer les poules
     public function getPoules(){
+        $this->verifierPoules();
         $this->poules = array();
         $this->recupererPoules();
         return $this->poules;
