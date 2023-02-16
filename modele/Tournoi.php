@@ -33,7 +33,7 @@ class Tournoi
         $this->poules = null;
         $this->jeux[$idEtJeu[0]] = $idEtJeu[1];
         $this->calculerDateLimite($heureDateDebut);
-        $this->verifierPoules();
+        
     }
     //calculer la date limite d'inscription
     private function calculerDateLimite($heureDateDebut): void
@@ -265,7 +265,9 @@ class Tournoi
     }
     //récupérer l'heure du tournoi
     public function getHeureDebut(){
-        return date("h:m:s" ,strtotime($this->dateHeure));
+        $datetime = new DateTime($this->dateHeure);
+        $datetime->setTimezone(new DateTimeZone('Europe/London'));
+        return $datetime->format("H:i:s");
     }
     //récupérer les jeux du tournoi
     public function getJeux(){
@@ -342,6 +344,7 @@ class Tournoi
     }
     //récupérer les poules
     public function getPoules(){
+        $this->verifierPoules();
         $this->poules = array();
         $this->recupererPoules();
         return $this->poules;
@@ -350,12 +353,23 @@ class Tournoi
     public function numeroParticipants($idJeu){
         $mysql = Database::getInstance();
         $data = $mysql->select('count(e.IdEquipe) as total', 'Participer p, Equipe e', 'where p.IdTournoi ='.$this->getIdTournoi().' AND e.IdEquipe = p.IdEquipe AND e.IdJeu = '.$idJeu);
-        return($data[0]['total'] - '0');
+        if(isset($data[0]) && $data[0] != null){
+            return $data[0]['total']-'0';
+        }else{
+            return 0;
+        }
     }
     //récupérer le numéro des poules d'un jeu
     public function numeroPoules($idJeu){
         $mysql = Database::getInstance();
         $totalPoules = $mysql->select("count(*) as total", "Poule", "where IdTournoi = ".$this->getIdTournoi()."AND IdJeu = ".$idJeu);
-        return $totalPoules[0]['total']-'0';
+        if(isset($totalPoules[0]) && $totalPoules[0] != null){
+            return $totalPoules[0]['total']-'0';
+        }else{
+            return 0;
+        }
     }
+    
 }
+
+?>
