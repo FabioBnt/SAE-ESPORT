@@ -265,7 +265,9 @@ class Tournoi
     }
     //récupérer l'heure du tournoi
     public function getHeureDebut(){
-        return date("h:m:s" ,strtotime($this->dateHeure));
+        $datetime = new DateTime($this->dateHeure);
+        $datetime->setTimezone(new DateTimeZone('Europe/London'));
+        return $datetime->format("H:i:s");
     }
     //récupérer les jeux du tournoi
     public function getJeux(){
