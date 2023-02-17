@@ -68,7 +68,7 @@ class Tournois
     public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date=""): void
     {
         if($nomJeu=="" && $nomTournois==="" && $prixMin===0 && $prixMax===0 && $notoriete==="" && $lieu==="" && $date===""){
-            throw new \RuntimeException("Accun Argument passé");
+            throw new \RuntimeException("Aucun Argument passé");
         }
         $cond = "AND";
         if($nomJeu !== ""){

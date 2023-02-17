@@ -36,7 +36,7 @@ if(isset($_POST['name'])){
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
             <div class="menucenter">
-                <img class="logo" src="../img/logo header.png">
+                <img class="logo" src="../img/logo header.png" alt="LogoDuSite">
             </div>
             <div class="menuright">  
                     <?php 

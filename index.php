@@ -23,7 +23,7 @@
                 <button class="buttonM" onclick="window.location.href='./page/Classement.php'">Classement</button>
             </div>
             <div class="menucenter">
-                <img class="logo" src="./img/logo header.png" alt="Logo Esporter">
+                <img class="logo" src="./img/logo header.png" alt="LogoDuSite">
             </div>
             <div class="menuright">  
                     <?php 

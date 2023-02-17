@@ -88,7 +88,7 @@ class Tournoi
     public function genererLesPoules($idJeu): void
     {
         if(!array_key_exists($idJeu, $this->jeux)){
-            throw new Exception('Jeu n\'appartient pas au Tournois');
+            throw new Exception('Le jeu n\'appartient pas au tournoi');
         }
         $equipes = $this->lesEquipesParticipants($idJeu);
         usort($equipes, 'comparatorEquipe');

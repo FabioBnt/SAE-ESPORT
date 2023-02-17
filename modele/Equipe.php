@@ -42,13 +42,13 @@ class Equipe
             throw new \RuntimeException('tournoi complet');
         }
         if(!$tournoi->contientJeu($this->jeu)){
-            throw new \RuntimeException('L\'equipe n\'est pas expert dans les jeux de tournoi');
+            throw new \RuntimeException('L\'équipe n\'est pas expert dans les jeux du tournoi');
         }
         if(strtotime($tournoi->getDateLimiteInscription()) > strtotime(date("Y/m/d"))){
-            throw new \RuntimeException('Inscription est fermée pour cette tournoi');
+            throw new \RuntimeException('L\'inscription est fermée pour ce tournoi');
         }
         if($this->estParticipant($tournoi)){
-            throw new \RuntimeException('Deja Inscrit');
+            throw new \RuntimeException('Déjà inscrit');
         }
         $mysql = Database::getInstance();
         $mysql->Insert('Participer  (IdTournoi, IdEquipe)', 2, array($tournoi->getIdTournoi(), $this->id));
