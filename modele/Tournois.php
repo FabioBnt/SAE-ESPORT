@@ -43,6 +43,7 @@ class Tournois
     public function tousLesTournois()
     {
         $this->selectTournoi();
+        return $this->tournois;
     }
     //récupérer les tournois par équipes
     public function TournoisEquipe($cond)
@@ -94,19 +95,6 @@ class Tournois
         }
         $cond = substr($cond, 0, -3);
         $this->selectTournoi($cond);
-    }
-    //afficher les infos des tournois
-    public function afficherTournois()
-    {
-        foreach ($this->tournois as $ligneValue) {
-        echo "<tr>";
-            $tournoi = $ligneValue->listeInfo();
-            foreach ($tournoi as $colValue) {
-                echo "<td>", $colValue, "</td>";
-            }
-            echo "<td><a href='../page/DetailsTournoi.php?IDT=". $ligneValue->getIdTournoi()."'><img class='imgB' src='../img/Detail.png' alt='Details'></a></td>";
-        echo "</tr>";
-        }
     }
     //récupérer les tournois
     public function getTournois(){

@@ -9,28 +9,35 @@ if(isset($_GET['page'])){
             require('./vue/accueilvue.php');
             break;
         case 'listetournoi':
+            require('./modele/Tournois.php');
+            $Tournois = new Tournois();
+            $liste=$Tournois->tousLesTournois();
             require('./vue/headervue.php');
-            require('');
+            require('./vue/listetournoisvue.php');
             break;
         case 'classement':
             require('./vue/headervue.php');
-            require('');
+            require('./vue/classementvue.php');
             break;
         case 'creerecurie':
             require('./vue/headervue.php');
-            require('');
+            require('./vue/creerecurievue.php');
             break;
         case 'creerequipe':
             require('./vue/headervue.php');
-            require('');
+            require('./vue/creerequipevue.php');
             break;
         case 'creertournoi':
             require('./vue/headervue.php');
-            require('');
+            require('./vue/creertournoivue.php');
             break;
         case 'listeequipe':
             require('./vue/headervue.php');
-            require('');
+            require('./vue/listeequipevue.php');
+            break;
+        case 'detailstournoi':
+            require('./vue/headervue.php');
+            require('./vue/detailstournoivue.php');
             break;
         default:
             require('./vue/headervue.php');

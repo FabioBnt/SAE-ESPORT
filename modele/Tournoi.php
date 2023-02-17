@@ -79,11 +79,6 @@ class Tournoi
             }
         }
     }
-    //récupérer l'heure de début du tournoi
-    public function toString(): string
-    {
-        return $this->getHeureDebut();
-    }
     //générer les poules d'un jeu dans le tournoi
     public function genererLesPoules($idJeu): void
     {
@@ -269,26 +264,8 @@ class Tournoi
         $datetime->setTimezone(new DateTimeZone('Europe/London'));
         return $datetime->format("H:i:s");
     }
-    //récupérer les jeux du tournoi
-    public function getJeux(){
-        return $this->jeux;
-    }
-    //to string
-    public function __toString()
-    {
-        return $this->nom.' '.$this->cashPrize.'€ '.
-        $this->notoriete.' '.
-        $this->lieu.' '.
-        $this->getHeureDebut().' '.
-        $this->getdate();
-    }
-    //récupérer la liste des infos du tournoi
-    public function listeInfo(): array
-    {
-        return array($this->nom,$this->cashPrize."€",$this->notoriete,$this->lieu,$this->getHeureDebut(),$this->getDate(),$this->dateLimiteInscription , $this->nomsJeux());
-    }
     //récupérer le nom des jeux
-    private function nomsJeux(): string
+    public function nomsJeux(): string
     {
         $nomjeux ="";
         foreach($this->jeux as $jeu){
