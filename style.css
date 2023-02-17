@@ -1,4 +1,4 @@
-﻿* {
+﻿*{
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
 }
@@ -6,7 +6,7 @@
 /*PAGE ACCUEIL*/
 /*    BODY    */
 /*------------*/
-.accueil {
+.header {
   margin: 0;
   background: url("./img/fondecranpasflou.jpg") no-repeat center fixed;
   -webkit-background-size: cover;
@@ -139,14 +139,8 @@ header #deconnexion {
 /*    MAIN    */
 /*FOND DU MAIN*/
 /*------------*/
-.accueilmain {
-  margin: 0;
-  top: 30%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
 .mainA {
-  margin-top: 20%;
+  margin-top: 10%;
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(3, 1fr);
