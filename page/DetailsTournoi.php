@@ -3,9 +3,14 @@
     include '../modele/Tournois.php';
     $connx = Connexion::getInstance();
     $mysql = Database::getInstance();
+    $idTournoi = null;
+    if(isset($_GET['IDT'])){
+        $idTournoi = $_GET['IDT'];
+    }else{
+        header('Location: ListeTournois.php');
+    }
     $listeTournois = new Tournois;
     $listeTournois->tousLesTournois();
-    $idTournoi = $_GET['IDT'];
     $tournoi = $listeTournois->getTournoi($idTournoi);
     if(isset($_GET['inscrire'])){
         $idEquipe = $_GET['inscrire'];
@@ -37,7 +42,7 @@
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
             <div class="menucenter">
-                <img class="logo" src="../img/logo header.png">
+                <img class="logo" src="../img/logo header.png" alt="LogoDuSite">
             </div>
             <div class="menuright">  
                     <?php 

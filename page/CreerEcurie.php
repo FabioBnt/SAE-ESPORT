@@ -6,12 +6,11 @@ $connx = Connexion::getInstance();
 if($connx->getRole() != Role::Administrateur){
     header('Location: ../index.php');
 }
-
 //if we are connected as an admin then we can create an ecurie
 if(isset($_POST['name'])){
     $Admin = new Administrateur();
     $Admin->creerEcurie($_POST['name'], $_POST['username'], $_POST['password'], $_POST['typeE']);
-    echo '<script>alert("La ligne a bien été inserée")</script>';
+    header('Location: ../index.php');
 }
 ?>
 <!DOCTYPE html>
@@ -32,7 +31,7 @@ if(isset($_POST['name'])){
                 <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
             </div>
             <div class="menucenter">
-                <img class="logo" src="../img/logo header.png">
+                <img class="logo" src="../img/logo header.png" alt="LogoDuSite">
             </div>
             <div class="menuright">  
                     <?php 

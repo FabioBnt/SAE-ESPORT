@@ -1,8 +1,8 @@
 ﻿<?php
-// Print errors
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//// Print errors uncomment this
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 // Include files
     include '../modele/Connexion.php';
     include '../modele/Tournois.php';
@@ -56,7 +56,7 @@ error_reporting(E_ALL);
         <button class="buttonM" onclick="window.location.href='./Classement.php'">Classement</button>
     </div>
     <div class="menucenter">
-        <img class="logo" src="../img/logo header.png" alt="logo">
+        <img class="logo" src="../img/logo header.png" alt="LogoDuSite">
     </div>
     <div class="menuright">
         <?php
