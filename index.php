@@ -8,6 +8,10 @@ if(isset($_GET['page'])){
             require('./vue/headervue.php');
             require('./vue/accueilvue.php');
             break;
+        case 'connexionvue':
+            require('./vue/headervue.php');
+            require('./vue/connexionvue.php');
+            break;
         case 'listetournoi':
             require('./modele/Tournois.php');
             $Tournois = new Tournois();
@@ -38,6 +42,14 @@ if(isset($_GET['page'])){
         case 'detailstournoi':
             require('./vue/headervue.php');
             require('./vue/detailstournoivue.php');
+            break;
+        case 'detailsequipe':
+            require('./vue/headervue.php');
+            require('./vue/detailsequipevue.php');
+            break;
+        case 'score':
+            require('./vue/headervue.php');
+            require('./vue/scorevue.php');
             break;
         default:
             require('./vue/headervue.php');
