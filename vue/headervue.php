@@ -28,9 +28,9 @@
             </div>
             <div class="menuright">
                 <?php if(isset($_GET['conn']) && $_GET['conn']==1):?>
-                    <a href="./index.php?page='accueil'&conn=0" id="deconnexion">Déconnexion</a>
+                    <a href="./index.php?page=accueil&conn=0" id="deconnexion">Déconnexion</a>
                 <?php else :?>
-                    <a href="./index.php?page='accueil'&conn=1" id="connexion">Se Connecter</a>
+                    <a href="./index.php?page=connexionvue" id="connexion">Se Connecter</a>
                 <?php endif;?>
             </div>      
     </header>

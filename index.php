@@ -1,6 +1,8 @@
 <!--C moi le controleur-->
 <!--parametre "page" pour recup qu'elle page on est-->
 <?php
+require ('./modele/Connexion.php');
+require('./modele/Tournois.php');
 if(isset($_GET['page'])){
     $page=$_GET['page'];
     switch ($page) {
@@ -9,11 +11,18 @@ if(isset($_GET['page'])){
             require('./vue/accueilvue.php');
             break;
         case 'connexionvue':
-            require('./vue/headervue.php');
+            $connx = Connexion::getInstance();
+            if(isset($_POST['username']) && isset($_POST['password'])){
+                $connx->seConnecter($_POST['username'], $_POST['password'], $_POST['roles']);
+                if($connx->getRole() == $_POST['roles']){
+                    header("Location: ./index.php?page=accueil");
+                }else{
+                    header("Location: ./index.php?page=connexion&conn=1");
+                }
+            }
             require('./vue/connexionvue.php');
             break;
         case 'listetournoi':
-            require('./modele/Tournois.php');
             $Tournois = new Tournois();
             $liste=$Tournois->tousLesTournois();
             require('./vue/headervue.php');
