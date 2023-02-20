@@ -15,11 +15,11 @@
                 <a class="buttonM" href="./index.php?page=accueil">Accueil</a>
                 <a class="buttonM" href="./index.php?page=listetournoi">Liste des Tournois</a>
                 <a class="buttonM" href="./index.php?page=classement">Classement</a>
-                <?php if(isset($_GET['role']) && $_GET['role']=='Administrateur'):?>
+                <?php if($connx->getRole() == Role::Administrateur):?>
                 <a class="buttonM" href="./index.php?page=creertournoi">Créer Tournoi</a>
                 <a class="buttonM" href="./index.php?page=creerecurie">Créer Ecurie</a>
                 <?php endif;?>
-                <?php if(isset($_GET['role']) && $_GET['role']=='Ecurie'):?>
+                <?php if($connx->getRole() == Role::Ecurie):?>
                 <a class="buttonM" href="./index.php?page=creerequipe">Créer Equipe</a>
                 <?php endif;?>
             </div>
@@ -27,10 +27,11 @@
                 <img class="logo" src="./img/logo header.png" alt="LogoDuSite">
             </div>
             <div class="menuright">
-                <?php if(isset($_GET['conn']) && $_GET['conn']==1):?>
-                    <a href="./index.php?page=accueil&conn=0" id="deconnexion">Déconnexion</a>
-                <?php else :?>
+                <?php if($connx->getRole() == Role::Visiteur):?>
                     <a href="./index.php?page=connexionvue" id="connexion">Se Connecter</a>
+                <?php else :?>
+                    <h3>Bienvenue, <?php echo $connx->getIdentifiant(); ?></h3>
+                    <a href="./index.php?page=accueil&sedeconnecter=true" id="deconnexion">Déconnexion</a>
                 <?php endif;?>
             </div>      
     </header>

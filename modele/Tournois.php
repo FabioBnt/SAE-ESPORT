@@ -12,13 +12,14 @@ class Tournois
         $this->tournois = array();
     }
     //selectionner un tournoi mysql
-    private function selectTournoi(string $cond=""): void
+    private function selectTournoi(string $cond="")
     {
         $mysql = Database::getInstance();
         $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
           J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
             AND C.IdTournoi = T.IdTournoi ".$cond.' ORDER BY IdTournoi');
         $this->misAJourListeTournois($data);
+        return $this->tournois;
     }
     //mettre a jour la liste des tournois
     private function misAJourListeTournois($data){
@@ -42,8 +43,7 @@ class Tournois
     //récupérer tous les tournois
     public function tousLesTournois()
     {
-        $this->selectTournoi();
-        return $this->tournois;
+        return $this->selectTournoi();
     }
     //récupérer les tournois par équipes
     public function TournoisEquipe($cond)
@@ -53,6 +53,7 @@ class Tournois
         J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription","Tournois T, Contenir C, Jeu J , Equipe E, Participer P","where C.IdJeu = J.IdJeu
           AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=".$cond.' ORDER BY  IdTournoi');
         $this->misAJourListeTournois($data);
+        return $this->tournois;
     }
     //récupérer les tournois par équipes pas joué
     public function TournoisEquipeNJ($cond,$id)
@@ -64,9 +65,10 @@ class Tournois
         AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
         AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='".$id."')");
         $this->misAJourListeTournois($data);
+        return $this->tournois;
     }
     //selection de tournois (filtre)
-    public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date=""): void
+    public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date="")
     {
         if($nomJeu=="" && $nomTournois==="" && $prixMin===0 && $prixMax===0 && $notoriete==="" && $lieu==="" && $date===""){
             throw new \RuntimeException("Aucun Argument passé");
@@ -94,7 +96,7 @@ class Tournois
             $cond.=" Date(T.DateHeureTournois) = '$date' AND";
         }
         $cond = substr($cond, 0, -3);
-        $this->selectTournoi($cond);
+        return $this->selectTournoi($cond);
     }
     //récupérer les tournois
     public function getTournois(){

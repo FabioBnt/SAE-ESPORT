@@ -17,6 +17,7 @@ class Equipes
         $data = $mysql->select("E.IdEquipe, E.NomE, E.NomCompte, E.MDPCompte, E.NbPointsE, E.IdJeu, E.IdEcurie",
          "Equipe E", "where E.IdEcurie ".$cond.' ORDER BY  IdJeu');
         $this->misAJourListeEquipes($data);
+        return $this->equipes;
     }
     //mettre a jour la liste
     private function misAJourListeEquipes($data){
@@ -32,9 +33,9 @@ class Equipes
         }
     }
     //récupérer toutes les équipes bdd
-    public function tousLesEquipes()
+    public function toutesLesEquipes()
     {
-        $this->selectEquipe();
+        return $this->selectEquipe();
     }
     //afficher les informations des équipes
     public function afficherEquipes()
@@ -67,7 +68,8 @@ class Equipes
         $mysql = Database::getInstance();
         $data = $mysql->select("*",
          "Equipe E", "where E.IdEquipe= ".$id."");
-         return $data;
+        $Equipe = new Equipe($data[0]['IdEquipe'],$data[0]['NomE'],$data[0]['NbPointsE'],$data[0]['IDEcurie'],$data[0]['IdJeu']);
+        return $Equipe;
     } 
     //afficher les informations des équipes d'une écurie
     public function afficherEquipesE()

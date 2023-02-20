@@ -9,22 +9,23 @@
             </div>
             <div>
                 <h3> Filtre de recherche : </h3>
-                <form action="./index.php?page=listetournoi" class="RechercheL" method="GET">
+                <form action="./index.php" class="RechercheL" method="GET">
+                    <input type="text" name="page" value="listetournoi" hidden>
                     Jeu : <label>
                         <input type="text" name="jeu" value="">
                     </label>
                     Nom : <label>
                         <input type="text" name="nom" value="">
-                    </label> <!--non fonctionnel-->
+                    </label>
                     Notoriété : <label>
                         <input type="text" name="notoriete" value="">
-                    </label><!--non fonctionnel-->
+                    </label>
                     Date : <label>
                         <input type="date" name="date" value="">
-                    </label><br>  <!--non fonctionnel-->
+                    </label><br>
                     Lieu : <label>
                         <input type="text" name="lieu" value="">
-                    </label><!--non fonctionnel-->
+                    </label>
                     PrixMin : <label>
                         <input type="number" name="prixmin" min="0">
                     </label>
@@ -58,7 +59,7 @@
                     <td><?php echo $T->getDate();?></td>
                     <td><?php echo $T->getDateLimiteInscription();?></td>
                     <td><?php echo $T->nomsJeux();?></td>
-                    <td><a href="./index.php?page=detailstournoi"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
+                    <td><a href="./index.php?page=detailstournoi&IDT=<?php echo $T->getIdTournoi()?>"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>

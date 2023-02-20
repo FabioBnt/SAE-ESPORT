@@ -80,13 +80,25 @@ class Equipe
         return $this->nom;
     }
     
-    //récupérer le jeu de l'équipe
+    //récupérer le jeu de l'équipe en type Jeu
     /**
      * @return Jeu
      */
     public function getJeu() : Jeu
     {
         return $this->jeu;
+    }
+     //récupérer le jeu de l'équipe en type string
+    /**
+     * @return string
+     */
+    public function getJeuN() : string
+    {
+        $mysql = Database::getInstance();
+        $data = $mysql->selectL("J.NomJeu",
+        "Jeu J", "where J.IdJeu =".$this->getJeuS().'');
+        return $data['NomJeu'];
+
     }
     //récupérer l'id jeu de l'équipe
     public function getJeuS() : string
@@ -166,7 +178,7 @@ class Equipe
     public function getJoueurs($id)
     {
         $mysql = Database::getInstance();
-        $dataE = $mysql->selectL('Pseudo,Nationalite', 'Joueur j', 'where IdEquipe ='.$id);
+        $dataE = $mysql->select('Pseudo,Nationalite', 'Joueur j', 'where IdEquipe ='.$id);
         return $dataE;
     }
     //récupérer le nb de match gagné de l'équipe

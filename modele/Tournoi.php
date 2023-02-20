@@ -254,6 +254,10 @@ class Tournoi
     public function getDateHeure(){
         return $this->dateHeure;
     }
+    //récupérer les jeux du tournoi
+    public function getJeux(){
+        return $this->jeux;
+    }
     //récupérer la date du tournoi
     public function getDate(){
         return date("d/m/y" ,strtotime($this->dateHeure));

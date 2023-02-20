@@ -26,7 +26,7 @@
                 $connx = Connexion::getInstance();
                 $mysql = Database::getInstance();
                 $listeEquipes = new Equipes();
-                $listeEquipes->tousLesEquipes();
+                $listeEquipes->toutesLesEquipes();
                 $idEquipe = $_GET['IDE'];
                 $equipeT = $listeEquipes->getEquipe($idEquipe);
                 $equipe = new Equipe($equipeT[0]['IdEquipe'],$equipeT[0]['NomE'],$equipeT[0]['NbPointsE'],$equipeT[0]['IDEcurie'],$equipeT[0]['IdJeu']);
@@ -138,7 +138,7 @@
                 <?php 
                 $listeTournois = new Tournois();
                 $listeTournois->TournoisEquipe($idEquipe);
-                $listeTournois->afficherTournois(); ?>
+                ?>
                 </tbody>
             </table>
             <div id="EDgridl4">
@@ -161,8 +161,7 @@
                 <tbody>
                 <?php 
                 $listeTournois = new Tournois();
-                $listeTournois->TournoisEquipeNJ($equipe->getJeuS(),$idEquipe);
-                $listeTournois->afficherTournois(); ?>
+                $listeTournois->TournoisEquipeNJ($equipe->getJeuS(),$idEquipe);?>
                 </tbody>
             </table>
             </div>
