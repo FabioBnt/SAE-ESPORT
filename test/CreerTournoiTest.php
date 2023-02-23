@@ -1,13 +1,15 @@
 <?php
+
 use function PHPUnit\Framework\assertSame;
-include_once(dirname(__DIR__).'/modele/Administrateur.php');
+
+include_once(dirname(__DIR__) . '/model/Administrateur.php');
 //créer un test de créer tournoi
 class CreerTournoiTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $admin;
     //mettre en place
     protected function setUp(): void {
-        $this->mysql = Database::getInstance();
+        $this->mysql = DAO::getInstance();
         $this->admin = new Administrateur();
     }
     //rénitialiser

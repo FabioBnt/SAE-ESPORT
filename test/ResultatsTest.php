@@ -1,14 +1,16 @@
 <?php 
 declare(strict_types=1);
+
 use function PHPUnit\Framework\assertSame;
-include_once(dirname(__DIR__).'/modele/Tournois.php');
-include_once(dirname(__DIR__).'/modele/MatchJ.php');
+
+include_once(dirname(__DIR__) . '/model/Tournois.php');
+include_once(dirname(__DIR__) . '/model/MatchJ.php');
 //créer un test de resultat
 class ResultatsTest extends \PHPUnit\Framework\TestCase {
     //test
     public function testSetScore() {
         Connexion::getInstanceSansSession()->seConnecter('Arbitre', '$iutinfo', Role::Administrateur);
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $pdo = $mysql->getPDO();
         //$pdo->beginTransaction();
         $tournoi = new Tournois();
@@ -30,7 +32,7 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
     // test mise a jour des points
     public function testMiseAJourDesPoins(){
         Connexion::getInstanceSansSession()->seConnecter('Arbitre', '$iutinfo', Role::Administrateur);
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $pdo = $mysql->getPDO();
         $pdo->beginTransaction();
         $tournoi = new Tournois();

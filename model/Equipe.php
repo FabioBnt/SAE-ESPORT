@@ -34,7 +34,7 @@ class Equipe
     //inscrire une équipe a un tournoi
     public function inscrire(Tournoi $tournoi): int
     {
-        if(!$this->estConnecter()){
+        if(!$this->isConnected()){
             throw new \RuntimeException('action qui nécessite une connexion en tant que membre du groupe');
         }
         $nbParti = $tournoi->numeroParticipants($this->jeu->getId());
@@ -145,7 +145,7 @@ class Equipe
      * @return bool
      */
     //savoir si l'équipe est connectée
-    public function estConnecter(): bool
+    public function isConnected(): bool
     {
         return (Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Equipe) || Connexion::getInstance()->estConnecterEnTantQue(Role::Equipe));
     }

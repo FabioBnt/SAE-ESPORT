@@ -1,7 +1,9 @@
 <?php 
 declare(strict_types=1);
+
 use function PHPUnit\Framework\assertSame;
-include_once(dirname(__DIR__).'/modele/Equipe.php');
+
+include_once(dirname(__DIR__) . '/model/Equipe.php');
 //créer un test inscrire equipe
 class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
@@ -9,7 +11,7 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     private $tournois;
     //mettre en place
     protected function setUp(): void {
-        $this->mysql = Database::getInstance();
+        $this->mysql = DAO::getInstance();
         $this->equipe = null;
         $this->tournois = new Tournois();
     } 

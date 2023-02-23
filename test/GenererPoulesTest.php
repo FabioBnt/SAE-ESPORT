@@ -3,20 +3,21 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertSame;
-include_once(dirname(__DIR__).'/modele/Tournois.php');
-include_once(dirname(__DIR__).'/modele/Equipe.php');
-include_once(dirname(__DIR__).'/modele/MatchJ.php');
-include_once(dirname(__DIR__).'/modele/Poule.php');
-include_once(dirname(__DIR__).'/modele/Administrateur.php');
+
+include_once(dirname(__DIR__) . '/model/Tournois.php');
+include_once(dirname(__DIR__) . '/model/Equipe.php');
+include_once(dirname(__DIR__) . '/model/MatchJ.php');
+include_once(dirname(__DIR__) . '/model/Poule.php');
+include_once(dirname(__DIR__) . '/model/Administrateur.php');
 //créer un test générer poule
 class GenererPoulesTest extends TestCase {
-    private Database $mysql;
+    private DAO $mysql;
     private Tournois $tournoi;
     private Administrateur $admin;
     private Equipe $equipe;
     //mettre en place
     protected function setUp(): void {
-        $this->mysql = Database::getInstance();
+        $this->mysql = DAO::getInstance();
         $this->admin = new Administrateur();
         Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
         $this->tournoi = new Tournois();

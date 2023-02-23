@@ -1,14 +1,16 @@
 <?php 
 declare(strict_types=1);
+
 use function PHPUnit\Framework\assertSame;
-include_once(dirname(__DIR__).'/modele/Tournois.php');
+
+include_once(dirname(__DIR__) . '/model/Tournois.php');
 //créer un test details tournoi
 class DetailsTournoisTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $tournoi;
     //mettre en place
     protected function setUp(): void {
-        $this->mysql = Database::getInstance();
+        $this->mysql = DAO::getInstance();
         $this->tournoi = new Tournois();
         $this->tournoi->tousLesTournois();
         $this->tournoi = $this->tournoi->getTournoi(1);

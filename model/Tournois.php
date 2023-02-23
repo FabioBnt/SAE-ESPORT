@@ -11,16 +11,6 @@ class Tournois
     public function __construct(){
         $this->tournois = array();
     }
-    //selectionner un tournoi mysql
-    private function selectTournoi(string $cond="")
-    {
-        $mysql = DAO::getInstance();
-        $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-          J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
-            AND C.IdTournoi = T.IdTournoi ".$cond.' ORDER BY IdTournoi');
-        $this->misAJourListeTournois($data);
-        return $this->tournois;
-    }
     //mettre a jour la liste des tournois
     private function misAJourListeTournois($data){
         $this->tournois = array();
@@ -43,60 +33,28 @@ class Tournois
     //récupérer tous les tournois
     public function tousLesTournois()
     {
-        return $this->selectTournoi();
+        $user = new UserDAO();
+        $this->misAJourListeTournois($user->selectTournaments());
     }
     //récupérer les tournois par équipes
-    public function TournoisEquipe($cond)
+    public function TournoisEquipe($idGame)
     {
-        $mysql = DAO::getInstance();
-        $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-        J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription","Tournois T, Contenir C, Jeu J , Equipe E, Participer P","where C.IdJeu = J.IdJeu
-          AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=".$cond.' ORDER BY  IdTournoi');
-        $this->misAJourListeTournois($data);
+        $user = new UserDAO();
+        $this->misAJourListeTournois($user->selectTournamentsForTeam($idGame));
         return $this->tournois;
     }
     //récupérer les tournois par équipes pas joué
-    public function TournoisEquipeNJ($cond,$id)
+    public function TournoisEquipeNJ($idGame,$idEquipe)
     {
-        $mysql = DAO::getInstance();
-        $data = $mysql->select("T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-        J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription","Tournois T, Contenir C, Jeu J"," where C.IdJeu = J.IdJeu
-        AND C.IdTournoi = T.IdTournoi AND  J.IdJeu='".$cond."' 
-        AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
-        AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='".$id."')");
-        $this->misAJourListeTournois($data);
+        $user = new UserDAO();
+        $this->misAJourListeTournois($user->selectTournamentsForTeam($idGame,$idEquipe));
         return $this->tournois;
     }
     //selection de tournois (filtre)
-    public function tournoiDe(string $nomJeu="", string $nomTournois="", float $prixMin=0,float $prixMax=0,string $notoriete="",string $lieu="",string $date="")
+    public function tournoiDe(string $gameName=null, string $tournamentName=null, float $minPrize=null, float $maxPrize=null, string $notoriety=null, string $city=null, string $dateTime=null)
     {
-        if($nomJeu=="" && $nomTournois==="" && $prixMin===0 && $prixMax===0 && $notoriete==="" && $lieu==="" && $date===""){
-            throw new \RuntimeException("Aucun Argument passé");
-        }
-        $cond = "AND";
-        if($nomJeu !== ""){
-            $cond.= " Lower(J.NomJeu) like Lower('%$nomJeu%') AND";
-        }
-        if($nomTournois !== ""){
-            $cond.=" Lower(T.NomTournoi) like Lower('%$nomTournois%') AND";
-        }
-        if($prixMax != 0){
-            $cond.=" T.CashPrize <= $prixMax AND";
-        }
-        if($prixMin != 0){
-            $cond.=" T.CashPrize >= $prixMin AND";
-        }
-        if($notoriete !== ""){
-            $cond.=" T.Notoriete = '$notoriete' AND";
-        }
-        if($lieu !== ""){
-            $cond.=" Lower(T.Lieu) like Lower('%$lieu%') AND";
-        }
-        if($date !== ""){
-            $cond.=" Date(T.DateHeureTournois) = '$date' AND";
-        }
-        $cond = substr($cond, 0, -3);
-        return $this->selectTournoi($cond);
+        $user = new UserDAO(); 
+        $this->misAJourListeTournois($user->selectTournaments(null,$tournamentName, $minPrize, $maxPrize, $notoriety, $city, $dateTime, $gameName, null));
     }
     //récupérer les tournois
     public function getTournois(){

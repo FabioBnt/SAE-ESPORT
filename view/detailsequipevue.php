@@ -45,6 +45,39 @@
                                 </tr>
                             <?php endforeach;?>
                         </tbody>
+                        <tbody>
+                            <?php
+                            $mysql = DAO::getInstance();
+                            $data = $mysql->select("Pseudo,Nationalite",
+                             "Joueur J", "where J.IdEquipe= ".$idEquipe."");
+                             if($data==Null){
+                                $i=0;
+                                while($i<4){
+                                echo"<tr>";
+                                echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
+                                echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
+                                echo "</tr>";
+                                $i++;
+                                } ;
+                            }else {
+                                    $ii=0;
+                                    foreach($data as $j){
+                                        echo "<tr>";
+                                        echo "<td>".$j[0]."</td>";
+                                        echo "<td>".$j[1]."</td>";
+                                        echo "</tr>";
+                                        $ii++;
+                                    };
+                                    while($ii<4){
+                                        echo"<tr>";
+                                        echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
+                                        echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
+                                        echo "</tr>";
+                                        $ii++;
+                                    };
+                                };
+                            ?>
+                        </tbody>
                     </table>
                 </div>
                 <table>

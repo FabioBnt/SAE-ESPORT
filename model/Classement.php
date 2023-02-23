@@ -47,7 +47,7 @@ class Classement
             foreach ($infoEquipe as $colValue) {
                 echo '<td>'.$colValue.'</td>';
             }
-            echo "<td><a href='../page/DetailsEquipe.php?IDE=".$equipe->getId()."'><img class='imgB' src='../img/Detail.png' alt='Details'></a></td>";
+            echo "<td><a href='../page/DetailsEquipe.php?IDE=".$equipe->getId(). "'><img class='imgB' src='../img/detail.png' alt='Details'></a></td>";
             echo "</tr>";
         }
     }

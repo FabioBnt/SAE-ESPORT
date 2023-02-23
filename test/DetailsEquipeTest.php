@@ -1,8 +1,10 @@
-﻿<?php 
+﻿<?php
+
 use function PHPUnit\Framework\assertSame;
-include_once(dirname(__DIR__).'/modele/Equipe.php');
-include_once(dirname(__DIR__).'/modele/Administrateur.php');
-include_once (dirname(__DIR__).'/modele/Tournois.php');
+
+include_once(dirname(__DIR__) . '/model/Equipe.php');
+include_once(dirname(__DIR__) . '/model/Administrateur.php');
+include_once (dirname(__DIR__) . '/model/Tournois.php');
 //créer un test details tournoi
 class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
@@ -11,7 +13,7 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
     private Equipe $equipe;
     //mettre en place
     protected function setUp(): void {
-        $this->mysql = Database::getInstance();
+        $this->mysql = DAO::getInstance();
         $this->admin = new Administrateur();
         Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
         $this->tournoi = new Tournois();

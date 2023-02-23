@@ -1,17 +1,17 @@
 <!--Contrôleur-->
 <!--parametre "page" pour recup qu'elle page on est-->
 <?php
-require_once('./modele/Connexion.php');
-require_once('./modele/Tournois.php');
-require_once('./modele/Administrateur.php');
-require_once('./modele/Jeu.php');
-require_once('./modele/Ecurie.php');
-require_once('./modele/Equipe.php');
-require_once('./modele/Equipes.php');
-require_once('./modele/Classement.php');
+require_once('./model/Connexion.php');
+require_once('./model/Tournois.php');
+require_once('./model/Administrateur.php');
+require_once('./model/Jeu.php');
+require_once('./model/Ecurie.php');
+require_once('./model/Equipe.php');
+require_once('./model/Equipes.php');
+require_once('./model/Classement.php');
 $Admin = new Administrateur();
 $connx = Connexion::getInstance();
-$mysql = Database::getInstance();
+$mysql = DAO::getInstance();
 $Tournois = new Tournois();
 if (isset($_GET['sedeconnecter'])) {
     $connx->seDeconnecter();
@@ -20,8 +20,13 @@ if (isset($_GET['page'])) {
     $page = $_GET['page'];
     switch ($page) {
         case 'accueil':
-            require('./vue/headervue.php');
-            require('./vue/accueilvue.php');
+            require('./view/headervue.php');
+            $buffer='./view/accueilvue.php';
+            $tampon=str_replace("##CREERTOURNOI##","<button class='buttonM' onclick='window.location.href='./index.php?page=creertournoi''>Créer Tournoi</button>",$buffer);
+            $tampon2=str_replace("##CREERECURIE##","<button class='buttonM' onclick='window.location.href='./index.php?page=creerecurie''>Créer Ecurie</button>",$buffer);
+            ob_start($tampon,$tampon2);
+            require('./view/accueilvue.php');
+            ob_end_flush();
             break;
         case 'connexionvue':
             if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -32,7 +37,7 @@ if (isset($_GET['page'])) {
                     header("Location: ./index.php?page=connexionvue&conn=0");
                 }
             }
-            require('./vue/connexionvue.php');
+            require('./view/connexionvue.php');
             break;
         case 'listetournoi':
             $liste = $Tournois->tousLesTournois();
@@ -66,8 +71,8 @@ if (isset($_GET['page'])) {
                     $e->getMessage(); // to verify
                 }
             }
-            require('./vue/headervue.php');
-            require('./vue/listetournoisvue.php');
+            require('./view/headervue.php');
+            require('./view/listetournoisvue.php');
             break;
         case 'classement':
             $listeJeux = Jeu::tousLesJeux();
@@ -78,11 +83,11 @@ if (isset($_GET['page'])) {
                 $Classement->returnClassement($jeu->getId());
                 $listeEquipes = $Classement->getClassement();
             }
-            require('./vue/headervue.php');
-            require('./vue/classementvue.php');
+            require('./view/headervue.php');
+            require('./view/classementvue.php');
             break;
         case 'creerecurie':
-            require('./vue/headervue.php');
+            require('./view/headervue.php');
             //if we are not connected as admin then we are redirected to the home page
             if ($connx->getRole() != Role::Administrateur) {
                 header('Location: ./index.php?page=accueil');
@@ -91,11 +96,11 @@ if (isset($_GET['page'])) {
                 $Admin->creerEcurie($_POST['name'], $_POST['username'], $_POST['password'], $_POST['typeE']);
                 header('Location: ./index.php?page=accueil');
             }
-            require('./vue/creerecurievue.php');
+            require('./view/creerecurievue.php');
             break;
         case 'creerequipe':
-            require('./vue/headervue.php');
-            require('./vue/creerequipevue.php');
+            require('./view/headervue.php');
+            require('./view/creerequipevue.php');
             if ($connx->getRole() == Role::Ecurie) {
                 $id = Ecurie::getIDbyNomCompte($connx->getIdentifiant());
             }
@@ -113,7 +118,7 @@ if (isset($_GET['page'])) {
             }
             break;
         case 'creertournoi':
-            require('./vue/headervue.php');
+            require('./view/headervue.php');
             $listeJeux = Jeu::tousLesJeux();
             $date = date('Y-m-d', strtotime('+1 month'));
             //Checks if the user is connected and if he is an admin
@@ -128,10 +133,10 @@ if (isset($_GET['page'])) {
                 $Admin->creerTournoi($_POST['name'], $cash, $_POST['typeT'], $_POST['lieu'], $_POST['heure'], $_POST['date'], $_POST['jeuT']);
                 header('Location: ./index.php?page=accueil');
             }
-            require('./vue/creertournoivue.php');
+            require('./view/creertournoivue.php');
             break;
         case 'listeequipe':
-            require('./vue/headervue.php');
+            require('./view/headervue.php');
             $identifiant = $connx->getIdentifiant();
             $Equipes = new Equipes();
             if ($connx->getRole() == Role::Ecurie) {
@@ -139,10 +144,10 @@ if (isset($_GET['page'])) {
                 $listeE = $Equipes->selectEquipe("=" . $id);
             }
             $listeE2 = $Equipes->toutesLesEquipes();
-            require('./vue/listeequipevue.php');
+            require('./view/listeequipevue.php');
             break;
         case 'detailstournoi':
-            require('./vue/headervue.php');
+            require('./view/headervue.php');
             $idTournoi = null;
             if (isset($_GET['IDT'])) {
                 $idTournoi = $_GET['IDT'];
@@ -165,14 +170,14 @@ if (isset($_GET['page'])) {
                 header('Location:./index.php?page=score&IDJ=' . $_GET['IDJ'] . '&NomT=' . $_GET['NomT'] . '&JeuT=' . $_GET['JeuT'] . '&valide');
                 exit();
             }
-            require('./vue/detailstournoivue.php');
+            require('./view/detailstournoivue.php');
             break;
         case 'detailsequipe':
-            require('./vue/headervue.php');
+            require('./view/headervue.php');
             $Equipes = new Equipes();
             $Equipe = $Equipes->getEquipe($_GET['IDE']);
             $Joueurs = $Equipe->getJoueurs($_GET['IDE']);
-            require('./vue/detailsequipevue.php');
+            require('./view/detailsequipevue.php');
             break;
         case 'score':
             $listePoules = null;
@@ -197,7 +202,7 @@ if (isset($_GET['page'])) {
             // if(isset($_GET['test'])){
             //     Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
             //     $tournoi = new Tournois();
-            //     $pdo = Database::getInstance()->getPDO();
+            //     $pdo = DAO::getInstance()->getPDO();
             //     $pdo->beginTransaction();
             //     $idJeu = 8;
             //     $admin = new Administrateur();
@@ -257,8 +262,8 @@ if (isset($_GET['page'])) {
                     $saisirScore = true;
                 }
             }
-            require('./vue/headervue.php');
-            require('./vue/scorevue.php');
+            require('./view/headervue.php');
+            require('./view/scorevue.php');
             break;
         case 'saisirscore':
             $listePoules = null;
@@ -295,16 +300,16 @@ if (isset($_GET['page'])) {
             if(isset($_GET['erreur'])){
                 echo '<script>alert("'.$_GET['erreur'].'")</script>';
             }
-            require('./vue/headervue.php');
-            require('./vue/saisirscorevue.php');
+            require('./view/headervue.php');
+            require('./view/saisirscorevue.php');
             break;
         default:
-            require('./vue/headervue.php');
-            require('./vue/accueilvue.php');
+            require('./view/headervue.php');
+            require('./view/accueilvue.php');
             break;
     }
 } else {
-    require('./vue/headervue.php');
-    require('./vue/accueilvue.php');
+    require('./view/headervue.php');
+    require('./view/accueilvue.php');
 }
 ?>

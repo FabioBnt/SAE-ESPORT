@@ -1,7 +1,9 @@
 <?php 
 declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
-include_once(dirname(__DIR__).'/modele/Classement.php');
+
+include_once(dirname(__DIR__) . '/model/Classement.php');
 //créer un test classsement
 class ClassementTest extends TestCase
 {
@@ -10,7 +12,7 @@ class ClassementTest extends TestCase
     //mettre en place
     protected function setUp(): void
     {
-        $this->mysql = Database::getInstance();
+        $this->mysql = DAO::getInstance();
         $this->classement = new Classement(8);
         /*$this->classement->returnClassement(8);
         $this->classement = $this->classement->getClassement(8);*/

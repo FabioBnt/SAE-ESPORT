@@ -8,7 +8,7 @@
 /*------------*/
 .header {
   margin: 0;
-  background: url("img/fond_accueil.jpg") no-repeat center fixed;
+  background: url("../img/fond_accueil.jpg") no-repeat center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -54,7 +54,7 @@ LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE INSCRIPTION        */
 .score,
 .inscription {
   margin: 0;
-  background-image: url("img/fond_site.png");
+  background-image: url("../img/fond_site.png");
 }
 /*--------------------------*/
 /*MAIN ECURIE EQUIPE TOURNOI*/

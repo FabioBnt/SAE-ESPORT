@@ -5,19 +5,21 @@ class DAO {
     private $login = 'u563109936_faisters';
     private $mdp = '1/4w[7z8fU';
     private $db = 'u563109936_esporters';
-    private $linkpdo;
+    private $connectionDB;
     //constructeur
-    private function __construct() {
+    protected function __construct() {
         try {
-            $this->linkpdo = new PDO("mysql:host=$this->server;dbname=$this->db", $this->login, $this->mdp);
+            $this->connectionDB = new PDO("mysql:host=$this->server;dbname=$this->db", $this->login, $this->mdp);
         }
         catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
         }
     }
     //récupérer le pdo de la database
-    private function getPDO(): PDO
+    protected function getConnection(): PDO
     {
-        return $this->linkpdo;
+        return $this->connectionDB;
     }
+
+
 }

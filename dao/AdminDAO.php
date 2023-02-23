@@ -1,44 +1,61 @@
 <?php
 
 
-class AdminDAO extends DAO{
-    public function __construct(){
+class AdminDAO extends DAO
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
     // Insert an organization in the database (Ecurie table)
-    public function createOrganization(string $nom, string $compte, string $mdp, string $type)
-    { 
-        // DAO::getInstance()->insert("Ecurie (Designation, TypeE, NomCompte, MDPCompte)", 4
-        //  , array($nom, $type, $compte, $mdp));
-        $connection = parent::getConnection();
-        $sql = "INSERT INTO Ecurie (Designation, TypeE, NomCompte, MDPCompte) VALUES (:nom, :type, :compte, :mdp)";
-        $stmt = $connection->prepare($sql);
-        $stmt->execute(array(
-            ':nom' => $nom,
-            ':type' => $type,
-            ':compte' => $compte,
-            ':mdp' => $mdp
-        ));
-
+    public function createOrganization(string $name, string $account, string $pwd, string $type)
+    {
+        try {
+            $connection = parent::getConnection();
+            $sql = "INSERT INTO Ecurie (Designation, TypeE, NomCompte, MDPCompte) VALUES (:nom, :type, :compte, :mdp)";
+            $stmt = $connection->prepare($sql);
+            $stmt->execute(array(
+                ':nom' => $name,
+                ':type' => $type,
+                ':compte' => $account,
+                ':mdp' => $pwd
+            ));
+        } catch (Exception $e) {
+            $e->getMessage();
+        }
     }
-
-    // //creer un tournoi
-    // public function creerTournoi(string $nom, int $cashPrize,string $notoriete, string $lieu,string $heureDebut,string $date,array $jeux): void
-    // {
-    //     if(!$this->estConnecter()){
-    //         throw new RuntimeException('action qui nécessite une connexion en tant que membre du groupe');
-    //     }
-    //     DAO::getInstance()->insert("Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois)", 5
-    //         , array($nom, $cashPrize, $notoriete, $lieu, $date.' '.$heureDebut.':00'));
-    //     $idTournoi = DAO::getInstance()->select('T.IdTournoi','Tournois T','where T.NomTournoi = '."'$nom'");
-    //     foreach ($jeux as $jeu) {
-    //         DAO::getInstance()->insert("Contenir",2,array($jeu,$idTournoi[0]['IdTournoi']));
-    //     }
-    // }
-    // //verifier si administrateur est connecté
-    // public function estConnecter(): bool
-    // {
-    //     return (Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Administrateur)||Connexion::getInstance()->estConnecterEnTantQue(Role::Administrateur));
-    // }
+    
+    
+    // Create a tournament in the database (Tournois table)
+    public function createTournament(string $name, int $cashPrize, string $notoriety, string $city, string $startingHour, string $date, array $games): void
+    {
+        try {
+            $connection = parent::getConnection();
+            // Insert the tournament in the database (Tournois table)
+            $sql = "INSERT INTO Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois) VALUES (:nom, :cashPrize, :notoriete, :lieu, :date)";
+            $stmt = $connection->prepare($sql);
+            $stmt->execute(array(
+                ':nom' => $name,
+                ':cashPrize' => $cashPrize,
+                ':notoriete' => $notoriety,
+                ':lieu' => $city,
+                ':date' => $date.' '.$startingHour.':00'
+            ));
+            // Get the id of the tournament
+            $idTournament = $connection->lastInsertId();
+            // Insert the games in the database (Contenir table)
+            foreach ($games as $game) {
+                $sql = "INSERT INTO Contenir (IdJeu, IdTournoi) VALUES (:jeu, :idTournoi)";
+                $stmt = $connection->prepare($sql);
+                $stmt->execute(array(
+                    ':jeu' => $game,
+                    ':idTournoi' => $idTournament
+                ));
+            }
+        } catch (Exception $e) {
+            $e->getMessage();
+        }
+    }
+    
 }

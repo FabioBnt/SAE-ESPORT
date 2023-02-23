@@ -55,7 +55,7 @@ class Equipes
                 }
                 $index++;
             }
-            echo "<td><a href='../page/DetailsEquipe.php?IDE=". $ligneValue->getId()."'><img class='imgB' src='../img/Detail.png' alt='Details'></a></td>";
+            echo "<td><a href='../page/DetailsEquipe.php?IDE=". $ligneValue->getId(). "'><img class='imgB' src='../img/detail.png' alt='Details'></a></td>";
         echo "</tr>";
         }
     }

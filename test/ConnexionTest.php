@@ -1,6 +1,6 @@
 <?php 
 declare(strict_types=1);
-include_once(dirname(__DIR__).'/modele/Connexion.php');
+include_once(dirname(__DIR__) . '/model/Connexion.php');
 //créer un test connexion
 class ConnexionTest extends \PHPUnit\Framework\TestCase {
     private $user;

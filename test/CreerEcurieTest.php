@@ -1,14 +1,16 @@
 <?php 
 declare(strict_types=1);
+
 use function PHPUnit\Framework\assertSame;
-include_once(dirname(__DIR__).'/modele/Administrateur.php');
+
+include_once(dirname(__DIR__) . '/model/Administrateur.php');
 //créer un test créer écurie
 class CreerEcurieTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
     private $admin;
     //mettre en place
     protected function setUp(): void {
-        $this->mysql = Database::getInstance();
+        $this->mysql = DAO::getInstance();
         $this->admin = new Administrateur();
     } 
     //rénitialiser
