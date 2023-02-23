@@ -1,7 +1,7 @@
 <?php
 use phpDocumentor\Reflection\Types\Boolean;
 include "Role.php";
-include_once "Database.php";
+include_once "DAO.php";
 //creer une connexion
 class Connexion
 {
@@ -44,7 +44,7 @@ class Connexion
                 $this->identifiant = $identifiant;
             }
         } else {
-            $mysql = Database::getInstance();
+            $mysql = DAO::getInstance();
             $data = $mysql->select("MDPCompte", $role, "where NomCompte = '$identifiant'");
             foreach ($data as $ligne) {
                 if ($ligne['MDPCompte'] == $password) {

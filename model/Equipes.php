@@ -1,6 +1,6 @@
 ﻿<?php
 include_once "Equipe.php";
-include_once "Database.php";
+include_once "DAO.php";
 include_once "Jeu.php";
 //créer la liste équipes
 class Equipes
@@ -13,7 +13,7 @@ class Equipes
     // select mysql d'une liste d'équipe
     public function selectEquipe(string $cond=""){
         //
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $data = $mysql->select("E.IdEquipe, E.NomE, E.NomCompte, E.MDPCompte, E.NbPointsE, E.IdJeu, E.IdEcurie",
          "Equipe E", "where E.IdEcurie ".$cond.' ORDER BY  IdJeu');
         $this->misAJourListeEquipes($data);
@@ -46,7 +46,7 @@ class Equipes
             $index=0;
             foreach ($equipe as $colValue) {
                 if($index==2){
-                    $mysql = Database::getInstance();
+                    $mysql = DAO::getInstance();
                     $data = $mysql->selectL("J.NomJeu",
                     "Jeu J", "where J.IdJeu =".$colValue.'');
                     echo "<td>",$data['NomJeu'], "</td>";
@@ -65,25 +65,11 @@ class Equipes
     }
     //récupérer une équipe par son id
     public function getEquipe($id){
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $data = $mysql->select("*",
          "Equipe E", "where E.IdEquipe= ".$id."");
         $Equipe = new Equipe($data[0]['IdEquipe'],$data[0]['NomE'],$data[0]['NbPointsE'],$data[0]['IDEcurie'],$data[0]['IdJeu']);
         return $Equipe;
     } 
-    //afficher les informations des équipes d'une écurie
-    public function afficherEquipesE()
-    {
-        foreach ($this->equipes as $ligneValue) {
-            echo "<tr>";
-            echo "<td>",$ligneValue->getNom(), "</td>";
-            $mysql = Database::getInstance();
-            $data = $mysql->selectL("J.NomJeu",
-            "Jeu J", "where J.IdJeu =".$ligneValue->getJeuS().'');
-            echo "<td>",$data['NomJeu'], "</td>";
-            echo "<td><a href='../page/DetailsEquipe.php?IDE=". $ligneValue->getId()."'><img class='imgB' src='../img/Detail.png' alt='Details'></a></td>";
-            echo "</tr>";
-        }
-    }
 }
 ?>

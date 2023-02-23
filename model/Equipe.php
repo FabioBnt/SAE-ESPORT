@@ -1,7 +1,7 @@
 <?php
 include_once 'Connexion.php';
 include_once 'Ecurie.php';
-include_once 'Database.php';
+include_once 'DAO.php';
 //créer une equipe
 class Equipe
 {
@@ -50,7 +50,7 @@ class Equipe
         if($this->estParticipant($tournoi)){
             throw new \RuntimeException('Déjà inscrit');
         }
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $mysql->Insert('Participer  (IdTournoi, IdEquipe)', 2, array($tournoi->getIdTournoi(), $this->id));
         $nbParti++;
         if($nbParti === 16){
@@ -60,7 +60,7 @@ class Equipe
     }
     //récupérer l'id par le nom de l'équipe
     public static function getIDbyNom($nom) : int {
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $data = $mysql->select("E.IdEquipe" , "Equipe E" , "where E.NomE ="."'$nom'");
         return $data[0]['IdEquipe'];
     }
@@ -94,7 +94,7 @@ class Equipe
      */
     public function getJeuN() : string
     {
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $data = $mysql->selectL("J.NomJeu",
         "Jeu J", "where J.IdJeu =".$this->getJeuS().'');
         return $data['NomJeu'];
@@ -117,7 +117,7 @@ class Equipe
     //savoir si l'équipe est participant d'un tournoi X
     public function estParticipant(Tournoi $tournoi): bool
     {
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $data = $mysql->select('count(*) as total', 'Participer', 'where IdTournoi ='.$tournoi->getIdTournoi().' AND IdEquipe = '.$this->id);
         return $data[0]['total'] > 0;
     }
@@ -129,7 +129,7 @@ class Equipe
     public static function getEquipe($id): Equipe
     {
         $equipe = null;
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$id.' AND j.IdJeu = e.IdJeu');
             foreach($dataE as $ligneE){
                 $equipe = new Equipe($ligneE['IdEquipe'], $ligneE['NomE'], $ligneE['NbPointsE'], $ligneE['IDEcurie'], 
@@ -177,7 +177,7 @@ class Equipe
     //récupérer les joueurs d'une équipe id
     public function getJoueurs($id)
     {
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $dataE = $mysql->select('Pseudo,Nationalite', 'Joueur j', 'where IdEquipe ='.$id);
         return $dataE;
     }
@@ -224,7 +224,7 @@ class Equipe
                 foreach($t[$n] as $poule){
                     if($poule->estPouleFinale()==='1'){
                         if($poule->meilleureEquipe()->getId()===$this->id){
-                            $mysql = Database::getInstance();
+                            $mysql = DAO::getInstance();
                             $res = $mysql->selectL("T.CashPrize",
                             "Tournois T", "where T.IdTournoi=".$tournoi->getIdTournoi().'');
                             $nb += $res['CashPrize'];

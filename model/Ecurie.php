@@ -1,6 +1,6 @@
 <?php
 include_once 'Connexion.php';
-include_once "Database.php";
+include_once "DAO.php";
 //créer une écurie
 class Ecurie {
     private $designation;
@@ -16,7 +16,7 @@ class Ecurie {
     //créer une équipe
     public function creerEquipe(string $nom, string $compte, string $mdp, int $jeu, int $ecurie) 
     {
-        Database::getInstance()->insert("Equipe (NomE, NomCompte, MDPCompte, IdJeu , IDEcurie)", 5
+        DAO::getInstance()->insert("Equipe (NomE, NomCompte, MDPCompte, IdJeu , IDEcurie)", 5
          , array($nom, $compte, $mdp, $jeu, $ecurie));
     }
     //récupérer les équipes de l'écurie
@@ -27,7 +27,7 @@ class Ecurie {
     public static function getEcurie($id): ?Ecurie
     {
         $ecurie = null;
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $dataE = $mysql->select('*', 'Ecurie e', 'where IdEcurie ='.$id);
         foreach($dataE as $ligneE){
             $ecurie = new Ecurie(null,$ligneE['Designation'],$ligneE['TypeE']);
@@ -44,13 +44,13 @@ class Ecurie {
     }
     //récupérer l'id de l'écurie par son nom de compte
     public static function getIDbyNomCompte($nomCompte) {
-        $mysql = Database::getInstance();
+        $mysql = DAO::getInstance();
         $data = $mysql->select("E.IDEcurie" , "Ecurie E" , "where E.NomCompte ="."'$nomCompte'");
         return $data[0]['IDEcurie'];
     }
     //ajouter un joueur
     public function ajouterJoueur(string $pseudo, string $nationalite, int $IdEquipe){
-        Database::getInstance()->insert("Joueur (Pseudo, Nationalite, IdEquipe)", 3
+        DAO::getInstance()->insert("Joueur (Pseudo, Nationalite, IdEquipe)", 3
          , array($pseudo, $nationalite, $IdEquipe));
     }
 }
