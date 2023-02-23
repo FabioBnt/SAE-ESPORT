@@ -1,4 +1,4 @@
-<!--C moi le controleur-->
+<!--Contrôleur-->
 <!--parametre "page" pour recup qu'elle page on est-->
 <?php
 require_once('./modele/Connexion.php');
