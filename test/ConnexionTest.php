@@ -1,103 +1,103 @@
 <?php 
 declare(strict_types=1);
-include_once(dirname(__DIR__) . '/model/Connexion.php');
-//créer un test connexion
-class ConnexionTest extends \PHPUnit\Framework\TestCase {
+include_once(dirname(__DIR__) . '/model/Connection.php');
+//créer un test Connection
+class ConnectionTest extends \PHPUnit\Framework\TestCase {
     private $user;
     //mettre en place
     protected function setUp(): void {
-        $this->user = Connexion::getInstanceWithoutSession();
+        $this->user = Connection::getInstanceWithoutSession();
     } 
     //rénitialiser
     protected function tearDown(): void {
         $this->user->disconnect();
     }
     //test
-    public function testConnexionValideAdmin() {
-        $this->user->establishConnection("admin", "\$iutinfo", Role::Administrateur);
-        $this->assertSame($this->user->getRole(), Role::Administrateur);
+    public function testConnectionValideAdmin() {
+        $this->user->establishConnection("admin", "\$iutinfo", Role::Administrator);
+        $this->assertSame($this->user->getRole(), Role::Administrator);
     }
     //test
-    public function testConnexionValideArbitre(){
+    public function testConnectionValideArbitre(){
         $this->user->establishConnection("arbitre", "\$iutinfo", Role::Arbitre);
         $this->assertSame($this->user->getRole(), Role::Arbitre);
     }
     //test
-    public function testConnexionValideEcurie(){
-        $this->user->establishConnection("KCorpAdmin", "mdpKCorp", Role::Ecurie);
-        $this->assertSame($this->user->getRole(), Role::Ecurie);
+    public function testConnectionValideOrganization(){
+        $this->user->establishConnection("KCorpAdmin", "mdpKCorp", Role::Organization);
+        $this->assertSame($this->user->getRole(), Role::Organization);
     }
     //test
-    public function testConnexionValideEquipe(){
+    public function testConnectionValideEquipe(){
         $this->user->establishConnection("KCorpLoLCompte", "PasswordKcorplol", Role::Equipe);
         $this->assertSame($this->user->getRole(), Role::Equipe);
     }
     //test
-    public function testConnexionIdInvalideAdmin(){
-        $this->user->establishConnection("user", "\$iutinfo", Role::Administrateur);
-        $this->assertNotSame($this->user->getRole(), Role::Administrateur);
+    public function testConnectionIdInvalideAdmin(){
+        $this->user->establishConnection("user", "\$iutinfo", Role::Administrator);
+        $this->assertNotSame($this->user->getRole(), Role::Administrator);
     }
     //test
-    public function testConnexionIdInvalideArbitre(){
+    public function testConnectionIdInvalideArbitre(){
         $this->user->establishConnection("user", "\$iutinfo", Role::Arbitre);
         $this->assertNotSame($this->user->getRole(), Role::Arbitre);
     }
     //test
-    public function testConnexionIdInvalideEcurie(){
-        $this->user->establishConnection("user", "mdpKCorp", Role::Ecurie);
-        $this->assertNotSame($this->user->getRole(), Role::Ecurie);
+    public function testConnectionIdInvalideOrganization(){
+        $this->user->establishConnection("user", "mdpKCorp", Role::Organization);
+        $this->assertNotSame($this->user->getRole(), Role::Organization);
     }
     //test
-    public function testConnexionIdInvalideEquipe(){
+    public function testConnectionIdInvalideEquipe(){
 
         $this->user->establishConnection("user", "PasswordKcorplol", Role::Equipe);
         $this->assertNotSame($this->user->getRole(), Role::Equipe);
     }
     //test
-    public function testConnexionMdpInvalideAdmin(){
-        $this->user->establishConnection("admin", "motdepasse", Role::Administrateur);
-        $this->assertNotSame($this->user->getRole(), Role::Administrateur);
+    public function testConnectionMdpInvalideAdmin(){
+        $this->user->establishConnection("admin", "motdepasse", Role::Administrator);
+        $this->assertNotSame($this->user->getRole(), Role::Administrator);
     }
     //test
-    public function testConnexionMdpInvalideArbitre(){
+    public function testConnectionMdpInvalideArbitre(){
         $this->user->establishConnection("arbitre", "motdepasse", Role::Arbitre);
         $this->assertNotSame($this->user->getRole(), Role::Arbitre);
     }
     //test
-    public function testConnexionMdpInvalideEcurie(){
-        $this->user->establishConnection("KCorpAdmin", "motdepasse", Role::Ecurie);
-        $this->assertNotSame($this->user->getRole(), Role::Ecurie);
+    public function testConnectionMdpInvalideOrganization(){
+        $this->user->establishConnection("KCorpAdmin", "motdepasse", Role::Organization);
+        $this->assertNotSame($this->user->getRole(), Role::Organization);
     }
     //test
-    public function testConnexionMdpInvalideEquipe(){
+    public function testConnectionMdpInvalideEquipe(){
         $this->user->establishConnection("KCorpLoLCompte", "motdepasse", Role::Equipe);
         $this->assertNotSame($this->user->getRole(), Role::Equipe);
     }
     //test
-    public function testConnexionIdMdpInvalideAdmin(){
-        $this->user->establishConnection("user", "motdepasse", Role::Administrateur);
-        $this->assertNotSame($this->user->getRole(), Role::Administrateur);
+    public function testConnectionIdMdpInvalideAdmin(){
+        $this->user->establishConnection("user", "motdepasse", Role::Administrator);
+        $this->assertNotSame($this->user->getRole(), Role::Administrator);
     }
     //test
-    public function testConnexionIdMdpInvalideArbitre(){
+    public function testConnectionIdMdpInvalideArbitre(){
         $this->user->establishConnection("user", "motdepasse", Role::Arbitre);
         $this->assertNotSame($this->user->getRole(), Role::Arbitre);
     }
     //test
-    public function testConnexionIdMdpInvalideEcurie(){
-        $this->user->establishConnection("user", "motdepasse", Role::Ecurie);
-        $this->assertNotSame($this->user->getRole(), Role::Ecurie);
+    public function testConnectionIdMdpInvalideOrganization(){
+        $this->user->establishConnection("user", "motdepasse", Role::Organization);
+        $this->assertNotSame($this->user->getRole(), Role::Organization);
     }
     //test
-    public function testConnexionIdMdpInvalideEquipe(){
+    public function testConnectionIdMdpInvalideEquipe(){
 
         $this->user->establishConnection("user", "motdepasse", Role::Equipe);
         $this->assertNotSame($this->user->getRole(), Role::Equipe);
     }
     //test
-    public function testConnexionNonValideIdAdministrateur(){
-        $this->user->establishConnection("user", "\$iutinfo", Role::Administrateur);
-        $this->assertNotSame($this->user->getRole(),Role::Administrateur);
+    public function testConnectionNonValideIdAdministrator(){
+        $this->user->establishConnection("user", "\$iutinfo", Role::Administrator);
+        $this->assertNotSame($this->user->getRole(),Role::Administrator);
     }
 }
 ?>

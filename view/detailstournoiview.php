@@ -8,13 +8,13 @@
                     <label id="Dgridl2"><b>Date du tournoi</b></label>
                     <input id="Dgridi2" type="text" name="dateT" value='<?php echo $tournoi->getDate(); ?>' readonly>
                     <label id="Dgridl3"><b>Heure du tournoi</b></label>
-                    <input id="Dgridi3" type="text" name="heureT" value='<?php echo $tournoi->getHeureDebut(); ?>' readonly>
+                    <input id="Dgridi3" type="text" name="heureT" value='<?php echo $tournoi->getHourStart(); ?>' readonly>
                     <label id="Dgridl4"><b>Lieu du tournoi</b></label>
                     <input id="Dgridi4" type="text" name="lieuT" value='<?php echo $tournoi->getLieu(); ?>' readonly>
                     <label id="Dgridl5"><b>CashPrize</b></label>
                     <input id="Dgridi5" type="text" name="cashprizeT" value='<?php echo $tournoi->getCashPrize(); ?>€' readonly>
                     <label id="Dgridl6"><b>Notoriété</b></label>
-                    <input id="Dgridi6" type="text" name="notorieteT" value='<?php echo $tournoi->getNotoriete(); ?>' readonly>
+                    <input id="Dgridi6" type="text" name="NotorietyT" value='<?php echo $tournoi->getNotoriety(); ?>' readonly>
                     <table id="Dgridt1">
                         <thead>
                             <tr>
@@ -28,17 +28,17 @@
                                     <td><?php echo $jeu->getNom() ?></td>
                                     <td><a href="./index.php?page=score&IDJ= <?php echo $jeu->getId(); ?> &NomT= <?php echo $tournoi->getNom(); ?> &JeuT= <?php echo $jeu->getNom(); ?>"><img src="./img/Detail.png" alt="Details" class="imgB"></a></td>
                                 </tr>
-                                <?php $_SESSION['jeu' . $jeu->getId()] = $poulesJeux; ?>
+                                <?php $_SESSION['jeu' . $jeu->getId()] = $PoolsJeux; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                     <?php
                     if (!isset($_GET['inscrire'])) {
-                        if ($connx->getRole() == Role::Equipe) {
+                        if ($connx->getRole() == Role::Team) {
                             $nomCompteEquipe = $connx->getIdentifiant();
                             $idEquipe = $mysql->select('E.IdEquipe', 'Equipe E', 'where E.NomCompte = ' . "'$nomCompteEquipe'");
-                            $equipe = Equipe::getEquipe($idEquipe[0]['IdEquipe']);
-                            if ($tournoi->contientJeu($equipe->getJeu())) {
+                            $equipe = Team::getTeam($idEquipe[0]['IdEquipe']);
+                            if ($tournoi->haveGame($equipe->getGameId())) {
                                 echo '<button class="buttonE" id="Dgrida1" onclick="confirmerInscription(' . $idTournoi . ', ' . $idEquipe[0]['IdEquipe'] . ')">S\'inscrire</button>';
                             }
                         }
@@ -53,7 +53,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($tournoi->lesEquipesParticipants() as $participant) {
+                        <?php foreach ($tournoi->TeamsOfPoolParticipants() as $participant) {
                             echo '<tr><td>' . $participant . '</td>';
                             echo "<td><a href='Details?IDE=" . $participant->getId() . "'><img class='imgB' src='../img/detail.png' alt='Details'></a></td></tr>";
                         } ?>

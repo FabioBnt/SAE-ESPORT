@@ -1,31 +1,29 @@
 <?php
-
-
-include "Role.php";
-include_once "DAO.php";
-//creer une connexion
-class Connexion
+require_once("./Role.php");
+require_once("../dao/UserDAO.php");
+//create a connection
+class Connection
 {
-    private $role;
-    private $identifiant;
+    private string $role;
+    private string $identifiant;
     private static $instance = null;
-    private $comptes = array();
-    //constructeur
+    private array $accounts = array();
+    //constructor
     private function __construct()
     {
         $this->role = Role::Visiteur;
         $this->identifiant = "Guest";
-        $this->comptes[Role::Administrateur] = ["admin", "\$iutinfo"];
-        $this->comptes[Role::Arbitre] = ["arbitre", "\$iutinfo"];
+        $this->accounts[Role::Administrator] = ["admin", "\$iutinfo"];
+        $this->accounts[Role::Arbitre] = ["arbitre", "\$iutinfo"];
     }
-    //recuperer l'instance de la connexion
+    //get instance of the Connection
     public static function getInstance()
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         if (!isset($_SESSION[self::class])) {
-            self::$instance = new Connexion();
+            self::$instance = new Connection();
             $_SESSION[self::class] = self::$instance;
         }
         return $_SESSION[self::class];
@@ -36,11 +34,11 @@ class Connexion
      * @param $role
      * @return void
      */
-    //se connecter
-    function establishConnection(string $id, string $password, $role)
+    //connection session
+    function establishConnection(string $id, string $password,string $role)
     {
-        if ($role == Role::Administrateur || $role == Role::Arbitre) {
-            if ($this->comptes[$role][0] == $id && $this->comptes[$role][1] == $password) {
+        if ($role == Role::Administrator || $role == Role::Arbitre) {
+            if ($this->accounts[$role][0] == $id && $this->accounts[$role][1] == $password) {
                 $this->role = $role;
                 $this->identifiant = $id;
             }
@@ -59,28 +57,27 @@ class Connexion
     public static function getInstanceWithoutSession()
     {
         if (self::$instance == null) {
-            self::$instance = new Connexion();
+            self::$instance = new Connection();
         }
         return self::$instance;
     }
-    // se deconnecter
+    // disconnect session
     public function disconnect()
     {
         $this->role = Role::Visiteur;
         $this->identifiant = "Guest";
     }
-    // savoir le rôle de la connexion
-    public function estConnecterEnTantQue($role)
+    // if get role of the connection is the role param
+    public function IfgetRoleConnection(string $role)
     {
         return ($this->getRole() == $role);
-        
     }
-    //récupérer l'identifiant de la connexion
+    //get identifiant of the connection
     function getIdentifiant()
     {
         return $this->identifiant;
     }
-    //récupérer le rôle de la connexion
+    //get role of the connection
     function getRole()
     {
         return $this->role;

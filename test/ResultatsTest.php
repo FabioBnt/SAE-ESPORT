@@ -9,7 +9,7 @@ include_once(dirname(__DIR__) . '/model/MatchJ.php');
 class ResultatsTest extends \PHPUnit\Framework\TestCase {
     //test
     public function testSetScore() {
-        Connexion::getInstanceWithoutSession()->establishConnection('Arbitre', '$iutinfo', Role::Administrateur);
+        Connection::getInstanceWithoutSession()->establishConnection('Arbitre', '$iutinfo', Role::Administrator);
         $mysql = DAO::getInstance();
         $pdo = $mysql->getPDO();
         //$pdo->beginTransaction();
@@ -17,10 +17,10 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
         // get tous les tournois
         $tournoi->allTournaments();
         // get le tournoi
-        $t = $tournoi->getTournoi(11);
-        // get les poules
-        $poules = $t->getPoules();
-        MatchJ::setScore($poules[8],4, 15, 16, 3, 5);
+        $t = $tournoi->getTournament(11);
+        // get les Pools
+        $Pools = $t->getPools();
+        MatchJ::setScore($Pools[8],4, 15, 16, 3, 5);
         $score = $mysql->select('Score', 'Concourir', 'WHERE IdPoule = 4 AND IdEquipe = 15 and Numero = 4');
         $score1 = $score[0]['Score']-'0';
         $score = $mysql->select('Score', 'Concourir', 'WHERE IdPoule = 4 AND IdEquipe = 16 and Numero = 4');
@@ -31,7 +31,7 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
     }
     // test mise a jour des points
     public function testMiseAJourDesPoins(){
-        Connexion::getInstanceWithoutSession()->establishConnection('Arbitre', '$iutinfo', Role::Administrateur);
+        Connection::getInstanceWithoutSession()->establishConnection('Arbitre', '$iutinfo', Role::Administrator);
         $mysql = DAO::getInstance();
         $pdo = $mysql->getPDO();
         $pdo->beginTransaction();
@@ -39,13 +39,13 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
         // get tous les tournois
         $tournoi->allTournaments();
         // get le tournoi
-        $t = $tournoi->getTournoi(11);
-        // get les poules
-        $poules = $t->getPoules();
-        // les equies de la poule
-        $equipes = $poules[8][5]->lesEquipes();
+        $t = $tournoi->getTournament(11);
+        // get les Pools
+        $Pools = $t->getPools();
+        // les equies de la Pool
+        $equipes = $Pools[8][5]->TeamsOfPool();
         // get les points de l'equipe 15
-        $classement = $poules[8][5]->classementEquipes();
+        $classement = $Pools[8][5]->classementTeams();
         // get keys des equipes
         $pointsa = array();
         foreach($classement as $key => $value){
@@ -56,10 +56,10 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
         $score1 = $score[0]['Score']-'0';
         $score = $mysql->select('Score', 'Concourir', 'WHERE IdPoule = 7 AND IdEquipe = 17');
         $score2 = $score[0]['Score']-'0';
-        MatchJ::setScore($poules[8],7, 13, 17, $score1, $score2);
-        $poules = $t->getPoules();
-        // les equies de la poule
-        $equipes = $poules[8][5]->lesEquipes();
+        MatchJ::setScore($Pools[8],7, 13, 17, $score1, $score2);
+        $Pools = $t->getPools();
+        // les equies de la Pool
+        $equipes = $Pools[8][5]->TeamsOfPool();
         $points = array();
         foreach($classement as $key => $value){
             $points[] = $equipes[$key]->getPoints();

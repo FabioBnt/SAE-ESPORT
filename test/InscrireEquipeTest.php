@@ -20,11 +20,11 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
         $this->equipe = null;
     }
     public function testEquipeInscriptionValide() {
-        Connexion::getInstanceWithoutSession()->establishConnection('Cloud9FortniteCompte', 'PasswordCloud9Fortnite', Role::Equipe);
+        Connection::getInstanceWithoutSession()->establishConnection('Cloud9FortniteCompte', 'PasswordCloud9Fortnite', Role::Equipe);
         $this->tournois->allTournaments();
         $this->equipe = Equipe::getEquipe(8);
-        $tournoi = $this->tournois->getTournoi(2);
-        $idT = $tournoi->getIdTournoi();
+        $tournoi = $this->tournois->getTournament(2);
+        $idT = $tournoi->getIdTournament();
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
         $totalInscription = $this->mysql->select('count(*) as total', 'Participer', "where IdTournoi = $idT");
@@ -37,11 +37,11 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     //test
     public function testEquipeDejaInscrit() {
         $this->expectException(Exception::class);
-        Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
         $this->tournois->allTournaments();
         $this->equipe = Equipe::getEquipe(8);
-        $tournoi = $this->tournois->getTournois()[0];
-        $idT = $tournoi->getIdTournoi();
+        $tournoi = $this->tournois->getTournaments()[0];
+        $idT = $tournoi->getIdTournament();
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
         $this->equipe->Inscrire($tournoi);
@@ -51,10 +51,10 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     //test
     public function testJeuIncompatible() {
         $this->expectException(Exception::class);
-        Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
         $this->tournois->allTournaments();
-        $tournoi = $this->tournois->getTournois()[1];
-        $idT = $tournoi->getIdTournoi();
+        $tournoi = $this->tournois->getTournaments()[1];
+        $idT = $tournoi->getIdTournament();
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
         $this->equipe->Inscrire($tournoi);

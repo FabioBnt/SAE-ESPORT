@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use function PHPUnit\Framework\assertSame;
 
-include_once(dirname(__DIR__) . '/model/Administrateur.php');
+include_once(dirname(__DIR__) . '/model/Administrator.php');
 //créer un test créer écurie
 class CreerEcurieTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
@@ -11,7 +11,7 @@ class CreerEcurieTest extends \PHPUnit\Framework\TestCase {
     //mettre en place
     protected function setUp(): void {
         $this->mysql = DAO::getInstance();
-        $this->admin = new Administrateur();
+        $this->admin = new Administrator();
     } 
     //rénitialiser
     protected function tearDown(): void {

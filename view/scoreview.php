@@ -10,19 +10,19 @@
         ?>
         <?php
         $i = 0;
-        $pouleF = null;
-        if(array_key_exists("$idJeu",$listePoules)){
-            foreach ($listePoules[$idJeu] as $poule) {
+        $PoolF = null;
+        if(array_key_exists("$idJeu",$listePools)){
+            foreach ($listePools[$idJeu] as $Pool) {
                 $i++;
                 ?>
                 <table id="tableS <?php echo $i; ?>"><thead><tr><th colspan="4">Poule
                 <?php
                 if($i==5){
                     echo'Finale';
-                    $pouleF= $poule;
+                    $PoolF= $Pool;
                 }else{echo $i;};
                 echo '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
-                foreach ($poule->getMatchs() as $match){
+                foreach ($Pool->getMatchs() as $match){
                     echo "<tr>";
                     foreach ($this->scores as $key => $ligneValue) {
                         $equipe = $this->equipes[$key];
@@ -41,8 +41,8 @@
             echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
             transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
         }
-        if($pouleF!=null){
-            if($pouleF->checkIfAllScoreSet()){
+        if($PoolF!=null){
+            if($PoolF->checkIfAllScoreSet()){
                 
         ?>
         <table id="tableS6">
@@ -55,11 +55,11 @@
             <tbody>
                 <?php
             $i = 0;
-            if(array_key_exists("$idJeu",$listePoules)){
-                foreach ($listePoules[$idJeu] as $poule) {
+            if(array_key_exists("$idJeu",$listePools)){
+                foreach ($listePools[$idJeu] as $Pool) {
                     $i++;
                     if($i==5){
-                        $p = $poule -> meilleuresEquipes();
+                        $p = $Pool -> BestTeams();
                         $in=1;
                         foreach($p as $e){
                             echo "<tr>";

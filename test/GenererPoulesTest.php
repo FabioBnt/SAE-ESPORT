@@ -7,23 +7,23 @@ use function PHPUnit\Framework\assertSame;
 include_once(dirname(__DIR__) . '/model/Tournois.php');
 include_once(dirname(__DIR__) . '/model/');
 include_once(dirname(__DIR__) . '/model/MatchJ.php');
-include_once(dirname(__DIR__) . '/model/Poule.php');
-include_once(dirname(__DIR__) . '/model/Administrateur.php');
-//créer un test générer poule
-class GenererPoulesTest extends TestCase {
+include_once(dirname(__DIR__) . '/model/Pool.php');
+include_once(dirname(__DIR__) . '/model/Administrator.php');
+//créer un test générer Pool
+class GenererPoolsTest extends TestCase {
     private DAO $mysql;
     private Tournois $tournoi;
-    private Administrateur $admin;
+    private Administrator $admin;
     private Equipe $equipe;
     //mettre en place
     protected function setUp(): void {
         $this->mysql = DAO::getInstance();
-        $this->admin = new Administrateur();
-        Connexion::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrateur);
+        $this->admin = new Administrator();
+        Connection::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrator);
         $this->tournoi = new Tournois();
     } 
     //test
-    public function testGenererPoules(): void
+    public function testGenererPools(): void
     {
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
@@ -31,8 +31,8 @@ class GenererPoulesTest extends TestCase {
         $this->admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/05/2023',array($idJeu));
         $id = $this->mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
         $this->tournoi->allTournaments();
-        $t = $this->tournoi->getTournoi($id[0]['IdTournoi']);
-        Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        $t = $this->tournoi->getTournament($id[0]['IdTournoi']);
+        Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
         $idE = $this->mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
         $i = 0;
         while($i < 16){
@@ -40,22 +40,22 @@ class GenererPoulesTest extends TestCase {
             $this->equipe->Inscrire($t);
             $i++;
         }
-        $id = $t->getIdTournoi();
-        $totalPoules = $this->mysql->select("count(*) as total", "Poule", "where IdTournoi = $id");
-        $listePoules = $t->getPoules();
+        $id = $t->getIdTournament();
+        $totalPools = $this->mysql->select("count(*) as total", "Poule", "where IdTournoi = $id");
+        $listePools = $t->getPools();
         $pdo->rollBack();
         // $sum = 0;
-        // foreach($listePoules as $poule){
-        //     $sum +=  count($poule);
+        // foreach($listePools as $Pool){
+        //     $sum +=  count($Pool);
         // }
-        assertSame($totalPoules[0]['total']-'0', count($listePoules[$idJeu]));
+        assertSame($totalPools[0]['total']-'0', count($listePools[$idJeu]));
     }
 
     /**
-     * Test de la génération de la poule finale
+     * Test de la génération de la Pool finale
      * @throws Exception
      */
-    public function testGenererPouleFinale(): void
+    public function testgenerateFinalPool(): void
     {
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
@@ -63,8 +63,8 @@ class GenererPoulesTest extends TestCase {
         $this->admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/05/2023',array($idJeu));
         $id = $this->mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
         $this->tournoi->allTournaments();
-        $t = $this->tournoi->getTournoi($id[0]['IdTournoi']);
-        Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        $t = $this->tournoi->getTournament($id[0]['IdTournoi']);
+        Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
         $idE = $this->mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
         $i = 0;
         while($i < 16){
@@ -72,28 +72,28 @@ class GenererPoulesTest extends TestCase {
             $this->equipe->Inscrire($t);
             $i++;
         }
-        $id = $t->getIdTournoi();
-        $poules = $t->getPoules()[$idJeu];
-        foreach($poules as $p){
+        $id = $t->getIdTournament();
+        $Pools = $t->getPools()[$idJeu];
+        foreach($Pools as $p){
             $matchs = $p->getMatchs();
             $j = 0;
             $idp = ($p->getId() - '0');
             foreach($matchs as $m){
                 // keys of teams
                 $keys = array_keys($m->getEquipes());
-                MatchJ::setScore($poules,$idp,$keys[0],$keys[1],random_int(0,$j+3),random_int(0,$j+4));
+                MatchJ::setScore($Pools,$idp,$keys[0],$keys[1],random_int(0,$j+3),random_int(0,$j+4));
                 $j++;
                 if ($j == 5) {
-                    $poules = $t->getPoules()[$idJeu];
+                    $Pools = $t->getPools()[$idJeu];
                 }
             }
         }
-        //$t->genererPouleFinale($id,$idJeu);
-        $listePoules = $t->getPoules()[$idJeu];
-        $totalPoules = $this->mysql->select("count(*) as total", "Poule", "where IdTournoi = $id");
+        //$t->generateFinalPool($id,$idJeu);
+        $listePools = $t->getPools()[$idJeu];
+        $totalPools = $this->mysql->select("count(*) as total", "Poule", "where IdTournoi = $id");
         $pdo->rollBack();
-        assertSame($totalPoules[0]['total']-'0', count($listePoules));
-        assertSame(5, count($listePoules));
+        assertSame($totalPools[0]['total']-'0', count($listePools));
+        assertSame(5, count($listePools));
     }
 }
 ?>

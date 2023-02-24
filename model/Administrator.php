@@ -1,7 +1,7 @@
 <?php
-include_once '../dao/AdminDAO.php';
+require_once ("./dao/AdminDAO.php");
 //Create an administrator
-class Administrateur {
+class Administrator {
     private $dao;
     //constructor
     public function __construct(){

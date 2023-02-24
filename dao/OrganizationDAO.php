@@ -1,15 +1,14 @@
 <?php
-
+//create an organization dao class
 class OrganizationDAO extends DAO
 {
-
-    // Create a team in the database (Equipe table)
+    //constructor
     public function __construct()
     {
         parent::__construct();
     }
-
-    public function insertTeam(string $name, string $accountName, string $accountPassword, int $idGame, int $idOrganization): bool
+    // Create a team in the database (Equipe table)
+    public function insertTeam(string $name, string $accountName, string $accountPassword,int $idGame, int $idOrganization): bool
     {
         // Checks if the parameters are strings
         if (is_string($name) && is_string($accountName) && is_string($accountPassword)) {
@@ -38,7 +37,6 @@ class OrganizationDAO extends DAO
         }
         return false;
     }
-
     // Create a player in the database (Joueur table)
     public function insertPlayer(string $username, string $nationality, int $teamID)
     {
@@ -64,7 +62,6 @@ class OrganizationDAO extends DAO
             }
         }
     }
-
     // Select an organization id by its account name
     public function selectOrganizationID(string $accountName): int
     {
@@ -90,7 +87,6 @@ class OrganizationDAO extends DAO
         }
         return 0;
     }
-
     // Retrieve organization's information
     public static function selectOrganization(int $id)
     {

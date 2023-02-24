@@ -1,64 +1,62 @@
 <?php
-require_once '../dao/UserDAO.php';
-//créer un jeu
+require_once("../dao/UserDAO.php");
+//create a game
 class Game
 {
     private int $id;
-    private $nom;
-    private $type;
-    private $temps;
-    private $registerLimit;
-    //constructeur
-    public function __construct($id, $nom, $type, $temps, $limiteInscription){
+    private string $name;
+    private string $type;
+    private string $time;
+    private string $registerLimit;
+    //constructor
+    public function __construct($id, $name, $type, $time, $registerLimit){
         $this->id = $id;
-        $this->nom = $nom;
+        $this->name = $name;
         $this->type = $type;
-        $this->temps = $temps;
-        $this->registerLimit = date($limiteInscription);
+        $this->time = $time;
+        $this->registerLimit = date($registerLimit);
     }
-    //récupérer le nom
-    public function getNom(){
-        return $this->nom;
-    }
-    //récupérer l'id
-    public function getId(){
+    //get Id of a game
+    public function getId():string{
         return $this->id;
     }
-    //récupérer les infos d'un jeu
-    public function toString()
-    {
-        return $this->nom . $this->type . $this->temps . (string)$this->registerLimit;
+    //get registerlimit of a game
+    public function getregisterlimit(){
+        return $this->registerLimit;
     }
-    //récupérer tous les jeux
+    //get name of a game
+    public function getname(){
+        return $this->name;
+    }
+    //get type of a game
+    public function gettype(){
+        return $this->type;
+    }
+    //get time of a game
+    public function gettime(){
+        return $this->time;
+    }
+    //get all games
     public static function allGames()
     {
         $data = new UserDAO();
         $data = $data->selectAllGames();
         $jeux = array();
         foreach($data as $ligne){
-            $jeux[] = new Game($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']);
+            $jeux[] = new Game($ligne['IdJeu'],$ligne['nomJeu'], $ligne['TypeJeu'], $ligne['tempsDeJeu'], $ligne['DateLimiteInscription']);
         }
         return ($jeux);
     }
-    //récupérer la date limite d'inscription
-    public function getRegisterLimit(){
-        return $this->registerLimit;
+    //get game by id
+    public static function getGameById($idGame):Game {
+        $dao= new UserDAO();
+        return $dao->selectGameById($idGame);
     }
-    //récupérer un jeu par son id
-    public static function getJeuById($id):Game {
-        $data = DAO::getInstance()->select('*', 'Game', 'where IdJeu = '.$id);
-        $jeu = new Game($data[0]['IdJeu'],$data[0]['NomJeu'], $data[0]['TypeJeu'], $data[0]['TempsDeJeu'], $data[0]['DateLimiteInscription']);
-        return $jeu;
-    }
-    //récupérer les jeux par équipes pas créé
-    public static function JeuEquipeNJ($id)
+    //get game for organization not create
+    public static function getGameTeamNotPlayed($idOrga)
     {
-        $data = DAO::getInstance()->select("*","Game J"," where J.IDjeu not in (SELECT E.IdJeu FROM Equipe E WHERE E.IDEcurie='".$id."')");
-        $jeux = array();
-        foreach($data as $ligne){
-            $jeux[] = new Game($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']);
-        }
-        return ($jeux);
+        $dao= new UserDAO();
+        return $dao->selectGameTeamNotPlayed($idOrga);
     }
 }
 ?>

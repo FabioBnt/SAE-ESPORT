@@ -13,7 +13,7 @@ class DetailsTournoisTest extends \PHPUnit\Framework\TestCase {
         $this->mysql = DAO::getInstance();
         $this->tournoi = new Tournois();
         $this->tournoi->allTournaments();
-        $this->tournoi = $this->tournoi->getTournoi(1);
+        $this->tournoi = $this->tournoi->getTournament(1);
     } 
     //rénitialiser
     protected function tearDown(): void {
@@ -21,30 +21,30 @@ class DetailsTournoisTest extends \PHPUnit\Framework\TestCase {
     }
     //test
     public function testParticipantsTournois() {
-        $id = $this->tournoi->getIdTournoi();
+        $id = $this->tournoi->getIdTournament();
         $totalParticipant = $this->mysql->select("count(*) as total", "Participer", "where IdTournoi = $id");
-        $listeParticipant = $this->tournoi->lesEquipesParticipants();
+        $listeParticipant = $this->tournoi->TeamsOfPoolParticipants();
         assertSame($totalParticipant[0]['total']-'0', count($listeParticipant));
     }
     //test
-    public function testPouleTournois() {
-        $id = $this->tournoi->getIdTournoi();
-        $totalPoules = $this->mysql->select("count(*) as total", "Poule", "where IdTournoi = $id");
-        $listePoules = $this->tournoi->getPoules();
-        $sumPoule = 0;
-        foreach($listePoules as $poule){
-            $sumPoule += count($poule);
+    public function testPoolTournois() {
+        $id = $this->tournoi->getIdTournament();
+        $totalPools = $this->mysql->select("count(*) as total", "Poule", "where IdTournoi = $id");
+        $listePools = $this->tournoi->getPools();
+        $sumPool = 0;
+        foreach($listePools as $Pool){
+            $sumPool += count($Pool);
         }
-        assertSame($totalPoules[0]['total']-'0', $sumPoule);
+        assertSame($totalPools[0]['total']-'0', $sumPool);
     }
     //test
     public function testMatchsTournoi() {
         $id = 8;
         $this->tournoi = new Tournois();
         $this->tournoi->allTournaments();
-        $this->tournoi = $this->tournoi->getTournoi(11);
+        $this->tournoi = $this->tournoi->getTournament(11);
         $totalMatchs = $this->mysql->select("count(M.IdPoule) as total", "MatchJ M, Poule P", "where M.IdPoule = P.IdPoule AND P.IdTournoi = 11 AND P.IdJeu = $id AND P.IdPoule = 3");
-        $listeMatchs = $this->tournoi->getPoules()[$id][3]->getMatchs();
+        $listeMatchs = $this->tournoi->getPools()[$id][3]->getMatchs();
         assertSame($totalMatchs[0]['total']-'0', count($listeMatchs));
     }
 }

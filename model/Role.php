@@ -1,11 +1,11 @@
 <?php
-//créer les rôles
+//create Roles
 class Role
 {
     const Visiteur = 'Visiteur';
-    const Administrateur = 'Administrateur';
+    const Administrator = 'Administrator';
     const Arbitre = 'Arbitre';
-    const Ecurie = 'Ecurie';
-    const Equipe = 'Equipe';
+    const Organization = 'Organization';
+    const Equipe = 'Team';
 }
 ?>

@@ -1,83 +1,39 @@
 <?php
-//créer un match
+require_once("../dao/ArbitratorDAO.php");
+//create a match
 class MatchJ
 {
-    private $numero;
-    private $date;
-    private $heure;
-    private $equipes = array();
-    private $scores = array();
-    //constructeur
-    function __construct($numero, $date, $heure){
-        $this->numero = $numero;
+    private int $number;
+    private string $date;
+    private string $hour;
+    private array $teams = array();
+    private array $scores = array();
+    //constructor
+    function __construct($number, $date, $hour){
+        $this->number = $number;
         $this->date = $date;
-        $this->heure = $heure;
+        $this->hour = $hour;
     }
-    //ajouter le score de l'équipe et l'équipe
-    public function addequipeScore($equipe, $score){
-        $this->scores[$equipe->getId()] = $score;
-        $this->equipes[$equipe->getId()] = $equipe;
+    //add score of a team
+    public function addteamscore($team, $score){
+        $this->scores[$team->getId()] = $score;
+        $this->teams[$team->getId()] = $team;
     }
-    //ajouter le score
-    public function setEquipeScore($equipeId, $score){
-        $this->scores[$equipeId] = $score;
+    //initialize score of a team
+    public function setteamscore($teamId, $score){
+        $this->scores[$teamId] = $score;
     }
-    //renvoyer l'heure du match
-    public function toString()
-    {
-        return $this->heure;
+    //get ID tournament by his id pool
+    public static function getIdTournamentByPool($idPool) : int{
+        $dao= new ArbitratorDAO();
+        return $dao->selectIdTournoiByPool($idPool);
     }
-    //initialiser le score
-    public static function setScore($poules, int $idPoule,int $idEquipe1,int $idEquipe2 ,int $score1,int $score2)
-    {
-        $mysql = DAO::getInstance();
-        $data = $mysql->select("Numero", "Concourir", "WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe1 AND Numero in
-         (SELECT Numero FROM Concourir WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2)");
-        $numero = $data[0]['Numero'];
-        $poules[$idPoule]->setScoreMatch($numero, $idEquipe1, $idEquipe2, $score1, $score2);
-        $muysql = $mysql->getPDO();
-        $sql = "UPDATE Concourir SET Score = $score1 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe1 AND Numero = $numero";
-        $muysql->query($sql);
-        $sql = "UPDATE Concourir SET Score = $score2 WHERE IdPoule = $idPoule AND IdEquipe = $idEquipe2 AND Numero = $numero";
-        $muysql->query($sql);
-
-        //get id tournoi et id jeu
-        $idT = MatchJ::getIdTournoi($idPoule);
-        $idJ = MatchJ::getIdJeu($idPoule);
-
-        $pouleFinaleExiste = false;
-        $cmpt = 0;
-        //si c'est la poule finale on vérifie si tous les scores sont initialisés
-       foreach($poules as $poule){
-           if($poule->estPouleFinale()){
-                $pouleFinaleExiste = true;
-                if($poule->checkIfAllScoreSet()){
-                    Tournoi::miseAJourDePoints($idT, $idJ);
-                }
-           }
-           // sinon on vérifie si tous les scores sont initialisés et on ajoute 1 a cmpt
-           else if($poule->checkIfAllScoreSet()){
-                $cmpt++;
-           }
-        }
-        if(!$pouleFinaleExiste && $cmpt == 4){
-           
-            Tournoi::genererPouleFinale($idT, $idJ);
-        }
+    //get ID game by his id pool
+    public static function getIdGameByPool($idPool): int{
+        $dao= new ArbitratorDAO();
+        return $dao->selectIdJeuByPool($idPool);
     }
-    //récupérer un tournoi par son id de poule
-    public static function getIdTournoi($idPoule) : int{
-        $mysql = DAO::getInstance();
-        $row = $mysql->select("IdTournoi", "Poule", "WHERE IdPoule = $idPoule");
-        return $row[0]['IdTournoi'];
-    }
-    //récupérer un jeu par son id de poule
-    public static function getIdJeu($idPoule): int{
-        $mysql = DAO::getInstance();
-        $row = $mysql->select("IdJeu", "Poule", "WHERE IdPoule = $idPoule");
-        return $row[0]['IdJeu'];
-    }
-    // savoir si le score est initialisé ou non
+    // know if score is isset or not
     public function isScoreSet()
     {
         foreach($this->scores as $score){
@@ -87,39 +43,52 @@ class MatchJ
         }
         return true;
     }
-    //savoir qui est le gagnant du match
-    public function gagnant()
+    //know who won the match
+    public function winnerTeam()
     {
-        $t = array_keys($this->equipes);
+        $t = array_keys($this->teams);
         if($this->scores[$t[0]] > $this->scores[$t[1]]){
-            return $this->equipes[$t[0]];
+            return $this->teams[$t[0]];
         }else if($this->scores[$t[0]] == $this->scores[$t[1]]){
-            return new Equipe(0,"X",0,0,0);
+            return new Team(0,"X",0,0,0);
         } else {
-            return $this->equipes[$t[1]];
+            return $this->teams[$t[1]];
         }
     }
-    /**
-     * @return array
-     */
-    //récupérer les équipes
-    public function getEquipes(): array
+    //get teams of a match
+    public function getTeams(): array
     {
-        return $this->equipes;
+        return $this->teams;
     }
-    //afficher les informations des équipes
-    public function afficherEquipes(){
-        echo "<tr>";
-        foreach ($this->scores as $key => $ligneValue) {
-            $equipe = $this->equipes[$key];
-            echo "<td>", $equipe, "</td>";
-            if($ligneValue == null){
-                echo "<td>", 'TBD', "</td>"; 
-            }else{
-                echo "<td>", $ligneValue, "</td>"; 
-            }
+    //initialize the score
+    public static function setScore($pools, int $idPool,int $idTeam1,int $idTeam2 ,int $score1,int $score2)
+    {
+        $dao= new ArbitratorDAO();
+        $number= $dao->selectNumberOfPool($idPool,$idTeam1,$idTeam2);
+        $pools[$idPool]->setScoreMatch($number, $idTeam1, $idTeam2, $score1, $score2);
+        $dao->updateTeamScoreOnMatch($idPool,$idTeam1,$score1,$number);
+        $dao->updateTeamScoreOnMatch($idPool,$idTeam2,$score2,$number);
+        //get id tournoi et id jeu
+        $idT = MatchJ::getIdTournamentByPool($idPool);
+        $idJ = MatchJ::getIdGameByPool($idPool);
+        $PoolFinaleExiste = false;
+        $cmpt = 0;
+        //si c'est la Pool finale on vérifie si tous les scores sont initialisés
+       foreach($pools as $Pool){
+           if($Pool->estPoolFinale()){
+                $PoolFinaleExiste = true;
+                if($Pool->checkIfAllScoreSet()){
+                    Tournament::updatePointsTournament($idT, $idJ);
+                }
+           }
+           // sinon on vérifie si tous les scores sont initialisés et on ajoute 1 a cmpt
+           else if($Pool->checkIfAllScoreSet()){
+                $cmpt++;
+           }
         }
-        echo "</tr>";
+        if(!$PoolFinaleExiste && $cmpt == 4){
+            Tournament::generateFinalPool($idT, $idJ);
+        }
     }
 }
 ?>

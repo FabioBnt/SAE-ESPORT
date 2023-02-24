@@ -1,26 +1,26 @@
 <?php
-require_once('../dao/UserDAO.php');
-include_once 'Game.php';
-//creer un classement
+require_once("../dao/UserDAO.php");
+require_once ("./Game.php");
+//create a classement
 class Classement
 {
-    private $jeu;
+    private game $game;
     public array $classement = array();
-    //constructeur
-    public function __construct($jeu){
-        $this->jeu = $jeu;
+    //constructor
+    public function __construct($game){
+        $this->game = $game;
     }
-    //recuperer le jeu du classement
-    public function getJeu(): Game
+    //get game of the classement
+    public function getGame(): game
     {
-        return $this->jeu;
+        return $this->game;
     }
-    //recuperer le classement
+    //get the classement
     public function getClassement(): array
     {
         return $this->classement;
     }
-    //Retourner le classement du tournoi pour le jeu passé en paramètre
+    //get tournament classement for a game id
     public function returnRanking($idGame): void
     {
         $db = new UserDAO();

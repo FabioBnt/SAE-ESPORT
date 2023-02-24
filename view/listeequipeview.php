@@ -2,7 +2,7 @@
     <main>
         <div class="listeEquipemain">
             <div class="divEquip1">
-                <?php if($connx->getRole() == Role::Ecurie):?>
+                <?php if($connx->getRole() == Role::Organization):?>
                     <a href='./index.php?page=creerequipe' class='buttonE'>Créer Equipe</a>
             </div>
                 <h1>Mes équipes</h1>
@@ -42,7 +42,7 @@
                         <?php foreach ($listeE2 as $E):?>
                             <tr>
                                 <td><?php echo $E->getNom();?></td>
-                                <td><?php echo $E->getEcurie();?></td>
+                                <td><?php echo $E->getOrganization();?></td>
                                 <td><?php echo $E->getJeuN();?></td>
                                 <td><a href="./index.php?page=detailsequipe&IDE=<?php echo $E->getId(); ?>"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                             </tr>

@@ -6,19 +6,18 @@ class TeamDAO extends DAO {
         parent::__construct();
     }
     //select tournaments where a team played
-    public function selectTournamentsForTeam($idEquipe=null, $idGame=null){
+    public function selectTournamentsForTeam($idTeam=null, $idGame=null,$dateT=null){
         $sql = '';
-        if($idGame != null){
-            // TODO:  add date limite inscription
+        if($idGame != null && $dateT != null){
                 $sql = "select T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-                J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Game J where C.IdJeu = J.IdJeu
-                AND C.IdTournoi = T.IdTournoi AND  J.IdJeu='".$idGame."' 
-                AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Game J , Equipe E, Participer P where C.IdJeu = J.IdJeu
-                AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='".$idEquipe."')";
+                J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J where C.IdJeu = J.IdJeu
+                AND C.IdTournoi = T.IdTournoi AND  J.IdJeu='".$idGame."' AND T.DateHeureTournois>'".$dateT."'
+                AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
+                AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='".$idTeam."')";
         }else{
             $sql = "select T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-            J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Game J , Equipe E, Participer P where C.IdJeu = J.IdJeu
-            AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=".$idEquipe.' ORDER BY IdTournoi';
+            J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
+            AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=".$idTeam.' ORDER BY IdTournoi';
         }
         try{
             $mysql = parent::getConnection();
@@ -44,7 +43,7 @@ class TeamDAO extends DAO {
     }
     //select name of the game by id
     public function selectGameName($id){
-        $sql = "SELECT J.NomJeu FROM Game J WHERE J.IdJeu=$id";
+        $sql = "SELECT J.NomJeu FROM Jeu J WHERE J.IdJeu=$id";
         try{
             $mysql = parent::getConnection();
             $result = $mysql->prepare($sql);
@@ -56,9 +55,9 @@ class TeamDAO extends DAO {
         }
     }
     //select team of a tournament and return a boolean
-    public function TeamOnTournament(Tournoi $tournoi,$idT): bool
+    public function TeamOnTournament(Tournament $tournament,$idT): bool
     {
-        $sql = "SELECT count(*) as total FROM Participer WHERE IdTournoi =".$tournoi->getIdTournoi()." AND IdTeam =$idT";
+        $sql = "SELECT count(*) as total FROM Participer WHERE IdTournoi =".$tournament->getIdTournament()." AND IdTeam =$idT";
         try{
             $mysql = parent::getConnection();
             $result = $mysql->prepare($sql);
@@ -73,7 +72,7 @@ class TeamDAO extends DAO {
     public static function selectTeamByID($id): Team
     {
         $Team=null;
-        $sql = "SELECT * FROM Equipe e, Game j WHERE IdEquipe =$id AND j.Idgame = e.Idgame";
+        $sql = "SELECT * FROM Equipe e, Jeu j WHERE IdEquipe =$id AND j.Idgame = e.Idgame";
         try{
             $mysql = parent::getConnection();
             $result = $mysql->prepare($sql);
@@ -112,7 +111,7 @@ class TeamDAO extends DAO {
             throw new Exception("Error Processing insert team ".$e->getMessage(), 1);
         }
     }
-    // select mysql for a team list - on a ecurie
+    // select mysql for a team list - on a Organization
     public function selectTeam($id=null){
         if(is_null($id)){
             $sql = "SELECT * FROM Team E ORDER BY IdJeu";

@@ -1,6 +1,6 @@
 <?php
-//créer une notoriété
-abstract class Notoriete
+//create a notoriety
+abstract class Notoriety
 {
     const International = 'International';
     const Local = 'Local';

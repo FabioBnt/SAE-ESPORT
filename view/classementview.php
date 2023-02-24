@@ -18,7 +18,7 @@
                 <input class="buttonE" type="submit" value="Valider">
             </form>
             <?php if(isset($_GET['jeuC'])){?>
-               <h1>Classement du jeu <?php echo Game::getJeuById($_GET['jeuC'])->getNom(); ?></h1>
+               <h1>Classement du jeu <?php echo Game::getGameById($_GET['jeuC'])->getNom(); ?></h1>
             <?php } ?>
             <div>
                 <table>
@@ -35,8 +35,8 @@
                             if(!empty($Classement)){
                                 $i = 1;
                                 foreach ($listeEquipes as $equipe) {
-                                    $equipe = new Equipe($equipe['IdEquipe'], $equipe['NomE'], $equipe['NbPointsE'], $equipe['IDEcurie'], $equipe['IdJeu']);
-                                    $infoEquipe = $equipe->listeInfoClassement();
+                                    $equipe = new Team($equipe['IdEquipe'], $equipe['NomE'], $equipe['NbPointsE'], $equipe['IDEcurie'], $equipe['IdJeu']);
+                                    //$infoEquipe = $equipe->listeInfoClassement();
                                     ?>
                                     <tr>
                                     <td><?php echo $i++; ?></td>

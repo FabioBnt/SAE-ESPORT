@@ -83,7 +83,7 @@ header {
   border-color: white;
 }
 header .buttonM,
-header #connexion,
+header #Connection,
 header #deconnexion {
   margin: 0.2em;
 }
@@ -121,7 +121,7 @@ header #deconnexion {
 /*------------------*/
 /*BUTTON SECONNECTER*/
 /*------------------*/
-#connexion:hover {
+#Connection:hover {
   color: grey;
   background-color: lightgreen;
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
@@ -174,7 +174,7 @@ header #deconnexion {
 /*BUTTON*/
 /*------*/
 .buttonM,
-#connexion,
+#Connection,
 .buttonE,
 #deconnexion {
   padding: 1em;

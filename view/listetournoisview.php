@@ -18,7 +18,7 @@
                         <input type="text" name="nom" value="">
                     </label>
                     Notoriété : <label>
-                        <input type="text" name="notoriete" value="">
+                        <input type="text" name="Notoriety" value="">
                     </label>
                     Date : <label>
                         <input type="date" name="date" value="">
@@ -53,13 +53,13 @@
                     <tr>
                     <td><?php echo $T->getNom();?></td>
                     <td><?php echo $T->getCashPrize();?></td>
-                    <td><?php echo $T->getNotoriete();?></td>
+                    <td><?php echo $T->getNotoriety();?></td>
                     <td><?php echo $T->getLieu();?></td>
-                    <td><?php echo $T->getHeureDebut();?></td>
+                    <td><?php echo $T->getHourStart();?></td>
                     <td><?php echo $T->getDate();?></td>
                     <td><?php echo $T->getDateLimiteInscription();?></td>
                     <td><?php echo $T->nomsJeux();?></td>
-                    <td><a href="./index.php?page=detailstournoi&IDT=<?php echo $T->getIdTournoi()?>"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
+                    <td><a href="./index.php?page=detailstournoi&IDT=<?php echo $T->getIdTournament()?>"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                     </tr>
                 <?php endforeach;?>
                 </tbody>

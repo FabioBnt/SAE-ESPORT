@@ -35,7 +35,7 @@ class AdminDAO extends DAO
             $stmt->execute(array(
                 ':nom' => $name,
                 ':cashPrize' => $cashPrize,
-                ':notoriete' => $notoriety,
+                ':Notoriety' => $notoriety,
                 ':lieu' => $city,
                 ':date' => $date.' '.$startingHour.':00'
             ));

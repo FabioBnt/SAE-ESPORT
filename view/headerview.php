@@ -15,11 +15,11 @@
                 <a class="buttonM" href="./index.php?page=accueil">Accueil</a>
                 <a class="buttonM" href="./index.php?page=listetournoi">Liste des Tournois</a>
                 <a class="buttonM" href="./index.php?page=classement">Classement</a>
-                <?php if($connx->getRole() == Role::Administrateur):?>
+                <?php if($connx->getRole() == Role::Administrator):?>
                 <a class="buttonM" href="./index.php?page=creertournoi">Créer Tournoi</a>
                 <a class="buttonM" href="./index.php?page=creerecurie">Créer Ecurie</a>
                 <?php endif;?>
-                <?php if($connx->getRole() == Role::Ecurie):?>
+                <?php if($connx->getRole() == Role::Organization):?>
                 <a class="buttonM" href="./index.php?page=creerequipe">Créer Equipe</a>
                 <?php endif;?>
             </div>
@@ -28,7 +28,7 @@
             </div>
             <div class="menuright">
                 <?php if($connx->getRole() == Role::Visiteur):?>
-                    <a href="./index.php?page=connexionvue" id="connexion">Se Connecter</a>
+                    <a href="./index.php?page=connectionview" id="Connection">Se Connecter</a>
                 <?php else :?>
                     <h3>Bienvenue, <?php echo $connx->getIdentifiant(); ?></h3>
                     <a href="./index.php?page=accueil&sedeconnecter=true" id="deconnexion">Déconnexion</a>

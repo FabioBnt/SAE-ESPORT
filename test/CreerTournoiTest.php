@@ -2,7 +2,7 @@
 
 use function PHPUnit\Framework\assertSame;
 
-include_once(dirname(__DIR__) . '/model/Administrateur.php');
+include_once(dirname(__DIR__) . '/model/Administrator.php');
 //créer un test de créer tournoi
 class CreerTournoiTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
@@ -10,7 +10,7 @@ class CreerTournoiTest extends \PHPUnit\Framework\TestCase {
     //mettre en place
     protected function setUp(): void {
         $this->mysql = DAO::getInstance();
-        $this->admin = new Administrateur();
+        $this->admin = new Administrator();
     }
     //rénitialiser
     protected function tearDown(): void {
@@ -19,7 +19,7 @@ class CreerTournoiTest extends \PHPUnit\Framework\TestCase {
     }
     //test
     public function testTournoiCreationValide(){
-        Connexion::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrateur);
+        Connection::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrator);
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
         $this->admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/05/2023',array(1));

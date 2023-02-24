@@ -14,7 +14,7 @@
                     </div>
                     <div id="EDgridl3">
                     <label><b>Nom de l'écurie</b></label>
-                    <input type="text" name="ecurieE" value='<?php echo $Equipe->getEcurie(); ?>' readonly>  
+                    <input type="text" name="OrganizationE" value='<?php echo $Equipe->getOrganization(); ?>' readonly>  
                     </div>
                     <div id="EDgridl5">
                     <label ><b>Nb Tournois Gagnés</b></label>
@@ -97,7 +97,7 @@
                 </thead>
                 <tbody>
                 <?php 
-                $listeTournois = new Tournois();
+                $listeTournois = new Tournament();
                 $listeTournois->tournamentsParticipatedByTeam($idEquipe);?>
                 </tbody>
             </table>
