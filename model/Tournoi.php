@@ -296,7 +296,7 @@ class Tournoi
         return $this->dateLimiteInscription;
     }
     //savoir si le tournoi contient un jeu
-    public function contientJeu(Jeu $jeu){
+    public function contientJeu(Game $jeu){
         foreach($this->jeux as $j){
             if($j->getId() == $jeu->getId()){
                 return true;
@@ -311,18 +311,18 @@ class Tournoi
         $data = $mysql->select('*', 'Participer', 'where IdTournoi ='.$this->getIdTournoi());
         if ($idJeu == null){
             foreach($data as $ligne){
-                $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu');
+                $dataE = $mysql->select('*', 'Equipe e, Game j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu');
                 foreach($dataE as $ligneM){
                     $equipes[$ligneM['IdEquipe']] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
-                    new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
+                    new Game($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
                 }
             }
         }else{
             foreach($data as $ligne){
-                $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu AND j.IdJeu='.$idJeu);
+                $dataE = $mysql->select('*', 'Equipe e, Game j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu AND j.IdJeu='.$idJeu);
                 foreach($dataE as $ligneM){
                     $equipes[$ligneM['IdEquipe']] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
-                    new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
+                    new Game($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
                 }
             }
         }

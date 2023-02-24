@@ -11,13 +11,13 @@ class TeamDAO extends DAO {
         if($idGame != null){
             // TODO:  add date limite inscription
                 $sql = "select T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-                J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J where C.IdJeu = J.IdJeu
+                J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Game J where C.IdJeu = J.IdJeu
                 AND C.IdTournoi = T.IdTournoi AND  J.IdJeu='".$idGame."' 
-                AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
+                AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Game J , Equipe E, Participer P where C.IdJeu = J.IdJeu
                 AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='".$idEquipe."')";
         }else{
             $sql = "select T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-            J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
+            J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Game J , Equipe E, Participer P where C.IdJeu = J.IdJeu
             AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=".$idEquipe.' ORDER BY IdTournoi';
         }
         try{
@@ -44,7 +44,7 @@ class TeamDAO extends DAO {
     }
     //select name of the game by id
     public function selectGameName($id){
-        $sql = "SELECT J.NomJeu FROM Jeu J WHERE J.IdJeu=$id";
+        $sql = "SELECT J.NomJeu FROM Game J WHERE J.IdJeu=$id";
         try{
             $mysql = parent::getConnection();
             $result = $mysql->prepare($sql);
@@ -73,7 +73,7 @@ class TeamDAO extends DAO {
     public static function selectTeamByID($id): Team
     {
         $Team=null;
-        $sql = "SELECT * FROM Equipe e, Jeu j WHERE IdEquipe =$id AND j.Idgame = e.Idgame";
+        $sql = "SELECT * FROM Equipe e, Game j WHERE IdEquipe =$id AND j.Idgame = e.Idgame";
         try{
             $mysql = parent::getConnection();
             $result = $mysql->prepare($sql);

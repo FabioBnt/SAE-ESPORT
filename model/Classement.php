@@ -1,6 +1,6 @@
 <?php
 require_once('../dao/UserDAO.php');
-include_once 'Jeu.php';
+include_once 'Game.php';
 //creer un classement
 class Classement
 {
@@ -11,7 +11,7 @@ class Classement
         $this->jeu = $jeu;
     }
     //recuperer le jeu du classement
-    public function getJeu(): Jeu
+    public function getJeu(): Game
     {
         return $this->jeu;
     }

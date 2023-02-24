@@ -35,7 +35,7 @@ class VisualiserTournoisTest extends \PHPUnit\Framework\TestCase {
     //test
     public function testTournoisFiltreParJeu(): void
     {
-        $totalTournois = $this->mysql->select("count(*) as total", "Tournois T, Contenir C, Jeu J", "where C.IdJeu = J.IdJeu
+        $totalTournois = $this->mysql->select("count(*) as total", "Tournois T, Contenir C, Game J", "where C.IdJeu = J.IdJeu
         AND C.IdTournoi = T.IdTournoi AND Lower(J.NomJeu) like Lower('%league%')");
         $this->tournois->tournoiDe('league');
         $listeTournois =  $this->tournois->getTournois();

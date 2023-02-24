@@ -2,7 +2,7 @@
 include_once "Tournoi.php";
 include_once "../dao/UserDAO.php";
 include_once "../dao/TeamDAO.php";
-include_once "Jeu.php";
+include_once "Game.php";
 //créer la liste de tournoi
 class Tournois
 {
@@ -28,11 +28,11 @@ class Tournois
             if($last != $ligne['IdTournoi']){ 
                 $this->tournois[] = new Tournoi($ligne['IdTournoi'],$ligne['NomTournoi'], $ligne['CashPrize'],
                 $ligne['Notoriete'], $ligne['Lieu'], $ligne['DateHeureTournois'], 
-                array($ligne['IdJeu'], new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
+                array($ligne['IdJeu'], new Game($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
                 $last = $ligne['IdTournoi'];
                 $index+=1;
             }else{
-                $this->tournois[$this->posMap[$ligne['IdTournoi']]]->ajouterJeu($ligne['IdJeu'],new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
+                $this->tournois[$this->posMap[$ligne['IdTournoi']]]->ajouterJeu($ligne['IdJeu'],new Game($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
             }
             $this->posMap[$ligne['IdTournoi']] =  $index;
         }

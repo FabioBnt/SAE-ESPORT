@@ -4,7 +4,7 @@
 require_once('./model/Connexion.php');
 require_once('./model/Tournois.php');
 require_once('./model/Administrateur.php');
-require_once('./model/Jeu.php');
+require_once('./model/Game.php');
 require_once('./model/Ecurie.php');
 require_once('./model/');
 require_once('./model/Equipes.php');
@@ -75,11 +75,11 @@ if (isset($_GET['page'])) {
             require('./view/listetournoisvue.php');
             break;
         case 'classement':
-            $listeJeux = Jeu::tousLesJeux();
+            $listeJeux = Game::allGames();
             $Classement = null;
             if(isset($_GET['jeuC'])){
                 $Classement = new Classement($_GET['jeuC']);
-                $jeu = Jeu::getJeuById($_GET['jeuC']);
+                $jeu = Game::getJeuById($_GET['jeuC']);
                 $Classement->returnRanking($jeu->getId());
                 $listeEquipes = $Classement->getClassement();
             }
@@ -104,7 +104,7 @@ if (isset($_GET['page'])) {
             if ($connx->getRole() == Role::Ecurie) {
                 $id = Ecurie::getIDbyAccountName($connx->getIdentifiant());
             }
-            $listeJeux = Jeu::JeuEquipeNJ($id);   
+            $listeJeux = Game::JeuEquipeNJ($id);
             if (isset($_POST['submit'])) {
                 if ($connx->getRole() == Role::Ecurie) {
                     $Ecurie = Ecurie::getOrganization($id);
@@ -119,7 +119,7 @@ if (isset($_GET['page'])) {
             break;
         case 'creertournoi':
             require('./view/headervue.php');
-            $listeJeux = Jeu::tousLesJeux();
+            $listeJeux = Game::allGames();
             $date = date('Y-m-d', strtotime('+1 month'));
             //Checks if the user is connected and if he is an admin
             if ($connx == null || $connx->getRole() != Role::Administrateur) {
@@ -195,7 +195,7 @@ if (isset($_GET['page'])) {
             } else {
                 $listePoules = array();
                 $nomTournoi = "Inconnu";
-                $nomJeu = 'Jeu Inconnu';
+                $nomJeu = 'Game Inconnu';
                 $idJeu = null;
             }
             // //uncomment to test
@@ -278,7 +278,7 @@ if (isset($_GET['page'])) {
             }else{
                 $listePoules = array();
                 $nomTournoi = "Inconnu";
-                $nomJeu = 'Jeu Inconnu';
+                $nomJeu = 'Game Inconnu';
                 $idJeu = null;
             }
             if(isset($_GET['score1']) && isset($_GET['score2'])){

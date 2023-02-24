@@ -2,8 +2,14 @@
 
 class OrganizationDAO extends DAO
 {
+
     // Create a team in the database (Equipe table)
-    public function insertTeam(string $name, string $accountName, string $accountPassword,int $idGame, int $idOrganization): bool
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function insertTeam(string $name, string $accountName, string $accountPassword, int $idGame, int $idOrganization): bool
     {
         // Checks if the parameters are strings
         if (is_string($name) && is_string($accountName) && is_string($accountPassword)) {

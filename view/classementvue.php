@@ -18,7 +18,7 @@
                 <input class="buttonE" type="submit" value="Valider">
             </form>
             <?php if(isset($_GET['jeuC'])){?>
-               <h1>Classement du jeu <?php echo Jeu::getJeuById($_GET['jeuC'])->getNom(); ?></h1>
+               <h1>Classement du jeu <?php echo Game::getJeuById($_GET['jeuC'])->getNom(); ?></h1>
             <?php } ?>
             <div>
                 <table>

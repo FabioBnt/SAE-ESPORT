@@ -21,7 +21,7 @@ class UserDAO extends DAO{
 
         $sql = "SELECT T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
          J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription
-         FROM Tournois T, Contenir C, Jeu J $conds AND C.IdJeu = J.IdJeu AND C.IdTournoi = T.IdTournoi AND ".$conds;
+         FROM Tournois T, Contenir C, Game J $conds AND C.IdJeu = J.IdJeu AND C.IdTournoi = T.IdTournoi AND ".$conds;
 
         try{
             $mysql = parent::getConnection();
@@ -80,10 +80,19 @@ class UserDAO extends DAO{
     // Connect on the website
     function connectToWebsite(string $id, $role)
     {
-        $mysql = parent::getConnection();
+        $mysql = $this->getConnection();
         $sql = "SELECT MDPCompte FROM '$role' WHERE NomCompte = '$id'";
         $result = $mysql->prepare($sql);
         $result->execute();
         return $result->fetchAll();
+    }
+
+
+    // Select all games in the database
+    public function selectAllGames()
+    {
+        $mysql = $this->getConnection();
+        $sql = "SELECT * FROM Game";
+        return $mysql->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
 }
