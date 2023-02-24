@@ -55,7 +55,7 @@
                     <tbody>
                         <?php foreach ($tournoi->lesEquipesParticipants() as $participant) {
                             echo '<tr><td>' . $participant . '</td>';
-                            echo "<td><a href='DetailsEquipe.php?IDE=" . $participant->getId() . "'><img class='imgB' src='../img/detail.png' alt='Details'></a></td></tr>";
+                            echo "<td><a href='Details?IDE=" . $participant->getId() . "'><img class='imgB' src='../img/detail.png' alt='Details'></a></td></tr>";
                         } ?>
                     </tbody>
                 </table>

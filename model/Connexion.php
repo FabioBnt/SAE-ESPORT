@@ -1,6 +1,5 @@
 <?php
 
-use phpDocumentor\Reflection\Types\Boolean;
 
 include "Role.php";
 include_once "DAO.php";
@@ -32,32 +31,32 @@ class Connexion
         return $_SESSION[self::class];
     }
     /**
-     * @param string $identifiant
+     * @param string $id
      * @param string $password
      * @param $role
      * @return void
      */
     //se connecter
-    function seConnecter(string $identifiant, string $password, $role)
+    function establishConnection(string $id, string $password, $role)
     {
         if ($role == Role::Administrateur || $role == Role::Arbitre) {
-            if ($this->comptes[$role][0] == $identifiant && $this->comptes[$role][1] == $password) {
+            if ($this->comptes[$role][0] == $id && $this->comptes[$role][1] == $password) {
                 $this->role = $role;
-                $this->identifiant = $identifiant;
+                $this->identifiant = $id;
             }
         } else {
-            $mysql = DAO::getInstance();
-            $data = $mysql->select("MDPCompte", $role, "where NomCompte = '$identifiant'");
+            $mysql = new UserDAO();
+            $data = $mysql->connectToWebsite($id,$role);
             foreach ($data as $ligne) {
                 if ($ligne['MDPCompte'] == $password) {
                     $this->role = $role;
-                    $this->identifiant = $identifiant;
+                    $this->identifiant = $id;
                 }
             }
         }
     }
-    // recuperer l'instance sans avoir de session
-    public static function getInstanceSansSession()
+    // get instance without session
+    public static function getInstanceWithoutSession()
     {
         if (self::$instance == null) {
             self::$instance = new Connexion();
@@ -65,7 +64,7 @@ class Connexion
         return self::$instance;
     }
     // se deconnecter
-    public function seDeconnecter()
+    public function disconnect()
     {
         $this->role = Role::Visiteur;
         $this->identifiant = "Guest";

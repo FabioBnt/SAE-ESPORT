@@ -19,7 +19,7 @@ class CreerTournoiTest extends \PHPUnit\Framework\TestCase {
     }
     //test
     public function testTournoiCreationValide(){
-        Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
+        Connexion::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrateur);
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
         $this->admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/05/2023',array(1));

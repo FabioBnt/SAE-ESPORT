@@ -98,7 +98,7 @@
                 <tbody>
                 <?php 
                 $listeTournois = new Tournois();
-                $listeTournois->TournoisEquipe($idEquipe);?>
+                $listeTournois->tournamentsParticipatedByTeam($idEquipe);?>
                 </tbody>
             </table>
         </div>

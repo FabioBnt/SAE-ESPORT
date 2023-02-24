@@ -1,6 +1,6 @@
 <?php
 include_once 'Connexion.php';
-include_once "DAO.php";
+require_once '../dao/OrganizationDAO.php';
 //créer une écurie
 class Ecurie {
     private $designation;
@@ -18,12 +18,19 @@ class Ecurie {
     public function getEquipes() {
         return $this->equipes;
     }
-    //récupérer les informations d'une écurie
-    public static function getEcurie($id): ?Ecurie
+
+    // Create a team
+    public function createTeam(string $name,string $accountName,string $password, int $idGame, int $idOrganization) {
+        $mysql = new OrganizationDAO();
+        $mysql->insertTeam($name,$accountName,$password,$idGame,$idOrganization);
+    }
+
+    // Retrieve organization's information
+    public static function getOrganization($id): ?Ecurie
     {
         $ecurie = null;
-        $mysql = DAO::getInstance();
-        $dataE = $mysql->select('*', 'Ecurie e', 'where IdEcurie ='.$id);
+        $mysql = new OrganizationDAO();
+        $dataE = $mysql->selectOrganization($id);
         foreach($dataE as $ligneE){
             $ecurie = new Ecurie(null,$ligneE['Designation'],$ligneE['TypeE']);
         }
@@ -37,11 +44,18 @@ class Ecurie {
     {
         return $this->designation;
     }
-    //récupérer l'id de l'écurie par son nom de compte
-    public static function getIDbyNomCompte($nomCompte) {
-        $mysql = DAO::getInstance();
-        $data = $mysql->select("E.IDEcurie" , "Ecurie E" , "where E.NomCompte ="."'$nomCompte'");
-        return $data[0]['IDEcurie'];
+
+    // Retrieve the id of an organization by its account name
+    public static function getIDbyAccountName($accountName) {
+        $mysql = new OrganizationDAO();
+        $data = $mysql->selectOrganizationID($accountName);
+        return $data;
+    }
+
+    // Create a player
+    public function createPlayer(string $username,string $nationality,string $teamID) {
+        $mysql = new OrganizationDAO();
+        $mysql->insertPlayer($username,$nationality,$teamID);
     }
 }
 ?>

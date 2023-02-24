@@ -14,7 +14,7 @@ class ClassementTest extends TestCase
     {
         $this->mysql = DAO::getInstance();
         $this->classement = new Classement(8);
-        /*$this->classement->returnClassement(8);
+        /*$this->classement->returnRanking(8);
         $this->classement = $this->classement->getClassement(8);*/
     }
     //rénitialiser
@@ -26,7 +26,7 @@ class ClassementTest extends TestCase
     public function testClassement(): void
     {
         $totalClassement = $this->mysql->select("count(*) as total", "Equipe", "where IdJeu = 8");
-        $this->classement->returnClassement(8);
+        $this->classement->returnRanking(8);
         $listeClassement =  $this->classement->getClassement(8);
         $this->assertCount($totalClassement[0]['total'] - '0', $listeClassement);
     }

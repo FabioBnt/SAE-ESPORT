@@ -6,7 +6,7 @@ require_once('./model/Tournois.php');
 require_once('./model/Administrateur.php');
 require_once('./model/Jeu.php');
 require_once('./model/Ecurie.php');
-require_once('./model/Equipe.php');
+require_once('./model/');
 require_once('./model/Equipes.php');
 require_once('./model/Classement.php');
 $Admin = new Administrateur();
@@ -14,7 +14,7 @@ $connx = Connexion::getInstance();
 $mysql = DAO::getInstance();
 $Tournois = new Tournois();
 if (isset($_GET['sedeconnecter'])) {
-    $connx->seDeconnecter();
+    $connx->disconnect();
 }
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
@@ -30,7 +30,7 @@ if (isset($_GET['page'])) {
             break;
         case 'connexionvue':
             if (isset($_POST['username']) && isset($_POST['password'])) {
-                $connx->seConnecter($_POST['username'], $_POST['password'], $_POST['roles']);
+                $connx->establishConnection($_POST['username'], $_POST['password'], $_POST['roles']);
                 if ($connx->getRole() == $_POST['roles']) {
                     header("Location: ./index.php?page=accueil");
                 } else {
@@ -40,7 +40,7 @@ if (isset($_GET['page'])) {
             require('./view/connexionvue.php');
             break;
         case 'listetournoi':
-            $liste = $Tournois->tousLesTournois();
+            $liste = $Tournois->allTournaments();
             if (
                 isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || isset($_GET['prixmax'])
                 || isset($_GET['notoriete']) || isset($_GET['lieu']) || isset($_GET['date'])
@@ -80,7 +80,7 @@ if (isset($_GET['page'])) {
             if(isset($_GET['jeuC'])){
                 $Classement = new Classement($_GET['jeuC']);
                 $jeu = Jeu::getJeuById($_GET['jeuC']);
-                $Classement->returnClassement($jeu->getId());
+                $Classement->returnRanking($jeu->getId());
                 $listeEquipes = $Classement->getClassement();
             }
             require('./view/headervue.php');
@@ -102,17 +102,17 @@ if (isset($_GET['page'])) {
             require('./view/headervue.php');
             require('./view/creerequipevue.php');
             if ($connx->getRole() == Role::Ecurie) {
-                $id = Ecurie::getIDbyNomCompte($connx->getIdentifiant());
+                $id = Ecurie::getIDbyAccountName($connx->getIdentifiant());
             }
             $listeJeux = Jeu::JeuEquipeNJ($id);   
             if (isset($_POST['submit'])) {
                 if ($connx->getRole() == Role::Ecurie) {
-                    $Ecurie = Ecurie::getEcurie($id);
-                    $Ecurie->creerEquipe($_POST['name'], $_POST['username'], $_POST['password'], $_POST['jeuE'], Ecurie::getIDbyNomCompte($connx->getIdentifiant()));
-                    $IdEquipe = Equipe::getIDbyNom($_POST['name']);
+                    $Ecurie = Ecurie::getOrganization($id);
+                    $Ecurie->createTeam($_POST['name'], $_POST['username'], $_POST['password'], $_POST['jeuE'], Ecurie::getIDbyAccountName($connx->getIdentifiant()));
+                    $IdEquipe = Team::getIDbyname($_POST['name']);
                     for($i=0;$i<4;$i++){
                         if (!empty($_POST['pseudo'.$i])) {
-                            $Ecurie->ajouterJoueur($_POST['pseudo'.$i], $_POST['nat'.$i], $IdEquipe);}
+                            $Ecurie->createPlayer($_POST['pseudo'.$i], $_POST['nat'.$i], $IdEquipe);}
                     }
                 }
             }
@@ -140,7 +140,7 @@ if (isset($_GET['page'])) {
             $identifiant = $connx->getIdentifiant();
             $Equipes = new Equipes();
             if ($connx->getRole() == Role::Ecurie) {
-                $id = Ecurie::getIDbyNomCompte($identifiant);
+                $id = Ecurie::getIDbyAccountName($identifiant);
                 $listeE = $Equipes->selectEquipe("=" . $id);
             }
             $listeE2 = $Equipes->toutesLesEquipes();
@@ -154,7 +154,7 @@ if (isset($_GET['page'])) {
             } else {
                 header('Location: ./index.php?page=listetournoi');
             }
-            $Tournois->tousLesTournois();
+            $Tournois->allTournaments();
             $tournoi = $Tournois->getTournoi($idTournoi);
             $poulesJeux  =  $tournoi->getPoules();
             if (isset($_GET['inscrire'])) {
@@ -200,7 +200,7 @@ if (isset($_GET['page'])) {
             }
             // //uncomment to test
             // if(isset($_GET['test'])){
-            //     Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
+            //     Connexion::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrateur);
             //     $tournoi = new Tournois();
             //     $pdo = DAO::getInstance()->getPDO();
             //     $pdo->beginTransaction();
@@ -208,9 +208,9 @@ if (isset($_GET['page'])) {
             //     $admin = new Administrateur();
             //     $admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/01/2023',array($idJeu));
             //     $id = $mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
-            //     $tournoi->tousLesTournois();
+            //     $tournoi->allTournaments();
             //     $t = $tournoi->getTournoi($id[0]['IdTournoi']);
-            //     Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+            //     Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
             //     $idE = $mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
             //     $i = 0;
             //     $maxE = 16;
@@ -285,7 +285,7 @@ if (isset($_GET['page'])) {
                 try{
                     MatchJ::setScore($listePoules[$idJeu],$_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
                     $tournoi = new Tournois();
-                    $tournoi->tousLesTournois();
+                    $tournoi->allTournaments();
                     $idT = MatchJ::getIdTournoi($_GET['poule']);
                     //vers DetailsTournoi.php?IDT=
                     header( 'Location:./index.php?page=detailstournoi&IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);

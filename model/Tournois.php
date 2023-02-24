@@ -1,18 +1,25 @@
 <?php
 include_once "Tournoi.php";
-include_once "DAO.php";
+include_once "../dao/UserDAO.php";
+include_once "../dao/TeamDAO.php";
 include_once "Jeu.php";
 //créer la liste de tournoi
 class Tournois
 {
     private $tournois;
     private $posMap;
+
+    private $userDao;
+
+    private $teamDao;
     //constructeur
     public function __construct(){
         $this->tournois = array();
+        $this->userDao = new UserDAO();
+        $this->teamDao = new TeamDAO();
     }
     //mettre a jour la liste des tournois
-    private function misAJourListeTournois($data){
+    private function updateListOfTournaments($data){
         $this->tournois = array();
         $this->posMap = array();
         $last = -1;
@@ -31,30 +38,27 @@ class Tournois
         }
     }
     //récupérer tous les tournois
-    public function tousLesTournois()
+    public function allTournaments()
     {
-        $user = new UserDAO();
-        $this->misAJourListeTournois($user->selectTournaments());
+        $userDao = new UserDAO();
+        $this->updateListOfTournaments($this->userDao->selectTournaments());
     }
     //récupérer les tournois par équipes
-    public function TournoisEquipe($idGame)
+    public function tournamentsParticipatedByTeam($idEquipe)
     {
-        $user = new UserDAO();
-        $this->misAJourListeTournois($user->selectTournamentsForTeam($idGame));
+        $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe));
         return $this->tournois;
     }
     //récupérer les tournois par équipes pas joué
-    public function TournoisEquipeNJ($idGame,$idEquipe)
+    public function tournamentsSuggestedByTeam($idEquipe, $idGame)
     {
-        $user = new UserDAO();
-        $this->misAJourListeTournois($user->selectTournamentsForTeam($idGame,$idEquipe));
+        $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe, $idGame));
         return $this->tournois;
     }
     //selection de tournois (filtre)
     public function tournoiDe(string $gameName=null, string $tournamentName=null, float $minPrize=null, float $maxPrize=null, string $notoriety=null, string $city=null, string $dateTime=null)
-    {
-        $user = new UserDAO(); 
-        $this->misAJourListeTournois($user->selectTournaments(null,$tournamentName, $minPrize, $maxPrize, $notoriety, $city, $dateTime, $gameName, null));
+    { 
+        $this->updateListOfTournaments($this->userDao->selectTournaments(null,$tournamentName, $minPrize, $maxPrize, $notoriety, $city, $dateTime, $gameName, null));
     }
     //récupérer les tournois
     public function getTournois(){

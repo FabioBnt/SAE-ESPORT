@@ -1,15 +1,14 @@
 <?php
-
-
+//create an admin class for dao
 class AdminDAO extends DAO
 {
+    //constructor
     public function __construct()
     {
         parent::__construct();
     }
-
     // Insert an organization in the database (Ecurie table)
-    public function createOrganization(string $name, string $account, string $pwd, string $type)
+    public function insertOrganization(string $name, string $account, string $pwd, string $type)
     {
         try {
             $connection = parent::getConnection();
@@ -25,10 +24,8 @@ class AdminDAO extends DAO
             $e->getMessage();
         }
     }
-    
-    
     // Create a tournament in the database (Tournois table)
-    public function createTournament(string $name, int $cashPrize, string $notoriety, string $city, string $startingHour, string $date, array $games): void
+    public function insertTournament(string $name, int $cashPrize, string $notoriety, string $city, string $startingHour, string $date, array $games): void
     {
         try {
             $connection = parent::getConnection();
@@ -57,5 +54,4 @@ class AdminDAO extends DAO
             $e->getMessage();
         }
     }
-    
 }

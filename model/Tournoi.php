@@ -1,5 +1,5 @@
 <?php
-include_once "Equipe.php";
+include_once "../dao/userDAO.php";
 include_once "Poule.php";
 include_once "Notoriete.php";
 //comparateur d'équipe
@@ -18,6 +18,8 @@ class Tournoi
     private $poules = null;
     private $jeux = array();
     private $dateHeure;
+    private $userDao;
+    private $arbitratorDao;
     //constructeur
 
     /**
@@ -32,6 +34,8 @@ class Tournoi
         $this->dateHeure = $heureDateDebut;
         $this->poules = null;
         $this->jeux[$idEtJeu[0]] = $idEtJeu[1];
+        $this->userDao = new UserDao();
+        $this->arbitratorDao = new ArbitratorDao();
         $this->calculerDateLimite($heureDateDebut);
         
     }
@@ -56,7 +60,8 @@ class Tournoi
      * @throws Exception
      */
     private function verifierPoules(): void{
-        if(strtotime($this->getDateLimiteInscription()) > strtotime(date("Y/m/d")) && strtotime($this->dateHeure) < strtotime(date("Y/m/d"))){
+        if(strtotime($this->getDateLimiteInscription()) > strtotime(date("Y/m/d")) &&
+         strtotime($this->dateHeure) < strtotime(date("Y/m/d"))){
             foreach($this->jeux as $jeu){
                 if($this->numeroPoules($jeu->getId()) < 4){
                     $this->genererLesPoules($jeu->getId());
@@ -69,13 +74,14 @@ class Tournoi
     {
         $equipes = $this->lesEquipesParticipants();
         $this->poules = array();
-        $mysql = DAO::getInstance();
-        $data = $mysql->select('*', 'Poule', 'where IdTournoi ='.$this->getIdTournoi());
+        $data = $this->userDao->selectTournamentPools($this->id);
         foreach($data as $ligne){
-            $this->poules[$ligne['IdJeu']][$ligne['IdPoule']] = new Poule($ligne['IdPoule'], $ligne['NumeroPoule'], $ligne['EstPouleFinale'], $this->jeux[$ligne['IdJeu']]);
-            $dataM = $mysql->select('*', 'MatchJ', 'where IdPoule ='.$ligne['IdPoule']);
+            $this->poules[$ligne['IdJeu']][$ligne['IdPoule']] = new Poule($ligne['IdPoule'], $ligne['NumeroPoule'],
+             $ligne['EstPouleFinale'], $this->jeux[$ligne['IdJeu']]);
+            $dataM = $this->userDao->selectTournamentPoolMatches($ligne['IdPoule']);
             foreach($dataM as $ligneM){
-                $this->poules[$ligne['IdJeu']][$ligne['IdPoule']]->addMatch($ligneM['Numero'], $ligneM['dateM'], $ligneM['HeureM'],$equipes);
+                $this->poules[$ligne['IdJeu']][$ligne['IdPoule']]->addMatch($ligneM['Numero'], $ligneM['dateM'],
+                 $ligneM['HeureM'],$equipes);
             }
         }
     }
@@ -87,16 +93,15 @@ class Tournoi
         }
         $equipes = $this->lesEquipesParticipants($idJeu);
         usort($equipes, 'comparatorEquipe');
-        $mysql = DAO::getInstance();
         for($i = 1; $i < 5; $i++ ){
-            $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array($i, 0, $idJeu, $this->id));
+            $this->arbitratorDao->insertTournamentPool($i, 0, $idJeu, $this->id);
         }
-        $data = $mysql->select('IdPoule','Poule ', 'where IdJeu ='.$idJeu.' AND IdTournoi = '.$this->id);
+        $data = $this->arbitratorDao->selectTournamentPool($idJeu, $this->id);
         $date = $this->dateHeure;
         for($i = 0; $i < 6 ; $i++){
             $n = $i + 1;
             foreach($data as $ligne){
-                $mysql->Insert('MatchJ (IdPoule, Numero, dateM, HeureM)', 4, array($ligne['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($date))));              
+                $this->arbitratorDao->insertPoolMatch($ligne['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($date)));           
             }
             $date = date('Y-m-d H:i:s', strtotime($date. ' + '.$n.' hours'));
         }
@@ -104,7 +109,7 @@ class Tournoi
         $equipesPoules = array();
         foreach($equipes as $equipe){
             $i %= 4;
-            $mysql->Insert('`Faire_partie` (IdPoule, IdEquipe)', 2, array($data[$i]['IdPoule'], $equipe->getId()));
+            $this->arbitratorDao->insertParticipantPool($data[$i]['IdPoule'], $equipe->getId());
             $equipesPoules[$data[$i]['IdPoule']][] = $equipe->getId();
             $i++;
         }
@@ -116,24 +121,24 @@ class Tournoi
     {
         $tournoi = new Tournois();
         // tous les tournois
-        $tournoi->tousLesTournois();
+        $tournoi->allTournaments();
         $tournoi = $tournoi->getTournoi($idT);
         $equipes =  $tournoi->meilleursEquipesPoulesNonFinale($idJeu);
-        $mysql = DAO::getInstance();
-        $mysql->Insert('Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi)', 4, array(5, 1, $idJeu, $idT));
-        $data = $mysql->select('IdPoule','Poule', 'where NumeroPoule = 5 AND IdJeu = '.$idJeu.' AND IdTournoi = '.$idT);
+        $mysql = new ArbitratorDAO();
+        $mysql->insertTournamentPool(5, 1, $idJeu, $idT);
+        $data = $mysql->selectTournamentPool($idJeu, $idT);
         //date du jour
         $date = date("Y/m/d");
         for($i = 0; $i < 6 ; $i++){
             $n = $i + 1;
             foreach($data as $ligne){
-                $mysql->Insert('MatchJ (IdPoule, Numero, dateM, HeureM)', 4, array($ligne['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($date))));              
+                $mysql->insertPoolMatch($ligne['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($date)));  
             }
             $date = date('Y-m-d H:i:s', strtotime($date. ' + '.$n.' hours'));
         }
         $equipesPoules = array();
         foreach($equipes as $equipe){
-            $mysql->Insert('`Faire_partie` (IdPoule, IdEquipe)', 2, array($data[0]['IdPoule'], $equipe->getId()));
+            $mysql->insertParticipantPool($data[0]['IdPoule'], $equipe->getId());
             $equipesPoules[$data[0]['IdPoule']][] = $equipe->getId();
         }
         //insert les matchs
@@ -141,13 +146,13 @@ class Tournoi
     }
     // insert concourir fonction
     public function insertConcourir($equipesPoules){
-        $mysql = DAO::getInstance();
         foreach($equipesPoules as $key => $value){
             $n = 1;
             while(count($value) < 4){
                 $value[] = null;
             }
             if($value[0] && $value[1]){
+                $this->arbitratorDao->insertParticipantPoolMatch($key, $value[0], $value[1], $n);
                 $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
                 $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));
                 $n++;
@@ -194,7 +199,7 @@ class Tournoi
         // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
         $tournoi = new Tournois();
         // tous les tournois
-        $tournoi->tousLesTournois();
+        $tournoi->allTournaments();
         $tournoi = $tournoi->getTournoi($idT);
         $poules = $tournoi->getPoules();
         $poules = $poules[$idJ];

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use function PHPUnit\Framework\assertSame;
 
-include_once(dirname(__DIR__) . '/model/Equipe.php');
+include_once(dirname(__DIR__) . '/model/');
 //créer un test inscrire equipe
 class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     private $mysql;
@@ -20,8 +20,8 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
         $this->equipe = null;
     }
     public function testEquipeInscriptionValide() {
-        Connexion::getInstanceSansSession()->seConnecter('Cloud9FortniteCompte', 'PasswordCloud9Fortnite', Role::Equipe);
-        $this->tournois->tousLesTournois();
+        Connexion::getInstanceWithoutSession()->establishConnection('Cloud9FortniteCompte', 'PasswordCloud9Fortnite', Role::Equipe);
+        $this->tournois->allTournaments();
         $this->equipe = Equipe::getEquipe(8);
         $tournoi = $this->tournois->getTournoi(2);
         $idT = $tournoi->getIdTournoi();
@@ -37,8 +37,8 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     //test
     public function testEquipeDejaInscrit() {
         $this->expectException(Exception::class);
-        Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
-        $this->tournois->tousLesTournois();
+        Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        $this->tournois->allTournaments();
         $this->equipe = Equipe::getEquipe(8);
         $tournoi = $this->tournois->getTournois()[0];
         $idT = $tournoi->getIdTournoi();
@@ -51,8 +51,8 @@ class InscrireEquipeTest extends \PHPUnit\Framework\TestCase {
     //test
     public function testJeuIncompatible() {
         $this->expectException(Exception::class);
-        Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
-        $this->tournois->tousLesTournois();
+        Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        $this->tournois->allTournaments();
         $tournoi = $this->tournois->getTournois()[1];
         $idT = $tournoi->getIdTournoi();
         $pdo = $this->mysql->getPDO();

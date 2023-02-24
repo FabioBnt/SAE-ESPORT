@@ -25,36 +25,65 @@ class UserDAO extends DAO{
 
         try{
             $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
-            return $result->execute();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
         }catch(PDOException $e){
             throw new Exception("Error Processing Request select tournament ".$e->getMessage(), 1);
         }
      }
 
-
-     public function selectTournamentsForTeam($idGame, $idEquipe=null){
-        $sql = '';
-        if($idEquipe != null){
-                $sql = "select T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-                J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J where C.IdJeu = J.IdJeu
-                AND C.IdTournoi = T.IdTournoi AND  J.IdJeu='".$idGame."' 
-                AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
-                AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='".$idEquipe."')";
-        }else{
-            $sql = "select T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
-            J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
-            AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=".$idGame.' ORDER BY IdTournoi';
+     public function selectTournamentPools($idTournament){
+        $sql = "SELECT * FROM Poule P WHERE IdTournoi = $idTournament";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament pools ".$e->getMessage(), 1);
         }
+     }
+
+     public function selectTournamentPoolMatches($idPool){
+        $sql = "SELECT * FROM MatchJ M WHERE M.IdPoule = $idPool";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament pool matchs ".$e->getMessage(), 1);
+        }
+     }
+
+     //Retourner le classement du tournoi pour le jeu passé en paramètre
+    public function selectRanking($idGame)
+    {
+        $idGame = (int) $idGame;
+        $sql = "SELECT * FROM Equipe E WHERE E.IdJeu = $idGame ORDER BY E.NbPointsE DESC";
         try{
             $mysql = parent::getConnection();
             $result = $mysql->prepare($sql);
-            return $result->execute();
+            $result->execute();
+            return $result->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select tournament ".$e->getMessage(), 1);
+            throw new Exception("Error Processing Request select ranking ".$e->getMessage(), 1);
         }
-     }
-    
+    }
 
-
+    /**
+     * @param string $id : id of the user
+     * @param $role : role of the user
+     * @return array : array of the user's password
+     */
+    // Connect on the website
+    function connectToWebsite(string $id, $role)
+    {
+        $mysql = parent::getConnection();
+        $sql = "SELECT MDPCompte FROM '$role' WHERE NomCompte = '$id'";
+        $result = $mysql->prepare($sql);
+        $result->execute();
+        return $result->fetchAll();
+    }
 }

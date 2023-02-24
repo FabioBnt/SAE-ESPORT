@@ -1,18 +1,19 @@
 <?php
-include_once 'Connexion.php';
-include_once 'DAO.php';
-include_once 'Role.php';
-include_once 'Jeu.php';
-//Creer un administrateur
+include_once '../dao/AdminDAO.php';
+//Create an administrator
 class Administrateur {
-    //constructeur
-    public function __construct()
-    {
+    private $dao;
+    //constructor
+    public function __construct(){
+        $this->dao= new AdminDAO();
     }
-    
-    //verifier si administrateur est connecté
-    public function isConnected(): bool
+    //create an organization on db
+    public function createOrganization(string $name, string $account, string $pwd, string $type)
     {
-        return (Connexion::getInstanceSansSession()->estConnecterEnTantQue(Role::Administrateur)||Connexion::getInstance()->estConnecterEnTantQue(Role::Administrateur));
+        $this->dao->insertOrganization($name,$account,$pwd,$type);
+    }
+    //create a tournament on db
+    public function createTournament(string $name, int $cashPrize, string $notoriety, string $city, string $startingHour, string $date, array $games){
+        $this->dao->insertTournament($name,$cashPrize,$notoriety,$city,$startingHour,$date,$games);
     }
 }

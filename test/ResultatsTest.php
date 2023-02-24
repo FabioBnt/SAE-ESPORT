@@ -9,13 +9,13 @@ include_once(dirname(__DIR__) . '/model/MatchJ.php');
 class ResultatsTest extends \PHPUnit\Framework\TestCase {
     //test
     public function testSetScore() {
-        Connexion::getInstanceSansSession()->seConnecter('Arbitre', '$iutinfo', Role::Administrateur);
+        Connexion::getInstanceWithoutSession()->establishConnection('Arbitre', '$iutinfo', Role::Administrateur);
         $mysql = DAO::getInstance();
         $pdo = $mysql->getPDO();
         //$pdo->beginTransaction();
         $tournoi = new Tournois();
         // get tous les tournois
-        $tournoi->tousLesTournois();
+        $tournoi->allTournaments();
         // get le tournoi
         $t = $tournoi->getTournoi(11);
         // get les poules
@@ -31,13 +31,13 @@ class ResultatsTest extends \PHPUnit\Framework\TestCase {
     }
     // test mise a jour des points
     public function testMiseAJourDesPoins(){
-        Connexion::getInstanceSansSession()->seConnecter('Arbitre', '$iutinfo', Role::Administrateur);
+        Connexion::getInstanceWithoutSession()->establishConnection('Arbitre', '$iutinfo', Role::Administrateur);
         $mysql = DAO::getInstance();
         $pdo = $mysql->getPDO();
         $pdo->beginTransaction();
         $tournoi = new Tournois();
         // get tous les tournois
-        $tournoi->tousLesTournois();
+        $tournoi->allTournaments();
         // get le tournoi
         $t = $tournoi->getTournoi(11);
         // get les poules

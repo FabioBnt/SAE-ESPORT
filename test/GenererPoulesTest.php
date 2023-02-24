@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertSame;
 
 include_once(dirname(__DIR__) . '/model/Tournois.php');
-include_once(dirname(__DIR__) . '/model/Equipe.php');
+include_once(dirname(__DIR__) . '/model/');
 include_once(dirname(__DIR__) . '/model/MatchJ.php');
 include_once(dirname(__DIR__) . '/model/Poule.php');
 include_once(dirname(__DIR__) . '/model/Administrateur.php');
@@ -19,7 +19,7 @@ class GenererPoulesTest extends TestCase {
     protected function setUp(): void {
         $this->mysql = DAO::getInstance();
         $this->admin = new Administrateur();
-        Connexion::getInstanceSansSession()->seConnecter('admin','$iutinfo',Role::Administrateur);
+        Connexion::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrateur);
         $this->tournoi = new Tournois();
     } 
     //test
@@ -30,9 +30,9 @@ class GenererPoulesTest extends TestCase {
         $idJeu = 8;
         $this->admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/05/2023',array($idJeu));
         $id = $this->mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
-        $this->tournoi->tousLesTournois();
+        $this->tournoi->allTournaments();
         $t = $this->tournoi->getTournoi($id[0]['IdTournoi']);
-        Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
         $idE = $this->mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
         $i = 0;
         while($i < 16){
@@ -62,9 +62,9 @@ class GenererPoulesTest extends TestCase {
         $idJeu = 8;
         $this->admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/05/2023',array($idJeu));
         $id = $this->mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
-        $this->tournoi->tousLesTournois();
+        $this->tournoi->allTournaments();
         $t = $this->tournoi->getTournoi($id[0]['IdTournoi']);
-        Connexion::getInstanceSansSession()->seConnecter('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
+        Connexion::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
         $idE = $this->mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
         $i = 0;
         while($i < 16){

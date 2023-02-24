@@ -18,9 +18,9 @@ class VisualiserTournoisTest extends \PHPUnit\Framework\TestCase {
         $this->tournois = null;
     }
     //test
-    public function testVisualiserTousLesTournois() {
+    public function testVisualiserallTournaments() {
         $totalTournois = $this->mysql->select("count(IdTournoi) as total", "Tournois");
-        $this->tournois->tousLesTournois();
+        $this->tournois->allTournaments();
         $listeTournois =  $this->tournois->getTournois();
         assertSame($totalTournois[0]['total']-'0', count($listeTournois));
     }
