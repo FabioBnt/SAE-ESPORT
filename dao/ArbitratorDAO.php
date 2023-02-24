@@ -63,6 +63,24 @@ class ArbitratorDAO extends DAO {
                 ':numero' => $numberM,
                 ':score' => NULL)));
     }
+    public function updateTeamPoints($points, $idTeam){
+        $mysql = parent::getConnection();
+        $sql = "UPDATE Equipe SET NbPointsE = NbPointsE + :points WHERE IdEquipe = :idEquipe";
+        $stmt = $mysql->prepare($sql);
+        // pass an array of values to the execute method
+        return $stmt->execute(
+            array(':points' => $points,
+                ':idEquipe' => $idTeam));
+    }
+    public function setTeamPoints($points, $idTeam){
+        $mysql = parent::getConnection();
+        $sql = "UPDATE Equipe SET NbPointsE = :points WHERE IdEquipe = :idEquipe";
+        $stmt = $mysql->prepare($sql);
+        // pass an array of values to the execute method
+        return $stmt->execute(
+            array(':points' => $points,
+                ':idEquipe' => $idTeam));
+    }
 
 }
 ?>

@@ -3,7 +3,7 @@ include_once "../dao/userDAO.php";
 include_once "Poule.php";
 include_once "Notoriete.php";
 //comparateur d'équipe
-function comparatorEquipe(Equipe $e1, Equipe $e2) {
+function comparatorEquipe(Team $e1, Team $e2) {
     return ($e1->getPoints() > $e2->getPoints());
 }
 //créer un tournoi
@@ -153,33 +153,26 @@ class Tournoi
             }
             if($value[0] && $value[1]){
                 $this->arbitratorDao->insertParticipantPoolMatch($key, $value[0], $value[1], $n);
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));
                 $n++;
             }
             if($value[0] && $value[2]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));
+                $this->arbitratorDao->insertParticipantPoolMatch($key, $value[0], $value[2], $n);
                 $n++;
             }
             if($value[0] && $value[3]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[0], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));
+                $this->arbitratorDao->insertParticipantPoolMatch($key, $value[0], $value[3], $n);
                 $n++;
             }
             if($value[1] && $value[2]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));   
+                $this->arbitratorDao->insertParticipantPoolMatch($key, $value[1], $value[2], $n); 
                 $n++;
             }
             if($value[1] && $value[3]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[1], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL)); 
+                $this->arbitratorDao->insertParticipantPoolMatch($key, $value[1], $value[3], $n);
                 $n++;
             }
             if($value[2] && $value[3]){
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[2], $key, $n, NULL));  
-                $mysql->Insert('Concourir (IdEquipe, IdPoule, Numero, Score)',4, array($value[3], $key, $n, NULL));  
+                $this->arbitratorDao->insertParticipantPoolMatch($key, $value[2], $value[3], $n);
             }      
         }
     }
@@ -212,7 +205,7 @@ class Tournoi
             }
         }
         // ajouter equipe scores
-        $mysql = DAO::getInstance()->getPDO();
+        $mysql = new ArbitratorDAO();
         // mettre a jour table Equipe set score
         // multiplicateur local 1 national 2 inter 3 que sur poule finale 100 60 30 10 pour poule final 5 par match gagné 
         $multiplicateur = 0;
@@ -230,10 +223,10 @@ class Tournoi
             $equipes = $poulefin->lesEquipes();
             $equipe = $equipes[$key];
             if($equipe->getPoints() != null){
-                $mysql->query('UPDATE Equipe SET NbPointsE = NbPointsE + '.$points.' WHERE IdEquipe = '.$key);
+                $mysql->updateTeamPoints($points, $key);
             }
             else{
-                $mysql->query('UPDATE Equipe SET NbPointsE = '.$points.' WHERE IdEquipe = '.$key);
+                $mysql->setTeamPoints($points, $key);
             }
             $i++;
             $i = $i % 4;
@@ -307,23 +300,13 @@ class Tournoi
     //retourne les équipes participantes du tournoi
     public function lesEquipesParticipants($idJeu = null){
         $equipes = array();
-        $mysql = DAO::getInstance();
-        $data = $mysql->select('*', 'Participer', 'where IdTournoi ='.$this->getIdTournoi());
-        if ($idJeu == null){
-            foreach($data as $ligne){
-                $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu');
-                foreach($dataE as $ligneM){
-                    $equipes[$ligneM['IdEquipe']] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
-                    new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
-                }
-            }
-        }else{
-            foreach($data as $ligne){
-                $dataE = $mysql->select('*', 'Equipe e, Jeu j', 'where IdEquipe ='.$ligne['IdEquipe'].' AND j.IdJeu = e.IdJeu AND j.IdJeu='.$idJeu);
-                foreach($dataE as $ligneM){
-                    $equipes[$ligneM['IdEquipe']] = new Equipe($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
-                    new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
-                }
+        $data = $this->userDao->selectParticipants($this->getIdTournoi());
+        
+        foreach($data as $ligne){
+            $dataE = $this->userDao->selectTeamGames($ligne['IdEquipe']);
+            foreach($dataE as $ligneM){
+                $equipes[$ligneM['IdEquipe']] = new Team($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
+                new Jeu($ligneM['IdJeu'],$ligneM['NomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
             }
         }
         return $equipes;

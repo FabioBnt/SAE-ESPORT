@@ -86,4 +86,28 @@ class UserDAO extends DAO{
         $result->execute();
         return $result->fetchAll();
     }
+
+    public function selectParticipants($idTournament){
+        $sql = "SELECT * FROM Participer P WHERE P.IdTournoi = $idTournament";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+        }
+    }
+    public function selectTeamGames($idTeam, $idGame=null){
+        $sql = "SELECT * FROM Equipe E, Jeu J WHERE E.IdEquipe = $idTeam AND J.IdJeu = E.IdJeu";
+        $sql .= ($idGame != null) ? " AND J.IdJeu = $idGame" : "";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select team games ".$e->getMessage(), 1);
+        }
+    }
 }
