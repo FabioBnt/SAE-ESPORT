@@ -373,7 +373,7 @@ INSERT INTO `Faire_partie` (`IdPoule`, `IdEquipe`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Jeu`
+-- Structure de la table `Game`
 --
 
 CREATE TABLE `Jeu` (
@@ -385,7 +385,7 @@ CREATE TABLE `Jeu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `Jeu`
+-- Déchargement des données de la table `Game`
 --
 
 INSERT INTO `Jeu` (`IdJeu`, `NomJeu`, `TypeJeu`, `TempsDeJeu`, `DateLimiteInscription`) VALUES
@@ -748,7 +748,7 @@ ALTER TABLE `Faire_partie`
   ADD KEY `IdEquipe` (`IdEquipe`);
 
 --
--- Index pour la table `Jeu`
+-- Index pour la table `Game`
 --
 ALTER TABLE `Jeu`
   ADD PRIMARY KEY (`IdJeu`);
@@ -804,7 +804,7 @@ ALTER TABLE `Equipe`
   MODIFY `IdEquipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT pour la table `Jeu`
+-- AUTO_INCREMENT pour la table `Game`
 --
 ALTER TABLE `Jeu`
   MODIFY `IdJeu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
