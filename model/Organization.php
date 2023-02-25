@@ -6,11 +6,13 @@ class Organization {
     private string $type;
     private array $teams = array();
     private int $id;
+    private $dao;
     //constructor
     public function __construct(int $id,string $designation,string $type) {
         $this->designation = $designation;
         $this->type = $type;
         $this->id = $id;
+        $this->dao=new OrganizationDAO();
     }
     //get teams of the organization
     public function getTeams():array {
@@ -18,17 +20,16 @@ class Organization {
     }
     // Create a team
     public function createTeam(string $name,string $accountName,string $password,int $idGame,int $idOrganization):string {
-        $mysql = new OrganizationDAO();
-        return $mysql->insertTeam($name,$accountName,$password,$idGame,$idOrganization);
+        return $this->dao->insertTeam($name,$accountName,$password,$idGame,$idOrganization);
     }
     // Retrieve organization's information
     public static function getOrganization(int $id): Organization
     {
         $Organization = null;
-        $mysql = new OrganizationDAO();
-        $dataE = $mysql->selectOrganization($id);
+        $dao=new OrganizationDAO();
+        $dataE = $dao->selectOrganization($id);
         foreach($dataE as $ligneE){
-            $Organization = new Organization(null,$ligneE['Designation'],$ligneE['TypeE']);
+            $Organization = new Organization($ligneE['IDEcurie'],$ligneE['Designation'],$ligneE['TypeE']);
         }
         return $Organization;
     }
@@ -37,6 +38,11 @@ class Organization {
     {
         return $this->designation;
     }
+    //get id of the organization
+    public function getId():int
+    {
+        return $this->id;
+    }
     //get type of the organization
     public function getType():string
     {
@@ -44,14 +50,13 @@ class Organization {
     }
     // Retrieve the id of an organization by its account name
     public static function getIDbyAccountName(string $accountName):int {
-        $mysql = new OrganizationDAO();
-        $data = $mysql->selectOrganizationID($accountName);
+        $dao=new OrganizationDAO();
+        $data = $dao->selectOrganizationID($accountName);
         return $data;
     }
     // Create a player
     public function createPlayer(string $username,string $nationality,string $teamID):string {
-        $mysql = new OrganizationDAO();
-        return $mysql->insertPlayer($username,$nationality,$teamID);
+        return $this->dao->insertPlayer($username,$nationality,$teamID);
     }
 }
 ?>

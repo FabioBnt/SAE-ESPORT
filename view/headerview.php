@@ -24,13 +24,13 @@
                 <?php }?>
             </div>
             <div class="menucenter">
-                <img class="logo" src="./img/logo header.png" alt="LogoDuSite">
+                <img class="logo" src="./img/logo_header.png" alt="LogoDuSite">
             </div>
             <div class="menuright">
                 <?php if($connx->getRole() == Role::Visiteur){?>
                     <a href="./index.php?page=connectionview" id="Connection">Se Connecter</a>
                 <?php }else{?>
-                    <h3>Bienvenue, <?php echo $connx->getIdentifiant(); ?></h3>
+                    <h3 style="padding:0.6em;">Bienvenue - <?php echo $connx->getIdentifiant(); ?></h3>
                     <a href="./index.php?page=accueil&sedeconnecter=true" id="deconnexion">Déconnexion</a>
                 <?php }?>
             </div>      

@@ -9,10 +9,12 @@ class Team
 {
     private int $id;
     private string $name;
-    private int $points;
+    private $points;
     private string $Organization;
-    private game $game;
+    private int $game;
     private array $teams;
+    private $daoT;
+    private $daoU;
     /**
      * @param $id
      * @param $name
@@ -21,13 +23,15 @@ class Team
      * @param $game
      */
     //constructor
-    public function __construct(int $id=null,string $name=null,int $points=null,string $Organization=null,game $game=null){
+    public function __construct(int $id=0,string $name="",$points=null,string $Organization="",int $game=0){
         $this->id =$id;
         $this->name = $name;
         $this->points = $points;
         $this->Organization = $Organization;
         $this->game = $game;
         $this->teams = array();
+        $this->daoT= new TeamDAO();
+        $this->daoU= new UserDAO();
     }
     /**
      * @return bool
@@ -43,7 +47,7 @@ class Team
      */
     //get id of a team by his name
     public static function getIDbyname(string $name) : int {
-        $dao= new TeamDAO();
+        $dao=new TeamDAO();
         return $dao->selectIDbyNameTeam($name);
     }
     /**
@@ -77,13 +81,12 @@ class Team
     //get game name of the team by his id
     public function getGameName() : string
     {
-        $dao= new TeamDAO();
-        return $dao->selectGameName($this->id);
+        return $this->daoT->selectGameName($this->game);
     }
     //get id game of the team
-    public function getgameId() : string
+    public function getgameId() : int
     {
-        return $this->game->getId();
+        return $this->game;
     }
     //get organization name of the team
     public function getOrganization() : string{
@@ -96,43 +99,41 @@ class Team
     //know if team participate of the x tournament
     public function getIfTeamOnTournament(Tournament $tournament): bool
     {
-        $dao= new TeamDAO();
-        return $dao->TeamOnTournament($tournament,$this->id);
+        return $this->daoT->TeamOnTournament($tournament,$this->id);
     }
     /**
      * @param $id
      * @return Team
      */
     //get team by his id
-    public static function getTeam(int $id): Team
+    public static function getTeam(string $id): Team
     {
         $dao= new TeamDAO();
         return $dao->selectTeamByID($id);
     }
     //get players of a id team
-    public function getPlayers(int $id):array
+    public function getPlayers(string $id):array
     {
-        $dao= new TeamDAO();
-        return $dao->selectPlayers($id);
+        return $this->daoT->selectPlayers($id);
     }
     //get nb match win by the team
     public function getNbmatchWin(): int
     {
         $listeTournois = new Tournament();
-        $listeTournois->tournamentsParticipatedByTeam($this->id);
+        $listeTournois =$listeTournois->tournamentsParticipatedByTeam($this->id);
         $nb=0;
-        foreach($listeTournois->allTournaments() as $tournament){
+        foreach($listeTournois as $tournament){
             $t=$tournament->getPools();
             $n = null;
             if ($this->game instanceof game) {
-                $n = $this->game->getId();
+                $n = $this->game;
             }else{
                 $n = $this->game - '0';
             }
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $Pool){
-                    if($Pool->isPoolFinale()==='1'){
-                        if($Pool->meilleureTeam()->getId()===$this->id){
+                    if($Pool->isPoolFinal()==='1'){
+                        if($Pool->BestTeamOfPool()->getId()===$this->id){
                             $nb++;
                         }
                     }
@@ -144,9 +145,9 @@ class Team
     //cashprize win by the team
     public function sumTournamentWin():int{
         $listeTournois = new Tournament();
-        $listeTournois->tournamentsParticipatedByTeam($this->id);
+        $listeTournois =$listeTournois->tournamentsParticipatedByTeam($this->id);
         $nb=0;
-        foreach($listeTournois->allTournaments() as $tournament){
+        foreach($listeTournois as $tournament){
             $t=$tournament->getPools();
             $n = null; 
             if ($this->game instanceof game) {
@@ -157,9 +158,8 @@ class Team
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $Pool){
                     if($Pool->isPoolFinale()==='1'){
-                        if($Pool->meilleureTeam()->getId()===$this->id){
-                            $dao= new UserDAO();
-                            $res= $dao->selectCashPrizeById($t->getId());
+                        if($Pool->BestTeamOfPool()->getId()===$this->id){
+                            $res= $this->daoU->selectCashPrizeById($t->getId());
                             $nb += $res[0]['CashPrize'];
                         }
                     }
@@ -174,11 +174,11 @@ class Team
         if(!$this->isConnected()){
             throw new \RuntimeException('action qui nécessite une Connection en tant que membre du groupe');
         }
-        $nbParti = $tournament->getNumberParticipant($this->game->getId());
+        $nbParti = $tournament->getNumberParticipant($this->game);
         if($nbParti ===16){
             throw new \RuntimeException('tournoi complet');
         }
-        if(!$tournament->haveGame($this->game->getId())){
+        if(!$tournament->haveGame($this->game)){
             throw new \RuntimeException('L\'équipe n\'est pas expert dans les gamex du tournoi');
         }
         if(strtotime($tournament->getregisterDeadline()) > strtotime(date("Y/m/d"))){
@@ -187,19 +187,17 @@ class Team
         if($this->getIfTeamOnTournament($tournament)){
             throw new \RuntimeException('Déjà inscrit');
         }
-        $dao= new TeamDAO();
-        $dao->insertTeamTournament($tournament->getIdTournament(), $this->id);
+        $this->daoT->insertTeamTournament($tournament->getIdTournament(), $this->id);
         $nbParti++;
         if($nbParti === 16){
-            $tournament->generatePools($this->game->getId());
+            $tournament->generatePools($this->game);
         }
         return 1;
     }
     // TEAMS //
     // get team list
     public function getTeamList(int $id=null):array{
-        $dao= new TeamDAO();
-        $data = $dao->selectTeam($id);
+        $data = $this->daoT->selectTeam($id);
         $this->updateTeamList($data);
         return $this->teams;
     }
@@ -210,7 +208,7 @@ class Team
         $index = -1;
         foreach ($data as $ligne) {
             if($last != $ligne['IdEquipe']){ 
-                $this->teams[] = new Team($ligne['IdEquipe'],$ligne['NomE'], $ligne['NbPointsE'],$ligne['IdEcurie'],$ligne['IdJeu']);
+                $this->teams[] = new Team($ligne['IdEquipe'],$ligne['NomE'], $ligne['NbPointsE'],$ligne['IDEcurie'],$ligne['IdJeu']);
                 $last = $ligne['IdEquipe'];
                 $index+=1;
             }

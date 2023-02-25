@@ -1,5 +1,7 @@
 <?php
-require_once ("./dao/userDAO.php");
+require_once ("./dao/UserDAO.php");
+require_once ("./dao/ArbitratorDAO.php");
+require_once ("./dao/TeamDAO.php");
 require_once ("./model/Pool.php");
 require_once ("./model/Notoriety.php");
 //comparator Team
@@ -24,7 +26,7 @@ class Tournament
     private array $tournaments;
     private array $posMap;
     //constructor
-    public function __construct(int $id=0,string $name="",string $cashPrize="",string $Notoriety="",string $location="",string $datehour="",array $idandGame=array("",new Game())){
+    public function __construct(int $id=0,string $name="",string $cashPrize="",string $Notoriety="",string $location="",string $datehour="now",array $idandGame=array("",new Game())){
         $this->id =$id;
         $this->name = $name;
         $this->cashPrize = $cashPrize;
@@ -37,16 +39,15 @@ class Tournament
         $this->userDao = new UserDAO();
         $this->teamDao = new TeamDAO();
         $this->arbitratorDao = new ArbitratorDao();
-        $this->calculateDeadline($datehour);
-        
+        $this->calculateDeadline($datehour);        
     }
     //calculate dead line register
     private function calculateDeadline(string $hourDateStart): void
     {
         // on prend le numero de jours le plus grand entre les games de tournoi
-        $maxDay = reset($this->games)->getregisterlimit();
+        (int)$maxDay = reset($this->games)->getregisterlimit();
         foreach ($this->games as $game){
-            $days = $game->getregisterlimit();
+            (int)$days = $game->getregisterlimit();
             if($maxDay > $days){
                 $maxDay = $days;
             }
@@ -92,7 +93,7 @@ class Tournament
         return $this->tournaments;
     }
     //get tournaments of a team
-    public function tournamentsParticipatedByTeam(int $idEquipe):array
+    public function tournamentsParticipatedByTeam(string $idEquipe):array
     {
         $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe));
         return $this->tournaments;
@@ -336,15 +337,14 @@ class Tournament
         return false;
     }
     //returns the participating teams of the tournament
-    public function TeamsOfPoolParticipants():array{
+    public function TeamsOfPoolParticipants(int $idGame=null):array{
         $teams = array();
         $data = $this->userDao->selectParticipants($this->getIdTournament());
         
         foreach($data as $ligne){
-            $dataE = $this->userDao->selectTeamGames($ligne['IdEquipe']);
+            $dataE = $this->userDao->selectTeamGames($ligne['IdEquipe'],$idGame);
             foreach($dataE as $ligneM){
-                $teams[$ligneM['IdEquipe']] = new Team($ligneM['IdEquipe'], $ligneM['nomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'], 
-                new Game($ligneM['IdJeu'],$ligneM['nomJeu'], $ligneM['TypeJeu'], $ligneM['TempsDeJeu'], $ligneM['DateLimiteInscription']));
+                $teams[$ligneM['IdEquipe']] = new Team($ligneM['IdEquipe'], $ligneM['nomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'],$ligneM['IdJeu']);
             }
         }
         return $teams;

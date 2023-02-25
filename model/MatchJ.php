@@ -8,11 +8,13 @@ class MatchJ
     private string $hour;
     private array $teams = array();
     private array $scores = array();
+    private $dao;
     //constructor
     function __construct(int $number,string $date,string $hour){
         $this->number = $number;
         $this->date = $date;
         $this->hour = $hour;
+        $this->dao= new ArbitratorDAO();
     }
     //add score of a team
     public function addteamscore(Team $team,int $score):void{
@@ -25,12 +27,12 @@ class MatchJ
     }
     //get ID tournament by his id pool
     public static function getIdTournamentByPool(int $idPool) : int{
-        $dao= new ArbitratorDAO();
+        $dao=new ArbitratorDAO();
         return $dao->selectIdTournoiByPool($idPool);
     }
     //get ID game by his id pool
     public static function getIdGameByPool(int $idPool): int{
-        $dao= new ArbitratorDAO();
+        $dao=new ArbitratorDAO();
         return $dao->selectIdJeuByPool($idPool);
     }
     // know if score is isset or not
@@ -63,7 +65,7 @@ class MatchJ
     //initialize the score
     public static function setScore(array $pools, int $idPool,int $idTeam1,int $idTeam2 ,int $score1,int $score2):void
     {
-        $dao= new ArbitratorDAO();
+        $dao=new ArbitratorDAO();
         $number= $dao->selectNumberOfPool($idPool,$idTeam1,$idTeam2)[0];
         $pools[$idPool]->setScoreMatch($number, $idTeam1, $idTeam2, $score1, $score2);
         $dao->updateTeamScoreOnMatch($idPool,$idTeam1,$score1,$number);

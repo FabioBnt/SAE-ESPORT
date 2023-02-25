@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/styleConnection.css" />
+    <link rel="stylesheet" href="./css/styleConnexion.css" />
     <title>E-Sporter Manager</title>
 </head>
 <body>
@@ -19,7 +19,7 @@
             <option value="Organization">Ecurie</option>
             <option value="Team">Equipe</option>
             <option value="Arbitre">Arbitre</option>
-            <option value="Administrator">Administrator</option>
+            <option value="Administrator">Administrateur</option>
         </select> </br>
         <label><b>Nom d'utilisateur</b></label>
         <input type="text" placeholder="Entrer le nom d'utilisateur" name="username" required>

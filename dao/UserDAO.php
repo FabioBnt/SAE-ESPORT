@@ -1,31 +1,33 @@
 <?php
 require_once("./dao/DAO.php");
+require_once("./model/Role.php");
 //create a user dao class
 class UserDAO extends DAO{
+    private PDO $mysql;
     //constructor
-    public function __construct(){
+    public function __construct() {
         parent::__construct();
+        $this->mysql=parent::getConnection();
     }
     //select tournaments with filter
     public function selectTournaments(int $id=null,string $tournamentName=null,int $minPrize=null,int $maxPrize=null,
      string $notoriety=null,string $city=null,string $dateTime=null,int $idGame=null,string $gameName=null,string $dateLimit=null):array{
         $conds = "";
-        $conds .= ($id != null) ? "T.IdTournoi = $id AND " : "";
-        $conds .= ($tournamentName != null) ? "T.NomTournoi = '$tournamentName' AND " : "";
-        $conds .= ($minPrize != null) ? "T.CashPrize >= $minPrize AND " : "";
-        $conds .= ($maxPrize != null) ? "T.CashPrize <= $maxPrize AND " : "";
-        $conds .= ($notoriety != null) ? "T.Lieu = '$city' AND " : "";
-        $conds .= ($city != null) ? "T.Lieu = '$city' AND " : "";
-        $conds .= ($dateTime != null) ? "T.DateHeureTournois = '$dateTime' AND " : "";
-        $conds .= ($idGame != null) ? "J.IdJeu = $idGame AND " : "";
-        $conds .= ($dateLimit != null) ? "J.DateLimiteInscription = '$dateLimit' AND " : "";
+        $conds .= ($id != null) ? " AND T.IdTournoi = $id " : "";
+        $conds .= ($tournamentName != null) ? " AND T.NomTournoi = $tournamentName" : "";
+        $conds .= ($minPrize != null) ? " AND T.CashPrize >= $minPrize " : "";
+        $conds .= ($maxPrize != null) ? " AND T.CashPrize <= $maxPrize " : "";
+        $conds .= ($notoriety != null) ? " AND T.Lieu =$city " : "";
+        $conds .= ($city != null) ? " AND T.Lieu = $city" : "";
+        $conds .= ($dateTime != null) ? " AND T.DateHeureTournois = $dateTime " : "";
+        $conds .= ($idGame != null) ? " AND J.IdJeu = $idGame" : "";
+        $conds .= ($dateLimit != null) ? "AND J.DateLimiteInscription =$dateLimit" : "";
         $conds = substr($conds, 0, -4);
         $sql = "SELECT T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
          J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription
-         FROM Tournois T, Contenir C, Game J $conds AND C.IdJeu = J.IdJeu AND C.IdTournoi = T.IdTournoi AND ".$conds;
+         FROM Tournois T, Contenir C, Jeu J WHERE C.IdJeu = J.IdJeu AND C.IdTournoi = T.IdTournoi ".$conds;
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -36,8 +38,7 @@ class UserDAO extends DAO{
      public function selectTournamentPools(int $idTournament):array{
         $sql = "SELECT * FROM Poule P WHERE IdTournoi = $idTournament";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -48,8 +49,7 @@ class UserDAO extends DAO{
      public function selectTournamentPoolMatches(int $idPool):array{
         $sql = "SELECT * FROM MatchJ M WHERE M.IdPoule = $idPool";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -62,8 +62,7 @@ class UserDAO extends DAO{
         $idGame = (int) $idGame;
         $sql = "SELECT * FROM Equipe E WHERE E.IdJeu = $idGame ORDER BY E.NbPointsE DESC";
         try{
-            $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
@@ -73,10 +72,14 @@ class UserDAO extends DAO{
     // Connect on the website
     function connectToWebsite(string $id,string $role):array
     {
-        $sql = "SELECT MDPCompte FROM '$role' WHERE NomCompte = '$id'";
+        if($role==Role::Organization){
+            $role="Ecurie";
+        } else if($role==Role::Team){
+            $role="Equipe";
+        }
+        $sql = "SELECT MDPCompte FROM $role WHERE NomCompte=$id";
         try{
-            $mysql = $this->getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
@@ -88,8 +91,7 @@ class UserDAO extends DAO{
     {
         $sql = "SELECT * FROM Jeu";
         try{
-            $mysql = $this->getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             return $result->fetchAll(PDO::FETCH_ASSOC);
         }catch(PDOException $e){
@@ -100,8 +102,7 @@ class UserDAO extends DAO{
     public function selectParticipants(int $idTournament):array{
         $sql = "SELECT * FROM Participer P WHERE P.IdTournoi = $idTournament";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -113,8 +114,7 @@ class UserDAO extends DAO{
         $sql = "SELECT * FROM Equipe E, Jeu J WHERE E.IdEquipe = $idTeam AND J.IdJeu = E.IdJeu";
         $sql .= ($idGame != null) ? " AND J.IdJeu = $idGame" : "";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -125,8 +125,7 @@ class UserDAO extends DAO{
     public function selectGameById(int $idGame):Game{
         $sql = "SELECT * FROM Jeu WHERE IdJeu = $idGame";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             $data=$stm->fetchAll();
             $jeu = new Game($data[0]['IdJeu'],$data[0]['NomJeu'], $data[0]['TypeJeu'], $data[0]['TempsDeJeu'], $data[0]['DateLimiteInscription']);
@@ -136,12 +135,11 @@ class UserDAO extends DAO{
         }
     }
     //select game for organization not create
-    public static function selectGameTeamNotPlayed(int $idOrga):array
+    public function selectGameTeamNotPlayed(int $idOrga):array
     {
-        $sql = "SELECT * FROM Jeu J WHERE J.IDjeu not in (SELECT E.IdJeu FROM Equipe E WHERE E.IDEcurie=$id)";
+        $sql = "SELECT * FROM Jeu J WHERE J.Idjeu not in (SELECT E.IdJeu FROM Equipe E WHERE E.IDEcurie=$idOrga)";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             $data=$stm->fetchAll();
             $jeux = array();
@@ -157,8 +155,7 @@ class UserDAO extends DAO{
     public function selectnumberParticipant(int $idgame,int $idT):array{
         $sql = "SELECT count(e.IdEquipe) as total FROM Participer p, Equipe e WHERE p.IdTournoi =$idT AND e.IdEquipe = p.IdEquipe AND e.IdJeu =$idgame";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -169,8 +166,7 @@ class UserDAO extends DAO{
     public function selectnumberTournament():array{
         $sql = "SELECT count(IdTournoi) as total FROM Tournois";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -181,8 +177,7 @@ class UserDAO extends DAO{
     public function selectnumberMatchPool(int $idPool,int $idGame,int $idT):array{
         $sql = "SELECT count(M.IdPoule) as total FROM MatchJ M, Poule P WHERE M.IdPoule = P.IdPoule AND P.IdTournoi = $idT AND P.IdJeu = $idGame AND P.IdPoule = $idPool";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -193,8 +188,7 @@ class UserDAO extends DAO{
     public function selectnumberPools(int $idgame,int $idT):array{
         $sql = "SELECT count(*) as total FROM Poule WHERE IdTournoi =$idT AND IdJeu =$idgame";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -205,8 +199,7 @@ class UserDAO extends DAO{
     public function selectCashPrizeById(int $idT):array{
         $sql = "SELECT T.CashPrize FROM Tournois T WHERE T.IdTournoi=$idT";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){

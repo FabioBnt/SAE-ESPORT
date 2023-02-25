@@ -3,18 +3,18 @@ require_once("./dao/DAO.php");
 //create an admin class for dao
 class AdminDAO extends DAO
 {
+    private PDO $mysql;
     //constructor
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
+        $this->mysql=parent::getConnection();
     }
     // Insert an organization in the database (Ecurie table)
     public function insertOrganization(string $name, string $account, string $pwd, string $type) :string
     {
         try {
-            $connection = parent::getConnection();
             $sql = "INSERT INTO Ecurie (Designation, TypeE, NomCompte, MDPCompte) VALUES (:nom, :type, :compte, :mdp)";
-            $stmt = $connection->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             return $stmt->execute(array(
                 ':nom' => $name,
                 ':type' => $type,
@@ -29,10 +29,9 @@ class AdminDAO extends DAO
     public function insertTournament(string $name, int $cashPrize, string $notoriety, string $city, string $startingHour, string $date, array $games): string
     {
         try {
-            $connection = parent::getConnection();
             // Insert the tournament in the database (Tournois table)
             $sql = "INSERT INTO Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois) VALUES (:nom, :cashPrize, :notoriete, :lieu, :date)";
-            $stmt = $connection->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             $stmt->execute(array(
                 ':nom' => $name,
                 ':cashPrize' => $cashPrize,
@@ -41,11 +40,11 @@ class AdminDAO extends DAO
                 ':date' => $date.' '.$startingHour.':00'
             ));
             // Get the id of the tournament
-            $idTournament = $connection->lastInsertId();
+            $idTournament = $this->mysql->lastInsertId();
             // Insert the games in the database (Contenir table)
             foreach ($games as $game) {
                 $sql = "INSERT INTO Contenir (IdJeu, IdTournoi) VALUES (:jeu, :idTournoi)";
-                $stmt = $connection->prepare($sql);
+                $stmt =$this->mysql->prepare($sql);
                 $stmt->execute(array(
                     ':jeu' => $game,
                     ':idTournoi' => $idTournament
@@ -60,8 +59,7 @@ class AdminDAO extends DAO
     public function countNumberOrganization() :array{
         $sql = "SELECT count(*) as total FROM Ecurie";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -72,8 +70,7 @@ class AdminDAO extends DAO
     public function VerifIfTournamentExist(string $name):array{
         $sql = "SELECT count(*) as total FROM Tournois WHERE NomTournoi =$name";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
@@ -84,8 +81,7 @@ class AdminDAO extends DAO
     public function selectTournamentByName(string $name):array{
         $sql = "SELECT IdTournoi FROM Tournois WHERE NomTournoi =$name";
         try{
-            $mysql = parent::getConnection();
-            $stm = $mysql->prepare($sql);
+            $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){

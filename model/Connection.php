@@ -8,6 +8,7 @@ class Connection
     private string $identifiant;
     private static $instance = null;
     private array $accounts = array();
+    private $dao;
     //constructor
     private function __construct()
     {
@@ -15,6 +16,7 @@ class Connection
         $this->identifiant = "Guest";
         $this->accounts[Role::Administrator] = ["admin", "\$iutinfo"];
         $this->accounts[Role::Arbitre] = ["arbitre", "\$iutinfo"];
+        $this->dao= new UserDAO();
     }
     //get instance of the Connection
     public static function getInstance()
@@ -37,8 +39,7 @@ class Connection
                 $this->identifiant = $id;
             }
         } else {
-            $mysql = new UserDAO();
-            $data = $mysql->connectToWebsite($id,$role);
+            $data = $this->dao->connectToWebsite($id,$role);
             foreach ($data as $ligne) {
                 if ($ligne['MDPCompte'] == $password) {
                     $this->role = $role;

@@ -4,6 +4,7 @@
 require_once('./model/Connection.php');
 require_once('./model/Administrator.php');
 require_once('./model/Game.php');
+require_once('./model/Role.php');
 require_once('./model/Organization.php');
 require_once('./model/Tournament.php');
 require_once('./model/Team.php');
@@ -11,6 +12,7 @@ require_once('./model/Classement.php');
 $Admin = new Administrator();
 $connx = Connection::getInstance();
 $Tournament = new Tournament();
+$Equipes = new Team();
 if (isset($_GET['sedeconnecter'])) {
     $connx->disconnect();
 }
@@ -19,12 +21,7 @@ if (isset($_GET['page'])) {
     switch ($page) {
         case 'accueil':
             require('./view/headerview.php');
-            $buffer='./view/accueilview.php';
-            $tampon=str_replace("##CREERTOURNOI##","<button class='buttonM' onclick='window.location.href='./index.php?page=creertournoi''>Créer Tournoi</button>",$buffer);
-            $tampon2=str_replace("##CREERECURIE##","<button class='buttonM' onclick='window.location.href='./index.php?page=creerOrganization''>Créer Ecurie</button>",$buffer);
-            ob_start($tampon,$tampon2);
             require('./view/accueilview.php');
-            ob_end_flush();
             break;
         case 'connectionview':
             if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -38,7 +35,7 @@ if (isset($_GET['page'])) {
             require('./view/connectionview.php');
             break;
         case 'listetournoi':
-            $liste = $Tournois->allTournaments();
+            $liste = $Tournament->allTournaments();
             if (
                 isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || isset($_GET['prixmax'])
                 || isset($_GET['Notoriety']) || isset($_GET['lieu']) || isset($_GET['date'])
@@ -64,7 +61,7 @@ if (isset($_GET['page'])) {
                     $lieu = $_GET['lieu'];
                 }
                 try {
-                    $liste = $Tournois->tournoiDe($jeu, $nom, (int)$_GET['prixmin'], (int)$_GET['prixmax'], $Notoriety, $lieu, $date);
+                    $liste = $Tournament->tournoiDe($jeu, $nom, (int)$_GET['prixmin'], (int)$_GET['prixmax'], $Notoriety, $lieu, $date);
                 } catch (Exception $e) {
                     $e->getMessage(); // to verify
                 }
@@ -136,7 +133,6 @@ if (isset($_GET['page'])) {
         case 'listeequipe':
             require('./view/headerview.php');
             $identifiant = $connx->getIdentifiant();
-            $Equipes = new Team();
             if ($connx->getRole() == Role::Organization) {
                 $id = Organization::getIDbyAccountName($identifiant);
                 $listeE = $Equipes->getTeamList($id);
@@ -152,8 +148,8 @@ if (isset($_GET['page'])) {
             } else {
                 header('Location: ./index.php?page=listetournoi');
             }
-            $Tournois->allTournaments();
-            $tournoi = $Tournois->getTournament($idTournoi);
+            $Tournament->allTournaments();
+            $tournoi = $Tournament->getTournament($idTournoi);
             $PoolsJeux  =  $tournoi->getPools();
             if (isset($_GET['inscrire'])) {
                 $idEquipe = $_GET['inscrire'];
@@ -175,11 +171,9 @@ if (isset($_GET['page'])) {
             break;
         case 'detailsequipe':
             require('./view/headerview.php');
-            $Equipes = new Team();
             $Equipe = $Equipes->getTeam($_GET['IDE']);
             $Joueurs = $Equipe->getPlayers($_GET['IDE']);
-            $listeTournois = new Tournament();
-            $data=$listeTournois->tournamentsParticipatedByTeam($_GET['IDE']);
+            $data=$Tournament->tournamentsParticipatedByTeam($_GET['IDE']);
             require('./view/detailsequipeview.php');
             break;
         case 'score':
@@ -287,8 +281,7 @@ if (isset($_GET['page'])) {
             if(isset($_GET['score1']) && isset($_GET['score2'])){
                 try{
                     MatchJ::setScore($listePools[$idJeu],$_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
-                    $tournoi = new Tournament();
-                    $tournoi->allTournaments();
+                    $Tournament->allTournaments();
                     $idT = MatchJ::getIdTournamentByPool($_GET['poule']);
                     //vers DetailsTournoi.php?IDT=
                     header( 'Location:./index.php?page=detailstournoi&IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);

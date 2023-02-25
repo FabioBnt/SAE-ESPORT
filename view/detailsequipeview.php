@@ -43,8 +43,8 @@
                                 $i=0;
                                 while($i<4){ ?>
                                 <tr>
-                                    <td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>
-                                    <td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>
+                                    <td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>
+                                    <td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>
                                 </tr>
                                 <?php $i++;
                                 } ;
@@ -59,8 +59,8 @@
                                 }
                                 while($i<4){ ?>
                                     <tr>
-                                        <td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>
-                                        <td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>
+                                        <td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>
+                                        <td><img class='imgB' src='./img/inconnu.png' alt='Rien'></td>
                                     </tr>
                                     <?php $i++;
                                 };

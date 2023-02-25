@@ -3,10 +3,11 @@ require_once("./dao/DAO.php");
 //create an organization dao class
 class OrganizationDAO extends DAO
 {
+    private PDO $mysql;
     //constructor
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
+        $this->mysql=parent::getConnection();
     }
     // Create a team in the database (Equipe table)
     public function insertTeam(string $name, string $accountName, string $accountPassword,int $idGame, int $idOrganization): string
@@ -18,10 +19,9 @@ class OrganizationDAO extends DAO
             $accountName = htmlspecialchars($accountName);
             $accountPassword = htmlspecialchars($accountPassword);
             try {
-                $connection = parent::getConnection();
                 // Insert the team in the database (Equipe table)
                 $sql = "INSERT INTO Equipe (NomEquipe, NomCompte, MDPCompte,NbPointsE,IdJeu,IDEcurie) VALUES (:nom, :compte, :mdp,null,:idJeu,:idEcurie)";
-                $stmt = $connection->prepare($sql);
+                $stmt = $this->mysql->prepare($sql);
                 return $stmt->execute(
                     array(
                         ':nom' => $name,
@@ -47,10 +47,9 @@ class OrganizationDAO extends DAO
             $username = htmlspecialchars($username);
             $nationality = htmlspecialchars($nationality);
             try {
-                $connection = parent::getConnection();
                 // Insert the player in the database (Joueur table)
                 $sql = "INSERT INTO Joueur (Pseudo, Nationalite, IdEquipe) VALUES (:nom, :nationalite, :idEquipe)";
-                $stmt = $connection->prepare($sql);
+                $stmt = $this->mysql->prepare($sql);
                 return $stmt->execute(
                     array(
                         ':nom' => $username,
@@ -72,10 +71,9 @@ class OrganizationDAO extends DAO
             // Makes sure to avoid sql injections
             $accountName = htmlspecialchars($accountName);
             try {
-                $connection = parent::getConnection();
                 // Select the organization id in the database (Equipe table)
                 $sql = "SELECT IdEquipe FROM Equipe WHERE NomCompte = :compte";
-                $stmt = $connection->prepare($sql);
+                $stmt = $this->mysql->prepare($sql);
                 $stmt->execute(
                     array(
                         ':compte' => $accountName
@@ -90,18 +88,13 @@ class OrganizationDAO extends DAO
         return 0;
     }
     // Retrieve organization's information
-    public static function selectOrganization(int $id):array
+    public function selectOrganization(int $id):array
     {
-        $sql = "SELECT * FROM Ecurie WHERE IDEcurie = :id";
+        $sql = "SELECT * FROM Ecurie WHERE IDEcurie = $id";
         try {
-            $mysql = parent::getConnection();
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             $id = 
-            $stmt->execute(
-                array(
-                    ':id' => $id
-                )
-            );
+            $stmt->execute();
             return $stmt->fetchAll();
         } catch (Exception $e) {
             throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);

@@ -2,16 +2,17 @@
 require_once("./dao/DAO.php");
 //create an arbitrator dao class
 class ArbitratorDAO extends DAO {
+    private PDO $mysql;
     //constructor
     public function __construct() {
         parent::__construct();
+        $this->mysql=parent::getConnection();
     }
     //insert pool of a tournament for a game
     public function insertTournamentPool(int $numberPool,bool $isFinalPool,int $idGame,int $idTournament):string {
         try {
-            $mysql = parent::getConnection();
             $sql = "INSERT INTO Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi) VALUES (:numeroPoule, :estPouleFinale, :idJeu, :idTournoi)";
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return $stmt->execute(
                 array(':numeroPoule' => $numberPool,
@@ -26,8 +27,7 @@ class ArbitratorDAO extends DAO {
     public function selectTournamentPool(int $idGame,int $idTournament):array{
         $sql = "SELECT IdPoule FROM Poule WHERE IdJeu = :idJeu AND IdTournoi = :idTournoi";
         try{
-            $mysql = parent::getConnection();
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             $stmt->execute(array(':idJeu' => $idGame, ':idTournoi' => $idTournament));
             return $stmt->fetchAll();
         }catch(PDOException $e){
@@ -37,9 +37,8 @@ class ArbitratorDAO extends DAO {
     //insert match of a pool
     public function insertPoolMatch(int $idPool,int $numberM,string $dateM,string $hourM):string{
         try {
-            $mysql = parent::getConnection();
             $sql = "INSERT INTO MatchJ (IdPoule, Numero, dateM, HeureM) VALUES (:idPoule, :Numero, :dateM, :heureM)";
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return $stmt->execute(
                 array(':idPoule' => $idPool,
@@ -54,8 +53,7 @@ class ArbitratorDAO extends DAO {
     public function insertParticipantPool(int $idPool,int $idTeam):string{
         $sql = "INSERT INTO Faire_partie (IdPoule, IdEquipe) VALUES (:idPoule, :idEquipe)";
         try {
-            $mysql = parent::getConnection();
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return $stmt->execute(
                 array(':idPoule' => $idPool,
@@ -68,8 +66,7 @@ class ArbitratorDAO extends DAO {
     public function insertParticipantPoolMatch(int $idPool,int $idTeam,int $idTeam2,int $numberM):string{
         $sql = "INSERT INTO Concourir (IdEquipe, IdPoule, Numero, Score) VALUES (:idEquipe, :idPoule, :numero, :score)";
         try {
-            $mysql = parent::getConnection();
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return ($stmt->execute(
                 array(':idEquipe' => $idTeam,
@@ -89,8 +86,7 @@ class ArbitratorDAO extends DAO {
     public function updateTeamPoints(int $points,int $idTeam):string{
         $sql = "UPDATE Equipe SET NbPointsE = NbPointsE + :points WHERE IdEquipe = :idEquipe";
         try {
-            $mysql = parent::getConnection();
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return $stmt->execute(
                 array(':points' => $points,
@@ -103,8 +99,7 @@ class ArbitratorDAO extends DAO {
     public function setTeamPoints(int $points,int $idTeam):string{
         $sql = "UPDATE Equipe SET NbPointsE = :points WHERE IdEquipe = :idEquipe";
         try {
-            $mysql = parent::getConnection();
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return $stmt->execute(
                 array(':points' => $points,
@@ -117,8 +112,7 @@ class ArbitratorDAO extends DAO {
     public function selectIdTournoiByPool(int $idPool) : int{
         $sql = "SELECT IdTournoi FROM Poule WHERE IdPoule =$idPool";
         try{
-            $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             $data = $result->fetchAll();
             return  $data[0]['IdTournoi'];
@@ -130,8 +124,7 @@ class ArbitratorDAO extends DAO {
     public function selectIdJeuByPool(int $idPool): int{
         $sql = "SELECT IdJeu FROM Poule WHERE IdPoule =$idPool";
         try{
-            $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             $data = $result->fetchAll();
             return  $data[0]['IdJeu'];
@@ -141,11 +134,10 @@ class ArbitratorDAO extends DAO {
     }
     //select number of the pool by id pool and id team
     public function selectNumberOfPool(int $idPool,int $idTeam1,int $idTeam2):array{
-        $sql = "SELECT number FROM Concourir WHERE IdPoule = $idPool AND IdTeam = $idTeam1 AND number in
-        (SELECT number FROM Concourir WHERE IdPoule = $idPool AND IdTeam = $idTeam2)";
+        $sql = "SELECT number FROM Concourir WHERE IdPoule = $idPool AND IdEquipe = $idTeam1 AND number in
+        (SELECT number FROM Concourir WHERE IdPoule = $idPool AND IdEquipe = $idTeam2)";
         try{
-            $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             $data = $result->fetchAll();
             return  $data[0]['number'];
@@ -157,8 +149,7 @@ class ArbitratorDAO extends DAO {
     public function updateTeamScoreOnMatch(int $idPool,int $idTeam,int $score,int $number):string{
         $sql = "UPDATE Concourir SET Score = :score WHERE IdPoule = :IdPoule AND IdEquipe = :IdEquipe AND numero = :numero";
         try {
-            $mysql = parent::getConnection();
-            $stmt = $mysql->prepare($sql);
+            $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return $stmt->execute(
                 array(':score' => $score,
@@ -174,8 +165,7 @@ class ArbitratorDAO extends DAO {
     {
         $sql = "SELECT * FROM Concourir WHERE IdPoule = $idPool AND numero=$number";
         try{
-            $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
@@ -187,8 +177,7 @@ class ArbitratorDAO extends DAO {
     {
         $sql = "SELECT SUM(Score) as scoreS FROM Concourir WHERE IdPoule = $idPool AND IdEquipe=$idTeam";
         try{
-            $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             $data = $result->fetchAll();
             return $data[0]['scoreS'];
@@ -201,8 +190,7 @@ class ArbitratorDAO extends DAO {
     {
         $sql = "SELECT IdEquipe FROM Faire_partie WHERE IdPoule = $idPool";
         try{
-            $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
@@ -214,8 +202,7 @@ class ArbitratorDAO extends DAO {
     {
         $sql = "SELECT Score FROM Concourir WHERE IdPoule = $idPool AND IdEquipe = $idTeam and Numero = $number";
         try{
-            $mysql = parent::getConnection();
-            $result = $mysql->prepare($sql);
+            $result = $this->mysql->prepare($sql);
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){

@@ -513,7 +513,6 @@ header #deconnexion {
 #validerT {
   grid-row: 10;
   grid-column: 3;
-  justify-self: end; /* Aligner le bouton sur la droite */
 }
 #annulerT {
   grid-column: 1;
@@ -524,7 +523,7 @@ header #deconnexion {
   grid-row: 1;
 }
 #Tformi1 {
-  grid-column: 1 / span 2; /* Occuper 2 colonnes */
+  grid-column: 1;
   grid-row: 2;
 }
 #Tforml2 {
@@ -556,7 +555,7 @@ header #deconnexion {
   grid-row: 5;
 }
 #Tformi5 {
-  grid-column: 1 / span 2; /* Occuper 2 colonnes */
+  grid-column: 1;
   grid-row: 6;
 }
 #Tformt1 {

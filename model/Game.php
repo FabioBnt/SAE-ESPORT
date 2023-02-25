@@ -8,13 +8,15 @@ class Game
     private string $type;
     private string $time;
     private string $registerLimit;
+    private $dao;
     //constructor
-    public function __construct(int $id=0,string $name="",string $type="",string $time="",string $registerLimit=""){
+    public function __construct(int $id=0,string $name="",string $type="",string $time="",string $registerLimit="10"){
         $this->id = $id;
         $this->name = $name;
         $this->type = $type;
         $this->time = $time;
         $this->registerLimit = date($registerLimit);
+        $this->dao=new UserDAO();
     }
     //get Id of a game
     public function getId():string{
@@ -39,23 +41,23 @@ class Game
     //get all games
     public static function allGames():array
     {
-        $data = new UserDAO();
-        $data = $data->selectAllGames();
+        $dao=new UserDAO();
+        $data = $dao->selectAllGames();
         $jeux = array();
         foreach($data as $ligne){
-            $jeux[] = new Game($ligne['IdJeu'],$ligne['nomJeu'], $ligne['TypeJeu'], $ligne['tempsDeJeu'], $ligne['DateLimiteInscription']);
+            $jeux[] = new Game($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']);
         }
         return ($jeux);
     }
     //get game by id
     public static function getGameById($idGame):Game {
-        $dao= new UserDAO();
+        $dao=new UserDAO();
         return $dao->selectGameById($idGame);
     }
     //get game for organization not create
     public static function getGameTeamNotPlayed($idOrga):array
     {
-        $dao= new UserDAO();
+        $dao=new UserDAO();
         return $dao->selectGameTeamNotPlayed($idOrga);
     }
 }
