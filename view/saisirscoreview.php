@@ -20,8 +20,8 @@
                     <?php 
                         foreach ($listePools[$idJeu] as $Pool) {
                             $text = "";
-                            $num = $Pool->getNumero();
-                            if($Pool->estPoolFinale()){
+                            $num = $Pool->getNumber();
+                            if($Pool->isPoolFinale()){
                                 $text = "Finale";
                             }else{
                                 $text = $num;
@@ -71,7 +71,7 @@
                     <option default value="">--- Choisir l'équipe ---</option>
                     <?php 
                         foreach ($listePools[$idJeu] as $Pool) { 
-                            if($Pool->getNumero() == $_GET['Pool']){
+                            if($Pool->getNumber() == $_GET['Pool']){
                                 foreach($Pool->TeamsOfPool() as $equipe){
                                     $temp = '';
                                     if($equipe->getId() == $equipe1 ){
@@ -120,7 +120,7 @@
                     <option default value="">--- Choisir l'équipe ---</option>
                     <?php 
                         foreach ($listePools[$idJeu] as $Pool) { 
-                            if($Pool->getNumero() === $_GET['Pool']){
+                            if($Pool->getNumber() === $_GET['Pool']){
                                 foreach($Pool->TeamsOfPool() as $equipe){
                                     $temp = '';
                                     if($equipe->getId() == $equipe2 ){

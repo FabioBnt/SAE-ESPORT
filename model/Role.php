@@ -6,6 +6,6 @@ class Role
     const Administrator = 'Administrator';
     const Arbitre = 'Arbitre';
     const Organization = 'Organization';
-    const Equipe = 'Team';
+    const Team = 'Team';
 }
 ?>

@@ -1,30 +1,30 @@
 <?php
-require_once("./MatchJ.php");
+require_once("./model/MatchJ.php");
 //create a Pool
 class Pool
 {
-    private $id;
-    private $number;
-    private $matchs = array();
-    private $isFinal;
-    private $game;
+    private int $id;
+    private int $number;
+    private array $matchs = array();
+    private int $isFinal;
+    private int $game;
     //constructor
-    public function __construct($id, $number, $isFinal, $game){
+    public function __construct(int $id,int $number,int $isFinal,int $game){
         $this->id = $id;
         $this->number = $number;
         $this->isFinal = $isFinal;
         $this->game = $game;
     }
     //get id pool
-    public function getId(){
+    public function getId():int{
         return $this->id;
     }
     //get number of pool
-    public function getnumber(){
+    public function getnumber():int{
         return $this->number;
     }
     //know if pool is final or not
-    public function estPoolFinal(){
+    public function isPoolFinal():int{
         return $this->isFinal;
     }
     //get matchs of a pool
@@ -33,7 +33,7 @@ class Pool
         return $this->matchs;
     }
     //add a match on a pool
-    public function addMatch($number, $date, $hour, $teams): void
+    public function addMatch(int $number,string $date,string $hour,array $teams): void
     {
         $dao= new ArbitratorDAO();
         $data= $dao->addMatch($this->id,$number);
@@ -42,7 +42,7 @@ class Pool
         }
     }
     //récupérer la meilleur équipe de la Pool
-    public function BestTeamOfPool(){
+    public function BestTeamOfPool():Team{
         $teams = $this->TeamsOfPool();
             $best = null;
             $bestScore = -1;
@@ -58,7 +58,7 @@ class Pool
         return $best;
     }
     //récupérer la liste des meilleures équipes Top4
-    public function BestTeams(){
+    public function BestTeams():array{
         $teams = $this->TeamsOfPool();
         $result = [];
         while (count($teams)>1 ) {
@@ -83,7 +83,7 @@ class Pool
         return $result;
     }
     //récupérer le classement des équipes
-    public function classementTeams(){
+    public function classementTeams():array{
         $teams = $this->BestTeams();
         $classement = array();
         foreach ($teams as $team) {
@@ -92,7 +92,7 @@ class Pool
         return $classement;
     }
     //recover the number of matches won by a team in the Pool
-    public function nbMatchsWin($team): int
+    public function nbMatchsWin(int $team): int
     {
         $nb = 0;
         foreach ($this->matchs as $match) {
@@ -103,7 +103,7 @@ class Pool
         return $nb;
     }
     //get teams of pool
-    public function TeamsOfPool(){
+    public function TeamsOfPool():array{
         $dao= new ArbitratorDAO();
         $data= $dao->TeamOfPool($this->id);
         $teams = array();
@@ -113,7 +113,7 @@ class Pool
         return $teams;
     }
     //inputs 2 team ids from the same pool and outputs the id of the team with the most points
-    public function getDiffPoint ($n1, $n2 ) {
+    public function getDiffPoint (Team $n1,Team $n2) {
         $e1=$n1->getId();
         $e2=$n2->getId();
         $dao= new ArbitratorDAO();
@@ -138,7 +138,7 @@ class Pool
         return true;
     }
     //initialize match
-    public function setScoreMatch($number, $idTeam1, $idTeam2, $score1, $score2): void
+    public function setScoreMatch(int $number,int $idTeam1,int $idTeam2,int $score1,int $score2): void
     {
         $this->matchs[$number]->setEquipeScore($idTeam1, $score1);
         $this->matchs[$number]->setEquipeScore($idTeam2, $score2);

@@ -1,4 +1,5 @@
 <?php
+require_once("./dao/DAO.php");
 //create an organization dao class
 class OrganizationDAO extends DAO
 {
@@ -8,7 +9,7 @@ class OrganizationDAO extends DAO
         parent::__construct();
     }
     // Create a team in the database (Equipe table)
-    public function insertTeam(string $name, string $accountName, string $accountPassword,int $idGame, int $idOrganization): bool
+    public function insertTeam(string $name, string $accountName, string $accountPassword,int $idGame, int $idOrganization): string
     {
         // Checks if the parameters are strings
         if (is_string($name) && is_string($accountName) && is_string($accountPassword)) {
@@ -38,7 +39,7 @@ class OrganizationDAO extends DAO
         return false;
     }
     // Create a player in the database (Joueur table)
-    public function insertPlayer(string $username, string $nationality, int $teamID)
+    public function insertPlayer(string $username, string $nationality, int $teamID):string
     {
         // Checks if the parameters are strings and integers
         if (is_string($username) && is_string($nationality) && is_int($teamID)) {
@@ -50,7 +51,7 @@ class OrganizationDAO extends DAO
                 // Insert the player in the database (Joueur table)
                 $sql = "INSERT INTO Joueur (Pseudo, Nationalite, IdEquipe) VALUES (:nom, :nationalite, :idEquipe)";
                 $stmt = $connection->prepare($sql);
-                $stmt->execute(
+                return $stmt->execute(
                     array(
                         ':nom' => $username,
                         ':nationalite' => $nationality,
@@ -58,9 +59,10 @@ class OrganizationDAO extends DAO
                     )
                 );
             } catch (Exception $e) {
-                $e->getMessage();
+                return $e->getMessage();
             }
         }
+        return 0;
     }
     // Select an organization id by its account name
     public function selectOrganizationID(string $accountName): int
@@ -82,23 +84,27 @@ class OrganizationDAO extends DAO
                 $result = $stmt->fetch();
                 return $result['IdEquipe'];
             } catch (Exception $e) {
-                $e->getMessage();
+                throw new Exception("Error Processing Request select id ".$e->getMessage(), 1);
             }
         }
         return 0;
     }
     // Retrieve organization's information
-    public static function selectOrganization(int $id)
+    public static function selectOrganization(int $id):array
     {
-        $mysql = parent::getConnection();
         $sql = "SELECT * FROM Ecurie WHERE IDEcurie = :id";
-        $stmt = $mysql->prepare($sql);
-        $id = 
-        $stmt->execute(
-            array(
-                ':id' => $id
-            )
-        );
-        return $stmt->fetchAll();
+        try {
+            $mysql = parent::getConnection();
+            $stmt = $mysql->prepare($sql);
+            $id = 
+            $stmt->execute(
+                array(
+                    ':id' => $id
+                )
+            );
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+        }
     }
 }

@@ -2,45 +2,45 @@
 
 use function PHPUnit\Framework\assertSame;
 
-include_once(dirname(__DIR__) . '/model/');
-include_once(dirname(__DIR__) . '/model/Administrator.php');
-include_once (dirname(__DIR__) . '/model/Tournois.php');
-//créer un test details tournoi
-class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
-    private $mysql;
-    private Tournois $tournoi;
+require_once(dirname(__DIR__) . '/model/');
+require_once(dirname(__DIR__) . '/model/Administrator.php');
+require_once (dirname(__DIR__) . '/model/Tournament.php');
+require_once ("./dao/AdminDAO.php");
+require_once ("./dao/TeamDAO.php");
+//create a details team test
+class DetailsTeamTest extends \PHPUnit\Framework\TestCase {
+    private Tournament $tournoi;
     private Administrator $admin;
-    private Equipe $equipe;
-    //mettre en place
+    private Team $equipe;
+    //set up
     protected function setUp(): void {
-        $this->mysql = DAO::getInstance();
         $this->admin = new Administrator();
         Connection::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrator);
-        $this->tournoi = new Tournois();
+        $this->tournoi = new Tournament();
     } 
     //test
-    public function testnbtournoigagneEquipe() {
-        $pdo = $this->mysql->getPDO();
-        $pdo->beginTransaction();
-        $idJeu = 8;
-        $this->admin->creerTournoi('test',100,'Local','Toulouse','15:00','25/05/2023',array($idJeu));
-        $id = $this->mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
+    public function testnumberTournamentWin() {
+        $idGame = 8;
+        $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array($idGame));
+        $dao =new AdminDAO();
+        $daoT =new TeamDAO();
+        $id = $dao->selectTournamentByName("test");
         $this->tournoi->allTournaments();
         $t = $this->tournoi->getTournament($id[0]['IdTournoi']);
-        Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Equipe);
-        $idE = $this->mysql->select('IdEquipe','Equipe','where IdJeu = '.$idJeu);
+        Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Team);
+        $idE=$daoT->selectTeamByGame($idGame);
         $i = 0;
         while($i < 16){
-            $this->equipe = Equipe::getEquipe($idE[$i]['IdEquipe']);
-            $this->equipe->Inscrire($t);
+            $this->equipe = Team::getTeam($idE[$i]['IdEquipe']);
+            $this->equipe->register($t);
             $i++;
         }
         $id = $t->getIdTournament();
-        $Pools = $t->getPools()[$idJeu];
+        $Pools = $t->getPools()[$idGame];
         // last team
         $equipeT = $this->equipe;
-        $nbTng = $equipeT->getNbmatchG();
-        $gainTng = $equipeT->SommeTournoiG();
+        $nbTng = $equipeT->getNbmatchWin();
+        $gainTng = $equipeT->sumTournamentWin();
         foreach($Pools as $p) {
             $matchs = $p->getMatchs();
             $j = 0;
@@ -57,19 +57,19 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
                 }
                 $j++;
                 if ($j === 5) {
-                    $Pools = $t->getPools()[$idJeu];
+                    $Pools = $t->getPools()[$idGame];
                 }
             }
         }
         // select count of Pools
         // force generation of Pool finale
-        $t->generateFinalPool($id, $idJeu);
-        $Pools = $t->getPools()[$idJeu];
+        $t->generateFinalPool($id, $idGame);
+        $Pools = $t->getPools()[$idGame];
         foreach($Pools as $p) {
             $matchs = $p->getMatchs();
             $j = 0;
             $idp = ($p->getId() - '0');
-            if ($p->estPoolFinale()) {
+            if ($p->isPoolFinale()) {
                 foreach ($matchs as $m) {
                     // keys of teams
                     $keys = array_keys($m->getEquipes());
@@ -82,14 +82,13 @@ class DetailsEquipeTest extends \PHPUnit\Framework\TestCase {
                     }
                     $j++;
                     if ($j === 5) {
-                        $Pools = $t->getPools()[$idJeu];
+                        $Pools = $t->getPools()[$idGame];
                     }
                 }
             }
         }
-        $nbTournoiG = $equipeT->getNbmatchG();
-        $gainTournoiG = $equipeT->SommeTournoiG();
-        $pdo->rollBack();
+        $nbTournoiG = $equipeT->getNbmatchWin();
+        $gainTournoiG = $equipeT->sumTournamentWin();
         assertSame($nbTournoiG,$nbTng+1);
         assertSame($gainTournoiG,$gainTng+100);
     }

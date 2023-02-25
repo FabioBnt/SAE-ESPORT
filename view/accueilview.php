@@ -7,13 +7,13 @@
             <div id="divbutton">
                 ##CREERTOURNOI##
                 ##CREERECURIE##
-                <?php if($connx->getRole() == Role::Administrator):?>
+                <?php if($connx->getRole() == Role::Administrator){ ?>
                 <button class="buttonM" onclick="window.location.href='./index.php?page=creertournoi'">Créer Tournoi</button>
-                <?php endif;?>
+                <?php } ?>
                 <button class="buttonM" onclick="window.location.href='./index.php?page=listeequipe'">Liste des équipes</button>
-                <?php if($connx->getRole() == Role::Administrator):?>
+                <?php if($connx->getRole() == Role::Administrator){ ?>
                 <button class="buttonM" onclick="window.location.href='./index.php?page=creerecurie'">Créer Ecurie</button>
-                <?php endif;?>
+                <?php } ?>
                 
             </div>
         </div>

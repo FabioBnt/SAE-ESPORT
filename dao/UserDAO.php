@@ -1,4 +1,5 @@
 <?php
+require_once("./dao/DAO.php");
 //create a user dao class
 class UserDAO extends DAO{
     //constructor
@@ -6,8 +7,8 @@ class UserDAO extends DAO{
         parent::__construct();
     }
     //select tournaments with filter
-    public function selectTournaments($id=null, $tournamentName=null, $minPrize=null, $maxPrize=null,
-     $notoriety=null, $city=null, $dateTime=null, $idGame=null, $gameName=null, $dateLimit=null){
+    public function selectTournaments(int $id=null,string $tournamentName=null,int $minPrize=null,int $maxPrize=null,
+     string $notoriety=null,string $city=null,string $dateTime=null,int $idGame=null,string $gameName=null,string $dateLimit=null):array{
         $conds = "";
         $conds .= ($id != null) ? "T.IdTournoi = $id AND " : "";
         $conds .= ($tournamentName != null) ? "T.NomTournoi = '$tournamentName' AND " : "";
@@ -32,7 +33,7 @@ class UserDAO extends DAO{
         }
      }
      //select pool of a tournament
-     public function selectTournamentPools($idTournament){
+     public function selectTournamentPools(int $idTournament):array{
         $sql = "SELECT * FROM Poule P WHERE IdTournoi = $idTournament";
         try{
             $mysql = parent::getConnection();
@@ -44,7 +45,7 @@ class UserDAO extends DAO{
         }
      }
      //select match of a pool
-     public function selectTournamentPoolMatches($idPool){
+     public function selectTournamentPoolMatches(int $idPool):array{
         $sql = "SELECT * FROM MatchJ M WHERE M.IdPoule = $idPool";
         try{
             $mysql = parent::getConnection();
@@ -56,7 +57,7 @@ class UserDAO extends DAO{
         }
      }
      //select classement of a game 
-    public function selectRanking($idGame)
+    public function selectRanking(int $idGame):array
     {
         $idGame = (int) $idGame;
         $sql = "SELECT * FROM Equipe E WHERE E.IdJeu = $idGame ORDER BY E.NbPointsE DESC";
@@ -70,23 +71,33 @@ class UserDAO extends DAO{
         }
     }
     // Connect on the website
-    function connectToWebsite(string $id, $role)
+    function connectToWebsite(string $id,string $role):array
     {
-        $mysql = $this->getConnection();
         $sql = "SELECT MDPCompte FROM '$role' WHERE NomCompte = '$id'";
-        $result = $mysql->prepare($sql);
-        $result->execute();
-        return $result->fetchAll();
+        try{
+            $mysql = $this->getConnection();
+            $result = $mysql->prepare($sql);
+            $result->execute();
+            return $result->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select ranking ".$e->getMessage(), 1);
+        }
     }
     // Select all games in the database
-    public function selectAllGames()
+    public function selectAllGames():array
     {
-        $mysql = $this->getConnection();
-        $sql = "SELECT * FROM Game";
-        return $mysql->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM Jeu";
+        try{
+            $mysql = $this->getConnection();
+            $result = $mysql->prepare($sql);
+            $result->execute();
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select ranking ".$e->getMessage(), 1);
+        }
     }
     //select participants of a tournament
-    public function selectParticipants($idTournament){
+    public function selectParticipants(int $idTournament):array{
         $sql = "SELECT * FROM Participer P WHERE P.IdTournoi = $idTournament";
         try{
             $mysql = parent::getConnection();
@@ -98,7 +109,7 @@ class UserDAO extends DAO{
         }
     }
     //select team and game 
-    public function selectTeamGames($idTeam, $idGame=null){
+    public function selectTeamGames(int $idTeam,int $idGame=null):array{
         $sql = "SELECT * FROM Equipe E, Jeu J WHERE E.IdEquipe = $idTeam AND J.IdJeu = E.IdJeu";
         $sql .= ($idGame != null) ? " AND J.IdJeu = $idGame" : "";
         try{
@@ -111,7 +122,7 @@ class UserDAO extends DAO{
         }
     }
     //get game by id
-    public function selectGameById($idGame){
+    public function selectGameById(int $idGame):Game{
         $sql = "SELECT * FROM Jeu WHERE IdJeu = $idGame";
         try{
             $mysql = parent::getConnection();
@@ -125,7 +136,7 @@ class UserDAO extends DAO{
         }
     }
     //select game for organization not create
-    public static function selectGameTeamNotPlayed($idOrga)
+    public static function selectGameTeamNotPlayed(int $idOrga):array
     {
         $sql = "SELECT * FROM Jeu J WHERE J.IDjeu not in (SELECT E.IdJeu FROM Equipe E WHERE E.IDEcurie=$id)";
         try{
@@ -143,7 +154,7 @@ class UserDAO extends DAO{
         }
     }
     //select number participant of tournament
-    public function selectnumberParticipant($idgame,$idT){
+    public function selectnumberParticipant(int $idgame,int $idT):array{
         $sql = "SELECT count(e.IdEquipe) as total FROM Participer p, Equipe e WHERE p.IdTournoi =$idT AND e.IdEquipe = p.IdEquipe AND e.IdJeu =$idgame";
         try{
             $mysql = parent::getConnection();
@@ -154,8 +165,32 @@ class UserDAO extends DAO{
             throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
         }
     }
+    //select number of tournament
+    public function selectnumberTournament():array{
+        $sql = "SELECT count(IdTournoi) as total FROM Tournois";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+        }
+    }
+    //select number match of a pool of tournament
+    public function selectnumberMatchPool(int $idPool,int $idGame,int $idT):array{
+        $sql = "SELECT count(M.IdPoule) as total FROM MatchJ M, Poule P WHERE M.IdPoule = P.IdPoule AND P.IdTournoi = $idT AND P.IdJeu = $idGame AND P.IdPoule = $idPool";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+        }
+    }
     //select number pools for a game
-    public function selectnumberPools($idgame,$idT){
+    public function selectnumberPools(int $idgame,int $idT):array{
         $sql = "SELECT count(*) as total FROM Poule WHERE IdTournoi =$idT AND IdJeu =$idgame";
         try{
             $mysql = parent::getConnection();
@@ -167,7 +202,7 @@ class UserDAO extends DAO{
         }
     }
     //select cashprize by id tournament
-    public function selectCashPrizeById($idT){
+    public function selectCashPrizeById(int $idT):array{
         $sql = "SELECT T.CashPrize FROM Tournois T WHERE T.IdTournoi=$idT";
         try{
             $mysql = parent::getConnection();

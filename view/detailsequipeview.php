@@ -6,11 +6,11 @@
                 <div class="gridDetails">
                     <div id="EDgridl1">
                     <label ><b>Nom de l'équipe</b></label>
-                    <input type="text" name="nameE" value='<?php echo $Equipe->getNom(); ?>' readonly>
+                    <input type="text" name="nameE" value='<?php echo $Equipe->getName(); ?>' readonly>
                     </div>
                     <div id="EDgridl2">
                     <label ><b>Nom du Jeu</b></label>
-                    <input type="text" name="jeu" value='<?php echo $Equipe->getJeuN(); ?>' readonly>
+                    <input type="text" name="jeu" value='<?php echo $Equipe->getGameName(); ?>' readonly>
                     </div>
                     <div id="EDgridl3">
                     <label><b>Nom de l'écurie</b></label>
@@ -18,11 +18,11 @@
                     </div>
                     <div id="EDgridl5">
                     <label ><b>Nb Tournois Gagnés</b></label>
-                    <input type="text" name="nbtg" value='<?php echo $Equipe->getNbmatchG(); ?>' readonly>
+                    <input type="text" name="nbtg" value='<?php echo $Equipe->getNbmatchWin(); ?>' readonly>
                     </div>
                     <div id="EDgridl6">
                     <label ><b>Gains Totaux</b></label>
-                    <input type="text" name="gt" value='<?php echo $Equipe->SommeTournoiG(); ?>€' readonly>
+                    <input type="text" name="gt" value='<?php echo $Equipe->sumTournamentWin(); ?>€' readonly>
                     </div>
                     <div id="EDgridl7">
                     <label ><b>Nb Points</b></label>
@@ -38,45 +38,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($Joueurs as $J):?>
-                                <tr>
-                                  <td><?php echo $J['Pseudo'];?></td>
-                                  <td><?php echo $J['Nationalite'];?></td>
-                                </tr>
-                            <?php endforeach;?>
-                        </tbody>
-                        <tbody>
-                            <?php
-                            $mysql = DAO::getInstance();
-                            $data = $mysql->select("Pseudo,Nationalite",
-                             "Joueur J", "where J.IdEquipe= ".$idEquipe."");
-                             if($data==Null){
+                            <?php 
+                            if($data==null){
                                 $i=0;
-                                while($i<4){
-                                echo"<tr>";
-                                echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
-                                echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
-                                echo "</tr>";
-                                $i++;
+                                while($i<4){ ?>
+                                <tr>
+                                    <td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>
+                                    <td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>
+                                </tr>
+                                <?php $i++;
                                 } ;
-                            }else {
-                                    $ii=0;
-                                    foreach($data as $j){
-                                        echo "<tr>";
-                                        echo "<td>".$j[0]."</td>";
-                                        echo "<td>".$j[1]."</td>";
-                                        echo "</tr>";
-                                        $ii++;
-                                    };
-                                    while($ii<4){
-                                        echo"<tr>";
-                                        echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
-                                        echo "<td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>";
-                                        echo "</tr>";
-                                        $ii++;
-                                    };
+                            }else{
+                                $i=0;
+                                foreach ($Joueurs as $J){?>
+                                    <tr>
+                                    <td><?php echo $J['Pseudo'];?></td>
+                                    <td><?php echo $J['Nationalite'];?></td>
+                                    </tr>
+                                <?php $i++;
+                                }
+                                while($i<4){ ?>
+                                    <tr>
+                                        <td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>
+                                        <td><img class='imgB' src='../img/inconnu.png' alt='Rien'></td>
+                                    </tr>
+                                    <?php $i++;
                                 };
-                            ?>
+                            }?>
                         </tbody>
                     </table>
                 </div>
@@ -96,9 +84,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php 
-                $listeTournois = new Tournament();
-                $listeTournois->tournamentsParticipatedByTeam($idEquipe);?>
+                <?php foreach ($data as $T){?>
+                    <tr>
+                    <td><?php echo $T->getName();?></td>
+                    <td><?php echo $T->getCashPrize();?></td>
+                    <td><?php echo $T->getNotoriety();?></td>
+                    <td><?php echo $T->getLocation();?></td>
+                    <td><?php echo $T->getHourStart();?></td>
+                    <td><?php echo $T->getDate();?></td>
+                    <td><?php echo $T->getregisterDeadline();?></td>
+                    <td><?php echo $T->namesgames();?></td>
+                    <td><a href="./index.php?page=detailstournoi&IDT=<?php echo $T->getIdTournament()?>"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
+                    </tr>
+                <?php }?>
                 </tbody>
             </table>
         </div>

@@ -1,4 +1,5 @@
 <?php 
+require_once("./dao/DAO.php");
 //create an arbitrator dao class
 class ArbitratorDAO extends DAO {
     //constructor
@@ -6,86 +7,114 @@ class ArbitratorDAO extends DAO {
         parent::__construct();
     }
     //insert pool of a tournament for a game
-    public function insertTournamentPool($numberPool, $isFinalPool, $idGame, $idTournament) {
-        $mysql = parent::getConnection();
-        $sql = "INSERT INTO Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi) VALUES (:numeroPoule, :estPouleFinale, :idJeu, :idTournoi)";
-        $stmt = $mysql->prepare($sql);
-        // pass an array of values to the execute method
-        return $stmt->execute(
-            array(':numeroPoule' => $numberPool,
-                ':estPouleFinale' => $isFinalPool,
-                ':idJeu' => $idGame,
-                ':idTournoi' => $idTournament));
+    public function insertTournamentPool(int $numberPool,bool $isFinalPool,int $idGame,int $idTournament):string {
+        try {
+            $mysql = parent::getConnection();
+            $sql = "INSERT INTO Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi) VALUES (:numeroPoule, :estPouleFinale, :idJeu, :idTournoi)";
+            $stmt = $mysql->prepare($sql);
+            // pass an array of values to the execute method
+            return $stmt->execute(
+                array(':numeroPoule' => $numberPool,
+                    ':estPouleFinale' => $isFinalPool,
+                    ':idJeu' => $idGame,
+                    ':idTournoi' => $idTournament));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
     //select tournament pool by game and id tournament
-    public function selectTournamentPool($idGame, $idTournament){
-        $mysql = parent::getConnection();
+    public function selectTournamentPool(int $idGame,int $idTournament):array{
         $sql = "SELECT IdPoule FROM Poule WHERE IdJeu = :idJeu AND IdTournoi = :idTournoi";
-        $stmt = $mysql->prepare($sql);
-        $stmt->execute(array(':idJeu' => $idGame, ':idTournoi' => $idTournament));
-        return $stmt->fetchAll();
+        try{
+            $mysql = parent::getConnection();
+            $stmt = $mysql->prepare($sql);
+            $stmt->execute(array(':idJeu' => $idGame, ':idTournoi' => $idTournament));
+            return $stmt->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+        }
     }
     //insert match of a pool
-    public function insertPoolMatch($idPool, $numberM, $dateM, $hourM){
-        $mysql = parent::getConnection();
-        $sql = "INSERT INTO MatchJ (IdPoule, Numero, dateM, HeureM) VALUES (:idPoule, :Numero, :dateM, :heureM)";
-        $stmt = $mysql->prepare($sql);
-        // pass an array of values to the execute method
-        return $stmt->execute(
-            array(':idPoule' => $idPool,
-                ':numero' => $numberM,
-                ':dateM' => $dateM,
-                ':heureM' => $hourM));
+    public function insertPoolMatch(int $idPool,int $numberM,string $dateM,string $hourM):string{
+        try {
+            $mysql = parent::getConnection();
+            $sql = "INSERT INTO MatchJ (IdPoule, Numero, dateM, HeureM) VALUES (:idPoule, :Numero, :dateM, :heureM)";
+            $stmt = $mysql->prepare($sql);
+            // pass an array of values to the execute method
+            return $stmt->execute(
+                array(':idPoule' => $idPool,
+                    ':numero' => $numberM,
+                    ':dateM' => $dateM,
+                    ':heureM' => $hourM));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
     //insert particpant of a pool
-    public function insertParticipantPool($idPool, $idTeam){
-        $mysql = parent::getConnection();
+    public function insertParticipantPool(int $idPool,int $idTeam):string{
         $sql = "INSERT INTO Faire_partie (IdPoule, IdEquipe) VALUES (:idPoule, :idEquipe)";
-        $stmt = $mysql->prepare($sql);
-        // pass an array of values to the execute method
-        return $stmt->execute(
-            array(':idPoule' => $idPool,
-                ':idEquipe' => $idTeam));
+        try {
+            $mysql = parent::getConnection();
+            $stmt = $mysql->prepare($sql);
+            // pass an array of values to the execute method
+            return $stmt->execute(
+                array(':idPoule' => $idPool,
+                    ':idEquipe' => $idTeam));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
     //insert participant of a match on a pool
-    public function insertParticipantPoolMatch($idPool, $idTeam, $idTeam2, $numberM){
-        $mysql = parent::getConnection();
+    public function insertParticipantPoolMatch(int $idPool,int $idTeam,int $idTeam2,int $numberM):string{
         $sql = "INSERT INTO Concourir (IdEquipe, IdPoule, Numero, Score) VALUES (:idEquipe, :idPoule, :numero, :score)";
-        $stmt = $mysql->prepare($sql);
-        // pass an array of values to the execute method
-        return ($stmt->execute(
-            array(':idEquipe' => $idTeam,
-                ':idPoule' => $idPool,
-                ':numero' => $numberM,
-                ':score' => NULL))
-        && $stmt->execute(
-            array(':idEquipe' => $idTeam2,
-                ':idPoule' => $idPool,
-                ':numero' => $numberM,
-                ':score' => NULL)));
+        try {
+            $mysql = parent::getConnection();
+            $stmt = $mysql->prepare($sql);
+            // pass an array of values to the execute method
+            return ($stmt->execute(
+                array(':idEquipe' => $idTeam,
+                    ':idPoule' => $idPool,
+                    ':numero' => $numberM,
+                    ':score' => NULL))
+            && $stmt->execute(
+                array(':idEquipe' => $idTeam2,
+                    ':idPoule' => $idPool,
+                    ':numero' => $numberM,
+                    ':score' => NULL)));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
     //update points of a team
-    public function updateTeamPoints($points, $idTeam){
-        $mysql = parent::getConnection();
+    public function updateTeamPoints(int $points,int $idTeam):string{
         $sql = "UPDATE Equipe SET NbPointsE = NbPointsE + :points WHERE IdEquipe = :idEquipe";
-        $stmt = $mysql->prepare($sql);
-        // pass an array of values to the execute method
-        return $stmt->execute(
-            array(':points' => $points,
-                ':idEquipe' => $idTeam));
+        try {
+            $mysql = parent::getConnection();
+            $stmt = $mysql->prepare($sql);
+            // pass an array of values to the execute method
+            return $stmt->execute(
+                array(':points' => $points,
+                    ':idEquipe' => $idTeam));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
     //initialise points of a team
-    public function setTeamPoints($points, $idTeam){
-        $mysql = parent::getConnection();
+    public function setTeamPoints(int $points,int $idTeam):string{
         $sql = "UPDATE Equipe SET NbPointsE = :points WHERE IdEquipe = :idEquipe";
-        $stmt = $mysql->prepare($sql);
-        // pass an array of values to the execute method
-        return $stmt->execute(
-            array(':points' => $points,
-                ':idEquipe' => $idTeam));
+        try {
+            $mysql = parent::getConnection();
+            $stmt = $mysql->prepare($sql);
+            // pass an array of values to the execute method
+            return $stmt->execute(
+                array(':points' => $points,
+                    ':idEquipe' => $idTeam));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
     //select ID tournament by his id pool
-    public function selectIdTournoiByPool($idPool) : int{
+    public function selectIdTournoiByPool(int $idPool) : int{
         $sql = "SELECT IdTournoi FROM Poule WHERE IdPoule =$idPool";
         try{
             $mysql = parent::getConnection();
@@ -98,7 +127,7 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select id game by id pool
-    public function selectIdJeuByPool($idPool): int{
+    public function selectIdJeuByPool(int $idPool): int{
         $sql = "SELECT IdJeu FROM Poule WHERE IdPoule =$idPool";
         try{
             $mysql = parent::getConnection();
@@ -111,7 +140,7 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select number of the pool by id pool and id team
-    public function selectNumberOfPool($idPool,$idTeam1,$idTeam2){
+    public function selectNumberOfPool(int $idPool,int $idTeam1,int $idTeam2):array{
         $sql = "SELECT number FROM Concourir WHERE IdPoule = $idPool AND IdTeam = $idTeam1 AND number in
         (SELECT number FROM Concourir WHERE IdPoule = $idPool AND IdTeam = $idTeam2)";
         try{
@@ -125,19 +154,23 @@ class ArbitratorDAO extends DAO {
         }
     }
     //update score of a team on a match
-    public function updateTeamScoreOnMatch($idPool,$idTeam,$score,$number){
-        $mysql = parent::getConnection();
+    public function updateTeamScoreOnMatch(int $idPool,int $idTeam,int $score,int $number):string{
         $sql = "UPDATE Concourir SET Score = :score WHERE IdPoule = :IdPoule AND IdEquipe = :IdEquipe AND numero = :numero";
-        $stmt = $mysql->prepare($sql);
-        // pass an array of values to the execute method
-        return $stmt->execute(
-            array(':score' => $score,
-                ':IdPoule' => $idPool,
-                ':IdEquipe' => $idTeam,
-                ':numero' => $number));
+        try {
+            $mysql = parent::getConnection();
+            $stmt = $mysql->prepare($sql);
+            // pass an array of values to the execute method
+            return $stmt->execute(
+                array(':score' => $score,
+                    ':IdPoule' => $idPool,
+                    ':IdEquipe' => $idTeam,
+                    ':numero' => $number));
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
     //add a match on a pool
-    public function addMatch($idPool,$number)
+    public function addMatch(int $idPool,int $number):array
     {
         $sql = "SELECT * FROM Concourir WHERE IdPoule = $idPool AND numero=$number";
         try{
@@ -150,7 +183,7 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select sum score of a team for a pool
-    public function SumScoreTeam($idPool,$idTeam)
+    public function SumScoreTeam(int $idPool,int $idTeam):int
     {
         $sql = "SELECT SUM(Score) as scoreS FROM Concourir WHERE IdPoule = $idPool AND IdEquipe=$idTeam";
         try{
@@ -164,9 +197,22 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select team of a pool
-    public function TeamOfPool($idPool)
+    public function TeamOfPool(int $idPool):array
     {
         $sql = "SELECT IdEquipe FROM Faire_partie WHERE IdPoule = $idPool";
+        try{
+            $mysql = parent::getConnection();
+            $result = $mysql->prepare($sql);
+            $result->execute();
+            return $result->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+        }
+    }
+    //select score of a team
+    public function selectScoreOfaTeam(int $idPool,int $idTeam,int $number):array
+    {
+        $sql = "SELECT Score FROM Concourir WHERE IdPoule = $idPool AND IdEquipe = $idTeam and Numero = $number";
         try{
             $mysql = parent::getConnection();
             $result = $mysql->prepare($sql);

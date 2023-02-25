@@ -9,7 +9,7 @@
             </div>
             <div>
                 <h3> Filtre de recherche : </h3>
-                <form action="./index.php" class="RechercheL" method="GET">
+                <form action="./index.php?page=listetournoi" class="RechercheL" method="GET">
                     <input type="text" name="page" value="listetournoi" hidden>
                     Jeu : <label>
                         <input type="text" name="jeu" value="">
@@ -49,19 +49,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($liste as $T):?>
+                <?php foreach ($liste as $T){?>
                     <tr>
-                    <td><?php echo $T->getNom();?></td>
+                    <td><?php echo $T->getName();?></td>
                     <td><?php echo $T->getCashPrize();?></td>
                     <td><?php echo $T->getNotoriety();?></td>
-                    <td><?php echo $T->getLieu();?></td>
+                    <td><?php echo $T->getLocation();?></td>
                     <td><?php echo $T->getHourStart();?></td>
                     <td><?php echo $T->getDate();?></td>
-                    <td><?php echo $T->getDateLimiteInscription();?></td>
-                    <td><?php echo $T->nomsJeux();?></td>
+                    <td><?php echo $T->getregisterDeadline();?></td>
+                    <td><?php echo $T->namesgames();?></td>
                     <td><a href="./index.php?page=detailstournoi&IDT=<?php echo $T->getIdTournament()?>"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                     </tr>
-                <?php endforeach;?>
+                <?php }?>
                 </tbody>
             </table>
         </div>

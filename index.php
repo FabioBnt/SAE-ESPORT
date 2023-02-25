@@ -5,6 +5,7 @@ require_once('./model/Connection.php');
 require_once('./model/Administrator.php');
 require_once('./model/Game.php');
 require_once('./model/Organization.php');
+require_once('./model/Tournament.php');
 require_once('./model/Team.php');
 require_once('./model/Classement.php');
 $Admin = new Administrator();
@@ -83,7 +84,7 @@ if (isset($_GET['page'])) {
             require('./view/headerview.php');
             require('./view/classementview.php');
             break;
-        case 'creerOrganization':
+        case 'creerecurie':
             require('./view/headerview.php');
             //if we are not connected as admin then we are redirected to the home page
             if ($connx->getRole() != Role::Administrator) {
@@ -167,6 +168,9 @@ if (isset($_GET['page'])) {
                 header('Location:./index.php?page=score&IDJ=' . $_GET['IDJ'] . '&NomT=' . $_GET['NomT'] . '&JeuT=' . $_GET['JeuT'] . '&valide');
                 exit();
             }
+            $nomCompteEquipe = $connx->getIdentifiant();
+            $idEquipe=Team::getTeamIDByAccountName($id);
+            $equipe = Team::getTeam($idEquipe);
             require('./view/detailstournoiview.php');
             break;
         case 'detailsequipe':
@@ -174,6 +178,8 @@ if (isset($_GET['page'])) {
             $Equipes = new Team();
             $Equipe = $Equipes->getTeam($_GET['IDE']);
             $Joueurs = $Equipe->getPlayers($_GET['IDE']);
+            $listeTournois = new Tournament();
+            $data=$listeTournois->tournamentsParticipatedByTeam($_GET['IDE']);
             require('./view/detailsequipeview.php');
             break;
         case 'score':
@@ -248,7 +254,7 @@ if (isset($_GET['page'])) {
             if ($connx->getRole() == Role::Arbitre && isset($listePools[$idJeu])) {
                 $PoolFinaleExiste = false;
                 foreach ($listePools[$idJeu] as $Pool) {
-                    if ($Pool->estPoolFinale()) {
+                    if ($Pool->isPoolFinale()) {
                         $PoolFinaleExiste = true;
                         if (!$Pool->checkIfAllScoreSet()) {
                             $saisirScore = true;

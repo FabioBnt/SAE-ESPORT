@@ -20,27 +20,27 @@
                 if($i==5){
                     echo'Finale';
                     $PoolF= $Pool;
-                }else{echo $i;};
-                echo '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
-                foreach ($Pool->getMatchs() as $match){
-                    echo "<tr>";
-                    foreach ($this->scores as $key => $ligneValue) {
-                        $equipe = $this->equipes[$key];
-                        echo "<td>", $equipe, "</td>";
-                        if($ligneValue == null){
-                            echo "<td>", 'TBD', "</td>"; 
-                        }else{
-                            echo "<td>", $ligneValue, "</td>"; 
-                        }
-                    }
-                    echo "</tr>";
-                }
-                echo '</tbody></table>';
-            }
-        }else{
-            echo '<h2 class=\'buttonE\' style=\'position: absolute; top: 85%; width: 80%; left: 50%;
-            transform: translate(-55%, -60%);\'> Le tournoi n\'a pas encore commencé </h2>';
-        }
+                }else{echo $i;}; ?>
+                </th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>
+                <?php foreach ($Pool->getMatchs() as $match){ ?>
+                    <tr>
+                    <?php foreach ($this->scores as $key => $ligneValue) {
+                        $equipe = $this->equipes[$key]; ?>
+                        <td><?php echo $equipe;?></td>
+                        <?php if($ligneValue == null){ ?>
+                            <td>TBD</td> 
+                        <?php }else{ ?>
+                            <td><?php echo $ligneValue;?></td> 
+                        <?php }
+                    } ?>
+                    </tr> <?php
+                } ?>
+                </tbody></table>
+            <?php }
+        }else{ ?>
+            <h2 class='buttonE' style='position: absolute; top: 85%; width: 80%; left: 50%;
+            transform: translate(-55%, -60%);'> Le tournoi n'a pas encore commencé </h2>
+        <?php }
         if($PoolF!=null){
             if($PoolF->checkIfAllScoreSet()){
                 
@@ -61,14 +61,12 @@
                     if($i==5){
                         $p = $Pool -> BestTeams();
                         $in=1;
-                        foreach($p as $e){
-                            echo "<tr>";
-                            echo "<td>$in</td>";
-                            echo "<td>";
-                            echo $e->getNom();
-                            echo "</td>";
-                            echo "</tr>";
-                            $in++;
+                        foreach($p as $e){ ?>
+                            <tr>
+                                <td><?php echo $in;?></td>
+                                <td><?php echo $e->getNom();?></td>
+                            </tr>
+                            <?php $in++;
                         }
                     }
                 }

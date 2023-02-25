@@ -12,13 +12,13 @@
                             $selected = "";
                         }
                         ?>
-                        <option value="<?php echo $jeu->getId(); ?>" <?php echo $selected; ?>><?php echo $jeu->getNom(); ?></option>
+                        <option value="<?php echo $jeu->getId(); ?>" <?php echo $selected; ?>><?php echo $jeu->getName(); ?></option>
                     <?php } ?>
                 </select>
                 <input class="buttonE" type="submit" value="Valider">
             </form>
             <?php if(isset($_GET['jeuC'])){?>
-               <h1>Classement du jeu <?php echo Game::getGameById($_GET['jeuC'])->getNom(); ?></h1>
+               <h1>Classement du jeu <?php echo Game::getGameById($_GET['jeuC'])->getName(); ?></h1>
             <?php } ?>
             <div>
                 <table>
@@ -36,14 +36,11 @@
                                 $i = 1;
                                 foreach ($listeEquipes as $equipe) {
                                     $equipe = new Team($equipe['IdEquipe'], $equipe['NomE'], $equipe['NbPointsE'], $equipe['IDEcurie'], $equipe['IdJeu']);
-                                    //$infoEquipe = $equipe->listeInfoClassement();
                                     ?>
                                     <tr>
                                     <td><?php echo $i++; ?></td>
-                                    <?php foreach ($infoEquipe as $colValue) { ?>
-                                            <td><?php echo $colValue;?></td>
-                                    <?php } ?>
-
+                                    <td><?php echo $equipe->getname(); ?></td>
+                                    <td><?php echo $equipe->getPoints(); ?></td>
                                     <td><a href='index.php?page=detailsequipe&IDE="<?php echo $equipe->getId(); ?>"'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                                     </tr>
                         <?php   }

@@ -1,4 +1,5 @@
 <?php
+require_once("./dao/DAO.php");
 //create an admin class for dao
 class AdminDAO extends DAO
 {
@@ -8,24 +9,24 @@ class AdminDAO extends DAO
         parent::__construct();
     }
     // Insert an organization in the database (Ecurie table)
-    public function insertOrganization(string $name, string $account, string $pwd, string $type)
+    public function insertOrganization(string $name, string $account, string $pwd, string $type) :string
     {
         try {
             $connection = parent::getConnection();
             $sql = "INSERT INTO Ecurie (Designation, TypeE, NomCompte, MDPCompte) VALUES (:nom, :type, :compte, :mdp)";
             $stmt = $connection->prepare($sql);
-            $stmt->execute(array(
+            return $stmt->execute(array(
                 ':nom' => $name,
                 ':type' => $type,
                 ':compte' => $account,
                 ':mdp' => $pwd
             ));
         } catch (Exception $e) {
-            $e->getMessage();
+            return $e->getMessage();
         }
     }
     // Create a tournament in the database (Tournois table)
-    public function insertTournament(string $name, int $cashPrize, string $notoriety, string $city, string $startingHour, string $date, array $games): void
+    public function insertTournament(string $name, int $cashPrize, string $notoriety, string $city, string $startingHour, string $date, array $games): string
     {
         try {
             $connection = parent::getConnection();
@@ -50,8 +51,45 @@ class AdminDAO extends DAO
                     ':idTournoi' => $idTournament
                 ));
             }
+            return 1;
         } catch (Exception $e) {
-            $e->getMessage();
+            return $e->getMessage();
+        }
+    }
+    //count number of organization
+    public function countNumberOrganization() :array{
+        $sql = "SELECT count(*) as total FROM Ecurie";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+        }
+    }
+    //verif if tournament exist
+    public function VerifIfTournamentExist(string $name):array{
+        $sql = "SELECT count(*) as total FROM Tournois WHERE NomTournoi =$name";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+        }
+    }
+    //select tournament by name
+    public function selectTournamentByName(string $name):array{
+        $sql = "SELECT IdTournoi FROM Tournois WHERE NomTournoi =$name";
+        try{
+            $mysql = parent::getConnection();
+            $stm = $mysql->prepare($sql);
+            $stm->execute();
+            return $stm->fetchAll();
+        }catch(PDOException $e){
+            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
-require_once("./Role.php");
-require_once("../dao/UserDAO.php");
+require_once("./model/Role.php");
+require_once("./dao/UserDAO.php");
 //create a connection
 class Connection
 {
@@ -28,14 +28,8 @@ class Connection
         }
         return $_SESSION[self::class];
     }
-    /**
-     * @param string $id
-     * @param string $password
-     * @param $role
-     * @return void
-     */
     //connection session
-    function establishConnection(string $id, string $password,string $role)
+    function establishConnection(string $id, string $password,string $role):void
     {
         if ($role == Role::Administrator || $role == Role::Arbitre) {
             if ($this->accounts[$role][0] == $id && $this->accounts[$role][1] == $password) {
@@ -62,23 +56,23 @@ class Connection
         return self::$instance;
     }
     // disconnect session
-    public function disconnect()
+    public function disconnect():void
     {
         $this->role = Role::Visiteur;
         $this->identifiant = "Guest";
     }
     // if get role of the connection is the role param
-    public function IfgetRoleConnection(string $role)
+    public function IfgetRoleConnection(string $role):bool
     {
         return ($this->getRole() == $role);
     }
     //get identifiant of the connection
-    function getIdentifiant()
+    function getIdentifiant():string
     {
         return $this->identifiant;
     }
     //get role of the connection
-    function getRole()
+    function getRole():string
     {
         return $this->role;
     }

@@ -21,10 +21,10 @@
                     </select>
                     <label id="Tformt2">Jeux</label>
                     <div id="jeux">
-                        <?php foreach ($listeJeux as $jeu):?>
+                        <?php foreach ($listeJeux as $jeu){?>
                             <!-- echo '<div><input type="checkbox" name="jeuT[]" value="' . $jeu->getId() . '"> ' . $jeu->getNom() . '</div>'; -->
-                        <div><input type="checkbox" name="jeuT[]" value="' . <?php $jeu->getId() ?> . '"><?php echo $jeu->getNom()?> </div>
-                        <?php endforeach;?>
+                        <div><input type="checkbox" name="jeuT[]" value="' . <?php $jeu->getId() ?> . '"><?php echo $jeu->getName()?> </div>
+                        <?php }?>
                     </div>
                     <input type="submit" class="buttonE" id="validerT" value='VALIDER' name="submit">
                     <input type="button" class="buttonE" id="annulerT" value='ANNULER' onclick="window.location.href='./index.php?page=accueil'">

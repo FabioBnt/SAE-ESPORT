@@ -1,30 +1,30 @@
 <?php
-require_once ("../dao/userDAO.php");
-require_once ("./Pool.php");
-require_once ("./Notoriety.php");
+require_once ("./dao/userDAO.php");
+require_once ("./model/Pool.php");
+require_once ("./model/Notoriety.php");
 //comparator Team
-function comparatorTeam(Team $e1, Team $e2) {
+function comparatorTeam(Team $e1, Team $e2):bool {
     return ($e1->getPoints() > $e2->getPoints());
 }
 //create Tournament
 class Tournament
 {
-    private $id;
-    private $name;
-    private $cashPrize;
-    private $Notoriety;
-    private $location;
-    private $registerDeadline;
+    private int $id;
+    private string $name;
+    private string $cashPrize;
+    private string $Notoriety;
+    private string $location;
+    private string $registerDeadline;
     private $Pools = null;
-    private $games = array();
-    private $dateHour;
+    private array $games = array();
+    private string $dateHour;
     private $userDao;
     private $arbitratorDao;
     private $teamDao;
-    private $tournaments;
-    private $posMap;
+    private array $tournaments;
+    private array $posMap;
     //constructor
-    public function __construct($id=null, $name=null, $cashPrize=null, $Notoriety=null, $location=null, $datehour=null, $idandGame=null){
+    public function __construct(int $id=0,string $name="",string $cashPrize="",string $Notoriety="",string $location="",string $datehour="",array $idandGame=array("",new Game())){
         $this->id =$id;
         $this->name = $name;
         $this->cashPrize = $cashPrize;
@@ -41,7 +41,7 @@ class Tournament
         
     }
     //calculate dead line register
-    private function calculateDeadline($hourDateStart): void
+    private function calculateDeadline(string $hourDateStart): void
     {
         // on prend le numero de jours le plus grand entre les games de tournoi
         $maxDay = reset($this->games)->getregisterlimit();
@@ -67,49 +67,50 @@ class Tournament
         }
     }
     //update tournaments list
-    private function updateListOfTournaments($data){
+    private function updateListOfTournaments(array $data):void{
         $this->tournaments = array();
         $this->posMap = array();
         $last = -1;
         $index = -1;
         foreach ($data as $ligne) {
             if($last != $ligne['IdTournoi']){ 
-                $this->tournaments[] = new Tournoi($ligne['IdTournoi'],$ligne['NomTournoi'], $ligne['CashPrize'],
+                $this->tournaments[] = new Tournament($ligne['IdTournoi'],$ligne['NomTournoi'], $ligne['CashPrize'],
                 $ligne['Notoriete'], $ligne['Lieu'], $ligne['DateHeureTournois'], 
-                array($ligne['IdJeu'], new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
+                array($ligne['IdJeu'], new Game($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription'])));
                 $last = $ligne['IdTournoi'];
                 $index+=1;
             }else{
-                $this->tournaments[$this->posMap[$ligne['IdTournoi']]]->addGame($ligne['IdJeu'],new Jeu($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
+                $this->tournaments[$this->posMap[$ligne['IdTournoi']]]->addGame($ligne['IdJeu'],new Game($ligne['IdJeu'],$ligne['NomJeu'], $ligne['TypeJeu'], $ligne['TempsDeJeu'], $ligne['DateLimiteInscription']));
             }
             $this->posMap[$ligne['IdTournoi']] =  $index;
         }
     }
     //get all tournaments
-    public function allTournaments()
+    public function allTournaments():array
     {
         $this->updateListOfTournaments($this->userDao->selectTournaments());
         return $this->tournaments;
     }
     //get tournaments of a team
-    public function tournamentsParticipatedByTeam($idEquipe)
+    public function tournamentsParticipatedByTeam(int $idEquipe):array
     {
         $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe));
         return $this->tournaments;
     }
     //get tournaments don't play by team
-    public function tournamentsSuggestedByTeam($idEquipe, $idGame)
+    public function tournamentsSuggestedByTeam(int $idEquipe,int $idGame):array
     {
-        $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe, $idGame,$this->dateHeure));
+        $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe, $idGame,$this->dateHour));
         return $this->tournaments;
     }
     //get tournaments (filter)
-    public function tournoiDe(string $gameName=null, string $tournamentName=null, float $minPrize=null, float $maxPrize=null, string $notoriety=null, string $city=null, string $dateTime=null)
+    public function tournoiDe(string $gameName=null, string $tournamentName=null, float $minPrize=null, float $maxPrize=null, string $notoriety=null, string $city=null, string $dateTime=null):array
     { 
         $this->updateListOfTournaments($this->userDao->selectTournaments(null,$tournamentName, $minPrize, $maxPrize, $notoriety, $city, $dateTime, $gameName, null));
+        return $this->tournaments;
     }
     //get tournament by id
-    public function getTournament($id){
+    public function getTournament(int $id):Tournament{
         return $this->tournaments[$this->posMap[$id]];
     }
     //get pools of tournament
@@ -129,7 +130,7 @@ class Tournament
         }
     }
     //generate pool of a game
-    public function generatePools($idgame): void
+    public function generatePools(int $idgame): void
     {
         if(!array_key_exists($idgame, $this->games)){
             throw new Exception('Le jeu n\'appartient pas au tournoi');
@@ -160,7 +161,7 @@ class Tournament
         $this->insertConcourir($teamsPools);
     }
     //generate final pool
-    public static function generateFinalPool($idT, $idgame): void
+    public static function generateFinalPool(int $idT,int $idgame): void
     {
         // tournament
         $tournament = self::getTournament($idT);
@@ -186,7 +187,7 @@ class Tournament
         $tournament->insertConcourir($teamsPools);
     }
     // insert concourir fonction
-    public function insertConcourir($teamsPools){
+    public function insertConcourir(array $teamsPools){
         foreach($teamsPools as $key => $value){
             $n = 1;
             while(count($value) < 4){
@@ -218,7 +219,7 @@ class Tournament
         }
     }
     //Recover the best teams of a game from the Pools (not final)
-    public function BestTeamPoolsNotFinal($game)
+    public function BestTeamPoolsNotFinal(int $game):array
     {
         $teams = array();
         $Pools = $this->getPools()[$game];
@@ -228,7 +229,7 @@ class Tournament
         return $teams;
     }
     //update points on tournament
-    public static function updatePointsTournament($idT, $idJ)
+    public static function updatePointsTournament(int $idT,int $idJ):void
     {
         // multiplier local 1 national 2 inter 3 only on final pool 100 60 30 10 for final pool 5 per match won
         $tournament = self::getTournament($idT);
@@ -237,7 +238,7 @@ class Tournament
         $teams = array();
         $Poolfin = array();
         foreach($Pools as $Pool){
-            if($Pool->estPoolFinale()){
+            if($Pool->isPoolFinale()){
                 $Poolfin = $Pool;
                 $teams = $Pool->classementTeams();
             }
@@ -270,35 +271,35 @@ class Tournament
         }
     }
     //get name tournament
-    public function getname(){
+    public function getname():string{
         return $this->name;
     }
     //get notoriety tournament
-    public function getNotoriety(){
+    public function getNotoriety():string{
         return $this->Notoriety;
     }
     //get location tournament
-    public function getlocation(){
+    public function getlocation():string{
         return $this->location;
     }
     //get cashprize tournament
-    public function getCashPrize(){
+    public function getCashPrize():string{
         return $this->cashPrize;
     }
     //get date hour tournament
-    public function getdateHour(){
+    public function getdateHour():string{
         return $this->dateHour;
     }
     //get games of tournament
-    public function getgames(){
+    public function getgames():array{
         return $this->games;
     }
     //get date tournament
-    public function getDate(){
+    public function getDate():string{
         return date("d/m/y" ,strtotime($this->dateHour));
     }
     //get hour tournament
-    public function getHourStart(){
+    public function getHourStart():string{
         $datetime = new DateTime($this->dateHour);
         $datetime->setTimezone(new DateTimeZone('Europe/London'));
         return $datetime->format("H:i:s");
@@ -314,28 +315,28 @@ class Tournament
         return $namegames;
     }
     //add game on tournament
-    public function addGame($id,$game){
+    public function addGame(int $id,Game $game):void{
         $this->games[$id] = $game;
     }
     //get id tournament
-    public function getIdTournament(){
+    public function getIdTournament():int{
         return $this->id;
     }
     //recover the registration deadline
-    public function getregisterDeadline(){
+    public function getregisterDeadline():string{
         return $this->registerDeadline;
     }
     //saw if the tournament contains a game
-    public function haveGame(Game $game){
+    public function haveGame(int $game):bool{
         foreach($this->games as $j){
-            if($j->getId() == $game->getId()){
+            if($j->getId() == $game){
                 return true;
             }
         }
         return false;
     }
     //returns the participating teams of the tournament
-    public function TeamsOfPoolParticipants($idgame = null){
+    public function TeamsOfPoolParticipants():array{
         $teams = array();
         $data = $this->userDao->selectParticipants($this->getIdTournament());
         
@@ -349,14 +350,14 @@ class Tournament
         return $teams;
     }
     //get pools
-    public function getPools(){
+    public function getPools():array{
         $this->verifiyingPools();
         $this->Pools = array();
         $this->getsPools();
         return $this->Pools;
     }
     //get number of participant
-    public function getNumberParticipant($idgame){
+    public function getNumberParticipant(int $idgame):bool{
         $data=$this->userDao->selectnumberParticipant($idgame,$this->getIdTournament());
         if(isset($data[0]) && $data[0] != null){
             return $data[0]['total']-'0';
@@ -365,7 +366,7 @@ class Tournament
         }
     }
     //get number of pool
-    public function getNumberPools($idgame){
+    public function getNumberPools(int $idgame):bool{
         $totalPools=$this->userDao->selectnumberPools($idgame,$this->getIdTournament());
         if(isset($totalPools[0]) && $totalPools[0] != null){
             return $totalPools[0]['total']-'0';
