@@ -5,8 +5,7 @@ class TeamDAO extends DAO {
     private PDO $mysql;
     //constructor
     public function __construct() {
-        parent::__construct();
-        $this->mysql=parent::getConnection();
+        $this->mysql=parent::getInstance()->getConnection();
     }
     //select tournaments where a team played
     public function selectTournamentsForTeam(string $idTeam=null,string $idGame=null,string $dateT=null):array{

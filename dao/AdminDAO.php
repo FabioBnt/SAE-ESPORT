@@ -6,8 +6,7 @@ class AdminDAO extends DAO
     private PDO $mysql;
     //constructor
     public function __construct() {
-        parent::__construct();
-        $this->mysql=parent::getConnection();
+        $this->mysql=parent::getInstance()->getConnection();;
     }
     // Insert an organization in the database (Ecurie table)
     public function insertOrganization(string $name, string $account, string $pwd, string $type) :string

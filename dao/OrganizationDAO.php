@@ -6,8 +6,7 @@ class OrganizationDAO extends DAO
     private PDO $mysql;
     //constructor
     public function __construct() {
-        parent::__construct();
-        $this->mysql=parent::getConnection();
+        $this->mysql=parent::getInstance()->getConnection();;
     }
     // Create a team in the database (Equipe table)
     public function insertTeam(string $name, string $accountName, string $accountPassword,int $idGame, int $idOrganization): string

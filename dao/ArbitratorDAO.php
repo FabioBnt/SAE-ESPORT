@@ -5,8 +5,7 @@ class ArbitratorDAO extends DAO {
     private PDO $mysql;
     //constructor
     public function __construct() {
-        parent::__construct();
-        $this->mysql=parent::getConnection();
+        $this->mysql=parent::getInstance()->getConnection();;
     }
     //insert pool of a tournament for a game
     public function insertTournamentPool(int $numberPool,bool $isFinalPool,int $idGame,int $idTournament):string {

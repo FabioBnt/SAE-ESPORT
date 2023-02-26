@@ -6,8 +6,7 @@ class UserDAO extends DAO{
     private PDO $mysql;
     //constructor
     public function __construct() {
-        parent::__construct();
-        $this->mysql=parent::getConnection();
+        $this->mysql=parent::getInstance()->getConnection();
     }
     //select tournaments with filter
     public function selectTournaments(int $id=null,string $tournamentName=null,int $minPrize=null,int $maxPrize=null,

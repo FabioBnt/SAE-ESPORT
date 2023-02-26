@@ -26,7 +26,7 @@ class Tournament
     private array $tournaments;
     private array $posMap;
     //constructor
-    public function __construct(int $id=0,string $name="",string $cashPrize="",string $Notoriety="",string $location="",string $datehour="now",array $idandGame=array("",new Game())){
+    public function __construct(int $id=0,string $name="",string $cashPrize="",string $Notoriety="",string $location="",string $datehour="now",array $idandGame=array("",null)){
         $this->id =$id;
         $this->name = $name;
         $this->cashPrize = $cashPrize;
@@ -39,7 +39,8 @@ class Tournament
         $this->userDao = new UserDAO();
         $this->teamDao = new TeamDAO();
         $this->arbitratorDao = new ArbitratorDao();
-        $this->calculateDeadline($datehour);        
+        if($datehour != "now")
+            $this->calculateDeadline($datehour);        
     }
     //calculate dead line register
     private function calculateDeadline(string $hourDateStart): void
