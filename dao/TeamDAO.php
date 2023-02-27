@@ -121,9 +121,9 @@ class TeamDAO extends DAO {
         }
     }
     //select players of a team by his id
-    public function selectTeamIDByAccountName(int $id):array
+    public function selectTeamIDByAccountName(string $accountName):array
     {
-        $sql = "SELECT * FROM Equipe E where E.NomCompte=$id";
+        $sql = "SELECT * FROM Equipe E where E.NomCompte='$accountName'";
         try{
             $result = $this->mysql->prepare($sql);
             $result->execute();

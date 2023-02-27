@@ -8,28 +8,16 @@ if (isset($_GET['page'])) {
                 isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || isset($_GET['prixmax'])
                 || isset($_GET['Notoriety']) || isset($_GET['lieu']) || isset($_GET['date'])
             ) {
-                $jeu = "";
-                $nom = "";
-                $date = "";
-                $lieu = "";
-                $Notoriety = "";
-                if ($_GET['jeu']) {
-                    $jeu = $_GET['jeu'];
-                }
-                if ($_GET['nom']) {
-                    $nom = $_GET['nom'];
-                }
-                if ($_GET['date']) {
-                    $date = $_GET['date'];
-                }
-                if ($_GET['Notoriety']) {
-                    $Notoriety = $_GET['Notoriety'];
-                }
-                if ($_GET['lieu']) {
-                    $lieu = $_GET['lieu'];
-                }
+                // if not empty value of the input else null
+                $jeu = !empty($_GET['jeu']) ? $_GET['jeu'] : null;
+                $nom = !empty($_GET['nom']) ? $_GET['nom'] : null;
+                $prixmin = !empty($_GET['prixmin']) ? $_GET['prixmin'] : null;
+                $prixmax = !empty($_GET['prixmax']) ? $_GET['prixmax'] : null;
+                $notoriety = !empty($_GET['Notoriety']) ? $_GET['Notoriety'] : null;
+                $lieu = !empty($_GET['lieu']) ? $_GET['lieu'] : null;
+                $date = !empty($_GET['date']) ? $_GET['date'] : null; 
                 try {
-                    $liste = $Tournament->tournoiDe($jeu, $nom, (int)$_GET['prixmin'], (int)$_GET['prixmax'], $Notoriety, $lieu, $date);
+                    $liste = $Tournament->tournoiDe($jeu, $nom, $prixmin, $prixmax, $notoriety, $lieu, $date);
                 } catch (Exception $e) {
                     $e->getMessage(); // to verify
                 }
@@ -92,7 +80,7 @@ if (isset($_GET['page'])) {
                 exit();
             }
             $nomCompteEquipe = $connx->getIdentifiant();
-            $idEquipe=Team::getTeamIDByAccountName($id);
+            $idEquipe = Team::getTeamIDByAccountName($nomCompteEquipe);
             $equipe = Team::getTeam($idEquipe);
             require('./view/detailstournoiview.php');
             break;

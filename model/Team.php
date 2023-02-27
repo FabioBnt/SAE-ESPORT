@@ -215,9 +215,9 @@ class Team
         }
     }
     //get team by his id
-    public static function getTeamIDByAccountName(int $id):int
+    public static function getTeamIDByAccountName(string $accountName):int
     {
         $dao= new TeamDAO();
-        return $dao->selectTeamIDByAccountName($id)[0];
+        return $dao->selectTeamIDByAccountName($accountName)[0];
     }
 }

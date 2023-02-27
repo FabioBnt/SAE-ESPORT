@@ -10,18 +10,20 @@ class UserDAO extends DAO{
     }
     //select tournaments with filter
     public function selectTournaments(int $id=null,string $tournamentName=null,int $minPrize=null,int $maxPrize=null,
-     string $notoriety=null,string $city=null,string $dateTime=null,int $idGame=null,string $gameName=null,string $dateLimit=null):array{
+     string $notoriety=null,string $city=null,string $dateTime=null,string $gameName=null, int $idGame=null,string $dateLimit=null):array{
         $conds = "";
         $conds .= ($id != null) ? " AND T.IdTournoi = $id " : "";
-        $conds .= ($tournamentName != null) ? " AND T.NomTournoi = $tournamentName" : "";
+        $conds .= ($tournamentName != null) ? " AND Lower(T.NomTournoi) like Lower('%$tournamentName%')" : "";
         $conds .= ($minPrize != null) ? " AND T.CashPrize >= $minPrize " : "";
         $conds .= ($maxPrize != null) ? " AND T.CashPrize <= $maxPrize " : "";
-        $conds .= ($notoriety != null) ? " AND T.Lieu =$city " : "";
-        $conds .= ($city != null) ? " AND T.Lieu = $city" : "";
-        $conds .= ($dateTime != null) ? " AND T.DateHeureTournois = $dateTime " : "";
+        $conds .= ($notoriety != null) ? " AND T.Notoriete = '$notoriety' " : "";
+        $conds .= ($city != null) ? " AND Lower(T.Lieu) like Lower('%$city%')" : "";
+        // transform date to mysql date format
+        $dateTime = ($dateTime != null) ? date("Y-m-d", strtotime($dateTime)) : null;
+        $conds .= ($dateTime != null) ? " AND T.DateHeureTournois like '$dateTime%'" : "";
         $conds .= ($idGame != null) ? " AND J.IdJeu = $idGame" : "";
-        $conds .= ($dateLimit != null) ? "AND J.DateLimiteInscription =$dateLimit" : "";
-        $conds = substr($conds, 0, -4);
+        $conds .= ($gameName != null) ? " AND Lower(J.NomJeu) like Lower('%$gameName%')" : "";
+        $conds .= ($dateLimit != null) ? "AND J.DateLimiteInscription = $dateLimit" : "";
         $sql = "SELECT T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
          J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription
          FROM Tournois T, Contenir C, Jeu J WHERE C.IdJeu = J.IdJeu AND C.IdTournoi = T.IdTournoi ".$conds;

@@ -18,8 +18,12 @@
                         <input type="text" name="nom" value="">
                     </label>
                     Notoriété : <label>
-                        <input type="text" name="Notoriety" value="">
-                    </label>
+                        <select name="Notoriety">
+                            <option default value="">Tous</option>
+                            <option value="International">International</option>
+                            <option value="Local">Local</option>
+                            <option value="Regional">Regional</option>
+                        </select>
                     Date : <label>
                         <input type="date" name="date" value="">
                     </label><br>
