@@ -80,8 +80,10 @@ if (isset($_GET['page'])) {
                 exit();
             }
             $nomCompteEquipe = $connx->getIdentifiant();
-            $idEquipe = Team::getTeamIDByAccountName($nomCompteEquipe);
-            $equipe = Team::getTeam($idEquipe);
+            if ($connx->getRole() == Role::Team) {
+                $idEquipe = Team::getTeamIDByAccountName($nomCompteEquipe);
+                $equipe = Team::getTeam($idEquipe);
+            }
             require('./view/detailstournoiview.php');
             break;
         default:

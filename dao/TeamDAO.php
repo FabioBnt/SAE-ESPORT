@@ -127,7 +127,7 @@ class TeamDAO extends DAO {
         try{
             $result = $this->mysql->prepare($sql);
             $result->execute();
-            return $result->fetchAll();;
+            return $result->fetchAll();
         }catch(PDOException $e){
             throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
         }
