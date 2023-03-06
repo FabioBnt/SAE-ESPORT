@@ -42,6 +42,7 @@
                     }
                     ?>
                 </div>
+                <?php if($tournoi->TeamsOfPoolParticipants()!=array()){?>
                 <table id="Dgridt2">
                     <thead>
                         <tr>
@@ -58,6 +59,7 @@
                         <?php } ?>
                     </tbody>
                 </table>
+                <?php } ?>
                 <a href="./index.php?page=accueil" class="buttonE" id="Dgrida2">Retour</a>
             </div>
         </div>

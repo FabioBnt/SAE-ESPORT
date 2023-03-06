@@ -68,6 +68,7 @@
                         </tbody>
                     </table>
                 </div>
+                <?php if($data !=array()){ ?>
                 <table>
                 <thead>
                 <tr><th colspan="9">Liste des Tournois Participés</th></tr>    
@@ -96,9 +97,10 @@
                     <td><?php echo $T->namesgames();?></td>
                     <td><a href="./index.php?page=detailstournoi&IDT=<?php echo $T->getIdTournament()?>"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                     </tr>
-                <?php }?>
+                <?php } ?>
                 </tbody>
             </table>
+            <?php } ?>
         </div>
     </main>
 </body>
