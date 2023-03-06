@@ -1,4 +1,5 @@
-<?
+<?php
+$connx = Connection::getInstance();
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
     switch ($page) {
@@ -85,8 +86,8 @@ if (isset($_GET['page'])) {
                     $saisirScore = true;
                 }
             }
-            require('./view/headerview.php');
-            require('./view/scoreview.php');
+            require('./view/headerview.html');
+            require('./view/scoreview.html');
             break;
         case 'saisirscore':
             $listePools = null;
@@ -122,8 +123,8 @@ if (isset($_GET['page'])) {
             if(isset($_GET['erreur'])){
                 echo '<script>alert("'.$_GET['erreur'].'")</script>';
             }
-            require('./view/headerview.php');
-            require('./view/saisirscoreview.php');
+            require('./view/headerview.html');
+            require('./view/saisirscoreview.html');
             break;
         default:
             require('./controller/Accueilcontroller.php');

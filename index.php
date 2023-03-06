@@ -1,5 +1,5 @@
-<!--Contrôleur-->
-<!--parametre "page" pour recup qu'elle page on est-->
+<!-- Main Controller-->
+<!-- page parameter to know where we have to go -->
 <?php
 require_once('./model/Connection.php');
 require_once('./model/Administrator.php');
@@ -9,6 +9,27 @@ require_once('./model/Organization.php');
 require_once('./model/Tournament.php');
 require_once('./model/Team.php');
 require_once('./model/Classement.php');
+
+function headerCodeReplacer($buffer)
+{
+    $connx = Connection::getInstance();
+    $codeToReplace = array("##printCreateTournamentButton##", "##printCreateOrganizationButton##","##printConnectionButton##","##printHelloAndDisconnectButton##");
+    $replacementCode = array("", "", "", "");
+    if ($connx->getRole() == Role::Administrator) {
+        $replacementCode[0] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creertournoi'\">Créer Tournoi</button>";
+    }
+    if ($connx->getRole() == Role::Administrator) {
+        $replacementCode[1] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creerecurie'\">Créer Ecurie</button>";
+    }
+    if($connx->getRole() == Role::Visiteur){
+        $replacementCode[2] = "<a href=\"./index.php?page=connectionview\" id=\"Connection\">Se Connecter</a>";
+    }
+    if($connx->getRole() != Role::Visiteur){
+        $replacementCode[3] = "<h3 style=\"padding:0.6em;\">Bienvenue - " . $connx->getIdentifiant() . "</h3><a href=\"./index.php?page=accueil&sedeconnecter=true\" id=\"deconnexion\">Déconnexion</a>";
+    }
+    return (str_replace($codeToReplace, $replacementCode, $buffer));
+}
+ob_start("headerCodeReplacer");
 $Admin = new Administrator();
 $connx = Connection::getInstance();
 $Tournament = new Tournament();
@@ -62,4 +83,5 @@ if (isset($_GET['page'])) {
 } else {
     require('./controller/Accueilcontroller.php');
 }
+ob_end_flush();
 ?>
