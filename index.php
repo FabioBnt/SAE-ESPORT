@@ -13,18 +13,15 @@ require_once('./model/Classement.php');
 function headerCodeReplacer($buffer)
 {
     $connx = Connection::getInstance();
-    $codeToReplace = array("##printCreateTournamentButton##", "##printCreateOrganizationButton##","##printConnectionButton##","##printHelloAndDisconnectButton##");
+    $codeToReplace = array("##printCreateTournamentButton##", "##printCreateOrganizationButton##", "##printConnectionButton##", "##printHelloAndDisconnectButton##");
     $replacementCode = array("", "", "", "");
     if ($connx->getRole() == Role::Administrator) {
         $replacementCode[0] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creertournoi'\">Créer Tournoi</button>";
-    }
-    if ($connx->getRole() == Role::Administrator) {
         $replacementCode[1] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creerecurie'\">Créer Ecurie</button>";
     }
-    if($connx->getRole() == Role::Visiteur){
+    if ($connx->getRole() == Role::Visiteur) {
         $replacementCode[2] = "<a href=\"./index.php?page=connectionview\" id=\"Connection\">Se Connecter</a>";
-    }
-    if($connx->getRole() != Role::Visiteur){
+    } else if ($connx->getRole() != Role::Visiteur) {
         $replacementCode[3] = "<h3 style=\"padding:0.6em;\">Bienvenue - " . $connx->getIdentifiant() . "</h3><a href=\"./index.php?page=accueil&sedeconnecter=true\" id=\"deconnexion\">Déconnexion</a>";
     }
     return (str_replace($codeToReplace, $replacementCode, $buffer));

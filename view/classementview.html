@@ -21,21 +21,6 @@
                     </thead>
                     <tbody>
                         ##printTeamRanking##
-                        <?php 
-                            if(!empty($Classement)){
-                                $i = 1;
-                                foreach ($listeEquipes as $equipe) {
-                                    $equipe = new Team($equipe['IdEquipe'], $equipe['NomE'], $equipe['NbPointsE'], $equipe['IDEcurie'], $equipe['IdJeu']);
-                                    ?>
-                                    <tr>
-                                    <td><?php echo $i++; ?></td>
-                                    <td><?php echo $equipe->getname(); ?></td>
-                                    <td><?php echo $equipe->getPoints(); ?></td>
-                                    <td><a href='index.php?page=detailsequipe&IDE="<?php echo $equipe->getId(); ?>"'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
-                                    </tr>
-                        <?php   }
-                            }
-                         ?>
                     </tbody>
                 </table>
             </div>

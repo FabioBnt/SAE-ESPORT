@@ -6,7 +6,7 @@
                     <label id="Tforml1"><b>Nom du tournoi</b></label>
                     <input id="Tformi1" type="text" placeholder="Entrer le nom du tournoi" name="name" required>
                     <label id="Tforml2"><b>Date</b></label>
-                    <input id="Tformi2" type="date" name="date" min="<?php echo $date; ?>" value="<?php echo $date; ?>" required>
+                    ##DATETournament##
                     <label id="Tforml3"><b>Heure</b></label>
                     <input id="Tformi3" type="time" name="heure" required>
                     <label id="Tforml4"><b>Lieu</b></label>
@@ -21,10 +21,7 @@
                     </select>
                     <label id="Tformt2">Jeux</label>
                     <div id="jeux">
-                        <?php foreach ($listeJeux as $jeu){?>
-                            <!-- echo '<div><input type="checkbox" name="jeuT[]" value="' . $jeu->getId() . '"> ' . $jeu->getNom() . '</div>'; -->
-                        <div><input type="checkbox" name="jeuT[]" value="' . <?php $jeu->getId() ?> . '"><?php echo $jeu->getName()?> </div>
-                        <?php }?>
+                        ##GameListTournament##
                     </div>
                     <input type="submit" class="buttonE" id="validerT" value='VALIDER' name="submit">
                     <input type="button" class="buttonE" id="annulerT" value='ANNULER' onclick="window.location.href='./index.php?page=accueil'">

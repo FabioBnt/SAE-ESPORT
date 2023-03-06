@@ -23,12 +23,12 @@ class Classement
         return $this->classement;
     }
     //get tournament classement for a game id
-    public function returnRanking(int $idGame): array
+    public function returnRanking(): array
     {
         $this->classement = array();
-        $data = $this->dao->selectRanking($idGame);
+        $data = $this->dao->selectRanking($this->game);
         foreach($data as $ligne){
-            $this->classement[] = $ligne;
+            $this->classement[] = new Team($ligne['IdEquipe'],$ligne['NomE'], $ligne['NbPointsE'],$ligne['IDEcurie'],$ligne['IdJeu']);
         }
         return  $this->classement;
     }

@@ -20,7 +20,7 @@ class UserDAO extends DAO{
         $conds .= ($city != null) ? " AND Lower(T.Lieu) like Lower('%$city%')" : "";
         // transform date to mysql date format
         $dateTime = ($dateTime != null) ? date("Y-m-d", strtotime($dateTime)) : null;
-        $conds .= ($dateTime != null) ? " AND T.DateHeureTournois like '$dateTime%'" : "";
+        $conds .= ($dateTime != null) ? " AND T.DateHeureTournois like '%$dateTime%'" : "";
         $conds .= ($idGame != null) ? " AND J.IdJeu = $idGame" : "";
         $conds .= ($gameName != null) ? " AND Lower(J.NomJeu) like Lower('%$gameName%')" : "";
         $conds .= ($dateLimit != null) ? "AND J.DateLimiteInscription = $dateLimit" : "";

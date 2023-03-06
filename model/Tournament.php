@@ -106,7 +106,7 @@ class Tournament
         return $this->tournaments;
     }
     //get tournaments (filter)
-    public function tournoiDe(string $gameName=null, string $tournamentName=null, float $minPrize=null, float $maxPrize=null, string $notoriety=null, string $city=null, string $dateTime=null):array
+    public function tournamentsFilter(string $gameName=null, string $tournamentName=null, float $minPrize=null, float $maxPrize=null, string $notoriety=null, string $city=null, string $dateTime=null):array
     { 
         $this->updateListOfTournaments($this->userDao->selectTournaments(null,$tournamentName, $minPrize, $maxPrize, $notoriety, $city, $dateTime, $gameName, null));
         return $this->tournaments;

@@ -323,7 +323,7 @@ header #deconnexion {
 .RechercheL {
   padding-left: 15px;
 }
-.RechercheL input {
+.RechercheL input,.RechercheL select {
   border: solid 1px;
   border-radius: 5px;
   padding: 0.5em;
