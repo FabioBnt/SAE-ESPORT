@@ -1,6 +1,6 @@
 <?php
 require_once("./dao/UserDAO.php");
-require_once ("./model/Game.php");
+require_once("./model/Game.php");
 //create a classement
 class Classement
 {
@@ -8,7 +8,8 @@ class Classement
     public array $classement = array();
     private $dao;
     //constructor
-    public function __construct(int $game){
+    public function __construct(int $game)
+    {
         $this->game = $game;
         $this->dao = new UserDAO();
     }
@@ -27,9 +28,9 @@ class Classement
     {
         $this->classement = array();
         $data = $this->dao->selectRanking($this->game);
-        foreach($data as $ligne){
-            $this->classement[] = new Team($ligne['IdEquipe'],$ligne['NomE'], $ligne['NbPointsE'],$ligne['IDEcurie'],$ligne['IdJeu']);
+        foreach ($data as $ligne) {
+            $this->classement[] = new Team($ligne['IdEquipe'], $ligne['NomE'], $ligne['NbPointsE'], $ligne['IDEcurie'], $ligne['IdJeu']);
         }
-        return  $this->classement;
+        return $this->classement;
     }
 }

@@ -17,6 +17,7 @@ class Connection
         $this->accounts[Role::Arbitre] = ["arbitre", "\$iutinfo"];
     }
     //get instance of the Connection
+        
     public static function getInstance()
     {
         if (session_status() == PHP_SESSION_NONE) {
