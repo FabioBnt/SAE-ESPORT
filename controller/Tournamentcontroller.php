@@ -129,8 +129,10 @@ if (isset($_GET['page'])) {
         case 'detailstournoi':
             function CreateTournamentCodeReplace($buffer)
             {
-                $codeToReplace = array("####","####","####","####","####","####","####","####","####");
-                $replacementCode = array();
+                $codeToReplace = array("##GETNAMETOURNAMENT##","##GETDATETOURNAMENT##","##GETHOURTOURNAMENT##",
+                "##GETLOCATIONTOURNAMENT##","##GETCASHPRIZETOURNAMENT##","##GETNOTORIETYTOURNAMENT##","##GETGAMESTOURNAMENT##",
+                "##GETREGISTERTOURNAMENT##","##GETPARTICIPANTTOURNAMENT##");
+                $replacementCode = array("","","","","","","","","");
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
             require('./view/headerview.html');
