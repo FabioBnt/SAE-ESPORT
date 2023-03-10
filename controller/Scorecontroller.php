@@ -4,23 +4,99 @@ if (isset($_GET['page'])) {
     $page = $_GET['page'];
     switch ($page) {
         case 'score':
-            $listePools = null;
-            $nomTournoi = null;
-            $nomJeu = null;
-            $idJeu = null;
-            if (isset($_GET['valide'])) {
-                echo '<script>alert("Score enregistré")</script>';
-            }
-            if (isset($_GET['IDJ'])) {
-                $listePools = $_SESSION['jeu' . $_GET['IDJ']];
-                $nomTournoi = $_GET['NomT'];
-                $nomJeu = $_GET['JeuT'];
-                $idJeu = $_GET['IDJ'];
-            } else {
-                $listePools = array();
-                $nomTournoi = "Inconnu";
-                $nomJeu = 'Jeu Inconnu';
+            function ScoreCodeReplacer($buffer)
+            {
+                $connx = Connection::getInstance();
+                $codeToReplace = array("##TOURNAMENTNAME##", "##TOURNAMENTGAME##", "##BUTTONMODIFYSCORE##",
+                 "##POULELISTIFEXIST##", "##CLASSEMENTIFFINALPOULE##");
+                $replacementCode = array("", "", "", "", "");
+                $listePools = null;
+                $nomTournoi = null;
+                $nomJeu = null;
                 $idJeu = null;
+                if (isset($_GET['IDJ'])) {
+                    $listePools = $_SESSION['jeu' . $_GET['IDJ']];
+                    $nomTournoi = $_GET['NomT'];
+                    $nomJeu = $_GET['JeuT'];
+                    $idJeu = $_GET['IDJ'];
+                } else {
+                    $listePools = array();
+                    $nomTournoi = "Inconnu";
+                    $nomJeu = 'Jeu Inconnu';
+                    $idJeu = null;
+                }
+                $replacementCode[0] = $nomTournoi;
+                $replacementCode[1] = $nomJeu;
+                $saisirScore = false;
+                if ($connx->getRole() == Role::Arbitre && isset($listePools)) {
+                    $PoolFinaleExiste = false;
+                    foreach ($listePools as $Pool) {
+                        if ($Pool->isPoolFinale()) {
+                            $PoolFinaleExiste = true;
+                            if (!$Pool->checkIfAllScoreSet()) {
+                                $saisirScore = true;
+                            }
+                        }
+                    }
+                    if (!$PoolFinaleExiste) {
+                        $saisirScore = true;
+                    }
+                }
+                if ($saisirScore) {
+                    $replacementCode[2] = '<a href="index.php?page=saisirscore&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Modification</a>';
+                }
+                $i = 0;
+                $PoolF = null;
+                if (!empty($listePools)) {
+                    foreach ($listePools as $Pool) {
+                        $i++;
+                        $replacementCode[3] .= '<table id="tableS' . $i . '"><thead><tr><th colspan="4">Poule';
+                        if ($i == 5) {
+                            $replacementCode[3] .= 'Finale';
+                            $PoolF = $Pool;
+                        } else {
+                            $replacementCode[3] .= $i;
+                        }
+                        $replacementCode[3] .= '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
+                        foreach ($Pool->getMatchs() as $match) {
+                            $replacementCode[3] .= '<tr>';
+                            foreach ($match->getScores() as $key => $ligneValue) {
+                                $equipe = $match->getEquipes()[$key];
+                                $replacementCode[3] .= '<td>' . $equipe . '</td>';
+                                if ($ligneValue == null) {
+                                    $replacementCode[3] .= '<td>TBD</td>';
+                                } else {
+                                    $replacementCode[3] .= '<td>' . $ligneValue . '</td>';
+                                }
+                            }
+                            $replacementCode[3] .= '</tr>';
+                        }
+                        $replacementCode[3] .= '</tbody></table>';
+                    }
+                } else {
+                    $replacementCode[3] .= '<h2 class="buttonE" style="position: absolute; top: 85%; width: 80%; left: 50%;
+                    transform: translate(-55%, -60%);"> Le tournoi n\'a pas encore commencé </h2>';
+                }
+                if ($PoolF != null) {
+                    if ($PoolF->checkIfAllScoreSet()) {
+                        $replacementCode[4] .= '<table id="tableS6"><thead><tr><th>Classement</th><th>Place</th></tr></thead><tbody>';
+                        $i = 0;
+                        foreach ($listePools as $Pool) {
+                            $i++;
+                            if ($i == 5) {
+                                $p = $Pool->BestTeams();
+                                $in = 1;
+                                foreach ($p as $e) {
+                                    $replacementCode[4] .= '<tr><td>' . $in . '</td><td>' . $e->getNom() . '</td></tr>';
+                                    $in++;
+                                }
+                            }
+                        }
+                        $replacementCode[4] .= '</tbody></table>';
+                    }
+                }
+
+                return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
             // //uncomment to test
             // if(isset($_GET['test'])){
@@ -71,23 +147,13 @@ if (isset($_GET['page'])) {
             //     $nomJeu = $t->getJeux()[$idJeu]->getNom();
             //     $pdo->rollBack();
             // }
-            $saisirScore = false;
-            if ($connx->getRole() == Role::Arbitre && isset($listePools[$idJeu])) {
-                $PoolFinaleExiste = false;
-                foreach ($listePools[$idJeu] as $Pool) {
-                    if ($Pool->isPoolFinale()) {
-                        $PoolFinaleExiste = true;
-                        if (!$Pool->checkIfAllScoreSet()) {
-                            $saisirScore = true;
-                        }
-                    }
-                }
-                if (!$PoolFinaleExiste) {
-                    $saisirScore = true;
-                }
+            if (isset($_GET['valide'])) {
+                echo '<script>alert("Score enregistré")</script>';
             }
             require('./view/headerview.html');
+            ob_start("ScoreCodeReplacer");
             require('./view/scoreview.html');
+            ob_end_flush();
             break;
         case 'saisirscore':
             $listePools = null;
@@ -107,7 +173,7 @@ if (isset($_GET['page'])) {
             }
             if(isset($_GET['score1']) && isset($_GET['score2'])){
                 try{
-                    MatchJ::setScore($listePools[$idJeu],$_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
+                    MatchJ::setScore($listePools,$_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
                     $Tournament->allTournaments();
                     $idT = MatchJ::getIdTournamentByPool($_GET['poule']);
                     //vers DetailsTournoi.php?IDT=
