@@ -39,8 +39,11 @@ class Tournament
         $this->userDao = new UserDAO();
         $this->teamDao = new TeamDAO();
         $this->arbitratorDao = new ArbitratorDao();
-        if($datehour != "now")
+        if($datehour != "now"){
             $this->calculateDeadline($datehour);        
+        } else {
+        $this->dateHour= time();
+        }
     }
     //calculate dead line register
     private function calculateDeadline(string $hourDateStart): void
@@ -99,7 +102,7 @@ class Tournament
         $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe));
         return $this->tournaments;
     }
-    //get tournaments don't play by team
+    //get tournaments not played by a team for a game
     public function tournamentsSuggestedByTeam(int $idEquipe,int $idGame):array
     {
         $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe, $idGame,$this->dateHour));

@@ -55,12 +55,13 @@ if (isset($_GET['page'])) {
             {
                 $codeToReplace = array("##printGameOptions##", "##printRankingTitle##", "##pathFormRanking##", "##printTeamRanking##");
                 $listeJeux = Game::allGames();
-                if (isset($_GET['jeuC'])) {
+                if (isset($_GET['jeuC']) && $_GET['jeuC']!="default") {
                     $ranking = new Classement($_GET['jeuC']);
                     $jeu = Game::getGameById($_GET['jeuC']);
                     $teamRanking = $ranking->returnRanking();
                 }
-                $replacementCode = array("", "");
+                $replacementCode = array("","","","");
+                $replacementCode[0] = "<option value='default'>--Choisissez un Jeu--</option>";
                 foreach ($listeJeux as $jeu) {
                     if (isset($_GET['jeuC']) && $_GET['jeuC'] == $jeu->getId()) {
                         $selected = "selected";
@@ -69,23 +70,31 @@ if (isset($_GET['page'])) {
                     }
                     $replacementCode[0] .= "<option value=" . $jeu->getId() . " " . $selected . ">" . $jeu->getName() . "</option>";
                 }
-                if (isset($_GET['jeuC'])) {
+                if (isset($_GET['jeuC']) && $_GET['jeuC']!="default") {
                     $replacementCode[1] = "<h1>Classement du jeu : " . Game::getGameById($_GET['jeuC'])->getName() . "</h1>";
                 }
                 $replacementCode[2] = "./index.php?page=classement&jeuC=" . $_GET['jeuC'];
 
                 if (!empty($teamRanking)) {
                     $i = 1;
-                    $teamRankingTable = "";
+                    $teamRankingTable = "<div>
+                    <table><thead><tr>
+                    <th>Place</th>
+                    <th>Nom</th>
+                    <th>Nb de Points</th>
+                    <th>Plus d'informations</th></tr>
+                    </thead><tbody>";
                     foreach ($teamRanking as $team) {
-                        $teamRankingTable .= "<tr>
+                        $teamRankingTable .="
+                        <tr>
                         <td>" . $i++ . "</td>
                         <td>" . $team->getname() . "</td>
                         <td>" . $team->getPoints() . "</td>
                         <td><a href='index.php?page=detailsequipe&IDE=" . $team->getId() . "'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                         </tr>";
                     }
-                    $replacementCode[3] = $teamRankingTable;
+                    $replacementCode[3] = $teamRankingTable."</tbody></table>
+                    </div>";
                 }
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
@@ -127,43 +136,101 @@ if (isset($_GET['page'])) {
             ob_end_flush();
             break;
         case 'detailstournoi':
-            function CreateTournamentCodeReplace($buffer)
+            function TournamentDetailsCodeReplace($buffer)
             {
+                $connx = Connection::getInstance();
+                $idTournament = null;
+                if (isset($_GET['IDT'])) {
+                    $idTournament = $_GET['IDT'];
+                } else {
+                    header('Location: ./index.php?page=listetournoi');
+                    exit();
+                }
+                if (isset($_GET['IDJ'])) {
+                    header('Location:./index.php?page=score&IDJ=' . $_GET['IDJ'] . '&NomT=' . $_GET['NomT'] . '&JeuT=' . $_GET['JeuT'] . '&valide');
+                    exit();
+                }
+                $Tournament = new Tournament();
+                $Tournament->allTournaments();
+                $tournament = $Tournament->getTournament($idTournament);
+                $PoolsGame = $tournament->getPools();
+                
+                if (isset($_GET['inscrire'])) {
+                    $idEquipe = $_GET['inscrire'];
+                    $equipe = Team::getTeam($idEquipe);
+                    try {
+                        $equipe->register($tournament);
+                    } catch (Exception $e) {
+                        $e->getMessage(); // to verify
+                    }
+                }
+                
+
                 $codeToReplace = array("##GETNAMETOURNAMENT##","##GETDATETOURNAMENT##","##GETHOURTOURNAMENT##",
                 "##GETLOCATIONTOURNAMENT##","##GETCASHPRIZETOURNAMENT##","##GETNOTORIETYTOURNAMENT##","##GETGAMESTOURNAMENT##",
                 "##GETREGISTERTOURNAMENT##","##GETPARTICIPANTTOURNAMENT##");
                 $replacementCode = array("","","","","","","","","");
+
+                $replacementCode[0] = $tournament->getName();
+                $replacementCode[1] = $tournament->getDate();
+                $replacementCode[2] = $tournament->getHourStart();
+                $replacementCode[3] = $tournament->getLocation();
+                $replacementCode[4] = $tournament->getCashPrize();
+                $replacementCode[5] = $tournament->getNotoriety();
+
+                $gameTable = "";
+                foreach ($tournament->getGames() as $jeu) {
+                    $gameTable .= "<tr>
+                    <td>" . $jeu->getName() . "</td>
+                    <td><a href='./index.php?page=score&IDJ=" . $jeu->getId() . "&NomT=" . $tournament->getName() . "&JeuT=" . $jeu->getName() . "'><img src='./img/Detail.png' alt='Details' class='imgB'></a></td>
+                    </tr>";
+                    // modified PoolsJeux by poolJeux[id];
+                    $_SESSION['game' . $jeu->getId()] = $PoolsGame[$jeu->getId()];
+                }
+                $replacementCode[6] = $gameTable;
+
+                $nomCompteEquipe = $connx->getIdentifiant();
+                if ($connx->getRole() == Role::Team) {
+                    $idEquipe = Team::getTeamIDByAccountName($nomCompteEquipe);
+                    $equipe = Team::getTeam($idEquipe);
+                }
+
+                if (!isset($_GET['inscrire'])) {
+                    if ($connx->getRole() == Role::Team) {
+                        if ($tournament->haveGame($equipe->getGameId())) { 
+                            $replacementCode[7] = "<button class=\"buttonE\" id=\"Dgrida1\" onclick=\"confirmerInscription($idTournament,$idEquipe)\">S\'inscrire</button>";
+                        } 
+                    }
+                }
+                
+                $participantTable = "";
+                if ($tournament->TeamsOfPoolParticipants() != array()) {
+                    $participantTable .= "<table id=\"Dgridt2\">
+                    <thead>
+                        <tr>
+                            <th>Participant</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>";
+                    foreach ($tournament->TeamsOfPoolParticipants() as $participant) {
+                        $participantTable .= "<tr>
+                        <td>" . $participant . "</td>
+                        <td><a href='./index.php?page=detailsequipe&IDE=" . $participant->getId() . "'><img class='imgB' src='../img/detail.png' alt='Details'></a></td>
+                        </tr>";
+                    }
+                    $participantTable .= "</tbody>
+                    </table>";
+                }
+                $replacementCode[8] = $participantTable;
+
+                
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
+
+
             require('./view/headerview.html');
-            $idTournoi = null;
-            if (isset($_GET['IDT'])) {
-                $idTournoi = $_GET['IDT'];
-            } else {
-                header('Location: ./index.php?page=listetournoi');
-            }
-            $Tournament->allTournaments();
-            $tournoi = $Tournament->getTournament($idTournoi);
-            $PoolsJeux = $tournoi->getPools();
-            if (isset($_GET['inscrire'])) {
-                $idEquipe = $_GET['inscrire'];
-                $equipe = Team::getTeam($idEquipe);
-                try {
-                    $equipe->register($tournoi);
-                } catch (Exception $e) {
-                    $e->getMessage(); // to verify
-                }
-            }
-            if (isset($_GET['IDJ'])) {
-                header('Location:./index.php?page=score&IDJ=' . $_GET['IDJ'] . '&NomT=' . $_GET['NomT'] . '&JeuT=' . $_GET['JeuT'] . '&valide');
-                exit();
-            }
-            $nomCompteEquipe = $connx->getIdentifiant();
-            if ($connx->getRole() == Role::Team) {
-                $idEquipe = Team::getTeamIDByAccountName($nomCompteEquipe);
-                $equipe = Team::getTeam($idEquipe);
-            }
-            ob_start("");
+            ob_start("TournamentDetailsCodeReplace");
             require('./view/detailstournoiview.html');
             ob_end_flush();
             break;

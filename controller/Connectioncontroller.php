@@ -1,5 +1,5 @@
 <?php
-    function CreateTeamCodeReplace($buffer)
+    function ConnectionCodeReplace($buffer)
     {
         $codeToReplace = array("##ERROR CONNECTION##");
         $replacementCode = array("");
@@ -9,7 +9,9 @@
         $replacementCode[0]=$result;
         return (str_replace($codeToReplace, $replacementCode, $buffer));
     }
+    ob_start("ConnectionCodeReplace");
     require('./view/connectionview.html');
+    ob_end_flush();
     $connx = Connection::getInstance();
     if (isset($_POST['username']) && isset($_POST['password'])) {
         $connx->establishConnection($_POST['username'], $_POST['password'], $_POST['roles']);

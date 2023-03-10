@@ -31,12 +31,12 @@ class TeamDAO extends DAO {
      }
      //get id by name for a team
     public function selectIDbyNameTeam(string $name):int{
-        $sql = "SELECT E.IdEquipe FROM Equipe E WHERE E.nomE = $name";
+        $sql = "SELECT IdEquipe FROM Equipe WHERE NomCompte ='$name'";
         try{
             $result = $this->mysql->prepare($sql);
             $result->execute();
             $data= $result->fetchAll();
-            return $data[0]['IdEquipe'];
+            return (int)$data[0]['IdEquipe'];
         }catch(PDOException $e){
             throw new Exception("Error Processing Request select id by name team ".$e->getMessage(), 1);
         }
@@ -70,7 +70,7 @@ class TeamDAO extends DAO {
     public function selectTeamByID(string $id): Team
     {
         $Team=null;
-        $sql = "SELECT * FROM Equipe e, Jeu j WHERE IdEquipe =$id AND j.IdJeu = e.IdJeu";
+        $sql = "SELECT * FROM Equipe e, Jeu j WHERE IdEquipe ='$id' AND j.IdJeu = e.IdJeu";
         try{
             $result = $this->mysql->prepare($sql);
             $result->execute();

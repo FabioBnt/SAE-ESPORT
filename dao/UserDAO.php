@@ -78,7 +78,7 @@ class UserDAO extends DAO{
         } else if($role==Role::Team){
             $role="Equipe";
         }
-        $sql = "SELECT MDPCompte FROM $role WHERE NomCompte=$id";
+        $sql = "SELECT MDPCompte FROM $role WHERE NomCompte='$id'";
         try{
             $result = $this->mysql->prepare($sql);
             $result->execute();

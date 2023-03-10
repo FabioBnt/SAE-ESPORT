@@ -11,31 +11,15 @@ class OrganizationDAO extends DAO
     // Create a team in the database (Equipe table)
     public function insertTeam(string $name, string $accountName, string $accountPassword,int $idGame, int $idOrganization): string
     {
-        // Checks if the parameters are strings
-        if (is_string($name) && is_string($accountName) && is_string($accountPassword)) {
-            // Makes sure to avoid sql injections
-            $name = htmlspecialchars($name);
-            $accountName = htmlspecialchars($accountName);
-            $accountPassword = htmlspecialchars($accountPassword);
+        $sql = "INSERT INTO Equipe (NomE, NomCompte, MDPCompte, NbPointsE, IdJeu, IDEcurie) VALUES ('$name','$accountName','$accountPassword',null,'$idGame','$idOrganization')";
             try {
                 // Insert the team in the database (Equipe table)
-                $sql = "INSERT INTO Equipe (NomEquipe, NomCompte, MDPCompte,NbPointsE,IdJeu,IDEcurie) VALUES (:nom, :compte, :mdp,null,:idJeu,:idEcurie)";
                 $stmt = $this->mysql->prepare($sql);
-                return $stmt->execute(
-                    array(
-                        ':nom' => $name,
-                        ':compte' => $accountName,
-                        ':mdp' => $accountPassword,
-                        ':idJeu' => $idGame,
-                        ':idEcurie' => $idOrganization
-                    )
-                );
+                return $stmt->execute();
             } catch (Exception $e) {
                 $e->getMessage();
                 return false;
             }
-        }
-        return false;
     }
     // Create a player in the database (Joueur table)
     public function insertPlayer(string $username, string $nationality, int $teamID):string
@@ -63,28 +47,18 @@ class OrganizationDAO extends DAO
         return 0;
     }
     // Select an organization id by its account name
-    public function selectOrganizationID(string $accountName): int
+    public function selectOrganizationID(string $accountName)
     {
-        // Checks if the parameter is a string
-        if (is_string($accountName)) {
-            // Makes sure to avoid sql injections
-            $accountName = htmlspecialchars($accountName);
-            try {
-                // Select the organization id in the database (Equipe table)
-                $sql = "SELECT IdEquipe FROM Equipe WHERE NomCompte = :compte";
-                $stmt = $this->mysql->prepare($sql);
-                $stmt->execute(
-                    array(
-                        ':compte' => $accountName
-                    )
-                );
-                $result = $stmt->fetch();
-                return $result['IdEquipe'];
-            } catch (Exception $e) {
-                throw new Exception("Error Processing Request select id ".$e->getMessage(), 1);
-            }
+        $sql = "SELECT IdEcurie FROM Ecurie WHERE NomCompte ='$accountName'";
+        try {
+            // Select the organization id in the database (Equipe table)
+            $stmt = $this->mysql->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result[0]['IdEcurie'];
+        } catch (Exception $e) {
+            throw new Exception("Error Processing Request select id ".$e->getMessage(), 1);
         }
-        return 0;
     }
     // Retrieve organization's information
     public function selectOrganization(int $id):array

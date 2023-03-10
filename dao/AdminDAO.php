@@ -27,27 +27,18 @@ class AdminDAO extends DAO
     // Create a tournament in the database (Tournois table)
     public function insertTournament(string $name, int $cashPrize, string $notoriety, string $city, string $startingHour, string $date, array $games): string
     {
+        $sql = "INSERT INTO Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois) VALUES ('$name','$cashPrize','$notoriety','$city','$date $startingHour:00')";
         try {
             // Insert the tournament in the database (Tournois table)
-            $sql = "INSERT INTO Tournois (NomTournoi, CashPrize, Notoriete, Lieu, DateHeureTournois) VALUES (:nom, :cashPrize, :notoriete, :lieu, :date)";
             $stmt = $this->mysql->prepare($sql);
-            $stmt->execute(array(
-                ':nom' => $name,
-                ':cashPrize' => $cashPrize,
-                ':Notoriety' => $notoriety,
-                ':lieu' => $city,
-                ':date' => $date.' '.$startingHour.':00'
-            ));
+            $stmt->execute();
             // Get the id of the tournament
             $idTournament = $this->mysql->lastInsertId();
             // Insert the games in the database (Contenir table)
             foreach ($games as $game) {
-                $sql = "INSERT INTO Contenir (IdJeu, IdTournoi) VALUES (:jeu, :idTournoi)";
+                $sql = "INSERT INTO Contenir (IdJeu, IdTournoi) VALUES ('$game','$idTournament')";
                 $stmt =$this->mysql->prepare($sql);
-                $stmt->execute(array(
-                    ':jeu' => $game,
-                    ':idTournoi' => $idTournament
-                ));
+                $stmt->execute();
             }
             return 1;
         } catch (Exception $e) {

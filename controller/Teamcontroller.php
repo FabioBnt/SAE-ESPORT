@@ -15,7 +15,7 @@ if (isset($_GET['page'])) {
                 }
                 $listeJeux = Game::getGameTeamNotPlayed($id);  
                 foreach($listeJeux as $jeu){ 
-                    $GameList.="<option value=".$jeu->getId()."><".$jeu->getName()."</option>";
+                    $GameList.="<option value=".$jeu->getId().">".$jeu->getName()."</option>";
                 }
                 $replacementCode[0]=$GameList;
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
@@ -26,13 +26,15 @@ if (isset($_GET['page'])) {
             ob_end_flush(); 
             if (isset($_POST['submit'])) {
                 if ($connx->getRole() == Role::Organization) {
+                    $id = Organization::getIDbyAccountName($connx->getIdentifiant());
                     $Organization = Organization::getOrganization($id);
-                    $Organization->createTeam($_POST['name'], $_POST['username'], $_POST['password'], $_POST['jeuE'], Organization::getIDbyAccountName($connx->getIdentifiant()));
+                    $Organization->createTeam($_POST['name'],$_POST['username'], $_POST['password'], $_POST['jeuE'],$id);
                     $IdEquipe = Team::getIDbyname($_POST['name']);
                     for($i=0;$i<4;$i++){
                         if (!empty($_POST['pseudo'.$i])) {
                             $Organization->createPlayer($_POST['pseudo'.$i], $_POST['nat'.$i], $IdEquipe);}
                     }
+                    header('Location: ./index.php?page=accueil');
                 }
             }
             break;

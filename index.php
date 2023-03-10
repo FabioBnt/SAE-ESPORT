@@ -13,11 +13,14 @@ require_once('./model/Classement.php');
 function headerCodeReplacer($buffer)
 {
     $connx = Connection::getInstance();
-    $codeToReplace = array("##printCreateTournamentButton##", "##printCreateOrganizationButton##", "##printConnectionButton##", "##printHelloAndDisconnectButton##");
-    $replacementCode = array("", "", "", "");
+    $codeToReplace = array("##printCreateTournamentButton##", "##printCreateOrganizationButton##", "##printConnectionButton##", "##printHelloAndDisconnectButton##", "##printCreateTeamButton##");
+    $replacementCode = array("", "", "", "", "");
     if ($connx->getRole() == Role::Administrator) {
         $replacementCode[0] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creertournoi'\">Créer Tournoi</button>";
         $replacementCode[1] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creerecurie'\">Créer Ecurie</button>";
+    }
+    if ($connx->getRole() == Role::Organization) {
+        $replacementCode[4] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creerequipe'\">Créer Equipe</button>";
     }
     if ($connx->getRole() == Role::Visiteur) {
         $replacementCode[2] = "<a href=\"./index.php?page=connectionview\" id=\"Connection\">Se Connecter</a>";

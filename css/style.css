@@ -165,9 +165,19 @@ header #deconnexion {
   text-align: center;
   font-size: 50px;
 }
-#divbutton {
-  grid-column: 1/4;
+#divsugges{
+  grid-column: 2/3;
   grid-row: 1;
+  margin: auto;
+}
+#titreSite{
+  grid-column: 2;
+  grid-row: 3;
+  margin: auto;
+}
+#divbutton {
+  grid-row: 2;
+  grid-column: 1/4;
   margin: auto;
 }
 /*------*/
