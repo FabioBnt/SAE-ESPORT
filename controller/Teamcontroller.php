@@ -20,9 +20,9 @@ if (isset($_GET['page'])) {
                 $replacementCode[0]=$GameList;
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
-            require('./view/headerview.html');
+            require_once('./view/headerview.html');
             ob_start("CreateTeamCodeReplace");
-            require('./view/creerequipeview.html');
+            require_once('./view/creerequipeview.html');
             ob_end_flush(); 
             if (isset($_POST['submit'])) {
                 if ($connx->getRole() == Role::Organization) {
@@ -78,9 +78,9 @@ if (isset($_GET['page'])) {
                 $replacementCode[1] = $Teamlist;
             return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
-            require('./view/headerview.html');
+            require_once('./view/headerview.html');
             ob_start("teamCodeReplace");
-            require('./view/listeequipeview.html');
+            require_once('./view/listeequipeview.html');
             ob_end_flush();
             break;
         case 'detailsequipe':
@@ -160,16 +160,16 @@ if (isset($_GET['page'])) {
                 $replacementCode[7]=$TournamentTeam;
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
-            require('./view/headerview.html');
+            require_once('./view/headerview.html');
             ob_start("DetailsTeamCodeReplace");
-            require('./view/detailsequipeview.html');
+            require_once('./view/detailsequipeview.html');
             ob_end_flush();
             break;
         default:
-            require('./controller/Accueilcontroller.php');
+            require_once('./controller/Accueilcontroller.php');
             break;
     }
 } else {
-    require('./controller/Accueilcontroller.php');
+    require_once('./controller/Accueilcontroller.php');
 }
 ?>

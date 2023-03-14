@@ -24,9 +24,9 @@ class UserDAO extends DAO{
         $conds .= ($idGame != null) ? " AND J.IdJeu = $idGame" : "";
         $conds .= ($gameName != null) ? " AND Lower(J.NomJeu) like Lower('%$gameName%')" : "";
         $conds .= ($dateLimit != null) ? "AND J.DateLimiteInscription = $dateLimit" : "";
-        $sql = "SELECT T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
+        $sql = "SELECT DISTINCT T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
          J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription
-         FROM Tournois T, Contenir C, Jeu J WHERE C.IdJeu = J.IdJeu AND C.IdTournoi = T.IdTournoi ".$conds;
+         FROM Tournois T, Contenir C, Jeu J WHERE C.IdJeu = J.IdJeu AND C.IdTournoi = T.IdTournoi ".$conds." ORDER BY 2";
         try{
             $stm = $this->mysql->prepare($sql);
             $stm->execute();

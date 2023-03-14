@@ -10,7 +10,7 @@
         return (str_replace($codeToReplace, $replacementCode, $buffer));
     }
     ob_start("ConnectionCodeReplace");
-    require('./view/connectionview.html');
+    require_once('./view/connectionview.html');
     ob_end_flush();
     $connx = Connection::getInstance();
     if (isset($_POST['username']) && isset($_POST['password'])) {

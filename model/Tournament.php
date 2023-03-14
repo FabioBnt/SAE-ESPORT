@@ -42,7 +42,7 @@ class Tournament
         if($datehour != "now"){
             $this->calculateDeadline($datehour);        
         } else {
-        $this->dateHour= time();
+            $this->dateHour= time();
         }
     }
     //calculate dead line register
@@ -61,9 +61,9 @@ class Tournament
         $this->registerDeadline = date_format(date_sub($datetime,$intervalDays),"d/m/y");
     }
     //verify creation of pools
-    private function verifiyingPools(): void{
+    private function verifiyingPools($dateGame): void{
         if(strtotime($this->getregisterDeadline()) > strtotime(date("Y/m/d")) &&
-         strtotime($this->dateHour) < strtotime(date("Y/m/d"))){
+         strtotime($dateGame) < strtotime(date("Y/m/d"))){
             foreach($this->games as $game){
                 if($this->getNumberPools($game->getId()) < 4){
                     $this->generatePools($game->getId());
@@ -105,7 +105,7 @@ class Tournament
     //get tournaments not played by a team for a game
     public function tournamentsSuggestedByTeam(int $idEquipe,int $idGame):array
     {
-        $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe, $idGame,$this->dateHour));
+        $this->updateListOfTournaments($this->teamDao->selectTournamentsForTeam($idEquipe,$idGame,date('y-m-d H:i:s',time())));
         return $this->tournaments;
     }
     //get tournaments (filter)
@@ -117,22 +117,6 @@ class Tournament
     //get tournament by id
     public function getTournament(int $id):Tournament{
         return $this->tournaments[$this->posMap[$id]];
-    }
-    //get pools of tournament
-    private function getsPools(): void
-    {
-        $teams = $this->TeamsOfPoolParticipants();
-        $this->Pools = array();
-        $data = $this->userDao->selectTournamentPools($this->id);
-        foreach($data as $ligne){
-            $this->Pools[$ligne['IdJeu']][$ligne['IdPoule']] = new Pool($ligne['IdPoule'], $ligne['NumeroPoule'],
-             $ligne['EstPouleFinale'], $this->games[$ligne['IdJeu']]);
-            $dataM = $this->userDao->selectTournamentPoolMatches($ligne['IdPoule']);
-            foreach($dataM as $ligneM){
-                $this->Pools[$ligne['IdJeu']][$ligne['IdPoule']]->addMatch($ligneM['Numero'], $ligneM['dateM'],
-                 $ligneM['HeureM'],$teams);
-            }
-        }
     }
     //generate pool of a game
     public function generatePools(int $idgame): void
@@ -344,24 +328,34 @@ class Tournament
     public function TeamsOfPoolParticipants(int $idGame=null):array{
         $teams = array();
         $data = $this->userDao->selectParticipants($this->getIdTournament());
-        
         foreach($data as $ligne){
             $dataE = $this->userDao->selectTeamGames($ligne['IdEquipe'],$idGame);
             foreach($dataE as $ligneM){
-                $teams[$ligneM['IdEquipe']] = new Team($ligneM['IdEquipe'], $ligneM['nomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'],$ligneM['IdJeu']);
+                $teams[$ligneM['IdEquipe']] = new Team($ligneM['IdEquipe'], $ligneM['NomE'], $ligneM['NbPointsE'], $ligneM['IDEcurie'],$ligneM['IdJeu']);
             }
         }
         return $teams;
     }
     //get pools
     public function getPools():array{
-        $this->verifiyingPools();
+        $teams = $this->TeamsOfPoolParticipants();
         $this->Pools = array();
-        $this->getsPools();
+        $data = $this->userDao->selectTournamentPools($this->id);
+        foreach($data as $ligne){
+            $game=Game::getGameById($ligne['IdJeu']);
+            $this->verifiyingPools($game->getdateLimit($this->getdateHour()));
+            $this->Pools[$ligne['IdJeu']][$ligne['IdPoule']] = new Pool($ligne['IdPoule'], $ligne['NumeroPoule'],
+             $ligne['EstPouleFinale'], $this->games[$ligne['IdJeu']]);
+            $dataM = $this->userDao->selectTournamentPoolMatches($ligne['IdPoule']);
+            foreach($dataM as $ligneM){
+                $this->Pools[$ligne['IdJeu']][$ligne['IdPoule']]->addMatch($ligneM['Numero'], $ligneM['dateM'],
+                 $ligneM['HeureM'],$teams);
+            }
+        }
         return $this->Pools;
     }
     //get number of participant
-    public function getNumberParticipant(int $idgame):bool{
+    public function getNumberParticipant(int $idgame):int{
         $data=$this->userDao->selectnumberParticipant($idgame,$this->getIdTournament());
         if(isset($data[0]) && $data[0] != null){
             return $data[0]['total']-'0';

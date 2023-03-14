@@ -92,5 +92,9 @@ class MatchJ
             Tournament::generateFinalPool($idT, $idJ);
         }
     }
+    public function getScores(): array
+    {
+        return $this->scores;
+    }
 }
 ?>

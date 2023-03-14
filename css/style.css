@@ -144,7 +144,7 @@ header #deconnexion {
 /*FOND DU MAIN*/
 /*------------*/
 .mainA {
-  margin-top: 10%;
+  margin-top: 3%;
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(3, 1fr);
@@ -167,16 +167,17 @@ header #deconnexion {
 }
 #divsugges{
   grid-column: 2/3;
-  grid-row: 1;
+  grid-row: 3;
   margin: auto;
+  padding: 0.3em;
 }
 #titreSite{
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 2;
   margin: auto;
 }
 #divbutton {
-  grid-row: 2;
+  grid-row: 1;
   grid-column: 1/4;
   margin: auto;
 }
@@ -427,16 +428,12 @@ header #deconnexion {
   grid-row: 3;
 }
 #Dgridt1 {
-  grid-column: 2;
+  grid-column: 1/4;
   grid-row: 5;
 }
 #Dgridt1 a,
 #Dgridt2 a {
   color: black;
-}
-#Dgridt2 {
-  grid-column: 2;
-  grid-row: 6;
 }
 #Dgrida1 {
   grid-column: 3;

@@ -1,6 +1,7 @@
     <main>
         <div class="detailstournoimain">
             <div class="Divdetails">
+                <a href="./index.php?page=listetournoi" class="buttonE" id="Dgrida2">Retour</a>
                 <h1>Détails d'un Tournoi</h1>
                 <div class="gridDetails">
                     <label id="Dgridl1"><b>Nom du tournoi</b></label>
@@ -19,6 +20,7 @@
                         <thead>
                             <tr>
                                 <th>Jeu</th>
+                                <th>DateLimiteInscription</th>
                                 <th>Score</th>
                             </tr>
                         </thead>
@@ -26,9 +28,8 @@
                             ##GETGAMESTOURNAMENT##
                     </table>
                     ##GETREGISTERTOURNAMENT##
+                    ##GETPARTICIPANTTOURNAMENT##
                 </div>
-                ##GETPARTICIPANTTOURNAMENT##
-                <a href="./index.php?page=accueil" class="buttonE" id="Dgrida2">Retour</a>
             </div>
         </div>
         </div>
@@ -36,7 +37,7 @@
     <script>
         function confirmerInscription(idt, ide) {
             if (confirm("Êtes vous sûr de vouloir vous inscrire?")) {
-                window.location.assign("./DetailsTournoi.php?IDT=" + idt + "&inscrire=" + ide);
+                window.location.assign("./index.php?page=detailstournoi&IDT="+idt+"&inscrire="+ide);
             }
         }
     </script>

@@ -13,13 +13,13 @@ class TeamDAO extends DAO {
         if($idGame != null && $dateT != null){
                 $sql = "SELECT T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
                 J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J where C.IdJeu = J.IdJeu
-                AND C.IdTournoi = T.IdTournoi AND  J.IdJeu=$idGame AND T.DateHeureTournois>$dateT
+                AND C.IdTournoi = T.IdTournoi AND  J.IdJeu='$idGame' AND T.DateHeureTournois > '$dateT'
                 AND T.IdTournoi not in (select DISTINCT T.IdTournoi from Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
-                AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=$idTeam)";
+                AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='$idTeam')";
         }else{
             $sql = "SELECT T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
             J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J , Equipe E, Participer P where C.IdJeu = J.IdJeu
-            AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe=$idTeam ORDER BY IdTournoi";
+            AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='$idTeam' ORDER BY 1";
         }
         try{
             $result = $this->mysql->prepare($sql);
@@ -97,10 +97,10 @@ class TeamDAO extends DAO {
     }
     //insert a team on a tournament
     public function insertTeamTournament(int $idTournament,int $idTeam):string{
-        $sql = "INSERT INTO Participer  (IdTournoi, IdEquipe) VALUES (:idtournoi,:idequipe)";
+        $sql = "INSERT INTO Participer (IdTournoi,IdEquipe) VALUES ('$idTournament','$idTeam')";
         try{
             $result = $this->mysql->prepare($sql);
-            return $result->execute(array($idTournament,$idTeam));
+            return $result->execute();
         }catch(PDOException $e){
             throw new Exception("Error Processing insert team ".$e->getMessage(), 1);
         }
@@ -120,7 +120,7 @@ class TeamDAO extends DAO {
             throw new Exception("Error Processing Request select team list ".$e->getMessage(), 1);
         }
     }
-    //select players of a team by his id
+    //select team by his account name
     public function selectTeamIDByAccountName(string $accountName):array
     {
         $sql = "SELECT * FROM Equipe E where E.NomCompte='$accountName'";

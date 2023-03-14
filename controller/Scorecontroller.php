@@ -8,14 +8,14 @@ if (isset($_GET['page'])) {
             {
                 $connx = Connection::getInstance();
                 $codeToReplace = array("##TOURNAMENTNAME##", "##TOURNAMENTGAME##", "##BUTTONMODIFYSCORE##",
-                 "##POULELISTIFEXIST##", "##CLASSEMENTIFFINALPOULE##");
-                $replacementCode = array("", "", "", "", "");
+                 "##POULELISTIFEXIST##", "##CLASSEMENTIFFINALPOULE##", "##SCRIPTMODIFYSCORE##");
+                $replacementCode = array("", "", "", "", "", "");
                 $listePools = null;
                 $nomTournoi = null;
                 $nomJeu = null;
                 $idJeu = null;
                 if (isset($_GET['IDJ'])) {
-                    $listePools = $_SESSION['jeu' . $_GET['IDJ']];
+                    $listePools = $_SESSION['game' . $_GET['IDJ']];
                     $nomTournoi = $_GET['NomT'];
                     $nomJeu = $_GET['JeuT'];
                     $idJeu = $_GET['IDJ'];
@@ -43,7 +43,11 @@ if (isset($_GET['page'])) {
                     }
                 }
                 if ($saisirScore) {
-                    $replacementCode[2] = '<a href="index.php?page=saisirscore&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Modification</a>';
+                    $replacementCode[2] = '<a href="index.php?page=score&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '&Modify" class="buttonE" id="ModifS7">Modification</a>';
+                }
+                if  (isset($_GET['Modify']) && $saisirScore) {
+                    $replacementCode[2] = '<a href="index.php?page=score&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Terminer</a>';
+                    $replacementCode[5] = '<script src="js/modifyScore.js"></script>';
                 }
                 $i = 0;
                 $PoolF = null;
@@ -57,17 +61,21 @@ if (isset($_GET['page'])) {
                         } else {
                             $replacementCode[3] .= $i;
                         }
+                        // hidden id poule
+                        $replacementCode[3] .= '<input class="pouleid" type="hidden" value="' . $Pool->getId() . '">';  
                         $replacementCode[3] .= '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
                         foreach ($Pool->getMatchs() as $match) {
                             $replacementCode[3] .= '<tr>';
                             foreach ($match->getScores() as $key => $ligneValue) {
                                 $equipe = $match->getEquipes()[$key];
-                                $replacementCode[3] .= '<td>' . $equipe . '</td>';
+                                $replacementCode[3] .= '<td>' . $equipe->getName() . '</td>';
+                                $replacementCode[3] .= '<td id="'.$key.'" class="score">';
                                 if ($ligneValue == null) {
-                                    $replacementCode[3] .= '<td>TBD</td>';
+                                    $replacementCode[3] .= 'TBD';
                                 } else {
-                                    $replacementCode[3] .= '<td>' . $ligneValue . '</td>';
+                                    $replacementCode[3] .= $ligneValue;
                                 }
+                                $replacementCode[3] .= '</td>';
                             }
                             $replacementCode[3] .= '</tr>';
                         }
@@ -150,9 +158,12 @@ if (isset($_GET['page'])) {
             if (isset($_GET['valide'])) {
                 echo '<script>alert("Score enregistré")</script>';
             }
-            require('./view/headerview.html');
+            if (isset($_GET['erreur'])) {
+                echo '<script>alert("Erreur lors de l\'enregistrement du score")</script>';
+            }
+            require_once('./view/headerview.html');
             ob_start("ScoreCodeReplacer");
-            require('./view/scoreview.html');
+            require_once('./view/scoreview.html');
             ob_end_flush();
             break;
         case 'saisirscore':
@@ -177,11 +188,11 @@ if (isset($_GET['page'])) {
                     $Tournament->allTournaments();
                     $idT = MatchJ::getIdTournamentByPool($_GET['poule']);
                     //vers DetailsTournoi.php?IDT=
-                    header( 'Location:./index.php?page=detailstournoi&IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
+                    header( 'Location:./index.php?page=score&IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
                     exit();
                 }catch(Exception $e){
                     // redirect vers la page de SaissirScore.php
-                    header('Location:./saisirscore.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'&erreur='.$e->getMessage());
+                    header('Location:./score.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'&erreur='.$e->getMessage());
                     exit();
                 }
             }
@@ -189,14 +200,13 @@ if (isset($_GET['page'])) {
             if(isset($_GET['erreur'])){
                 echo '<script>alert("'.$_GET['erreur'].'")</script>';
             }
-            require('./view/headerview.html');
-            require('./view/saisirscoreview.html');
+            header('Location:index.php?page=listetournoi');
             break;
         default:
-            require('./controller/Accueilcontroller.php');
+            require_once('./controller/Accueilcontroller.php');
             break;
     }
 } else {
-    require('./controller/Accueilcontroller.php');
+    require_once('./controller/Accueilcontroller.php');
 }
 ?>

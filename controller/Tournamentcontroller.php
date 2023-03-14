@@ -45,9 +45,9 @@ if (isset($_GET['page'])) {
                 $replacementCode[0] = $tournamentList;
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
-            require('./view/headerview.html');
+            require_once('./view/headerview.html');
             ob_start("tournamentCodeReplacer");
-            require('./view/listetournoisview.html');
+            require_once('./view/listetournoisview.html');
             ob_end_flush();
             break;
         case 'classement':
@@ -98,9 +98,9 @@ if (isset($_GET['page'])) {
                 }
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
-            require('./view/headerview.html');
+            require_once('./view/headerview.html');
             ob_start("rankingCodeReplacer");
-            require('./view/classementview.html');
+            require_once('./view/classementview.html');
             ob_end_flush();
             break;
         case 'creertournoi':
@@ -113,12 +113,12 @@ if (isset($_GET['page'])) {
                 foreach ($listeJeux as $jeu) {
                     $result.= "<div><input type=\"checkbox\" name=\"jeuT[]\" value=" . $jeu->getId() . ">" . $jeu->getName() . "</div>";
                 }
-                $dateT = "<input id=\"Tformi2\" type=\"date\" name=\"date\" min=".$date." value=".$date." required>";
+                $dateT = "<input id=\"Tformi2\" type=\"date\" name=\"date\" min=".$date." value=".$date." require_onced>";
                 $replacementCode[0] = $result;
                 $replacementCode[1] = $dateT;
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
-            require('./view/headerview.html');
+            require_once('./view/headerview.html');
             //Checks if the user is connected and if he is an admin
             if ($connx == null || $connx->getRole() != Role::Administrator) {
                 header('Location: ./index.php?page=accueil');
@@ -132,7 +132,7 @@ if (isset($_GET['page'])) {
                 header('Location: ./index.php?page=accueil');
             }
             ob_start("CreateTournamentCodeReplace");
-            require('./view/creertournoiview.html');
+            require_once('./view/creertournoiview.html');
             ob_end_flush();
             break;
         case 'detailstournoi':
@@ -161,7 +161,7 @@ if (isset($_GET['page'])) {
                     try {
                         $equipe->register($tournament);
                     } catch (Exception $e) {
-                        $e->getMessage(); // to verify
+                        $e->getMessage();
                     }
                 }
                 
@@ -182,6 +182,7 @@ if (isset($_GET['page'])) {
                 foreach ($tournament->getGames() as $jeu) {
                     $gameTable .= "<tr>
                     <td>" . $jeu->getName() . "</td>
+                    <td>" . $jeu->getdateLimit($tournament->getdateHour()) . "</td>
                     <td><a href='./index.php?page=score&IDJ=" . $jeu->getId() . "&NomT=" . $tournament->getName() . "&JeuT=" . $jeu->getName() . "'><img src='./img/Detail.png' alt='Details' class='imgB'></a></td>
                     </tr>";
                     // modified PoolsJeux by poolJeux[id];
@@ -198,47 +199,49 @@ if (isset($_GET['page'])) {
                 if (!isset($_GET['inscrire'])) {
                     if ($connx->getRole() == Role::Team) {
                         if ($tournament->haveGame($equipe->getGameId())) { 
-                            $replacementCode[7] = "<button class=\"buttonE\" id=\"Dgrida1\" onclick=\"confirmerInscription($idTournament,$idEquipe)\">S\'inscrire</button>";
+                            $replacementCode[7] = "<button class='buttonE' id='Dgrida1' onclick=\"confirmerInscription($idTournament,$idEquipe)\">S'inscrire</button>";
                         } 
                     }
                 }
                 
                 $participantTable = "";
-                if ($tournament->TeamsOfPoolParticipants() != array()) {
-                    $participantTable .= "<table id=\"Dgridt2\">
-                    <thead>
-                        <tr>
-                            <th>Participant</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>";
-                    foreach ($tournament->TeamsOfPoolParticipants() as $participant) {
-                        $participantTable .= "<tr>
-                        <td>" . $participant . "</td>
-                        <td><a href='./index.php?page=detailsequipe&IDE=" . $participant->getId() . "'><img class='imgB' src='../img/detail.png' alt='Details'></a></td>
-                        </tr>";
+                foreach($tournament->getGames() as $jeu){
+                    $teampools=$tournament->TeamsOfPoolParticipants($jeu->getId());
+                    if ($teampools != array()) {
+                        $participantTable .= "<table>
+                        <thead>
+                            <tr><th colspan='2'>".$jeu->getName()."</th></tr>
+                            <tr>
+                                <th>Participant</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>";
+                        foreach ($teampools as $participant) {
+                            $participantTable .= "<tr>
+                            <td>" . $participant->getName() . "</td>
+                            <td><a href='./index.php?page=detailsequipe&IDE=" . $participant->getId() . "'><img class='imgB' src='./img/detail.png' alt='Details'></a></td>
+                            </tr>";
+                        }
+                        $participantTable .= "</tbody>
+                        </table>";
                     }
-                    $participantTable .= "</tbody>
-                    </table>";
                 }
                 $replacementCode[8] = $participantTable;
-
-                
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
 
 
-            require('./view/headerview.html');
+            require_once('./view/headerview.html');
             ob_start("TournamentDetailsCodeReplace");
-            require('./view/detailstournoiview.html');
+            require_once('./view/detailstournoiview.html');
             ob_end_flush();
             break;
         default:
-            require('./controller/Accueilcontroller.php');
+            require_once('./controller/Accueilcontroller.php');
             break;
     }
 } else {
-    require('./controller/Accueilcontroller.php');
+    require_once('./controller/Accueilcontroller.php');
 }
 ?>

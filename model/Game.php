@@ -24,7 +24,12 @@ class Game
     }
     //get registerlimit of a game
     public function getregisterlimit():string{
-        return $this->registerLimit;
+        return  $this->registerLimit;
+    }
+    public function getdateLimit($hourstart):string{
+        $datetime = date_create($hourstart);
+        $intervalDays = date_interval_create_from_date_string($this->registerLimit." days");
+        return date_format(date_sub($datetime,$intervalDays),"d/m/y");
     }
     //get name of a game
     public function getname():string{

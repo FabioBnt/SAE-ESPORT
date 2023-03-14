@@ -179,7 +179,7 @@ class Team
             throw new \RuntimeException('tournoi complet');
         }
         if(!$tournament->haveGame($this->game)){
-            throw new \RuntimeException('L\'équipe n\'est pas expert dans les gamex du tournoi');
+            throw new \RuntimeException('L\'équipe n\'est pas expert dans les games du tournoi');
         }
         if(strtotime($tournament->getregisterDeadline()) > strtotime(date("Y/m/d"))){
             throw new \RuntimeException('L\'inscription est fermée pour ce tournoi');
@@ -218,6 +218,6 @@ class Team
     public static function getTeamIDByAccountName(string $accountName):int
     {
         $dao= new TeamDAO();
-        return $dao->selectTeamIDByAccountName($accountName)[0];
+        return $dao->selectTeamIDByAccountName($accountName)[0]['IdEquipe'];
     }
 }

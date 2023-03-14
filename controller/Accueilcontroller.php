@@ -18,6 +18,7 @@ function homeCodeReplace($buffer)
         $listTournaments = $tournament->tournamentsSuggestedByTeam($team->getId(),$team->getgameId());
         $teamTournaments = "<table>
         <thead>
+        <tr><th colspan='9'>Suggestion de Tournois</th></tr>
         <tr>
             <th>Nom</th>
             <th>CashPrize</th>
@@ -32,7 +33,7 @@ function homeCodeReplace($buffer)
         </thead>
         <tbody>";
         foreach ($listTournaments as $T){
-            $TournamentTeam.="<tr>
+            $teamTournaments.="<tr>
             <td>".$T->getName()."</td>
             <td>".$T->getCashPrize()."</td>
             <td>".$T->getNotoriety()."</td>
@@ -50,8 +51,8 @@ function homeCodeReplace($buffer)
     return (str_replace($codeToReplace, $replacementCode, $buffer));
 }
 $connx = Connection::getInstance();
-require('./view/headerview.html');
+require_once('./view/headerview.html');
 ob_start("homeCodeReplace");
-require('./view/accueilview.html');
+require_once('./view/accueilview.html');
 ob_end_flush();
 ?>

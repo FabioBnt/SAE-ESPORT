@@ -8,10 +8,10 @@ class Pool
     private int $number;
     private array $matchs = array();
     private int $isFinal;
-    private int $game;
+    private $game;
     private $dao;
     //constructor
-    public function __construct(int $id,int $number,int $isFinal,int $game){
+    public function __construct(int $id,int $number,int $isFinal,$game){
         $this->id = $id;
         $this->number = $number;
         $this->isFinal = $isFinal;
