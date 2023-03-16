@@ -4,13 +4,13 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertSame;
 
-require_once(dirname(__DIR__) . '/model/Tournament.php');
-require_once(dirname(__DIR__) . '/model/MatchJ.php');
-require_once(dirname(__DIR__) . '/model/Pool.php');
-require_once(dirname(__DIR__) . '/model/Administrator.php');
-require_once ("./dao/AdminDAO.php");
-require_once ("./dao/TeamDAO.php");
-require_once ("./dao/UserDAO.php");
+require_once('../model/Tournament.php');
+require_once('../model/MatchJ.php');
+require_once('../model/Pool.php');
+require_once('../model/Administrator.php');
+require_once ("../dao/AdminDAO.php");
+require_once ("../dao/TeamDAO.php");
+require_once ("../dao/UserDAO.php");
 //créer un test générer Pool
 class GeneratePoolsTest extends TestCase {
     private Tournament $tournoi;

@@ -1,6 +1,6 @@
 <?php 
 declare(strict_types=1);
-require_once(dirname(__DIR__) . '/model/Connection.php');
+require_once('../model/Connection.php');
 //create a test Connection
 class ConnectionTest extends \PHPUnit\Framework\TestCase {
     private $user;

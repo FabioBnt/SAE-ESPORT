@@ -2,11 +2,10 @@
 
 use function PHPUnit\Framework\assertSame;
 
-require_once(dirname(__DIR__) . '/model/');
-require_once(dirname(__DIR__) . '/model/Administrator.php');
-require_once (dirname(__DIR__) . '/model/Tournament.php');
-require_once ("./dao/AdminDAO.php");
-require_once ("./dao/TeamDAO.php");
+require_once('../model/Administrator.php');
+require_once ('../model/Tournament.php');
+require_once ("../dao/AdminDAO.php");
+require_once ("../dao/TeamDAO.php");
 //create a details team test
 class DetailsTeamTest extends \PHPUnit\Framework\TestCase {
     private Tournament $tournoi;

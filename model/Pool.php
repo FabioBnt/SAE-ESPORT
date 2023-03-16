@@ -9,14 +9,12 @@ class Pool
     private array $matchs = array();
     private int $isFinal;
     private $game;
-    private $dao;
     //constructor
     public function __construct(int $id,int $number,int $isFinal,$game){
         $this->id = $id;
         $this->number = $number;
         $this->isFinal = $isFinal;
         $this->game = $game;
-        $this->dao= new ArbitratorDAO();
     }
     //get id pool
     public function getId():int{
@@ -38,7 +36,8 @@ class Pool
     //add a match on a pool
     public function addMatch(int $number,string $date,string $hour,array $teams): void
     {
-        $data= $this->dao->addMatch($this->id,$number);
+        $dao= new ArbitratorDAO();
+        $data= $dao->addMatch($this->id,$number);
         foreach($data as $ligne){
             $this->matchs[$number]->addEquipeScore($teams[$ligne['IdEquipe']], $ligne['Score']);
         }
@@ -106,7 +105,8 @@ class Pool
     }
     //get teams of pool
     public function TeamsOfPool():array{
-        $data= $this->dao->TeamOfPool($this->id);
+        $dao= new ArbitratorDAO();
+        $data= $dao->TeamOfPool($this->id);
         $teams = array();
         foreach($data as $ligne){
             $teams[$ligne['IdEquipe']] = Team::getTeam($ligne['IdEquipe']);
@@ -117,8 +117,9 @@ class Pool
     public function getDiffPoint (Team $n1,Team $n2) {
         $e1=$n1->getId();
         $e2=$n2->getId();
-        $g1= $this->dao->SumScoreTeam($this->id,$e1);
-        $g2= $this->dao->SumScoreTeam($this->id,$e2);
+        $dao= new ArbitratorDAO();
+        $g1= $dao->SumScoreTeam($this->id,$e1);
+        $g2= $dao->SumScoreTeam($this->id,$e2);
         //ID1 a gagné le plus de match ou égalité 
         if($g1 >= $g2){
             return $n1;

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 use function PHPUnit\Framework\assertSame;
 
-require_once(dirname(__DIR__) . '/model/Tournois.php');
-require_once ("./dao/UserDAO.php");
+require_once('../model/Tournois.php');
+require_once ("../dao/UserDAO.php");
 //create a details tournament test
 class DetailsTournamentTest extends \PHPUnit\Framework\TestCase {
     private $tournoi;

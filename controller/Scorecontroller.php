@@ -16,6 +16,7 @@ if (isset($_GET['page'])) {
                 $idJeu = null;
                 if (isset($_GET['IDJ'])) {
                     $listePools = $_SESSION['game' . $_GET['IDJ']];
+                    echo "<script>alert('listePools : " . $listePools . "');</script>";
                     $nomTournoi = $_GET['NomT'];
                     $nomJeu = $_GET['JeuT'];
                     $idJeu = $_GET['IDJ'];

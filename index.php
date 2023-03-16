@@ -62,7 +62,7 @@ function headerCodeReplacer($buffer)
             $title = 'Saisie des scores';
             break;
         default:
-            $title = 'oups :/';
+            $title = 'Accueil';
             break;
     }
     $replacementCode[5]= $title ;

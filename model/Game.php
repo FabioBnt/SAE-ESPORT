@@ -8,7 +8,6 @@ class Game
     private string $type;
     private string $time;
     private string $registerLimit;
-    private $dao;
     //constructor
     public function __construct(int $id=0,string $name="",string $type="",string $time="",string $registerLimit="10"){
         $this->id = $id;
@@ -16,7 +15,6 @@ class Game
         $this->type = $type;
         $this->time = $time;
         $this->registerLimit = date($registerLimit);
-        $this->dao=new UserDAO();
     }
     //get Id of a game
     public function getId():string{

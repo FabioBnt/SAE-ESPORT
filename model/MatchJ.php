@@ -8,13 +8,11 @@ class MatchJ
     private string $hour;
     private array $teams = array();
     private array $scores = array();
-    private $dao;
     //constructor
     function __construct(int $number,string $date,string $hour){
         $this->number = $number;
         $this->date = $date;
         $this->hour = $hour;
-        $this->dao= new ArbitratorDAO();
     }
     //add score of a team
     public function addteamscore(Team $team,int $score):void{
