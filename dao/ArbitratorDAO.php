@@ -35,15 +35,10 @@ class ArbitratorDAO extends DAO {
     }
     //insert match of a pool
     public function insertPoolMatch(int $idPool,int $numberM,string $dateM,string $hourM):string{
+        $sql = "INSERT INTO MatchJ (IdPoule, Numero, dateM, HeureM) VALUES ('$idPool','$numberM','$dateM','$hourM')";
         try {
-            $sql = "INSERT INTO MatchJ (IdPoule, Numero, dateM, HeureM) VALUES (:idPoule, :Numero, :dateM, :heureM)";
             $stmt = $this->mysql->prepare($sql);
-            // pass an array of values to the execute method
-            return $stmt->execute(
-                array(':idPoule' => $idPool,
-                    ':numero' => $numberM,
-                    ':dateM' => $dateM,
-                    ':heureM' => $hourM));
+            return $stmt->execute();
         } catch (Exception $e) {
             return $e->getMessage();
         }

@@ -6,6 +6,8 @@ require_once('./model/Administrator.php');
 require_once('./model/Game.php');
 require_once('./model/Role.php');
 require_once('./model/Organization.php');
+require_once('./model/Pool.php');
+require_once('./model/MatchJ.php');
 require_once('./model/Tournament.php');
 require_once('./model/Team.php');
 require_once('./model/Classement.php');

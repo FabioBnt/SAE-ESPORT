@@ -15,7 +15,7 @@ class MatchJ
         $this->hour = $hour;
     }
     //add score of a team
-    public function addteamscore(Team $team,int $score):void{
+    public function addteamscore(Team $team, $score):void{
         $this->scores[$team->getId()] = $score;
         $this->teams[$team->getId()] = $team;
     }
@@ -75,7 +75,7 @@ class MatchJ
         $cmpt = 0;
         //si c'est la Pool finale on vérifie si tous les scores sont initialisés
        foreach($pools as $Pool){
-           if($Pool->isPoolFinale()){
+           if($Pool->isPoolFinal()){
                 $PoolFinaleExiste = true;
                 if($Pool->checkIfAllScoreSet()){
                     Tournament::updatePointsTournament($idT, $idJ);

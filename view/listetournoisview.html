@@ -11,12 +11,12 @@
             <div>
                 <h3> Filtre de recherche : </h3>
                 <form action="./index.php?page=listetournoi" class="RechercheL" method="GET">
-                    <input type="text" name="page" value="listetournoi" hidden>
+                    <input type="text" name="page" value="listetournoi" hidden/>
                     Jeu : <label>
-                        <input type="text" name="jeu" value="">
+                        <input type="text" name="jeu" value=""/>
                     </label>
                     Nom : <label>
-                        <input type="text" name="nom" value="">
+                        <input type="text" name="nom" value=""/>
                     </label>
                     Notoriété : <label>
                         <select name="Notoriety">
@@ -26,17 +26,17 @@
                             <option value="Regional">Regional</option>
                         </select>
                         Date : <label>
-                            <input type="date" name="date" value="">
-                        </label><br>
+                            <input type="date" name="date" value=""/>
+                        </label></br>
                         Lieu : <label>
-                            <input type="text" name="lieu" value="">
+                            <input type="text" name="lieu" value=""/>
                         </label>
                         PrixMin : <label>
-                            <input type="number" name="prixmin" min="0">
+                            <input type="number" name="prixmin" min="0"/>
                         </label>
-                        PrixMax : <label><input type="number" name="prixmax" min="0"></label>
-                        <input type="submit" value="Rénitialiser">
-                        <input type="submit" value="Rechercher">
+                        PrixMax : <label><input type="number" name="prixmax" min="0"/></label>
+                        <input id="reinitialiserT" type="submit" value="Réinitialiser"/>
+                        <input id="rechercherT" type="submit" value="Rechercher"/>
                 </form>
             </div>
             <table>

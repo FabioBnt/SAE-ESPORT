@@ -1,5 +1,5 @@
 <main class="scoredetails">
-        <h1 id="labelS1">Saisie des scores du Tournoi <?php echo (string)$nomTournoi.'<br>'. (string)$nomJeu ?> </h1>
+        <h1 id="labelS1">Saisie des scores du Tournoi <?php echo (string)$nomTournoi.'</br>'. (string)$nomJeu ?> </h1>
         <?php 
         $idJeu=null;
         if(array_key_exists("$idJeu",$listePools)){
@@ -90,7 +90,7 @@
                 </select>
                 </td>
                 </tr>
-                <noscript><input type="submit" value="Submit"></noscript>
+                <noscript><input type="submit" value="Submit"/></noscript>
             </div>
         </form>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
@@ -139,7 +139,7 @@
                 </select>
                 </td>
                 </tr>
-                <noscript><input type="submit" value="Submit"></noscript>
+                <noscript><input type="submit" value="Submit"/></noscript>
             </div>
         </form>
         <?php if(isset($_GET['equipe1']) && isset($_GET['equipe2'])){ ?>
@@ -154,17 +154,17 @@
                 <input type="hidden" name="equipe2" value="<?php echo $_GET['equipe2'];?>"/>
                 <tr>
                     <td>Score équipe 1:</td>
-                    <td><input type="number" name="score1" min="0" required></td>
+                    <td><input type="number" name="score1" min="0" required/></td>
                 </tr>
                 <tr>
                     <td>Score équipe 2:</td>
-                    <td><input type="number" name="score2" min="0" required></td>
+                    <td><input type="number" name="score2" min="0" required/></td>
                 </tr>
                 <tr>
                 <?php }?>
                     <a href="javascript:history.go(-1)" class="buttonE">Retour</a>
                     <?php if(isset($_GET['equipe1']) && isset($_GET['equipe2'])){ ?>
-                    <input  class="buttonE" type="submit" value="Valider">
+                    <input  class="buttonE" type="submit" value="Valider"/>
                 </tr>
             </div>
         </form>

@@ -34,12 +34,13 @@ class Pool
         return $this->matchs;
     }
     //add a match on a pool
-    public function addMatch(int $number,string $date,string $hour,array $teams): void
+    public function addMatchP(int $number,string $date,string $hour,array $teams): void
     {
+        $this->matchs[$number]= new MatchJ($number,$date,$hour);
         $dao= new ArbitratorDAO();
         $data= $dao->addMatch($this->id,$number);
         foreach($data as $ligne){
-            $this->matchs[$number]->addEquipeScore($teams[$ligne['IdEquipe']], $ligne['Score']);
+            $this->matchs[$number]->addteamscore($teams[$ligne['IdEquipe']], $ligne['Score']);
         }
     }
     //récupérer la meilleur équipe de la Pool
@@ -141,8 +142,8 @@ class Pool
     //initialize match
     public function setScoreMatch(int $number,int $idTeam1,int $idTeam2,int $score1,int $score2): void
     {
-        $this->matchs[$number]->setEquipeScore($idTeam1, $score1);
-        $this->matchs[$number]->setEquipeScore($idTeam2, $score2);
+        $this->matchs[$number]->setteamscore($idTeam1, $score1);
+        $this->matchs[$number]->setteamscore($idTeam2, $score2);
     }
 }
 ?>

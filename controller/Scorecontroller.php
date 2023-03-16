@@ -4,19 +4,23 @@ if (isset($_GET['page'])) {
     $page = $_GET['page'];
     switch ($page) {
         case 'score':
+            if (isset($_GET['IDJ'])) {
+                $idJeu = $_GET['IDJ'];
+                $liste = $_SESSION['game'.$idJeu];
+            }
+            print_r($liste);
             function ScoreCodeReplacer($buffer)
             {
                 $connx = Connection::getInstance();
                 $codeToReplace = array("##TOURNAMENTNAME##", "##TOURNAMENTGAME##", "##BUTTONMODIFYSCORE##",
-                 "##POULELISTIFEXIST##", "##CLASSEMENTIFFINALPOULE##", "##SCRIPTMODIFYSCORE##");
-                $replacementCode = array("", "", "", "", "", "");
+                 "##POULELISTIFEXIST##", "##CLASSEMENTIFFINALPOULE##", "##SCRIPTMODIFYSCORE##","##LISTEPOOL##");
+                $replacementCode = array("", "", "", "", "", "","BJR");
                 $listePools = null;
                 $nomTournoi = null;
                 $nomJeu = null;
                 $idJeu = null;
                 if (isset($_GET['IDJ'])) {
-                    $listePools = $_SESSION['game' . $_GET['IDJ']];
-                    echo "<script>alert('listePools : " . $listePools . "');</script>";
+                    $listePools = $_SESSION['game'.$_GET['IDJ']];
                     $nomTournoi = $_GET['NomT'];
                     $nomJeu = $_GET['JeuT'];
                     $idJeu = $_GET['IDJ'];
@@ -32,7 +36,7 @@ if (isset($_GET['page'])) {
                 if ($connx->getRole() == Role::Arbitre && isset($listePools)) {
                     $PoolFinaleExiste = false;
                     foreach ($listePools as $Pool) {
-                        if ($Pool->isPoolFinale()) {
+                        if ($Pool->isPoolFinal()) {
                             $PoolFinaleExiste = true;
                             if (!$Pool->checkIfAllScoreSet()) {
                                 $saisirScore = true;
@@ -68,7 +72,7 @@ if (isset($_GET['page'])) {
                         foreach ($Pool->getMatchs() as $match) {
                             $replacementCode[3] .= '<tr>';
                             foreach ($match->getScores() as $key => $ligneValue) {
-                                $equipe = $match->getEquipes()[$key];
+                                $equipe = $match->getTeams()[$key];
                                 $replacementCode[3] .= '<td>' . $equipe->getName() . '</td>';
                                 $replacementCode[3] .= '<td id="'.$key.'" class="score">';
                                 if ($ligneValue == null) {
@@ -96,12 +100,19 @@ if (isset($_GET['page'])) {
                                 $p = $Pool->BestTeams();
                                 $in = 1;
                                 foreach ($p as $e) {
-                                    $replacementCode[4] .= '<tr><td>' . $in . '</td><td>' . $e->getNom() . '</td></tr>';
+                                    $replacementCode[4] .= '<tr><td>' . $in . '</td><td>' . $e->getname() . '</td></tr>';
                                     $in++;
                                 }
                             }
                         }
                         $replacementCode[4] .= '</tbody></table>';
+                    }
+                }
+                foreach($listePools as $pool){
+                    $replacementCode[6] .= '<option value="'.$pool->getId().'">'.$pool->getId().'</option>';
+                    $replacementCode[6].=$pool->getMatchs()[1];
+                    foreach($pool->getMatchs() as $match){
+                        $replacementCode[6] .= '<option value="'.$match->getId().'">'.$match->getId().'</option>';
                     }
                 }
 
