@@ -4,11 +4,11 @@
                 <h1>Créer une équipe</h1>
                 <div class="formulaire">
                     <label id="Eqforml1"><b>Nom de l'équipe</b></label>
-                    <input id="Eqformi1" type="text" placeholder="KcorpFN..." name="name" required>
+                    <input id="Eqformi1" type="text" placeholder="KcorpFN..." name="name" required/>
                     <label id="Eqforml2"><b>Nom du compte</b></label>
-                    <input id="Eqformi2" type="text" placeholder="KcorpFNEquipe..." name="username" required>
+                    <input id="Eqformi2" type="text" placeholder="KcorpFNEquipe..." name="username" required/>
                     <label id="Eqforml3"><b>Mot de passe</b></label>
-                    <input id="Eqformi3" type="password" placeholder="kcorpfnmdp..." name="password" required>
+                    <input id="Eqformi3" type="password" placeholder="kcorpfnmdp..." name="password" required/>
                     <label id="Eqforml4"><b>Jeu</b></label>
                     <select name="jeuE" id="Eqformt1">
                         ##GameListTeam##
@@ -16,32 +16,33 @@
                     <table id="TabEquipeC">
                         <thead>
                             <tr>
-                                <th>Pseudo</th>
+                                <th>Pseudo*</th>
                                 <th>Nationalité</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input placeholder="Anonyme" type="text" name="pseudo1"></td>
-                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat1"></td>
+                                <td><input placeholder="Anonyme" type="text" name="pseudo1"/></td>
+                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat1"/></td>
                             </tr>
                             <tr>
-                                <td><input placeholder="Anonyme" type="text" name="pseudo2"></td>
-                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat2"></td>
+                                <td><input placeholder="Anonyme" type="text" name="pseudo2"/></td>
+                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat2"/></td>
                             </tr>
                             <tr>
-                                <td><input placeholder="Anonyme" type="text" name="pseudo3"></td>
-                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat3"></td>
+                                <td><input placeholder="Anonyme" type="text" name="pseudo3"/></td>
+                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat3"/></td>
                             </tr>
                             <tr>
-                                <td><input placeholder="Anonyme" type="text" name="pseudo4"></td>
-                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat4"></td>
+                                <td><input placeholder="Anonyme" type="text" name="pseudo4"/></td>
+                                <td><input placeholder="FR, EN, DE etc" type="text" name="nat4"/></td>
                             </tr>
                         </tbody>
                     </table>
-                    <input type="submit" class="buttonE" id="validerE" value='VALIDER' name="submit">
-                    <input type="button" class="buttonE" id="annulerE" value='ANNULER' onclick="window.location.href='./index.php?page=accueil'">
+                    <input type="submit" class="buttonE" id="validerE" value='VALIDER' name="submit"/>
+                    <input type="button" class="buttonE" id="annulerE" value='ANNULER' onclick="window.location.href='./index.php?page=accueil'"/>
                 </div>
+                <p id="messageasterisque">*l'insertion de joueur est facultative</p>
             </form>
         </div>
     </main>

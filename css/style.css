@@ -212,7 +212,7 @@ header #deconnexion {
   box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
   transform: translateY(-2px);
 }
-.buttonM{
+.buttonM, .buttonE{
   color: black;
 }
 /*-----------------*/
@@ -344,6 +344,12 @@ header #deconnexion {
 .tournoismain table {
   margin-top: 15px;
   margin-bottom: 15px;
+}
+#reinitialiserT {
+  color: orange;
+}
+#rechercherT {
+  color: green;
 }
 /*--------*/
 /*TABLEAU*/
@@ -506,6 +512,11 @@ header #deconnexion {
 /*------------------------*/
 /*PAGE CREEREQUIPE TABLEAU*/
 /*------------------------*/
+#messageasterisque {
+  padding: 0px;
+  margin: 0px;
+  font-style: italic;
+}
 /*------------------*/
 /*FORMULAIRE TOURNOI*/
 /*------------------*/
@@ -727,4 +738,7 @@ header #deconnexion {
 .formClassement {
   align-items: center;
   display: grid;
+}
+#validerCL:hover {
+  background-color: lightgreen;
 }

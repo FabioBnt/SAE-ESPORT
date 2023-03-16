@@ -348,7 +348,7 @@ class Tournament
              $ligne['EstPouleFinale'], $this->games[$ligne['IdJeu']]);
             $dataM = $this->userDao->selectTournamentPoolMatches($ligne['IdPoule']);
             foreach($dataM as $ligneM){
-                $this->Pools[$ligne['IdJeu']][$ligne['IdPoule']]->addMatch($ligneM['Numero'], $ligneM['dateM'],
+                $this->Pools[$ligne['IdJeu']][$ligne['IdPoule']]->addMatchP($ligneM['Numero'], $ligneM['dateM'],
                  $ligneM['HeureM'],$teams);
             }
         }
