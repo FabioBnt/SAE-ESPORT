@@ -1,6 +1,6 @@
 <?php
-require_once("./model/MatchJ.php");
-require_once("./dao/ArbitratorDAO.php");
+require_once('./model/MatchJ.php');
+require_once('./dao/ArbitratorDAO.php');
 //create a Pool
 class Pool
 {

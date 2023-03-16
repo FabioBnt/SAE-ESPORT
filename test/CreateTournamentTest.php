@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertSame;
+use function PHPUnit\Framework\assertTrue;
 
-require_once('../model/Administrator.php');
-require_once ("../dao/AdminDAO.php");
+require_once(dirname(__DIR__) . '/model/Administrator.php');
+require_once('./model/Connection.php');
 //create a tournament test
-class CreateTournamentTest extends \PHPUnit\Framework\TestCase {
+class CreateTournamentTest extends TestCase {
     private $admin;
     //set up
     protected function setUp(): void {
@@ -17,12 +19,17 @@ class CreateTournamentTest extends \PHPUnit\Framework\TestCase {
         $this->admin = null;
     }
     //test
-    public function testcreateTournament(){
+
+    /**
+     * @throws Exception
+     */
+    public function testcreateTournament(): void
+    {
         $dao =new AdminDAO();
         Connection::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrator);
         $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array(1));
-        $total = $dao->VerifIfTournamentExist("test");
-        assertSame($total[0]['total']-'0',1);
+        $total = $dao->VerifIfTournamentExist('test');
+        assertTrue($total);
     }
 }
 ?>

@@ -1,32 +1,53 @@
 ﻿<?php
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Util\Exception;
 use function PHPUnit\Framework\assertSame;
 
-require_once('../model/Administrator.php');
-require_once ('../model/Tournament.php');
-require_once ("../dao/AdminDAO.php");
-require_once ("../dao/TeamDAO.php");
+require_once('./model/Administrator.php');
+require_once ('./model/Tournament.php');
+require_once ('./model/Connection.php');
+require_once ('./model/Game.php');
+require_once ('./model/Team.php');
+require_once ('./dao/AdminDAO.php');
+require_once ('./dao/TeamDAO.php');
 //create a details team test
-class DetailsTeamTest extends \PHPUnit\Framework\TestCase {
+class DetailsTeamTest extends TestCase {
     private Tournament $tournoi;
     private Administrator $admin;
     private Team $equipe;
+    private Connection $user;
     //set up
+
+    /**
+     */
     protected function setUp(): void {
         $this->admin = new Administrator();
-        Connection::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrator);
+        $this->user = Connection::getInstanceWithoutSession();
         $this->tournoi = new Tournament();
-    } 
+    }
+
+//tear down
+    protected function tearDown(): void
+    {
+        $this->user->disconnect();
+    }
+
     //test
-    public function testnumberTournamentWin() {
+
+    /**
+     * @throws Exception
+     */
+    public function testnumberTournamentWin(): void
+    {
         $idGame = 8;
         $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array($idGame));
         $dao =new AdminDAO();
         $daoT =new TeamDAO();
-        $id = $dao->selectTournamentByName("test");
+        $id = $dao->selectTournamentByName('test');
         $this->tournoi->allTournaments();
-        $t = $this->tournoi->getTournament($id[0]['IdTournoi']);
-        Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Team);
+        $t = $this->tournoi->getTournament(end($id)['IdTournoi']);
+        $this->user->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Team);
         $idE=$daoT->selectTeamByGame($idGame);
         $i = 0;
         while($i < 16){

@@ -1,9 +1,9 @@
 <?php
-require_once ("./model/Connection.php");
-require_once ("./model/Organization.php");
-require_once ("./dao/TeamDAO.php");
-require_once ("./dao/UserDAO.php");
-require_once ("./model/Role.php");
+require_once ('./model/Connection.php');
+require_once ('./model/Organization.php');
+require_once ('./dao/TeamDAO.php');
+require_once ('./dao/UserDAO.php');
+require_once ('./model/Role.php');
 //create a team
 class Team
 {
@@ -23,7 +23,7 @@ class Team
      * @param $game
      */
     //constructor
-    public function __construct(int $id=0,string $name="",$points=null,string $Organization="",int $game=0){
+    public function __construct(int $id=0, string $name= '', $points=null, string $Organization= '', int $game=0){
         $this->id =$id;
         $this->name = $name;
         $this->points = $points;
@@ -37,13 +37,17 @@ class Team
      * @return bool
      */
     //savoir si l'équipe est connectée
-    public function isConnected(): bool
+    public function isConnected($optional = null): bool
     {
-        return (Connection::getInstanceWithoutSession()->IfgetRoleConnection(Role::Team) || Connection::getInstance()->IfgetRoleConnection(Role::Team));
+        if ($optional === null){
+            return (Connection::getInstance()->IfgetRoleConnection(Role::Team));
+        }
+        return (Connection::getInstanceWithoutSession()->IfgetRoleConnection(Role::Team));
     }
     /**
-     * @param Tournament $tournament
+     * @param string $name
      * @return int
+     * @throws Exception
      */
     //get id of a team by his name
     public static function getIDbyname(string $name) : int {
@@ -70,13 +74,14 @@ class Team
     //get poins of the team
     public function getPoints(): int
     {
-        if($this->points==""){
+        if($this->points== ''){
             return 0;
         }
         return $this->points;
     }
     /**
      * @return string
+     * @throws Exception
      */
     //get game name of the team by his id
     public function getGameName() : string
@@ -95,6 +100,7 @@ class Team
     /**
      * @param Tournament $tournament
      * @return bool
+     * @throws Exception
      */
     //know if team participate of the x tournament
     public function getIfTeamOnTournament(Tournament $tournament): bool
@@ -102,8 +108,9 @@ class Team
         return $this->daoT->TeamOnTournament($tournament,$this->id);
     }
     /**
-     * @param $id
+     * @param string $id
      * @return Team
+     * @throws Exception
      */
     //get team by his id
     public static function getTeam(string $id): Team
@@ -112,6 +119,10 @@ class Team
         return $dao->selectTeamByID($id);
     }
     //get players of a id team
+
+    /**
+     * @throws Exception
+     */
     public function getPlayers(string $id):array
     {
         return $this->daoT->selectPlayers($id);
@@ -169,23 +180,27 @@ class Team
         return $nb;
     }
     //register a team to a tournament
-    public function register(Tournament $tournament): int
+
+    /**
+     * @throws Exception
+     */
+    public function register(Tournament $tournament, $optional = null): int
     {
-        if(!$this->isConnected()){
-            throw new \RuntimeException('action qui nécessite une Connection en tant que membre du groupe');
+        if(!$this->isConnected($optional)){
+            throw new RuntimeException('action qui nécessite une Connection en tant que membre du groupe');
         }
         $nbParti = $tournament->getNumberParticipant($this->game);
         if($nbParti ===16){
-            throw new \RuntimeException('tournoi complet');
+            throw new RuntimeException('tournoi complet');
         }
         if(!$tournament->haveGame($this->game)){
-            throw new \RuntimeException('L\'équipe n\'est pas expert dans les games du tournoi');
+            throw new RuntimeException('L\'équipe n\'est pas expert dans les games du tournoi');
         }
-        if(strtotime($tournament->getregisterDeadline()) > strtotime(date("Y/m/d"))){
-            throw new \RuntimeException('L\'inscription est fermée pour ce tournoi');
+        if(strtotime($tournament->getregisterDeadline()) > strtotime(date('Y/m/d'))){
+            throw new RuntimeException('L\'inscription est fermée pour ce tournoi');
         }
         if($this->getIfTeamOnTournament($tournament)){
-            throw new \RuntimeException('Déjà inscrit');
+            throw new RuntimeException('Déjà inscrit');
         }
         $this->daoT->insertTeamTournament($tournament->getIdTournament(), $this->id);
         $nbParti++;
@@ -202,19 +217,24 @@ class Team
         return $this->teams;
     }
     //mettre a jour la liste
-    private function updateTeamList($data){
+    private function updateTeamList($data): void
+    {
         $this->teams = array();
         $last = -1;
         $index = -1;
         foreach ($data as $ligne) {
-            if($last != $ligne['IdEquipe']){ 
+            if($last !== $ligne['IdEquipe']){
                 $this->teams[] = new Team($ligne['IdEquipe'],$ligne['NomE'], $ligne['NbPointsE'],$ligne['IDEcurie'],$ligne['IdJeu']);
                 $last = $ligne['IdEquipe'];
-                $index+=1;
+                ++$index;
             }
         }
     }
     //get team by his id
+
+    /**
+     * @throws Exception
+     */
     public static function getTeamIDByAccountName(string $accountName):int
     {
         $dao= new TeamDAO();

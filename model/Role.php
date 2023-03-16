@@ -2,10 +2,10 @@
 //create Roles
 class Role
 {
-    const Visiteur = 'Visiteur';
-    const Administrator = 'Administrator';
-    const Arbitre = 'Arbitre';
-    const Organization = 'Organization';
-    const Team = 'Team';
+    public const Visiteur = 'Visiteur';
+    public const Administrator = 'Administrator';
+    public const Arbitre = 'Arbitre';
+    public const Organization = 'Organization';
+    public const Team = 'Team';
 }
 ?>

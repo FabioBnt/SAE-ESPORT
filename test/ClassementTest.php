@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-require_once("../model/Classement.php");
-require_once ("../dao/TeamDAO.php");
+require_once(dirname(__DIR__) . '/model/Classement.php');
+require_once ('./dao/TeamDAO.php');
 //create a test classsement
 class ClassementTest extends TestCase
 {
@@ -20,13 +20,17 @@ class ClassementTest extends TestCase
         $this->classement = null;
     }
     //test
+
+    /**
+     * @throws Exception
+     */
     public function testClassement(): void
     {
         $dao = new TeamDAO();
         $totalClassement = $dao->countNumberTeamByGame(8);
-        $this->classement->returnRanking(8);
+        $this->classement->returnRanking();
         $listeClassement =  $this->classement->getClassement();
-        $this->assertCount((int)$totalClassement[0]['total'] - '0', $listeClassement);
+        $this->assertCount($totalClassement[0]['total'] - '0', $listeClassement);
     }
 }
 ?>

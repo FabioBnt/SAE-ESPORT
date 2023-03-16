@@ -2,8 +2,8 @@
 //create a notoriety
 abstract class Notoriety
 {
-    const International = 'International';
-    const Local = 'Local';
-    const Regional = 'Regional';
+    public const International = 'International';
+    public const Local = 'Local';
+    public const Regional = 'Regional';
 }
 ?>

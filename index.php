@@ -13,8 +13,8 @@ require_once('./model/Classement.php');
 function headerCodeReplacer($buffer)
 {
     $connx = Connection::getInstance();
-    $codeToReplace = array("##printCreateTournamentButton##", "##printCreateOrganizationButton##", "##printConnectionButton##", "##printHelloAndDisconnectButton##", "##printCreateTeamButton##","##titleChange##");
-    $replacementCode = array("", "", "", "", "","");
+    $codeToReplace = array('##printCreateTournamentButton##', '##printCreateOrganizationButton##', '##printConnectionButton##', '##printHelloAndDisconnectButton##', '##printCreateTeamButton##', '##titleChange##');
+    $replacementCode = array('', '', '', '', '', '');
     if ($connx->getRole() == Role::Administrator) {
         $replacementCode[0] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creertournoi'\">Créer Tournoi</button>";
         $replacementCode[1] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creerecurie'\">Créer Ecurie</button>";
@@ -68,7 +68,7 @@ function headerCodeReplacer($buffer)
     $replacementCode[5]= $title ;
     return (str_replace($codeToReplace, $replacementCode, $buffer));
 }
-ob_start("headerCodeReplacer");
+ob_start('headerCodeReplacer');
 $Admin = new Administrator();
 $connx = Connection::getInstance();
 $Tournament = new Tournament();
@@ -83,37 +83,37 @@ if (isset($_GET['page'])) {
             require_once('./controller/Accueilcontroller.php');
             break;
         case 'connectionview':
-            require_once("./controller/Connectioncontroller.php");
+            require_once('./controller/Connectioncontroller.php');
             break;
         case 'listetournoi':
-            require_once("./controller/Tournamentcontroller.php");
+            require_once('./controller/Tournamentcontroller.php');
             break;
         case 'classement':
-            require_once("./controller/Tournamentcontroller.php");
+            require_once('./controller/Tournamentcontroller.php');
             break;
         case 'creerecurie':
-            require_once("./controller/Organizationcontroller.php");
+            require_once('./controller/Organizationcontroller.php');
             break;
         case 'creerequipe':
-            require_once("./controller/Teamcontroller.php");
+            require_once('./controller/Teamcontroller.php');
             break;
         case 'creertournoi':
-            require_once("./controller/Tournamentcontroller.php");
+            require_once('./controller/Tournamentcontroller.php');
             break;
         case 'listeequipe':
-            require_once("./controller/Teamcontroller.php");
+            require_once('./controller/Teamcontroller.php');
             break;
         case 'detailstournoi':
-            require_once("./controller/Tournamentcontroller.php");
+            require_once('./controller/Tournamentcontroller.php');
             break;
         case 'detailsequipe':
-            require_once("./controller/Teamcontroller.php");
+            require_once('./controller/Teamcontroller.php');
             break;
         case 'score':
-            require_once("./controller/Scorecontroller.php");
+            require_once('./controller/Scorecontroller.php');
             break;
         case 'saisirscore':
-            require_once("./controller/Scorecontroller.php");
+            require_once('./controller/Scorecontroller.php');
             break;
         default:
             require_once('./controller/Accueilcontroller.php');

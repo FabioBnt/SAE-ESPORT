@@ -1,5 +1,5 @@
 <?php
-require_once("./dao/UserDAO.php");
+require_once('./dao/UserDAO.php');
 //create a game
 class Game
 {
@@ -9,7 +9,7 @@ class Game
     private string $time;
     private string $registerLimit;
     //constructor
-    public function __construct(int $id=0,string $name="",string $type="",string $time="",string $registerLimit="10"){
+    public function __construct(int $id=0, string $name= '', string $type= '', string $time= '', string $registerLimit= '10'){
         $this->id = $id;
         $this->name = $name;
         $this->type = $type;
@@ -26,8 +26,8 @@ class Game
     }
     public function getdateLimit($hourstart):string{
         $datetime = date_create($hourstart);
-        $intervalDays = date_interval_create_from_date_string($this->registerLimit." days");
-        return date_format(date_sub($datetime,$intervalDays),"d/m/y");
+        $intervalDays = date_interval_create_from_date_string($this->registerLimit. ' days');
+        return date_format(date_sub($datetime,$intervalDays), 'd/m/y');
     }
     //get name of a game
     public function getname():string{

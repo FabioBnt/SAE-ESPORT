@@ -1,16 +1,16 @@
 <?php 
-require_once("./dao/DAO.php");
+require_once('./dao/DAO.php');
 //create an arbitrator dao class
 class ArbitratorDAO extends DAO {
     private PDO $mysql;
     //constructor
     public function __construct() {
-        $this->mysql=parent::getInstance()->getConnection();;
+        $this->mysql=parent::getInstance()->getConnection();
     }
     //insert pool of a tournament for a game
     public function insertTournamentPool(int $numberPool,bool $isFinalPool,int $idGame,int $idTournament):string {
         try {
-            $sql = "INSERT INTO Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi) VALUES (:numeroPoule, :estPouleFinale, :idJeu, :idTournoi)";
+            $sql = 'INSERT INTO Poule (NumeroPoule, EstPouleFinale, IdJeu, IdTournoi) VALUES (:numeroPoule, :estPouleFinale, :idJeu, :idTournoi)';
             $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return $stmt->execute(
@@ -24,19 +24,19 @@ class ArbitratorDAO extends DAO {
     }
     //select tournament pool by game and id tournament
     public function selectTournamentPool(int $idGame,int $idTournament):array{
-        $sql = "SELECT IdPoule FROM Poule WHERE IdJeu = :idJeu AND IdTournoi = :idTournoi";
+        $sql = 'SELECT IdPoule FROM Poule WHERE IdJeu = :idJeu AND IdTournoi = :idTournoi';
         try{
             $stmt = $this->mysql->prepare($sql);
             $stmt->execute(array(':idJeu' => $idGame, ':idTournoi' => $idTournament));
             return $stmt->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select tournament participents ' .$e->getMessage(), 1);
         }
     }
     //insert match of a pool
     public function insertPoolMatch(int $idPool,int $numberM,string $dateM,string $hourM):string{
         try {
-            $sql = "INSERT INTO MatchJ (IdPoule, Numero, dateM, HeureM) VALUES (:idPoule, :Numero, :dateM, :heureM)";
+            $sql = 'INSERT INTO MatchJ (IdPoule, Numero, dateM, HeureM) VALUES (:idPoule, :Numero, :dateM, :heureM)';
             $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
             return $stmt->execute(
@@ -50,7 +50,7 @@ class ArbitratorDAO extends DAO {
     }
     //insert particpant of a pool
     public function insertParticipantPool(int $idPool,int $idTeam):string{
-        $sql = "INSERT INTO Faire_partie (IdPoule, IdEquipe) VALUES (:idPoule, :idEquipe)";
+        $sql = 'INSERT INTO Faire_partie (IdPoule, IdEquipe) VALUES (:idPoule, :idEquipe)';
         try {
             $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
@@ -63,7 +63,7 @@ class ArbitratorDAO extends DAO {
     }
     //insert participant of a match on a pool
     public function insertParticipantPoolMatch(int $idPool,int $idTeam,int $idTeam2,int $numberM):string{
-        $sql = "INSERT INTO Concourir (IdEquipe, IdPoule, Numero, Score) VALUES (:idEquipe, :idPoule, :numero, :score)";
+        $sql = 'INSERT INTO Concourir (IdEquipe, IdPoule, Numero, Score) VALUES (:idEquipe, :idPoule, :numero, :score)';
         try {
             $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
@@ -83,7 +83,7 @@ class ArbitratorDAO extends DAO {
     }
     //update points of a team
     public function updateTeamPoints(int $points,int $idTeam):string{
-        $sql = "UPDATE Equipe SET NbPointsE = NbPointsE + :points WHERE IdEquipe = :idEquipe";
+        $sql = 'UPDATE Equipe SET NbPointsE = NbPointsE + :points WHERE IdEquipe = :idEquipe';
         try {
             $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
@@ -96,7 +96,7 @@ class ArbitratorDAO extends DAO {
     }
     //initialise points of a team
     public function setTeamPoints(int $points,int $idTeam):string{
-        $sql = "UPDATE Equipe SET NbPointsE = :points WHERE IdEquipe = :idEquipe";
+        $sql = 'UPDATE Equipe SET NbPointsE = :points WHERE IdEquipe = :idEquipe';
         try {
             $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
@@ -116,7 +116,7 @@ class ArbitratorDAO extends DAO {
             $data = $result->fetchAll();
             return  $data[0]['IdTournoi'];
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
     //select id game by id pool
@@ -128,7 +128,7 @@ class ArbitratorDAO extends DAO {
             $data = $result->fetchAll();
             return  $data[0]['IdJeu'];
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
     //select number of the pool by id pool and id team
@@ -141,12 +141,12 @@ class ArbitratorDAO extends DAO {
             $data = $result->fetchAll();
             return  $data[0]['number'];
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
     //update score of a team on a match
     public function updateTeamScoreOnMatch(int $idPool,int $idTeam,int $score,int $number):string{
-        $sql = "UPDATE Concourir SET Score = :score WHERE IdPoule = :IdPoule AND IdEquipe = :IdEquipe AND numero = :numero";
+        $sql = 'UPDATE Concourir SET Score = :score WHERE IdPoule = :IdPoule AND IdEquipe = :IdEquipe AND numero = :numero';
         try {
             $stmt = $this->mysql->prepare($sql);
             // pass an array of values to the execute method
@@ -168,7 +168,7 @@ class ArbitratorDAO extends DAO {
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
     //select sum score of a team for a pool
@@ -181,7 +181,7 @@ class ArbitratorDAO extends DAO {
             $data = $result->fetchAll();
             return $data[0]['scoreS'];
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
     //select team of a pool
@@ -193,7 +193,7 @@ class ArbitratorDAO extends DAO {
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
     //select score of a team
@@ -205,7 +205,7 @@ class ArbitratorDAO extends DAO {
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
-require_once("./model/Role.php");
-require_once("./dao/UserDAO.php");
+require_once('Role.php');
+require_once ('./dao/UserDAO.php');
 //create a connection
 class Connection
 {
@@ -8,74 +8,96 @@ class Connection
     private string $identifiant;
     private static $instance = null;
     private array $accounts = array();
+
     //constructor
     private function __construct()
     {
         $this->role = Role::Visiteur;
-        $this->identifiant = "Guest";
-        $this->accounts[Role::Administrator] = ["admin", "\$iutinfo"];
-        $this->accounts[Role::Arbitre] = ["arbitre", "\$iutinfo"];
+        $this->identifiant = 'Guest';
+        $this->accounts[Role::Administrator] = ['admin', "\$iutinfo"];
+        $this->accounts[Role::Arbitre] = ['arbitre', "\$iutinfo"];
     }
+
     //get instance of the Connection
-        
+
     public static function getInstance()
     {
-        if (session_status() == PHP_SESSION_NONE) {
+        // Vérifier si la session est active
+        if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (!isset($_SESSION[self::class])) {
-            self::$instance = new Connection();
-            $_SESSION[self::class] = self::$instance;
+
+        // Vérifier si l'instance est déjà enregistrée dans la session
+        if (!isset($_SESSION['instance'])) {
+            // Créer une nouvelle instance
+            $instance = new Connection();
+
+            // Enregistrer l'instance dans la session
+            $_SESSION['instance'] = $instance;
+        } else {
+            // Récupérer l'instance depuis la session
+            $instance = $_SESSION['instance'];
         }
-        return $_SESSION[self::class];
+
+        // Retourner l'instance
+        return $instance;
     }
+
     //connection session
-    function establishConnection(string $id, string $password,string $role):void
+
+    /**
+     * @throws Exception
+     */
+    public function establishConnection(string $id, string $password, string $role): void
     {
-        if ($role == Role::Administrator || $role == Role::Arbitre) {
-            if ($this->accounts[$role][0] == $id && $this->accounts[$role][1] == $password) {
+        if ($role === Role::Administrator || $role === Role::Arbitre) {
+            if ($this->accounts[$role][0] === $id && $this->accounts[$role][1] === $password) {
                 $this->role = $role;
                 $this->identifiant = $id;
             }
         } else {
             $dao = new UserDAO();
-            $data = $dao->connectToWebsite($id,$role);
+            $data = $dao->connectToWebsite($id, $role);
             foreach ($data as $ligne) {
-                if ($ligne['MDPCompte'] == $password) {
+                if ($ligne['MDPCompte'] === $password) {
                     $this->role = $role;
                     $this->identifiant = $id;
                 }
             }
         }
     }
+
     // get instance without session
     public static function getInstanceWithoutSession()
     {
-        if (self::$instance == null) {
+        if (self::$instance === null) {
             self::$instance = new Connection();
         }
         return self::$instance;
     }
+
     // disconnect session
-    public function disconnect():void
+    public function disconnect(): void
     {
         $this->role = Role::Visiteur;
-        $this->identifiant = "Guest";
+        $this->identifiant = 'Guest';
     }
+
     // if get role of the connection is the role param
-    public function IfgetRoleConnection(string $role):bool
+    public function IfgetRoleConnection(string $role): bool
     {
         return ($this->getRole() == $role);
     }
+
     //get identifiant of the connection
-    function getIdentifiant():string
+    public function getIdentifiant(): string
     {
         return $this->identifiant;
     }
+
     //get role of the connection
-    function getRole():string
+    public function getRole(): string
     {
         return $this->role;
     }
 }
-?>

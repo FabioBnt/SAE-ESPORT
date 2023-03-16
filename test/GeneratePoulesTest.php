@@ -4,13 +4,16 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertSame;
 
-require_once('../model/Tournament.php');
-require_once('../model/MatchJ.php');
-require_once('../model/Pool.php');
-require_once('../model/Administrator.php');
-require_once ("../dao/AdminDAO.php");
-require_once ("../dao/TeamDAO.php");
-require_once ("../dao/UserDAO.php");
+require_once(dirname(__DIR__) . '/model/Tournament.php');
+require_once(dirname(__DIR__) . '/model/MatchJ.php');
+require_once(dirname(__DIR__) . '/model/Pool.php');
+require_once(dirname(__DIR__) . '/model/Administrator.php');
+require_once ('./dao/AdminDAO.php');
+require_once ('./dao/TeamDAO.php');
+require_once ('./model/Team.php');
+require_once ('./dao/UserDAO.php');
+require_once ('./model/Connection.php');
+require_once ('./model/Game.php');
 //créer un test générer Pool
 class GeneratePoolsTest extends TestCase {
     private Tournament $tournoi;
@@ -23,6 +26,10 @@ class GeneratePoolsTest extends TestCase {
         $this->tournoi = new Tournament();
     } 
     //test
+
+    /**
+     * @throws Exception
+     */
     public function testGeneratePools(): void
     {
         $idJeu = 8;
@@ -30,15 +37,18 @@ class GeneratePoolsTest extends TestCase {
         $dao2=new TeamDAO();
         $dao3=new UserDAO();
         $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array($idJeu));
-        $id=$dao->selectTournamentByName("test");
+        $id = $dao->selectTournamentByName('test');
+
         $this->tournoi->allTournaments();
-        $t = $this->tournoi->getTournament($id[0]['IdTournoi']);
+        $t = $this->tournoi->getTournament(end($id)['IdTournoi'] - '0');
+        Connection::getInstanceWithoutSession()->disconnect();
         Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Team);
         $idE=$dao2->selectTeamByGame($idJeu);
         $i = 0;
         while($i < 16){
             $this->equipe = Team::getTeam($idE[$i]['IdEquipe']);
-            $this->equipe->register($t);
+            // TODO: FIX THIS MF
+            $this->equipe->register($t,1);
             $i++;
         }
         $id = $t->getIdTournament();

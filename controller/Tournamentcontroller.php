@@ -7,8 +7,8 @@ if (isset($_GET['page'])) {
             function tournamentCodeReplacer($buffer)
             {
                 $Tournament = new Tournament();
-                $codeToReplace = array("##FOREACH TOURNAMENT##");
-                $replacementCode = array("");
+                $codeToReplace = array('##FOREACH TOURNAMENT##');
+                $replacementCode = array('');
                 $liste = $Tournament->allTournaments();
                 if (
                     isset($_GET['jeu']) || isset($_GET['nom']) || isset($_GET['prixmin']) || isset($_GET['prixmax'])
@@ -28,17 +28,17 @@ if (isset($_GET['page'])) {
                         $e->getMessage(); // to verify
                     }
                 }
-                $tournamentList = "";
+                $tournamentList = '';
                 foreach ($liste as $T) {
-                    $tournamentList .= "<tr>
-                        <td>" . $T->getName() . "</td>
-                        <td> " . $T->getCashPrize() . "</td>
-                        <td> " . $T->getNotoriety() . "</td>
-                        <td> " . $T->getLocation() . "</td>
-                        <td> " . $T->getHourStart() . "</td>
-                        <td> " . $T->getDate() . "</td>
-                        <td> " . $T->getregisterDeadline() . "</td>
-                        <td> " . $T->namesgames() . "</td>
+                    $tournamentList .= '<tr>
+                        <td>' . $T->getName() . '</td>
+                        <td> ' . $T->getCashPrize() . '</td>
+                        <td> ' . $T->getNotoriety() . '</td>
+                        <td> ' . $T->getLocation() . '</td>
+                        <td> ' . $T->getHourStart() . '</td>
+                        <td> ' . $T->getDate() . '</td>
+                        <td> ' . $T->getregisterDeadline() . '</td>
+                        <td> ' . $T->namesgames() . "</td>
                         <td><a href=\"./index.php?page=detailstournoi&IDT=".$T->getIdTournament()."\"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                         </tr>";
                 }
@@ -46,34 +46,34 @@ if (isset($_GET['page'])) {
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
             require_once('./view/headerview.html');
-            ob_start("tournamentCodeReplacer");
+            ob_start('tournamentCodeReplacer');
             require_once('./view/listetournoisview.html');
             ob_end_flush();
             break;
         case 'classement':
             function rankingCodeReplacer($buffer)
             {
-                $codeToReplace = array("##printGameOptions##", "##printRankingTitle##", "##pathFormRanking##", "##printTeamRanking##");
+                $codeToReplace = array('##printGameOptions##', '##printRankingTitle##', '##pathFormRanking##', '##printTeamRanking##');
                 $listeJeux = Game::allGames();
-                if (isset($_GET['jeuC']) && $_GET['jeuC']!="default") {
+                if (isset($_GET['jeuC']) && $_GET['jeuC']!= 'default') {
                     $ranking = new Classement($_GET['jeuC']);
                     $jeu = Game::getGameById($_GET['jeuC']);
                     $teamRanking = $ranking->returnRanking();
                 }
-                $replacementCode = array("","","","");
+                $replacementCode = array('', '', '', '');
                 $replacementCode[0] = "<option value='default'>--Choisissez un Jeu--</option>";
                 foreach ($listeJeux as $jeu) {
                     if (isset($_GET['jeuC']) && $_GET['jeuC'] == $jeu->getId()) {
-                        $selected = "selected";
+                        $selected = 'selected';
                     } else {
-                        $selected = "";
+                        $selected = '';
                     }
-                    $replacementCode[0] .= "<option value=" . $jeu->getId() . " " . $selected . ">" . $jeu->getName() . "</option>";
+                    $replacementCode[0] .= '<option value=' . $jeu->getId() . ' ' . $selected . '>' . $jeu->getName() . '</option>';
                 }
-                if (isset($_GET['jeuC']) && $_GET['jeuC']!="default") {
-                    $replacementCode[1] = "<h1>Classement du jeu : " . Game::getGameById($_GET['jeuC'])->getName() . "</h1>";
+                if (isset($_GET['jeuC']) && $_GET['jeuC']!= 'default') {
+                    $replacementCode[1] = '<h1>Classement du jeu : ' . Game::getGameById($_GET['jeuC'])->getName() . '</h1>';
                 }
-                $replacementCode[2] = "./index.php?page=classement&jeuC=" . $_GET['jeuC'];
+                $replacementCode[2] = './index.php?page=classement&jeuC=' . $_GET['jeuC'];
 
                 if (!empty($teamRanking)) {
                     $i = 1;
@@ -85,35 +85,35 @@ if (isset($_GET['page'])) {
                     <th>Plus d'informations</th></tr>
                     </thead><tbody>";
                     foreach ($teamRanking as $team) {
-                        $teamRankingTable .="
+                        $teamRankingTable .= '
                         <tr>
-                        <td>" . $i++ . "</td>
-                        <td>" . $team->getname() . "</td>
-                        <td>" . $team->getPoints() . "</td>
+                        <td>' . $i++ . '</td>
+                        <td>' . $team->getname() . '</td>
+                        <td>' . $team->getPoints() . "</td>
                         <td><a href='index.php?page=detailsequipe&IDE=" . $team->getId() . "'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                         </tr>";
                     }
-                    $replacementCode[3] = $teamRankingTable."</tbody></table>
-                    </div>";
+                    $replacementCode[3] = $teamRankingTable. '</tbody></table>
+                    </div>';
                 }
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
             require_once('./view/headerview.html');
-            ob_start("rankingCodeReplacer");
+            ob_start('rankingCodeReplacer');
             require_once('./view/classementview.html');
             ob_end_flush();
             break;
         case 'creertournoi':
             function CreateTournamentCodeReplace($buffer)
             {
-                $codeToReplace = array("##GameListTournament##", "##DATETournament##");
+                $codeToReplace = array('##GameListTournament##', '##DATETournament##');
                 $replacementCode = array();
                 $listeJeux = Game::allGames();
                 $date = date('Y-m-d', strtotime('+1 month'));
                 foreach ($listeJeux as $jeu) {
-                    $result.= "<div><input type=\"checkbox\" name=\"jeuT[]\" value=" . $jeu->getId() . ">" . $jeu->getName() . "</div>";
+                    $result.= "<div><input type=\"checkbox\" name=\"jeuT[]\" value=" . $jeu->getId() . '>' . $jeu->getName() . '</div>';
                 }
-                $dateT = "<input id=\"Tformi2\" type=\"date\" name=\"date\" min=".$date." value=".$date." require_onced>";
+                $dateT = "<input id=\"Tformi2\" type=\"date\" name=\"date\" min=".$date. ' value=' .$date. ' require_onced>';
                 $replacementCode[0] = $result;
                 $replacementCode[1] = $dateT;
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
@@ -131,7 +131,7 @@ if (isset($_GET['page'])) {
                 $Admin->createTournament($_POST['name'], $cash, $_POST['typeT'], $_POST['lieu'], $_POST['heure'], $_POST['date'], $_POST['jeuT']);
                 header('Location: ./index.php?page=accueil');
             }
-            ob_start("CreateTournamentCodeReplace");
+            ob_start('CreateTournamentCodeReplace');
             require_once('./view/creertournoiview.html');
             ob_end_flush();
             break;
@@ -166,10 +166,10 @@ if (isset($_GET['page'])) {
                 }
                 
 
-                $codeToReplace = array("##GETNAMETOURNAMENT##","##GETDATETOURNAMENT##","##GETHOURTOURNAMENT##",
-                "##GETLOCATIONTOURNAMENT##","##GETCASHPRIZETOURNAMENT##","##GETNOTORIETYTOURNAMENT##","##GETGAMESTOURNAMENT##",
-                "##GETREGISTERTOURNAMENT##","##GETPARTICIPANTTOURNAMENT##");
-                $replacementCode = array("","","","","","","","","");
+                $codeToReplace = array('##GETNAMETOURNAMENT##', '##GETDATETOURNAMENT##', '##GETHOURTOURNAMENT##',
+                    '##GETLOCATIONTOURNAMENT##', '##GETCASHPRIZETOURNAMENT##', '##GETNOTORIETYTOURNAMENT##', '##GETGAMESTOURNAMENT##',
+                    '##GETREGISTERTOURNAMENT##', '##GETPARTICIPANTTOURNAMENT##');
+                $replacementCode = array('', '', '', '', '', '', '', '', '');
 
                 $replacementCode[0] = $tournament->getName();
                 $replacementCode[1] = $tournament->getDate();
@@ -178,12 +178,12 @@ if (isset($_GET['page'])) {
                 $replacementCode[4] = $tournament->getCashPrize();
                 $replacementCode[5] = $tournament->getNotoriety();
 
-                $gameTable = "";
+                $gameTable = '';
                 foreach ($tournament->getGames() as $jeu) {
-                    $gameTable .= "<tr>
-                    <td>" . $jeu->getName() . "</td>
-                    <td>" . $jeu->getdateLimit($tournament->getdateHour()) . "</td>
-                    <td><a href='./index.php?page=score&IDJ=" . $jeu->getId() . "&NomT=" . $tournament->getName() . "&JeuT=" . $jeu->getName() . "'><img src='./img/Detail.png' alt='Details' class='imgB'></a></td>
+                    $gameTable .= '<tr>
+                    <td>' . $jeu->getName() . '</td>
+                    <td>' . $jeu->getdateLimit($tournament->getdateHour()) . "</td>
+                    <td><a href='./index.php?page=score&IDJ=" . $jeu->getId() . '&NomT=' . $tournament->getName() . '&JeuT=' . $jeu->getName() . "'><img src='./img/Detail.png' alt='Details' class='imgB'></a></td>
                     </tr>";
                     // modified PoolsJeux by poolJeux[id];
                     $_SESSION['game' . $jeu->getId()] = $PoolsGame[$jeu->getId()];
@@ -204,27 +204,27 @@ if (isset($_GET['page'])) {
                     }
                 }
                 
-                $participantTable = "";
+                $participantTable = '';
                 foreach($tournament->getGames() as $jeu){
                     $teampools=$tournament->TeamsOfPoolParticipants($jeu->getId());
                     if ($teampools != array()) {
                         $participantTable .= "<table>
                         <thead>
-                            <tr><th colspan='2'>".$jeu->getName()."</th></tr>
+                            <tr><th colspan='2'>".$jeu->getName(). '</th></tr>
                             <tr>
                                 <th>Participant</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
-                        <tbody>";
+                        <tbody>';
                         foreach ($teampools as $participant) {
-                            $participantTable .= "<tr>
-                            <td>" . $participant->getName() . "</td>
+                            $participantTable .= '<tr>
+                            <td>' . $participant->getName() . "</td>
                             <td><a href='./index.php?page=detailsequipe&IDE=" . $participant->getId() . "'><img class='imgB' src='./img/detail.png' alt='Details'></a></td>
                             </tr>";
                         }
-                        $participantTable .= "</tbody>
-                        </table>";
+                        $participantTable .= '</tbody>
+                        </table>';
                     }
                 }
                 $replacementCode[8] = $participantTable;
@@ -233,7 +233,7 @@ if (isset($_GET['page'])) {
 
 
             require_once('./view/headerview.html');
-            ob_start("TournamentDetailsCodeReplace");
+            ob_start('TournamentDetailsCodeReplace');
             require_once('./view/detailstournoiview.html');
             ob_end_flush();
             break;

@@ -1,12 +1,13 @@
 <?php 
 declare(strict_types=1);
 
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertSame;
 
-include_once('../model/Team.php');
-require_once ("../dao/UserDAO.php");
+include_once(dirname(__DIR__) . '/model/Team.php');
+require_once ('./dao/UserDAO.php');
 //create a register team test
-class RegisterTeamTest extends \PHPUnit\Framework\TestCase {
+class RegisterTeamTest extends TestCase {
     private $equipe;
     private $tournois;
     //set up

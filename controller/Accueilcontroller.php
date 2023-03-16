@@ -2,8 +2,8 @@
 function homeCodeReplace($buffer)
 {
     $connx = Connection::getInstance();
-    $codeToReplace = array("##printCreateTournamentButton##", "##printCreateOrganizationButton##","##printSuggestedTournamentsForTeam##");
-    $replacementCode = array("","","");
+    $codeToReplace = array('##printCreateTournamentButton##', '##printCreateOrganizationButton##', '##printSuggestedTournamentsForTeam##');
+    $replacementCode = array('', '', '');
     if($connx->getRole()==Role::Administrator){
         $replacementCode[0] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creertournoi'\">Créer Tournoi</button>";
     } 
@@ -33,26 +33,26 @@ function homeCodeReplace($buffer)
         </thead>
         <tbody>";
         foreach ($listTournaments as $T){
-            $teamTournaments.="<tr>
-            <td>".$T->getName()."</td>
-            <td>".$T->getCashPrize()."</td>
-            <td>".$T->getNotoriety()."</td>
-            <td>".$T->getLocation()."</td>
-            <td>".$T->getHourStart()."</td>
-            <td>".$T->getDate()."</td>
-            <td>".$T->getregisterDeadline()."</td>
-            <td>".$T->namesgames()."</td>
+            $teamTournaments.= '<tr>
+            <td>' .$T->getName(). '</td>
+            <td>' .$T->getCashPrize(). '</td>
+            <td>' .$T->getNotoriety(). '</td>
+            <td>' .$T->getLocation(). '</td>
+            <td>' .$T->getHourStart(). '</td>
+            <td>' .$T->getDate(). '</td>
+            <td>' .$T->getregisterDeadline(). '</td>
+            <td>' .$T->namesgames()."</td>
             <td><a href='./index.php?page=detailstournoi&IDT=".$T->getIdTournament()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
             </tr>";
         }
-        $replacementCode[2] = $teamTournaments."</tbody>
-        </table>";;
+        $replacementCode[2] = $teamTournaments. '</tbody>
+        </table>';
     }
     return (str_replace($codeToReplace, $replacementCode, $buffer));
 }
 $connx = Connection::getInstance();
 require_once('./view/headerview.html');
-ob_start("homeCodeReplace");
+ob_start('homeCodeReplace');
 require_once('./view/accueilview.html');
 ob_end_flush();
 ?>

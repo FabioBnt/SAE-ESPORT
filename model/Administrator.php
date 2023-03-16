@@ -1,8 +1,8 @@
 <?php
-require_once ("./dao/AdminDAO.php");
+require_once ('./dao/AdminDAO.php');
 //Create an administrator
 class Administrator {
-    private $dao;
+    private AdminDAO $dao;
     //constructor
     public function __construct(){
         $this->dao= new AdminDAO();

@@ -1,13 +1,14 @@
 <?php 
 declare(strict_types=1);
 
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertSame;
 
-include_once('../model/Tournament.php');
-include_once('../model/MatchJ.php');
-require_once ("../dao/ArbitratorDAO.php");
+include_once(dirname(__DIR__) . '/model/Tournament.php');
+include_once(dirname(__DIR__) . '/model/MatchJ.php');
+require_once ('./dao/ArbitratorDAO.php');
 //create a result test
-class ResultTest extends \PHPUnit\Framework\TestCase {
+class ResultTest extends TestCase {
     //test
     public function testSetScore() {
         $dao=new ArbitratorDAO();

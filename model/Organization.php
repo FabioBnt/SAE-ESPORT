@@ -1,5 +1,5 @@
 <?php
-require_once ("./dao/OrganizationDAO.php");
+require_once ('./dao/OrganizationDAO.php');
 //create an organization
 class Organization {
     private string $designation;

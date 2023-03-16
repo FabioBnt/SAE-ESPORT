@@ -7,21 +7,21 @@ if (isset($_GET['page'])) {
             function CreateTeamCodeReplace($buffer)
             {
                 $connx = Connection::getInstance();
-                $codeToReplace = array("##GameListTeam##");
+                $codeToReplace = array('##GameListTeam##');
                 $replacementCode = array();
-                $GameList="";
+                $GameList= '';
                 if ($connx->getRole() == Role::Organization) {
                     $id = Organization::getIDbyAccountName($connx->getIdentifiant());
                 }
                 $listeJeux = Game::getGameTeamNotPlayed($id);  
                 foreach($listeJeux as $jeu){ 
-                    $GameList.="<option value=".$jeu->getId().">".$jeu->getName()."</option>";
+                    $GameList.= '<option value=' .$jeu->getId(). '>' .$jeu->getName(). '</option>';
                 }
                 $replacementCode[0]=$GameList;
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
             require_once('./view/headerview.html');
-            ob_start("CreateTeamCodeReplace");
+            ob_start('CreateTeamCodeReplace');
             require_once('./view/creerequipeview.html');
             ob_end_flush(); 
             if (isset($_POST['submit'])) {
@@ -43,10 +43,10 @@ if (isset($_GET['page'])) {
             {
                 $connx = Connection::getInstance();
                 $Equipes = new Team();
-                $codeToReplace = array("##FOREACHTEAMORGA##","##FOREACHTEAM##");
-                $replacementCode = array("","");
-                $Orgalist = "";
-                $Teamlist="";
+                $codeToReplace = array('##FOREACHTEAMORGA##', '##FOREACHTEAM##');
+                $replacementCode = array('', '');
+                $Orgalist = '';
+                $Teamlist= '';
                 if($connx->getRole() == Role::Organization){
                     $Orgalist.= "<a href='./index.php?page=creerequipe' class='buttonE'>Créer Equipe</a>
                     </div><h1>Mes équipes</h1><div>
@@ -57,20 +57,20 @@ if (isset($_GET['page'])) {
                     $id = Organization::getIDbyAccountName($identifiant);
                     $listeE = $Equipes->getTeamList($id);
                     foreach ($listeE as $E){
-                        $Orgalist.="<tr>
-                            <td>".$E->getName()."</td>
-                            <td>".$E->getGameName()."</td>
+                        $Orgalist.= '<tr>
+                            <td>' .$E->getName(). '</td>
+                            <td>' .$E->getGameName()."</td>
                             <td><a href=\"./index.php?page=detailsequipe&IDE=".$E->getId()."\"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                         </tr>";
                     }
-                    $Orgalist.="</tbody></table></div>";
+                    $Orgalist.= '</tbody></table></div>';
                 }
                 $listeE2= $Equipes->getTeamList();
                 foreach ($listeE2 as $E){ 
-                    $Teamlist.="<tr>
-                    <td>".$E->getName().
-                    "</td><td>".$E->getOrganization()."</td>
-                    <td>".$E->getGameName()."</td>
+                    $Teamlist.= '<tr>
+                    <td>' .$E->getName().
+                        '</td><td>' .$E->getOrganization(). '</td>
+                    <td>' .$E->getGameName()."</td>
                     <td><a href=\"./index.php?page=detailsequipe&IDE=".$E->getId()."\"><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                     </tr>";
                 }
@@ -79,7 +79,7 @@ if (isset($_GET['page'])) {
             return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
             require_once('./view/headerview.html');
-            ob_start("teamCodeReplace");
+            ob_start('teamCodeReplace');
             require_once('./view/listeequipeview.html');
             ob_end_flush();
             break;
@@ -91,11 +91,11 @@ if (isset($_GET['page'])) {
                 $Equipe = $Equipes->getTeam($_GET['IDE']);
                 $Joueurs = $Equipe->getPlayers($_GET['IDE']);
                 $data=$Tournament->tournamentsParticipatedByTeam($_GET['IDE']);
-                $codeToReplace = array("##GETNAMETEAM##","##GETGAMETEAM##","##GETORGATEAM##",
-                "##GETTWINTEAM##","##GETGAINWINTEAM##","##GETPOINTSTEAM##","##GETPLAYERSTEAM##","##GETTOURNAMENTTEAM##");
+                $codeToReplace = array('##GETNAMETEAM##', '##GETGAMETEAM##', '##GETORGATEAM##',
+                    '##GETTWINTEAM##', '##GETGAINWINTEAM##', '##GETPOINTSTEAM##', '##GETPLAYERSTEAM##', '##GETTOURNAMENTTEAM##');
                 $replacementCode = array($Equipe->getName(),$Equipe->getGameName(),$Equipe->getOrganization(),$Equipe->getNbmatchWin(),
-                $Equipe->sumTournamentWin(),$Equipe->getPoints(),"","");
-                $Players="";
+                $Equipe->sumTournamentWin(),$Equipe->getPoints(), '', '');
+                $Players= '';
                 if($data==null){
                     $i=0;
                     while($i<4){ 
@@ -108,10 +108,10 @@ if (isset($_GET['page'])) {
                 }else{
                     $i=0;
                     foreach ($Joueurs as $J){
-                        $Players.="<tr>
-                        <td>".$J['Pseudo']."</td>
-                        <td>".$J['Nationalite']."</td>
-                        </tr>";
+                        $Players.= '<tr>
+                        <td>' .$J['Pseudo']. '</td>
+                        <td>' .$J['Nationalite']. '</td>
+                        </tr>';
                         $i++;
                     }
                     while($i<4){
@@ -122,7 +122,7 @@ if (isset($_GET['page'])) {
                         $i++;
                     }
                 }
-                $TournamentTeam="";
+                $TournamentTeam= '';
                 if($data !=array()){
                     $TournamentTeam.="<table>
                     <thead>
@@ -141,27 +141,27 @@ if (isset($_GET['page'])) {
                     </thead>
                     <tbody>";
                     foreach ($data as $T){
-                        $TournamentTeam.="<tr>
-                        <td>".$T->getName()."</td>
-                        <td>".$T->getCashPrize()."</td>
-                        <td>".$T->getNotoriety()."</td>
-                        <td>".$T->getLocation()."</td>
-                        <td>".$T->getHourStart()."</td>
-                        <td>".$T->getDate()."</td>
-                        <td>".$T->getregisterDeadline()."</td>
-                        <td>".$T->namesgames()."</td>
+                        $TournamentTeam.= '<tr>
+                        <td>' .$T->getName(). '</td>
+                        <td>' .$T->getCashPrize(). '</td>
+                        <td>' .$T->getNotoriety(). '</td>
+                        <td>' .$T->getLocation(). '</td>
+                        <td>' .$T->getHourStart(). '</td>
+                        <td>' .$T->getDate(). '</td>
+                        <td>' .$T->getregisterDeadline(). '</td>
+                        <td>' .$T->namesgames()."</td>
                         <td><a href='./index.php?page=detailstournoi&IDT=".$T->getIdTournament()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
                         </tr>";
                     }
-                    $TournamentTeam.="</tbody>
-                    </table>";
+                    $TournamentTeam.= '</tbody>
+                    </table>';
                     }
                 $replacementCode[6]=$Players;
                 $replacementCode[7]=$TournamentTeam;
                 return (str_replace($codeToReplace, $replacementCode, $buffer));
             }
             require_once('./view/headerview.html');
-            ob_start("DetailsTeamCodeReplace");
+            ob_start('DetailsTeamCodeReplace');
             require_once('./view/detailsequipeview.html');
             ob_end_flush();
             break;

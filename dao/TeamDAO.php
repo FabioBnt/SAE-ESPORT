@@ -1,16 +1,16 @@
 <?php 
-require_once("./dao/DAO.php");
+require_once('./dao/DAO.php');
 //create a team dao
 class TeamDAO extends DAO {
     private PDO $mysql;
     //constructor
     public function __construct() {
-        $this->mysql=parent::getInstance()->getConnection();
+        $this->mysql= self::getInstance()->getConnection();
     }
     //select tournaments where a team played
     public function selectTournamentsForTeam(string $idTeam=null,string $idGame=null,string $dateT=null):array{
         $sql = '';
-        if($idGame != null && $dateT != null){
+        if($idGame !== null && $dateT !== null){
                 $sql = "SELECT T.IdTournoi, T.NomTournoi, T.CashPrize, T.Notoriete, T.Lieu, T.DateHeureTournois,
                 J.IdJeu, J.NomJeu, J.TypeJeu, J.TempsDeJeu, J.DateLimiteInscription FROM Tournois T, Contenir C, Jeu J where C.IdJeu = J.IdJeu
                 AND C.IdTournoi = T.IdTournoi AND  J.IdJeu='$idGame' AND T.DateHeureTournois > '$dateT'
@@ -22,11 +22,9 @@ class TeamDAO extends DAO {
             AND C.IdTournoi = T.IdTournoi AND T.IdTournoi=P.IdTournoi AND P.IdEquipe=E.IdEquipe AND E.IdJeu=J.IdJeu AND E.IdEquipe='$idTeam' ORDER BY 1";
         }
         try{
-            $result = $this->mysql->prepare($sql);
-            $result->execute();
-            return $result->fetchAll();
+            return $this->mysql->query($sql)->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select tournament ".$e->getMessage(), 1);
+            throw new RuntimeException('Error Processing Request select tournament ' .$e->getMessage(), 1);
         }
      }
      //get id by name for a team
@@ -38,32 +36,30 @@ class TeamDAO extends DAO {
             $data= $result->fetchAll();
             return (int)$data[0]['IdEquipe'];
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select id by name team ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select id by name team ' .$e->getMessage(), 1);
         }
     }
     //select name of the game by id
     public function selectGameName(int $id):string{
         $sql = "SELECT J.NomJeu FROM Jeu J WHERE J.IdJeu=$id";
         try{
-            $result = $this->mysql->prepare($sql);
-            $result->execute();
+            $result = $this->mysql->query($sql);
             $data= $result->fetchAll();
             return $data[0]['NomJeu'];
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select game name by id ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select game name by id ' .$e->getMessage(), 1);
         }
     }
     //select team of a tournament and return a boolean
     public function TeamOnTournament(Tournament $tournament,int $idT): bool
     {
-        $sql = "SELECT count(*) as total FROM Participer WHERE IdTournoi =".$tournament->getIdTournament()." AND IdEquipe =$idT";
+        $sql = 'SELECT count(*) as total FROM Participer WHERE IdTournoi =' .$tournament->getIdTournament()." AND IdEquipe =$idT";
         try{
-            $result = $this->mysql->prepare($sql);
-            $result->execute();
+            $result = $this->mysql->query($sql);
             $data= $result->fetchAll();
             return $data[0]['total'] > 0;
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select team on tournament ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select team on tournament ' .$e->getMessage(), 1);
         }
     }
     //select team by his id
@@ -72,15 +68,14 @@ class TeamDAO extends DAO {
         $Team=null;
         $sql = "SELECT * FROM Equipe e, Jeu j WHERE IdEquipe ='$id' AND j.IdJeu = e.IdJeu";
         try{
-            $result = $this->mysql->prepare($sql);
-            $result->execute();
+            $result = $this->mysql->query($sql);
             $data= $result->fetchAll();
             foreach($data as $ligneE){
                 $Team = new Team($ligneE['IdEquipe'], $ligneE['NomE'], $ligneE['NbPointsE'], $ligneE['IDEcurie'],$ligneE['IdJeu']);
             }
             return $Team;
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select team by id ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select team by id ' .$e->getMessage(), 1);
         }
     }
     //select players of a team by his id
@@ -90,25 +85,24 @@ class TeamDAO extends DAO {
         try{
             $result = $this->mysql->prepare($sql);
             $result->execute();
-            return $result->fetchAll();;
+            return $result->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
     //insert a team on a tournament
     public function insertTeamTournament(int $idTournament,int $idTeam):string{
         $sql = "INSERT INTO Participer (IdTournoi,IdEquipe) VALUES ('$idTournament','$idTeam')";
         try{
-            $result = $this->mysql->prepare($sql);
-            return $result->execute();
+            return $this->mysql->prepare($sql)->execute();
         }catch(PDOException $e){
-            throw new Exception("Error Processing insert team ".$e->getMessage(), 1);
+            throw new \RuntimeException('Error Processing insert team ' .$e->getMessage(), 1);
         }
     }
     // select mysql for a team list - on a Organization
     public function selectTeam(int $id=null):array{
         if(is_null($id)){
-            $sql = "SELECT * FROM Equipe E ORDER BY IdJeu";
+            $sql = 'SELECT * FROM Equipe E ORDER BY IdJeu';
         } else {
             $sql = "SELECT * FROM Equipe E where E.IdEcurie=$id ORDER BY IdJeu";
         }
@@ -117,7 +111,7 @@ class TeamDAO extends DAO {
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select team list ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select team list ' .$e->getMessage(), 1);
         }
     }
     //select team by his account name
@@ -129,18 +123,16 @@ class TeamDAO extends DAO {
             $result->execute();
             return $result->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
     //select cashprize by id tournament
     public function countNumberTeamByGame(int $idG):array{
         $sql = "SELECT count(*) as total FROM Equipe WHERE IdJeu=$idG";
         try{
-            $stm = $this->mysql->prepare($sql);
-            $stm->execute();
-            return $stm->fetchAll();
+            return $this->mysql->query($sql)->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select tournament participents ' .$e->getMessage(), 1);
         }
     }
     //select id team by game
@@ -151,7 +143,7 @@ class TeamDAO extends DAO {
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select tournament participents ' .$e->getMessage(), 1);
         }
     }
 }

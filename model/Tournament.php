@@ -1,9 +1,9 @@
 <?php
-require_once ("./dao/UserDAO.php");
-require_once ("./dao/ArbitratorDAO.php");
-require_once ("./dao/TeamDAO.php");
-require_once ("./model/Pool.php");
-require_once ("./model/Notoriety.php");
+require_once ('./dao/UserDAO.php');
+require_once ('./dao/ArbitratorDAO.php');
+require_once ('./dao/TeamDAO.php');
+require_once ('./model/Pool.php');
+require_once ('./model/Notoriety.php');
 //comparator Team
 function comparatorTeam(Team $e1, Team $e2):bool {
     return ($e1->getPoints() > $e2->getPoints());
@@ -26,7 +26,7 @@ class Tournament
     private array $tournaments;
     private array $posMap;
     //constructor
-    public function __construct(int $id=0,string $name="",string $cashPrize="",string $Notoriety="",string $location="",string $datehour="now",array $idandGame=array("",null)){
+    public function __construct(int $id=0, string $name= '', string $cashPrize= '', string $Notoriety= '', string $location= '', string $datehour= 'now', array $idandGame=array('',null)){
         $this->id =$id;
         $this->name = $name;
         $this->cashPrize = $cashPrize;
@@ -39,7 +39,7 @@ class Tournament
         $this->userDao = new UserDAO();
         $this->teamDao = new TeamDAO();
         $this->arbitratorDao = new ArbitratorDao();
-        if($datehour != "now"){
+        if($datehour != 'now'){
             $this->calculateDeadline($datehour);        
         } else {
             $this->dateHour= time();
@@ -58,12 +58,12 @@ class Tournament
         }
         $datetime = date_create($hourDateStart);
         $intervalDays = date_interval_create_from_date_string("$maxDay days");
-        $this->registerDeadline = date_format(date_sub($datetime,$intervalDays),"d/m/y");
+        $this->registerDeadline = date_format(date_sub($datetime,$intervalDays), 'd/m/y');
     }
     //verify creation of pools
     private function verifiyingPools($dateGame): void{
-        if(strtotime($this->getregisterDeadline()) > strtotime(date("Y/m/d")) &&
-         strtotime($dateGame) < strtotime(date("Y/m/d"))){
+        if(strtotime($this->getregisterDeadline()) > strtotime(date('Y/m/d')) &&
+         strtotime($dateGame) < strtotime(date('Y/m/d'))){
             foreach($this->games as $game){
                 if($this->getNumberPools($game->getId()) < 4){
                     $this->generatePools($game->getId());
@@ -134,7 +134,7 @@ class Tournament
         for($i = 0; $i < 6 ; $i++){
             $n = $i + 1;
             foreach($data as $ligne){
-                $this->arbitratorDao->insertPoolMatch($ligne['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($date)));           
+                $this->arbitratorDao->insertPoolMatch($ligne['IdPoule'], $n, date('d/m/y',strtotime($date)), date('h:m:s',strtotime($date)));
             }
             $date = date('Y-m-d H:i:s', strtotime($date. ' + '.$n.' hours'));
         }
@@ -159,11 +159,11 @@ class Tournament
         $mysql->insertTournamentPool(5, 1, $idgame, $idT);
         $data = $mysql->selectTournamentPool($idgame, $idT);
         //day date
-        $date = date("Y/m/d");
+        $date = date('Y/m/d');
         for($i = 0; $i < 6 ; $i++){
             $n = $i + 1;
             foreach($data as $ligne){
-                $mysql->insertPoolMatch($ligne['IdPoule'], $n, date("d/m/y" ,strtotime($date)), date("h:m:s" ,strtotime($date)));  
+                $mysql->insertPoolMatch($ligne['IdPoule'], $n, date('d/m/y',strtotime($date)), date('h:m:s',strtotime($date)));
             }
             $date = date('Y-m-d H:i:s', strtotime($date. ' + '.$n.' hours'));
         }
@@ -285,18 +285,18 @@ class Tournament
     }
     //get date tournament
     public function getDate():string{
-        return date("d/m/y" ,strtotime($this->dateHour));
+        return date('d/m/y',strtotime($this->dateHour));
     }
     //get hour tournament
     public function getHourStart():string{
         $datetime = new DateTime($this->dateHour);
         $datetime->setTimezone(new DateTimeZone('Europe/London'));
-        return $datetime->format("H:i:s");
+        return $datetime->format('H:i:s');
     }
     //get name of game of tournament
     public function namesgames(): string
     {
-        $namegames ="";
+        $namegames = '';
         foreach($this->games as $game){
             $namegames.=$game->getname().', ';
         }

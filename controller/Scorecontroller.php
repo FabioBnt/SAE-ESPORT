@@ -7,9 +7,9 @@ if (isset($_GET['page'])) {
             function ScoreCodeReplacer($buffer)
             {
                 $connx = Connection::getInstance();
-                $codeToReplace = array("##TOURNAMENTNAME##", "##TOURNAMENTGAME##", "##BUTTONMODIFYSCORE##",
-                 "##POULELISTIFEXIST##", "##CLASSEMENTIFFINALPOULE##", "##SCRIPTMODIFYSCORE##");
-                $replacementCode = array("", "", "", "", "", "");
+                $codeToReplace = array('##TOURNAMENTNAME##', '##TOURNAMENTGAME##', '##BUTTONMODIFYSCORE##',
+                    '##POULELISTIFEXIST##', '##CLASSEMENTIFFINALPOULE##', '##SCRIPTMODIFYSCORE##');
+                $replacementCode = array('', '', '', '', '', '');
                 $listePools = null;
                 $nomTournoi = null;
                 $nomJeu = null;
@@ -22,7 +22,7 @@ if (isset($_GET['page'])) {
                     $idJeu = $_GET['IDJ'];
                 } else {
                     $listePools = array();
-                    $nomTournoi = "Inconnu";
+                    $nomTournoi = 'Inconnu';
                     $nomJeu = 'Jeu Inconnu';
                     $idJeu = null;
                 }
@@ -163,7 +163,7 @@ if (isset($_GET['page'])) {
                 echo '<script>alert("Erreur lors de l\'enregistrement du score")</script>';
             }
             require_once('./view/headerview.html');
-            ob_start("ScoreCodeReplacer");
+            ob_start('ScoreCodeReplacer');
             require_once('./view/scoreview.html');
             ob_end_flush();
             break;
@@ -179,7 +179,7 @@ if (isset($_GET['page'])) {
                 $idJeu = $_GET['IDJ'];
             }else{
                 $listePools = array();
-                $nomTournoi = "Inconnu";
+                $nomTournoi = 'Inconnu';
                 $nomJeu = 'Jeu Inconnu';
                 $idJeu = null;
             }

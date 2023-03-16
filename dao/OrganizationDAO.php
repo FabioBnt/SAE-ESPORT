@@ -1,12 +1,12 @@
 <?php
-require_once("./dao/DAO.php");
+require_once('./dao/DAO.php');
 //create an organization dao class
 class OrganizationDAO extends DAO
 {
     private PDO $mysql;
     //constructor
     public function __construct() {
-        $this->mysql=parent::getInstance()->getConnection();;
+        $this->mysql= self::getInstance()->getConnection();
     }
     // Create a team in the database (Equipe table)
     public function insertTeam(string $name, string $accountName, string $accountPassword,int $idGame, int $idOrganization): string
@@ -31,7 +31,7 @@ class OrganizationDAO extends DAO
             $nationality = htmlspecialchars($nationality);
             try {
                 // Insert the player in the database (Joueur table)
-                $sql = "INSERT INTO Joueur (Pseudo, Nationalite, IdEquipe) VALUES (:nom, :nationalite, :idEquipe)";
+                $sql = 'INSERT INTO Joueur (Pseudo, Nationalite, IdEquipe) VALUES (:nom, :nationalite, :idEquipe)';
                 $stmt = $this->mysql->prepare($sql);
                 return $stmt->execute(
                     array(
@@ -57,7 +57,7 @@ class OrganizationDAO extends DAO
             $result = $stmt->fetchAll();
             return $result[0]['IdEcurie'];
         } catch (Exception $e) {
-            throw new Exception("Error Processing Request select id ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select id ' .$e->getMessage(), 1);
         }
     }
     // Retrieve organization's information
@@ -70,7 +70,7 @@ class OrganizationDAO extends DAO
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (Exception $e) {
-            throw new Exception("Error Processing Request select players ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }
     }
 }

@@ -1,5 +1,5 @@
 function setScore(input1, input2, score1, score2){
-    if (input1.value == "" || input2.value == "") {
+    if (input1.value === "" || input2.value === "") {
         score[i].innerHTML = "TBD";
         anotherScore.innerHTML = "TBD";
         // show message that you must enter a numiric value

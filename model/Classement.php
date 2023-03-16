@@ -1,6 +1,7 @@
 <?php
-require_once("./dao/UserDAO.php");
-require_once("./model/Game.php");
+require_once('./dao/UserDAO.php');
+require_once('./model/Game.php');
+require_once('./model/Team.php');
 //create a classement
 class Classement
 {

@@ -1,5 +1,5 @@
 <?php
-require_once("./dao/DAO.php");
+require_once('./dao/DAO.php');
 //create an admin class for dao
 class AdminDAO extends DAO
 {
@@ -12,9 +12,8 @@ class AdminDAO extends DAO
     public function insertOrganization(string $name, string $account, string $pwd, string $type) :string
     {
         try {
-            $sql = "INSERT INTO Ecurie (Designation, TypeE, NomCompte, MDPCompte) VALUES (:nom, :type, :compte, :mdp)";
-            $stmt = $this->mysql->prepare($sql);
-            return $stmt->execute(array(
+            $sql = 'INSERT INTO Ecurie (Designation, TypeE, NomCompte, MDPCompte) VALUES (:nom, :type, :compte, :mdp)';
+            return $this->mysql->prepare($sql)->execute(array(
                 ':nom' => $name,
                 ':type' => $type,
                 ':compte' => $account,
@@ -47,35 +46,34 @@ class AdminDAO extends DAO
     }
     //count number of organization
     public function countNumberOrganization() :array{
-        $sql = "SELECT count(*) as total FROM Ecurie";
+        $sql = 'SELECT count(*) as total FROM Ecurie';
         try{
-            $stm = $this->mysql->prepare($sql);
-            $stm->execute();
-            return $stm->fetchAll();
+            return $this->mysql->query($sql)->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+            throw new RuntimeException('Error Processing Request select tournament participents ' .$e->getMessage(), 1);
         }
     }
     //verif if tournament exist
-    public function VerifIfTournamentExist(string $name):array{
-        $sql = "SELECT count(*) as total FROM Tournois WHERE NomTournoi =$name";
+    public function VerifIfTournamentExist(string $name): bool
+    {
+        $sql = "SELECT count(*) as total FROM Tournois WHERE NomTournoi = '$name'";
         try{
-            $stm = $this->mysql->prepare($sql);
-            $stm->execute();
-            return $stm->fetchAll();
+            $stmt = $this->mysql->query($sql);
+            $result = $stmt->fetchAll();
+            return end($result)['total'] >= 1;
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+            throw new \RuntimeException('Error Processing Request select tournament participants ' .$e->getMessage(), 1);
         }
     }
     //select tournament by name
     public function selectTournamentByName(string $name):array{
-        $sql = "SELECT IdTournoi FROM Tournois WHERE NomTournoi =$name";
+        $sql = "SELECT IdTournoi FROM Tournois WHERE NomTournoi = '$name'";
         try{
             $stm = $this->mysql->prepare($sql);
             $stm->execute();
             return $stm->fetchAll();
         }catch(PDOException $e){
-            throw new Exception("Error Processing Request select tournament participents ".$e->getMessage(), 1);
+            throw new Exception('Error Processing Request select tournament participents ' .$e->getMessage(), 1);
         }
     }
 }
