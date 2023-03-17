@@ -19,11 +19,17 @@ class GeneratePoolsTest extends TestCase {
     private Tournament $tournoi;
     private Administrator $admin;
     private Team $equipe;
+    private DAO $mysql;
     //mettre en place
+
+    /**
+     * @throws Exception
+     */
     protected function setUp(): void {
         $this->admin = new Administrator();
         Connection::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrator);
         $this->tournoi = new Tournament();
+        $this->mysql = DAO::getInstance();
     } 
     //test
 
@@ -32,7 +38,7 @@ class GeneratePoolsTest extends TestCase {
      */
     public function testGeneratePools(): void
     {
-        $idJeu = 8;
+        $idJeu = 1;
         $dao=new AdminDAO();
         $dao2=new TeamDAO();
         $dao3=new UserDAO();
@@ -54,6 +60,7 @@ class GeneratePoolsTest extends TestCase {
         $id = $t->getIdTournament();
         $totalPools=$dao3->selectnumberPools($idJeu,$id);
         $listePools = $t->getPools();
+        $this->mysql->getConnection()->rollBack();
         assertSame($totalPools[0]['total']-'0', count($listePools[$idJeu]));
     }
     //test

@@ -26,7 +26,7 @@ class DAO {
         return self::$instance;
     }
     //retrieve the database pdo
-    protected function getConnection(): PDO
+    public function getConnection(): PDO
     {
         return $this->connectionDB;
     }
