@@ -54,6 +54,7 @@ if (isset($_GET['page'])) {
                 if (isset($_GET['Modify']) && $saisirScore) {
                     $replacementCode[2] = '<a href="index.php?page=score&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Terminer</a>';
                     $replacementCode[5] = '<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>';
+                    $replacementCode[5] .= '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>';
                     $replacementCode[5] .= '<script src="./js/modifyScore.js"></script>';
                     // add ajax script
                 }
@@ -70,19 +71,24 @@ if (isset($_GET['page'])) {
                             $replacementCode[3] .= $i;
                         }
                         // hidden id poule
-                        $replacementCode[3] .= '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
+                        $replacementCode[3] .= '<div class="modifyScore" style="display: none;">';
+                        $replacementCode[3] .= $Pool->getId().'</div>';
+                        $replacementCode[3] .= '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Score</th><th>Equipe 2</th></tr></thead><tbody>';
                         foreach ($Pool->getMatchs() as $match) {
                             $replacementCode[3] .= '<tr>';
+                            $j = 0;
                             foreach ($match->getScores() as $key => $ligneValue) {
                                 $equipe = $match->getTeams()[$key];
-                                $replacementCode[3] .= '<td>' . $equipe->getName() . '</td>';
-                                $replacementCode[3] .= '<td id="' . $key . '" class="score">';
+                                $name = '<td>' . $equipe->getName() . '</td>';
+                                $score = '<td id="' . $key . '" class="score">';
                                 if ($ligneValue == null) {
-                                    $replacementCode[3] .= 'TBD';
+                                    $score .= 'TBD';
                                 } else {
-                                    $replacementCode[3] .= $ligneValue;
+                                    $replacementCode .= $ligneValue;
                                 }
-                                $replacementCode[3] .= '</td>';
+                                $score .= '</td>';
+                                $j++;
+                                $replacementCode[3] .= ($j % 2 == 1) ? $name.' '.$score : $score.' '.$name;
                             }
                             $replacementCode[3] .= '</tr>';
                         }

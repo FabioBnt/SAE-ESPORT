@@ -1,4 +1,5 @@
 jQuery(function() {
+    scores = Array();
 function setScore(input1, input2, score1, score2){
     if (input1.value === "" || input2.value === "") {
         score[i].innerHTML = "TBD";
@@ -27,9 +28,7 @@ function setScore(input1, input2, score1, score2){
                 equipe1: score1Id,
                 equipe2: score2Id,
                 score1: score1,
-                score2: score2,
-                NomT: NomT,
-                JeuT: JeuT
+                score2: score2
             },
             success: function (data) {
                 console.log(data);
@@ -91,6 +90,7 @@ for (var i = 0; i < score.length; i++) {
     });
 }*/
 // for every table in the page
+/*
 var tables = document.getElementsByTagName("table");
 for (var i = 0; i < tables.length; i++) {
     tables[i].ondblclick = function (event) {
@@ -103,6 +103,18 @@ for (var i = 0; i < tables.length; i++) {
             input.value = (score == "TBD") ? 0 : score;
             input.type = "number";
             input.min = 0;
+            input.max = 999;
+            // style de l'input
+            input.style.width = "60%";
+            input.style.height = "100%";
+            input.style.textAlign = "center";
+            input.style.fontWeight = "bold";
+            input.style.border = "none";
+            input.style.backgroundColor = "transparent";
+            input.style.padding = "0";
+            input.style.margin = "0";
+            input.style.outline = "none";
+            input.style.color = "white";
             // remplacer dans le tableau le noeud texte de la cellule par le noeud input
             td.innerHTML = '';
             td.appendChild(input);
@@ -125,14 +137,144 @@ for (var i = 0; i < tables.length; i++) {
                 input.value = val;
                 // et la placer directement dans la cellule 
                 td.innerHTML = val;
+                alert('test');
+                par = td.parentNode.parentNode;
+                //find the temp of temps that is in the parent is par
+                temps = $('.modifyScore');
+                alert (par.first());
+                id = parent.getElementsByClassName("modifyScore")[0];
                 // supprimer le champ input inutile
-                //td.removeChild(input);
-                alert("traitement");
-                // get the class of the table
-                let tableClass = tables[i].classList;
-                alert("tableClass"+tableClass);
+                td.removeChild(input);
             }
         }
     }
 }
+*/  function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+          tmp = item.split("=");
+          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
+    $('table').on('dblclick', 'td', function () {
+        var td = $(this);
+        var tdSibling = td.siblings('.score');
+        /*// if event.target is a score <td class = score>
+        if (td.hasClass("score")) {
+            var score = td.text();
+            var input = $('<input />', {
+                type: 'number',
+                min: 0,
+                max: 999,
+                value: (score == "TBD") ? 0 : score,
+                style: 'width: 60%; height: 100%; text-align: center; font-weight: bold; border: none; background-color: transparent; padding: 0; margin: 0; outline: none; color: white;'
+            });
+            td.html(input);
+            input.focus();
+            input.select();
+            // on blur or enter
+            input.on('blur keydown', function (e) {
+                var val = input.val();
+                if (isNaN(val)) {
+                    val = 0;
+                } else if (val < 0) {
+                    val = 0;
+                } else if (val > 999) {
+                    val = 999;
+                }// null is not allowed and will be replaced by 0
+                else if (val == null || val == "") {
+                    val = 0;
+                }// zero at the beginning is not allowed and will be replaced by 0
+                else if (val[0] == "0") {
+                    val = 0;
+                }// if value contais space, replace it by 0
+                else if (val.includes(" ")) {
+                    val = 0;
+                }else if (val.includes(",")) {
+                    val = 0;
+                }else if (val.includes(".")) {
+                    val = 0;
+                }
+                input.val(val);
+                td.html(val);
+                // get the parent table of the td
+                var table = td.closest('table');
+                // get the child of the parent table that has the class modifyScore
+                var div = table.find('.modifyScore');
+                // alert the value of the div
+                alert(div.text());
+                // alert the $_GET['IDJ'] value
+                alert(findGetParameter('IDJ'));
+            });
+        }*/
+        // make td and tdSibling editable
+        var td = $(this);
+        var tdSibling = td.siblings('.score');
+        var score = td.text();
+        var anotherScore = tdSibling.text();
+        var input = $('<input />', {
+            type: 'number',
+            min: 0,
+            max: 999,
+            value: (score == "TBD") ? 0 : score,
+            style: 'width: 60%; height: 100%; text-align: center; font-weight: bold; border: none; background-color: transparent; padding: 0; margin: 0; outline: none; color: white;'
+        });
+        // change the color of the text of tdSibling
+        tdSibling.css("color", "white");
+        // change the value if the other td is TBD
+        if (anotherScore == "TBD") {
+            anotherScore = 0;
+            tdSibling.text(anotherScore);
+        }
+        td.html(input);
+        input.focus();
+        input.select();
+        // on blur or enter key is pressed
+        input.on('blur keydown', function (e) {
+            // if enter key is pressed
+            if (e.which == 13 || e.type == "blur") {
+
+                var val = input.val();
+                if (isNaN(val)) {
+                    val = 0;
+                } else if (val < 0) {
+                    val = 0;
+                } else if (val > 999) {
+                    val = 999;
+                }// null is not allowed and will be replaced by 0
+                else if (val == null || val == "") {
+                    val = 0;
+                }// zero at the beginning is not allowed and will be replaced by 0
+                else if (val[0] == "0") {
+                    val = 0;
+                }// if value contais space, replace it by 0
+                else if (val.includes(" ")) {
+                    val = 0;
+                }else if (val.includes(",")) {
+                    val = 0;
+                }else if (val.includes(".")) {
+                    val = 0;
+                }
+                input.val(val);
+                td.html(val);
+                // return the color of the other td to normal
+                tdSibling.css("color", "black");
+                /* 
+                // get the parent table of the td
+                var table = td.closest('table');
+                // get the child of the parent table that has the class modifyScore
+                var div = table.find('.modifyScore');
+                // alert the value of the div
+                alert(div.text());
+                // alert the $_GET['IDJ'] value
+                alert(findGetParameter('IDJ'));*/
+            }
+        });
+    });
+
 })
