@@ -16,7 +16,6 @@ if (isset($_GET['page'])) {
                 $idJeu = null;
                 if (isset($_GET['IDJ'])) {
                     $listePools = $_SESSION['game' . $_GET['IDJ']];
-                    echo "<script>alert('listePools : " . $listePools . "');</script>";
                     $nomTournoi = $_GET['NomT'];
                     $nomJeu = $_GET['JeuT'];
                     $idJeu = $_GET['IDJ'];
@@ -49,6 +48,8 @@ if (isset($_GET['page'])) {
                 if  (isset($_GET['Modify']) && $saisirScore) {
                     $replacementCode[2] = '<a href="index.php?page=score&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Terminer</a>';
                     $replacementCode[5] = '<script src="js/modifyScore.js"></script>';
+                    // add ajax script
+                    $replacementCode[5] .= '<script src="js/ajax.js"></script>';
                 }
                 $i = 0;
                 $PoolF = null;
@@ -164,6 +165,7 @@ if (isset($_GET['page'])) {
             }
             require_once('./view/headerview.html');
             ob_start('ScoreCodeReplacer');
+            print_r($_SESSION['game' . $_GET['IDJ']]);
             require_once('./view/scoreview.html');
             ob_end_flush();
             break;
@@ -201,7 +203,7 @@ if (isset($_GET['page'])) {
             if(isset($_GET['erreur'])){
                 echo '<script>alert("'.$_GET['erreur'].'")</script>';
             }
-            header('Location:index.php?page=listetournoi');
+            echo "ligne inserée";s
             break;
         default:
             require_once('./controller/Accueilcontroller.php');
