@@ -67,7 +67,7 @@ function headerCodeReplacer($buffer)
             $title = 'Accueil';
             break;
     }
-    $replacementCode[5]= $title ;
+    $replacementCode[5] = $title;
     return (str_replace($codeToReplace, $replacementCode, $buffer));
 }
 ob_start('headerCodeReplacer');

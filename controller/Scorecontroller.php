@@ -7,8 +7,14 @@ if (isset($_GET['page'])) {
             function ScoreCodeReplacer($buffer)
             {
                 $connx = Connection::getInstance();
-                $codeToReplace = array('##TOURNAMENTNAME##', '##TOURNAMENTGAME##', '##BUTTONMODIFYSCORE##',
-                    '##POULELISTIFEXIST##', '##CLASSEMENTIFFINALPOULE##', '##SCRIPTMODIFYSCORE##');
+                $codeToReplace = array(
+                    '##TOURNAMENTNAME##',
+                    '##TOURNAMENTGAME##',
+                    '##BUTTONMODIFYSCORE##',
+                    '##POULELISTIFEXIST##',
+                    '##CLASSEMENTIFFINALPOULE##',
+                    '##SCRIPTMODIFYSCORE##'
+                );
                 $replacementCode = array('', '', '', '', '', '');
                 $listePools = null;
                 $nomTournoi = null;
@@ -31,11 +37,11 @@ if (isset($_GET['page'])) {
                 if ($connx->getRole() == Role::Arbitre && isset($listePools)) {
                     $PoolFinaleExiste = false;
                     foreach ($listePools as $Pool) {
-                        if ($Pool->isPoolFinale()) {
+                        if ($Pool->isPoolFinal()) {
                             $PoolFinaleExiste = true;
                             if (!$Pool->checkIfAllScoreSet()) {
                                 $saisirScore = true;
-                            }
+                            }   
                         }
                     }
                     if (!$PoolFinaleExiste) {
@@ -45,18 +51,18 @@ if (isset($_GET['page'])) {
                 if ($saisirScore) {
                     $replacementCode[2] = '<a href="index.php?page=score&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '&Modify" class="buttonE" id="ModifS7">Modification</a>';
                 }
-                if  (isset($_GET['Modify']) && $saisirScore) {
+                if (isset($_GET['Modify']) && $saisirScore) {
                     $replacementCode[2] = '<a href="index.php?page=score&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Terminer</a>';
-                    $replacementCode[5] = '<script src="js/modifyScore.js"></script>';
+                    $replacementCode[5] = '<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>';
+                    $replacementCode[5] .= '<script src="./js/modifyScore.js"></script>';
                     // add ajax script
-                    $replacementCode[5] .= '<script src="js/ajax.js"></script>';
                 }
                 $i = 0;
                 $PoolF = null;
                 if (!empty($listePools)) {
                     foreach ($listePools as $Pool) {
                         $i++;
-                        $replacementCode[3] .= '<table id="tableS' . $i . '"><thead><tr><th colspan="4">Poule';
+                        $replacementCode[3] .= '<table id="tableS' . $i . '" class="'.$Pool->getId().'"><thead><tr><th colspan="4">Poule';
                         if ($i == 5) {
                             $replacementCode[3] .= 'Finale';
                             $PoolF = $Pool;
@@ -64,14 +70,13 @@ if (isset($_GET['page'])) {
                             $replacementCode[3] .= $i;
                         }
                         // hidden id poule
-                        $replacementCode[3] .= '<input class="pouleid" type="hidden" value="' . $Pool->getId() . '">';  
                         $replacementCode[3] .= '</th></tr><tr><th>Equipe 1</th><th>Score</th><th>Equipe 2</th><th>Score</th></tr></thead><tbody>';
                         foreach ($Pool->getMatchs() as $match) {
                             $replacementCode[3] .= '<tr>';
                             foreach ($match->getScores() as $key => $ligneValue) {
-                                $equipe = $match->getEquipes()[$key];
+                                $equipe = $match->getTeams()[$key];
                                 $replacementCode[3] .= '<td>' . $equipe->getName() . '</td>';
-                                $replacementCode[3] .= '<td id="'.$key.'" class="score">';
+                                $replacementCode[3] .= '<td id="' . $key . '" class="score">';
                                 if ($ligneValue == null) {
                                     $replacementCode[3] .= 'TBD';
                                 } else {
@@ -165,45 +170,31 @@ if (isset($_GET['page'])) {
             }
             require_once('./view/headerview.html');
             ob_start('ScoreCodeReplacer');
-            print_r($_SESSION['game' . $_GET['IDJ']]);
             require_once('./view/scoreview.html');
             ob_end_flush();
             break;
         case 'saisirscore':
             $listePools = null;
-            $nomTournoi = null;
-            $nomJeu = null;
-            $idJeu = null;
-            if(isset($_GET['IDJ'])){
-                $listePools = $_SESSION['jeu'.$_GET['IDJ']];
-                $nomTournoi = $_GET['NomT'];
-                $nomJeu = $_GET['JeuT'];
-                $idJeu = $_GET['IDJ'];
-            }else{
+            if (isset($_GET['IDJ'])) {
+                $listePools = $_SESSION['jeu' . $_GET['IDJ']];
+            } else {
                 $listePools = array();
-                $nomTournoi = 'Inconnu';
-                $nomJeu = 'Jeu Inconnu';
-                $idJeu = null;
             }
-            if(isset($_GET['score1']) && isset($_GET['score2'])){
-                try{
-                    MatchJ::setScore($listePools,$_GET['poule'],$_GET['equipe1'], $_GET['equipe2'], $_GET['score1'],$_GET['score2']);
+            if (isset($_GET['score1']) && isset($_GET['score2'])) {
+                try {
+                    MatchJ::setScore($listePools, $_GET['poule'], $_GET['equipe1'], $_GET['equipe2'], $_GET['score1'], $_GET['score2']);
                     $Tournament->allTournaments();
                     $idT = MatchJ::getIdTournamentByPool($_GET['poule']);
-                    //vers DetailsTournoi.php?IDT=
-                    header( 'Location:./index.php?page=score&IDT='.$idT.'&IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu);
                     exit();
-                }catch(Exception $e){
-                    // redirect vers la page de SaissirScore.php
-                    header('Location:./score.php?IDJ='.$idJeu.'&NomT='.$nomTournoi.'&JeuT='.$nomJeu.'&erreur='.$e->getMessage());
+                } catch (Exception $e) {
                     exit();
                 }
             }
             // si erreur
-            if(isset($_GET['erreur'])){
-                echo '<script>alert("'.$_GET['erreur'].'")</script>';
+            if (isset($_GET['erreur'])) {
+                echo '<script>alert("' . $_GET['erreur'] . '")</script>';
             }
-            echo "ligne inserée";s
+            echo "ligne inserée";
             break;
         default:
             require_once('./controller/Accueilcontroller.php');

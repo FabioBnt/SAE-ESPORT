@@ -140,10 +140,12 @@ class Pool
         return true;
     }
     //initialize match
-    public function setScoreMatch(int $number,int $idTeam1,int $idTeam2,int $score1,int $score2): void
+    public function setScoreMatch(int $number,int $idTeam1,$idTeam2 = null ,int $score1,$score2 = null): void
     {
         $this->matchs[$number]->setteamscore($idTeam1, $score1);
-        $this->matchs[$number]->setteamscore($idTeam2, $score2);
+        if($idTeam2 !== null && $score2 !== null){
+            $this->matchs[$number]->setteamscore((int)$idTeam2, (int)$score2);   
+        }
     }
 }
 ?>
