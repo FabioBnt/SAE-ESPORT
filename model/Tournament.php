@@ -152,8 +152,10 @@ class Tournament
     //generate final pool
     public static function generateFinalPool(int $idT,int $idgame): void
     {
-        // tournament
-        $tournament = self::getTournament($idT);
+        // Tournament
+        $tournament = (new Tournament());
+        $tournament->allTournaments();
+        $tournament = $tournament->getTournament($idT);
         $teams =  $tournament->BestTeamPoolsNotFinal($idgame);
         $mysql = new ArbitratorDAO();
         $mysql->insertTournamentPool(5, 1, $idgame, $idT);

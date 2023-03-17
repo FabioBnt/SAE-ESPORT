@@ -136,12 +136,10 @@ class TeamDAO extends DAO {
         }
     }
     //select id team by game
-    public function selectTeamByGame(int $idG):array{
+    public function selectTeamIdByGame(int $idG):array{
         $sql = "SELECT IdEquipe FROM Equipe WHERE IdJeu=$idG";
         try{
-            $stm = $this->mysql->prepare($sql);
-            $stm->execute();
-            return $stm->fetchAll();
+            return $this->mysql->query($sql)->fetchAll();
         }catch(PDOException $e){
             throw new Exception('Error Processing Request select tournament participents ' .$e->getMessage(), 1);
         }

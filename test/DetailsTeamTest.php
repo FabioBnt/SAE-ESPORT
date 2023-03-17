@@ -40,7 +40,7 @@ class DetailsTeamTest extends TestCase {
      */
     public function testnumberTournamentWin(): void
     {
-        $idGame = 8;
+        $idGame = 1;
         $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array($idGame));
         $dao =new AdminDAO();
         $daoT =new TeamDAO();
@@ -48,11 +48,11 @@ class DetailsTeamTest extends TestCase {
         $this->tournoi->allTournaments();
         $t = $this->tournoi->getTournament(end($id)['IdTournoi']);
         $this->user->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Team);
-        $idE=$daoT->selectTeamByGame($idGame);
+        $idE=$daoT->selectTeamIdByGame($idGame);
         $i = 0;
         while($i < 16){
             $this->equipe = Team::getTeam($idE[$i]['IdEquipe']);
-            $this->equipe->register($t);
+            $this->equipe->register($t,1);
             $i++;
         }
         $id = $t->getIdTournament();

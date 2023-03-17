@@ -42,7 +42,7 @@ class Team
         if ($optional === null){
             return (Connection::getInstance()->IfgetRoleConnection(Role::Team));
         }
-        return (Connection::getInstanceWithoutSession()->IfgetRoleConnection(Role::Team));
+        return (1);
     }
     /**
      * @param string $name
@@ -115,8 +115,7 @@ class Team
     //get team by his id
     public static function getTeam(string $id): Team
     {
-        $dao= new TeamDAO();
-        return $dao->selectTeamByID($id);
+        return (new TeamDAO())->selectTeamByID($id);
     }
     //get players of a id team
 
@@ -168,7 +167,7 @@ class Team
             }
             if(array_key_exists($n,$t)){
                 foreach($t[$n] as $Pool){
-                    if($Pool->isPoolFinale()==='1'){
+                    if($Pool->isPoolFinal()==='1'){
                         if($Pool->BestTeamOfPool()->getId()===$this->id){
                             $res= $this->daoU->selectCashPrizeById($t->getId());
                             $nb += $res[0]['CashPrize'];

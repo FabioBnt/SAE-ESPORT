@@ -43,7 +43,7 @@ class GeneratePoolsTest extends TestCase {
         $t = $this->tournoi->getTournament(end($id)['IdTournoi'] - '0');
         Connection::getInstanceWithoutSession()->disconnect();
         Connection::getInstanceWithoutSession()->establishConnection('KCorpLoLCompte', 'PasswordKcorplol', Role::Team);
-        $idE=$dao2->selectTeamByGame($idJeu);
+        $idE=$dao2->selectTeamIdByGame($idJeu);
         $i = 0;
         while($i < 16){
             $this->equipe = Team::getTeam($idE[$i]['IdEquipe']);
