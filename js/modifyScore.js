@@ -20,8 +20,24 @@ function setScore(input1, input2, score1, score2){
         let idj = $_GET['IDJ'];
         let NomT = $_GET['NomT'];
         let JeuT = $_GET['JeuT'];
-        // go to modifyScore.php
-        window.location.href = "index.php?page=saisirscore&IDJ=" + idj + "&poule=" + poule + "&equipe1=" + score1Id + "&equipe2=" + score2Id + "&score1=" + score1 + "&score2=" + score2 + "&NomT=" + NomT + "&JeuT=" + JeuT;
+        $.ajax({
+            url: "index.php?page=saisirscore",
+            type: "GET",
+            data: {
+                idj: idj,
+                poule: poule,
+                equipe1: score1Id,
+                equipe2: score2Id,
+                score1: score1,
+                score2: score2,
+                NomT: NomT,
+                JeuT: JeuT
+            },
+            success: function (data) {
+                console.log(data);
+            }
+        });
+
     }
     
 }
