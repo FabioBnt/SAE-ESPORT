@@ -1,0 +1,35 @@
+<?php
+declare(strict_types=1);
+
+use PHPUnit\Framework\TestCase;
+use function PHPUnit\Framework\assertSame;
+
+require_once(dirname(__DIR__) . '/model/Administrator.php');
+//create a test organization
+class CreateOrganizationTest extends TestCase {
+    private $admin;
+    //set up
+    protected function setUp(): void {
+        $this->admin = new Administrator();
+    }
+    //tear down
+    protected function tearDown(): void {
+        $this->mysql = null;
+        $this->admin = null;
+    }
+    //test
+
+    /**
+     * @throws Exception
+     */
+    public function testcreateOrganization(): void
+    {
+        $dao = new AdminDAO();
+        $totalEcurieBefore = $dao->countNumberOrganization();
+        $numEcuriesBefore = $totalEcurieBefore[0]['total']-'0';
+        $this->admin->createOrganization('test', 'test', 'test', 'Associative');
+        $totalEcurieAfter = $dao->countNumberOrganization();
+        assertSame($totalEcurieAfter[0]['total']-'0', $numEcuriesBefore + 1);
+    }
+}
+?>

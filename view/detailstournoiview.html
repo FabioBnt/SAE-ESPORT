@@ -1,0 +1,45 @@
+    <main>
+        <div class="detailstournoimain">
+            <div class="Divdetails">
+                <a href="./index.php?page=listetournoi" class="buttonE" id="Dgrida2">Retour</a>
+                <h1>Détails d'un Tournoi</h1>
+                <div class="gridDetails">
+                    <label id="Dgridl1"><b>Nom du tournoi</b></label>
+                    <input id="Dgridi1" type="text" name="nameT" value="##GETNAMETOURNAMENT##" readonly/>
+                    <label id="Dgridl2"><b>Date du tournoi</b></label>
+                    <input id="Dgridi2" type="text" name="dateT" value="##GETDATETOURNAMENT##" readonly/>
+                    <label id="Dgridl3"><b>Heure du tournoi</b></label>
+                    <input id="Dgridi3" type="text" name="heureT" value="##GETHOURTOURNAMENT##" readonly/>
+                    <label id="Dgridl4"><b>Lieu du tournoi</b></label>
+                    <input id="Dgridi4" type="text" name="lieuT" value="##GETLOCATIONTOURNAMENT##" readonly/>
+                    <label id="Dgridl5"><b>CashPrize</b></label>
+                    <input id="Dgridi5" type="text" name="cashprizeT" value="##GETCASHPRIZETOURNAMENT##" readonly/>
+                    <label id="Dgridl6"><b>Notoriété</b></label>
+                    <input id="Dgridi6" type="text" name="NotorietyT" value="##GETNOTORIETYTOURNAMENT##" readonly/>
+                    <table id="Dgridt1">
+                        <thead>
+                            <tr>
+                                <th>Jeu</th>
+                                <th>DateLimiteInscription</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ##GETGAMESTOURNAMENT##
+                    </table>
+                    ##GETREGISTERTOURNAMENT##
+                    ##GETPARTICIPANTTOURNAMENT##
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+    <script>
+        function confirmerInscription(idt, ide) {
+            if (confirm("Êtes vous sûr de vouloir vous inscrire?")) {
+                window.location.assign("./index.php?page=detailstournoi&IDT="+idt+"&inscrire="+ide);
+            }
+        }
+    </script>
+    </body>
+    </html>

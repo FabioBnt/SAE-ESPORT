@@ -1,0 +1,16 @@
+<main>
+        <div class="classementmain">
+            <form action="##pathFormRanking##" class="formClassement">
+                <h1>Sélectionner un jeu</h1>
+                <input type="hidden" name="page" value="<?php echo $page;?>"/>
+                <select name="jeuC" id="Clformt1">
+                    ##printGameOptions##
+                </select>
+                <input class="buttonE" id="validerCL" type="submit" value="Valider"/>
+            </form>
+            ##printRankingTitle##
+            ##printTeamRanking##
+        </div>
+    </main>
+</body>
+</html>

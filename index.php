@@ -1,59 +1,128 @@
+<!-- Main Controller-->
+<!-- page parameter to know where we have to go -->
 <?php
-    include './modele/Connexion.php';
-    $connx = Connexion::getInstance();
-    if (isset($_GET['SeDeconnecter'])) {
-        $connx->seDeconnecter();
+require_once('./model/Connection.php');
+require_once('./model/Administrator.php');
+require_once('./model/Game.php');
+require_once('./model/Role.php');
+require_once('./model/Organization.php');
+require_once('./model/Pool.php');
+require_once('./model/MatchJ.php');
+require_once('./model/Tournament.php');
+require_once('./model/Team.php');
+require_once('./model/Classement.php');
+
+function headerCodeReplacer($buffer)
+{
+    $connx = Connection::getInstance();
+    $codeToReplace = array('##printCreateTournamentButton##', '##printCreateOrganizationButton##', '##printConnectionButton##', '##printHelloAndDisconnectButton##', '##printCreateTeamButton##', '##titleChange##');
+    $replacementCode = array('', '', '', '', '', '');
+    if ($connx->getRole() == Role::Administrator) {
+        $replacementCode[0] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creertournoi'\">Créer Tournoi</button>";
+        $replacementCode[1] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creerecurie'\">Créer Ecurie</button>";
     }
+    if ($connx->getRole() == Role::Organization) {
+        $replacementCode[4] = "<button class=\"buttonM\" onclick=\"window.location.href='./index.php?page=creerequipe'\">Créer Equipe</button>";
+    }
+    if ($connx->getRole() == Role::Visiteur) {
+        $replacementCode[2] = "<a href=\"./index.php?page=connectionview\" id=\"Connection\">Se Connecter</a>";
+    } else if ($connx->getRole() != Role::Visiteur) {
+        $replacementCode[3] = "<h3 style=\"padding:0.6em;\">Bienvenue - " . $connx->getIdentifiant() . "</h3><a href=\"./index.php?page=accueil&sedeconnecter=true\" id=\"deconnexion\">Déconnexion</a>";
+    }
+    switch ($_GET['page']) {
+        case 'accueil':
+            $title = 'Accueil';
+            break;
+        case 'listetournoi':
+            $title = 'Liste des tournois';
+            break;
+        case 'classement':
+            $title = 'Classement';
+            break;
+        case 'creerecurie':
+            $title = 'Créer une écurie';
+            break;
+        case 'creerequipe':
+            $title = 'Créer une équipe';
+            break;
+        case 'creertournoi':
+            $title = 'Créer un tournoi';
+            break;
+        case 'listeequipe':
+            $title = 'Liste des équipes';
+            break;
+        case 'detailstournoi':
+            $title = 'Détails du tournoi';
+            break;
+        case 'detailsequipe':
+            $title = 'Détails de l\'équipe';
+            break;
+        case 'score':
+            $title = 'Score';
+            break;
+        case 'saisirscore':
+            $title = 'Saisie des scores';
+            break;
+        default:
+            $title = 'Accueil';
+            break;
+    }
+    $replacementCode[5] = $title;
+    return (str_replace($codeToReplace, $replacementCode, $buffer));
+}
+ob_start('headerCodeReplacer');
+$Admin = new Administrator();
+$connx = Connection::getInstance();
+$Tournament = new Tournament();
+$Equipes = new Team();
+if (isset($_GET['sedeconnecter'])) {
+    $connx->disconnect();
+}
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+    switch ($page) {
+        case 'accueil':
+            require_once('./controller/Accueilcontroller.php');
+            break;
+        case 'connectionview':
+            require_once('./controller/Connectioncontroller.php');
+            break;
+        case 'listetournoi':
+            require_once('./controller/Tournamentcontroller.php');
+            break;
+        case 'classement':
+            require_once('./controller/Tournamentcontroller.php');
+            break;
+        case 'creerecurie':
+            require_once('./controller/Organizationcontroller.php');
+            break;
+        case 'creerequipe':
+            require_once('./controller/Teamcontroller.php');
+            break;
+        case 'creertournoi':
+            require_once('./controller/Tournamentcontroller.php');
+            break;
+        case 'listeequipe':
+            require_once('./controller/Teamcontroller.php');
+            break;
+        case 'detailstournoi':
+            require_once('./controller/Tournamentcontroller.php');
+            break;
+        case 'detailsequipe':
+            require_once('./controller/Teamcontroller.php');
+            break;
+        case 'score':
+            require_once('./controller/Scorecontroller.php');
+            break;
+        case 'saisirscore':
+            require_once('./controller/Scorecontroller.php');
+            break;
+        default:
+            require_once('./controller/Accueilcontroller.php');
+            break;
+    }
+} else {
+    require_once('./controller/Accueilcontroller.php');
+}
+ob_end_flush();
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css" />
-    <title>E-Sporter Manager</title>
-</head>
-<body class="accueil">
-    <!--Menu de navigation-->
-    <header>
-            <div class="menunav">
-                <button class="buttonM" onclick="window.location.href='./index.php'">Accueil</button>
-                <button class="buttonM" onclick="window.location.href='./page/ListeTournois.php'">Liste des Tournois</button>
-                <button class="buttonM" onclick="window.location.href='./page/Classement.php'">Classement</button>
-            </div>
-            <div class="menucenter">
-                <img class="logo" src="./img/logo header.png" alt="LogoDuSite">
-            </div>
-            <div class="menuright">  
-                    <?php 
-                        if($connx->getRole() === Role::Visiteur){
-                            echo '<a href="./page/ConnexionPage.php" id="connexion">Se Connecter</a>';
-                        }else{
-                            echo '<div class="disconnect"><h3>Bonjour, '.$connx->getIdentifiant().'</h3>'.' <a href="index.php?SeDeconnecter=true" id="deconnexion">Deconnexion</a></div>';
-                        }
-                    ?>
-            </div>      
-    </header>
-    <main class="accueilmain">
-        <div class="mainA">
-            <div class="titre">
-                <h1> Gestionnaire d'une saison de compétition d'E-Sport </h1>
-            </div>
-            <div id="divbutton">
-                <?php 
-                        if($connx->getRole() == Role::Administrateur){
-                            echo "<button class='buttonM' onclick="."window.location.href='./page/CreerTournoi.php';"." type='button'> Créer un tournoi </button>";
-                        };
-                    ?>
-                <button class="buttonM" onclick="window.location.href = './page/ListeEquipe.php';" type="button"> Liste des équipes </button>
-                <?php 
-                        if($connx->getRole() == Role::Administrateur){
-                            echo "<button class='buttonM' onclick="."window.location.href='./page/CreerEcurie.php';"." type='button'> Créer une écurie </button>";
-                        };
-                    ?>
-            </div>
-        </div>
-    </main>
-</body>
-</html>

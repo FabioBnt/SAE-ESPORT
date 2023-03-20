@@ -1,0 +1,49 @@
+    <main>
+        <div class="detailsequipemain">
+            <div class="Divdetails">
+            <a href="./index.php?page=listeequipe" class="buttonE">Retour</a>
+                <h1>Détails d'une équipe</h1>
+                <div class="gridDetails">
+                    <div id="EDgridl1">
+                    <label ><b>Nom de l'équipe</b></label>
+                    <input type="text" name="nameE" value="##GETNAMETEAM##" readonly/>
+                    </div>
+                    <div id="EDgridl2">
+                    <label ><b>Nom du Jeu</b></label>
+                    <input type="text" name="jeu" value="##GETGAMETEAM##" readonly/>
+                    </div>
+                    <div id="EDgridl3">
+                    <label><b>Nom de l'écurie</b></label>
+                    <input type="text" name="OrganizationE" value="##GETORGATEAM##" readonly/>  
+                    </div>
+                    <div id="EDgridl5">
+                    <label ><b>Nb Tournois Gagnés</b></label>
+                    <input type="text" name="nbtg" value="##GETTWINTEAM##" readonly/>
+                    </div>
+                    <div id="EDgridl6">
+                    <label ><b>Gains Totaux</b></label>
+                    <input type="text" name="gt" value="##GETGAINWINTEAM##" readonly/>
+                    </div>
+                    <div id="EDgridl7">
+                    <label ><b>Nb Points</b></label>
+                    <input type="text" name="nbp" value="##GETPOINTSTEAM##" readonly/>
+                    </div>
+                    <div id="EDgridl4">
+                    </div>
+                    <table id="EDgridt1">
+                        <thead>
+                            <tr>
+                                <th >Pseudo</th>
+                                <th >Nationalité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ##GETPLAYERSTEAM##
+                        </tbody>
+                    </table>
+                </div>
+                ##GETTOURNAMENTTEAM##
+        </div>
+    </main>
+</body>
+</html>

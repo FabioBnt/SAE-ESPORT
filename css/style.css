@@ -1,0 +1,744 @@
+﻿*{
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+/*------------*/
+/*PAGE ACCUEIL*/
+/*    BODY    */
+/*------------*/
+.header {
+  margin: 0;
+  background: url("../img/fond_accueil.jpg") no-repeat center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+/*------------*/
+/*  IMG       */
+/*------------*/
+.imgB {
+  width: 30px;
+}
+/*------------*/
+/*  TABLEAU   */
+/*------------*/
+table {
+  background-color: white;
+  border: 2px solid;
+  margin-left: auto;
+  margin-right: auto;
+}
+thead {
+  background-color: rgb(154, 63, 154);
+  color: white;
+}
+td,
+th {
+  border-top: solid 2px;
+  padding: 1em;
+  text-align: center;
+}
+/*----------------------------------------------------------*/
+/* FOND DU MAIN ECURIE, TOURNOIS, DETAILSTOURNOI, CLASSEMENT, 
+LISTEEQUIPE EQUIPE EQUIPED TOURNOI SCORE INSCRIPTION        */
+/*----------------------------------------------------------*/
+.ecurie,
+.tournois,
+.detailstournoi,
+.classement,
+.listeEquipe,
+.equipe,
+.equipeD,
+.tournoi,
+.score,
+.inscription {
+  margin: 0;
+  background-image: url("../img/fond_site.png");
+}
+/*--------------------------*/
+/*MAIN ECURIE EQUIPE TOURNOI*/
+/*--------------------------*/
+.ecuriemain,
+.equipemain,
+.equipeDmain,
+.tournoimain,
+.detailstournoimain,
+.detailsequipemain {
+  margin: 5em;
+}
+/*------------*/
+/*HEADER MENU*/
+/*------------*/
+header {
+  display: grid;
+  gap: 10px;
+  width: auto;
+  grid-template-columns: repeat(3, 1fr);
+  box-sizing: content-box;
+  padding: 1vw 4vw;
+  pointer-events: auto;
+  background-color: rgb(154, 63, 154);
+  border-bottom: solid 5px;
+  border-color: white;
+}
+header .buttonM,
+header #Connection,
+header #deconnexion {
+  margin: 0.2em;
+}
+/*------------*/
+/*LOGO MENU*/
+/*------------*/
+.logo {
+  display: block;
+  margin: auto;
+  max-width: 30%;
+  border: solid;
+}
+/*---------------*/
+/*NAVIGATION MENU*/
+/*---------------*/
+.menucenter {
+  grid-column: 2;
+  grid-row: 1;
+}
+.menunav {
+  margin-top: auto;
+  margin-bottom: auto;
+  width:100%;
+}
+.menunav a {
+  display:inline-block;
+}
+.menuright {
+  grid-column: 3;
+  grid-row: 1;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+/*------------------*/
+/*BUTTON SECONNECTER*/
+/*------------------*/
+#Connection:hover {
+  color: grey;
+  background-color: lightgreen;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+#deconnexion:hover {
+  color: grey;
+  background-color: lightcoral;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+#deconnexion {
+  color: black;
+}
+.disconnect h3 {
+  color: white;
+}
+/*------------*/
+/*    MAIN    */
+/*FOND DU MAIN*/
+/*------------*/
+.mainA {
+  margin-top: 3%;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+}
+/*-----------------*/
+/*TITRE APPLICATION*/
+/*-----------------*/
+.titre {
+  grid-column: 2;
+  grid-row: 2;
+  color: white;
+  margin-top: auto;
+  margin-bottom: auto;
+  backdrop-filter: blur(12px);
+  border: solid;
+}
+.titre h1 {
+  text-align: center;
+  font-size: 50px;
+}
+#divsugges{
+  grid-column: 2/3;
+  grid-row: 3;
+  margin: auto;
+  padding: 0.3em;
+}
+#titreSite{
+  grid-column: 2;
+  grid-row: 2;
+  margin: auto;
+}
+#divbutton {
+  grid-row: 1;
+  grid-column: 1/4;
+  margin: auto;
+}
+/*------*/
+/*BUTTON*/
+/*------*/
+.buttonM,
+#Connection,
+.buttonE,
+#deconnexion {
+  padding: 1em;
+  margin: 2em;
+  font-size: 18px;
+  background-color: white;
+  border: 2px solid #1a1a1a;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+}
+.buttonM:hover {
+  color: #fff;
+  background-color: #1a1a1a;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+.buttonM, .buttonE{
+  color: black;
+}
+/*-----------------*/
+/*PAGE CREER ECURIE*/
+/*-----------------*/
+/*----------*/
+/*FORMULAIRE*/
+/*----------*/
+#formecurie,
+#formeequipe,
+#formetournoi {
+  padding: 2em;
+  border: 2px solid;
+  background-color: rgb(194, 173, 224);
+  border-radius: 10px;
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+#formecurie h1,
+#formeequipe h1,
+#formetournoi h1 {
+  text-align: center;
+}
+#formecurie input,
+#formeequipe input,
+#formetournoi input {
+  border: solid 1px;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+#formecurie label,
+#formeequipe label,
+#formetournoi label {
+  padding: 0.6em;
+  display: block;
+}
+/*--------*/
+/*GRID MOD*/
+/*--------*/
+.formulaire,
+.gridDetails,
+.InscriptionM {
+  display: grid;
+  gap: 10px;
+}
+#valider {
+  grid-row: 5;
+  grid-column: 3;
+}
+#annuler {
+  grid-column: 1;
+  grid-row: 5;
+}
+#Eforml1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+#Eformi1 {
+  grid-column: 1;
+  grid-row: 2;
+}
+#Eforml2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+#Eformi2 {
+  grid-column: 2;
+  grid-row: 2;
+}
+#Eforml3 {
+  grid-column: 3;
+  grid-row: 1;
+}
+#Eformi3 {
+  grid-column: 3;
+  grid-row: 2;
+}
+#Eformt1 {
+  grid-column: 2;
+  grid-row: 4;
+}
+#Eforml4 {
+  grid-column: 2;
+  grid-row: 3;
+}
+/*----------------------*/
+/*BUTTON VALIDER ANNULER*/
+/*----------------------*/
+.buttonE:hover {
+  color: grey;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+#valider:hover {
+  background-color: lightgreen;
+}
+#annuler:hover {
+  background-color: crimson;
+}
+/*-------------------------------------------------*/
+/*PAGE VISUALISER TOURNOIS, CLASSEMENT, LISTEEQUIPE*/
+/*-------------------------------------------------*/
+/*MAIN*/
+/*----*/
+.tournoismain,
+.classementmain,
+.listeEquipemain {
+  border: solid 2px;
+  background-color: rgb(194, 173, 224);
+  border-radius: 10px;
+  margin: 1.8em;
+  padding: 50px;
+}
+.classementmain,
+.listeEquipemain {
+  margin-left: 300px;
+  margin-right: 300px;
+}
+.tournoismain h3,
+.RechercheL {
+  padding-left: 15px;
+}
+.RechercheL input,.RechercheL select {
+  border: solid 1px;
+  border-radius: 5px;
+  padding: 0.5em;
+  margin: 0.5em;
+  font-size: 18px;
+}
+.tournoismain table {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+#reinitialiserT {
+  color: orange;
+}
+#rechercherT {
+  color: green;
+}
+/*--------*/
+/*TABLEAU*/
+/*-------*/
+.tournoismain h1,
+.classementmain h1,
+.listeEquipemain h1 {
+  padding: 0.5em;
+  text-align: center;
+}
+/*--------------*/
+/*DIV DE DETAILS*/
+/*--------------*/
+.Divdetails {
+  padding: 2em;
+  border: 2px solid;
+  border-radius: 10px;
+  background-color: rgb(194, 173, 224);
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+/*------------*/
+/*   GRID     */
+/*------------*/
+.Divdetails h1 {
+  text-align: center;
+}
+.Divdetails input {
+  border: solid 1px;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+.Divdetails label {
+  padding: 0.6em;
+  display: block;
+}
+#Dgridi1 {
+  grid-column: 1;
+  grid-row: 2;
+}
+#Dgridi2 {
+  grid-column: 2;
+  grid-row: 2;
+}
+#Dgridi3 {
+  grid-column: 3;
+  grid-row: 2;
+}
+#Dgridi4 {
+  grid-column: 1;
+  grid-row: 4;
+}
+#Dgridi5 {
+  grid-column: 2;
+  grid-row: 4;
+}
+#Dgridi6 {
+  grid-column: 3;
+  grid-row: 4;
+}
+#Dgridl1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+#Dgridl2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+#Dgridl3 {
+  grid-column: 3;
+  grid-row: 1;
+}
+#Dgridl4 {
+  grid-column: 1;
+  grid-row: 3;
+}
+#Dgridl5 {
+  grid-column: 2;
+  grid-row: 3;
+}
+#Dgridl6 {
+  grid-column: 3;
+  grid-row: 3;
+}
+#Dgridt1 {
+  grid-column: 1/4;
+  grid-row: 5;
+}
+#Dgridt1 a,
+#Dgridt2 a {
+  color: black;
+}
+#Dgrida1 {
+  grid-column: 3;
+  grid-row: 9;
+}
+#Dgrida2 {
+  grid-column: 1;
+  grid-row: 9;
+}
+/*------------------*/
+/*PAGE LISTE EQUIPES*/
+/*------------------*/
+#BtnCEquipe {
+  padding: 1.2em;
+  margin-right: auto;
+}
+/*-----------------*/
+/*FORMULAIRE EQUIPE*/
+/*-----------------*/
+#validerE {
+  grid-row: 7;
+  grid-column: 3;
+}
+#annulerE {
+  grid-column: 1;
+  grid-row: 7;
+}
+#Eqforml1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+#Eqformi1 {
+  grid-column: 1;
+  grid-row: 2;
+}
+#Eqforml2 {
+  grid-column: 3;
+  grid-row: 1;
+}
+#Eqformi2 {
+  grid-column: 3;
+  grid-row: 2;
+}
+#Eqforml3 {
+  grid-column: 3;
+  grid-row: 3;
+}
+#Eqformi3 {
+  grid-column: 3;
+  grid-row: 4;
+}
+#Eqformt1 {
+  grid-column: 1;
+  grid-row: 4;
+}
+#Eqforml4 {
+  grid-column: 1;
+  grid-row: 3;
+}
+#TabEquipeC {
+  grid-column: 2;
+  grid-row: 5;
+}
+#validerE:hover {
+  background-color: lightgreen;
+}
+#annulerE:hover {
+  background-color: crimson;
+}
+/*------------------------*/
+/*PAGE CREEREQUIPE TABLEAU*/
+/*------------------------*/
+#messageasterisque {
+  padding: 0px;
+  margin: 0px;
+  font-style: italic;
+}
+/*------------------*/
+/*FORMULAIRE TOURNOI*/
+/*------------------*/
+.formulaire {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(9, auto);
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+
+#validerT {
+  grid-row: 10;
+  grid-column: 3;
+}
+#annulerT {
+  grid-column: 1;
+  grid-row: 10;
+}
+#Tforml1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+#Tformi1 {
+  grid-column: 1;
+  grid-row: 2;
+}
+#Tforml2 {
+  grid-column: 3;
+  grid-row: 1;
+}
+#Tformi2 {
+  grid-column: 3;
+  grid-row: 2;
+}
+#Tforml3 {
+  grid-column: 3;
+  grid-row: 3;
+}
+#Tformi3 {
+  grid-column: 3;
+  grid-row: 4;
+}
+#Tforml4 {
+  grid-column: 3;
+  grid-row: 5;
+}
+#Tformi4 {
+  grid-column: 3;
+  grid-row: 6;
+}
+#Tforml5 {
+  grid-column: 1;
+  grid-row: 5;
+}
+#Tformi5 {
+  grid-column: 1;
+  grid-row: 6;
+}
+#Tformt1 {
+  grid-column: 1;
+  grid-row: 4;
+}
+/* Games list for Creer Tournoi */
+#Tformt2 {
+  font-weight: bold;
+  grid-column: 2;
+}
+#jeux {
+  grid-column: 2;
+  grid-row: 2 / span 5; /* Occuper 5 lignes */
+  max-height: 200px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #fff;
+}
+
+#jeux div {
+  margin: 5px 0;
+  margin-bottom: 5px; /* Ajout d'un espace entre chaque élément */
+  font-size: 16px; /* Taille de police pour le texte de la liste */
+  color: #333; /* Couleur du texte */
+  padding: 5px;
+}
+
+#Tforml6 {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+/* #TabTournoi{
+    grid-column: 2;
+    grid-row: 7;
+} */
+#validerT:hover {
+  background-color: lightgreen;
+}
+#annulerT:hover {
+  background-color: crimson;
+}
+/*-------------------*/
+/*PAGE DETAILS EQUIPE*/
+/*-------------------*/
+#EDgridl1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+#EDgridl2 {
+  grid-column: 1;
+  grid-row: 2;
+}
+#EDgridl3 {
+  grid-column: 1;
+  grid-row: 3;
+}
+#EDgridl4 {
+  grid-column: 1/4;
+  grid-row: 5;
+  border: solid 2px;
+  margin: 0.8em;
+  padding: 0;
+}
+#EDgridt1 {
+  grid-column: 3;
+  grid-row: 1/4;
+}
+#EDgridl5 {
+  grid-column: 2;
+  grid-row: 1;
+}
+#EDgridl6 {
+  grid-column: 2;
+  grid-row: 2;
+}
+#EDgridl7 {
+  grid-column: 2;
+  grid-row: 3;
+}
+/*----------------*/
+/*PAGE INSCRIPTION*/
+/*----------------*/
+#gridIa1 {
+  grid-column: 1;
+  grid-row: 2;
+}
+#gridIa2 {
+  grid-column: 3;
+  grid-row: 2;
+}
+/*----------*/
+/*PAGE SCORE*/
+/*----------*/
+#labelS1 {
+  background-color: white;
+  color: blueviolet;
+  border: solid black;
+  grid-column: 1/3;
+  grid-row: 1;
+}
+#RetourS8 {
+  grid-column: 1/3;
+  grid-row: 2;
+}
+#ModifS7 {
+  grid-column: 1/3;
+  grid-row: 3;
+}
+#saisirscore {
+  width: 60%;
+  grid-column: 1/3;
+  grid-row: 2;
+}
+#RetourS9 {
+  width: 50%;
+  grid-column: 2;
+  grid-row: 3;
+}
+.scoredetails {
+  color: black;
+  padding: 0.8em;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+.scoredetails h1 {
+  padding: 0.4em;
+  text-align: center;
+  color: white;
+}
+.scoredetails td {
+  font-style: italic;
+}
+/*----------------*/
+/*PAGE RESPONSIVE */
+/*----------------*/
+@media screen and (min-width: 1550px) {
+  .scoredetails {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  #labelS1 {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  #RetourS8 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  #ModifS7 {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+/*----------------*/
+/*PAGE CLASSEMENT */
+/*----------------*/
+.formClassement {
+  align-items: center;
+  display: grid;
+}
+#validerCL:hover {
+  background-color: lightgreen;
+}
