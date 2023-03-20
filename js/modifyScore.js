@@ -54,84 +54,86 @@ jQuery(function() {
         return result;
     }
     $('table').on('dblclick', 'td', function () {
-        var td = $(this);
-        var tdSibling = td.siblings('.score');
-        // make td editable
-        var td = $(this);
-        var tdSibling = td.siblings('.score');
-        var score = td.text();
-        var anotherScore = tdSibling.text();
-        var input = $('<input />', {
-            type: 'number',
-            min: 0,
-            max: 999,
-            value: (score == "TBD") ? 0 : score,
-            style: 'width: 60%; height: 100%; text-align: center; font-weight: bold; border: none; background-color: transparent; padding: 0; margin: 0; outline: none; color: white;'
-        });
-        // change the color of the text of tdSibling
-        tdSibling.css("color", "white");
-        // change the value if the other td is TBD
-        if (anotherScore == "TBD") {
-            anotherScore = 0;
-            tdSibling.text(anotherScore);
-        }
-        td.html(input);
-        input.focus();
-        input.select();
-        // on blur or enter key is pressed
-        input.on('blur keydown', function (e) {
-            // if enter key is pressed
-            if (e.which == 13 || e.type == "blur") {
-
-                var val = input.val();
-                if (isNaN(val)) {
-                    val = 0;
-                } else if (val < 0) {
-                    val = 0;
-                } else if (val > 999) {
-                    val = 999;
-                }// null is not allowed and will be replaced by 0
-                else if (val == null || val == "") {
-                    val = 0;
-                }// zero at the beginning is not allowed and will be replaced by 0
-                else if (val[0] == "0") {
-                    val = 0;
-                }// if value contais space, replace it by 0
-                else if (val.includes(" ")) {
-                    val = 0;
-                }else if (val.includes(",")) {
-                    val = 0;
-                }else if (val.includes(".")) {
-                    val = 0;
-                }
-                input.val(val);
-                td.html(val);
-                // return the color of the other td to normal
-                tdSibling.css("color", "black");
-                // get the parent table of the td
-                var table = td.closest('table');
-                // get the child of the parent table that has the class modifyScore
-                var div = table.find('.modifyScore');
-                var idPool = div.text();
-                // alert the value of the div
-                //alert(div.text());
-                // alert the $_GET['IDJ'] value
-                //alert(findGetParameter('IDJ'));*/
-                //get the id of the two td
-                var idTeam = td.attr('id');
-                var idTeamSibling = tdSibling.attr('id');
-                // put the values idPool, idTeam, idTeamSibling, val and anotherScore in an array
-                // for each pool and each two teams we have two scores val
-                if (typeof scores[idPool] === 'undefined') {
-                    scores[idPool] = [];
-                }
-                if (idTeam < idTeamSibling) {
-                    scores[idPool][idTeam + "-" + idTeamSibling] = [val, anotherScore];
-                } else {
-                    scores[idPool][idTeamSibling + "-" + idTeam] = [anotherScore, val];
-                }
+        // if the td of class score 
+        if ($(this).hasClass('score')) {
+            var td = $(this);
+            var tdSibling = td.siblings('.score');
+            // make td editable
+            var td = $(this);
+            var tdSibling = td.siblings('.score');
+            var score = td.text();
+            var anotherScore = tdSibling.text();
+            var input = $('<input />', {
+                type: 'number',
+                min: 0,
+                max: 999,
+                value: (score == "TBD") ? 0 : score,
+                style: 'width: 60%; height: 100%; text-align: center; font-weight: bold; border: none; background-color: transparent; padding: 0; margin: 0; outline: none; color: white;'
+            });
+            // change the color of the text of tdSibling
+            tdSibling.css("color", "white");
+            // change the value if the other td is TBD
+            if (anotherScore == "TBD") {
+                anotherScore = 0;
+                tdSibling.text(anotherScore);
             }
-        });
+            td.html(input);
+            input.focus();
+            input.select();
+            // on blur or enter key is pressed
+            input.on('blur keydown', function (e) {
+                // if enter key is pressed
+                if (e.which == 13 || e.type == "blur") {
+                    var val = input.val();
+                    if (isNaN(val)) {
+                        val = 0;
+                    } else if (val < 0) {
+                        val = 0;
+                    } else if (val > 999) {
+                        val = 999;
+                    }// null is not allowed and will be replaced by 0
+                    else if (val == null || val == "") {
+                        val = 0;
+                    }// zero at the beginning is not allowed and will be replaced by 0
+                    else if (val[0] == "0") {
+                        val = 0;
+                    }// if value contais space, replace it by 0
+                    else if (val.includes(" ")) {
+                        val = 0;
+                    }else if (val.includes(",")) {
+                        val = 0;
+                    }else if (val.includes(".")) {
+                        val = 0;
+                    }
+                    input.val(val);
+                    td.html(val);
+                    // return the color of the other td to normal
+                    tdSibling.css("color", "black");
+                    // get the parent table of the td
+                    var table = td.closest('table');
+                    // get the child of the parent table that has the class modifyScore
+                    var div = table.find('.modifyScore');
+                    var idPool = div.text();
+                    // alert the value of the div
+                    //alert(div.text());
+                    // alert the $_GET['IDJ'] value
+                    //alert(findGetParameter('IDJ'));*/
+                    //get the id of the two td
+                    var idTeam = td.attr('id');
+                    var idTeamSibling = tdSibling.attr('id');
+                    // put the values idPool, idTeam, idTeamSibling, val and anotherScore in an array
+                    // for each pool and each two teams we have two scores val
+                    if (typeof scores[idPool] === 'undefined') {
+                        scores[idPool] = [];
+                    }
+                    if (idTeam < idTeamSibling) {
+                        scores[idPool][idTeam + "-" + idTeamSibling] = [val, anotherScore];
+                    } else {
+                        scores[idPool][idTeamSibling + "-" + idTeam] = [anotherScore, val];
+                    }
+                }
+            });
+        }
     });
 
 })
