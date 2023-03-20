@@ -11,7 +11,7 @@ require_once('./model/MatchJ.php');
 require_once('./model/Tournament.php');
 require_once('./model/Team.php');
 require_once('./model/Classement.php');
-require_once('./codereplacer/headerCodeReplace.ph');
+require_once('./codereplacer/headerCodeReplace.php');
 ob_start('headerCodeReplace');
 $Admin = new Administrator();
 $connx = Connection::getInstance();

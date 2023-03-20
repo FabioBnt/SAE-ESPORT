@@ -34,11 +34,11 @@ class Game
         return $this->name;
     }
     //get type of a game
-    public function gettype():string{
+    public function getType():string{
         return $this->type;
     }
     //get time of a game
-    public function gettime():string{
+    public function getTime():string{
         return $this->time;
     }
     //get all games
