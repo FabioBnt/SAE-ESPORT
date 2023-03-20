@@ -46,7 +46,7 @@ class Pool
     //récupérer la meilleur équipe de la Pool
     public function bestTeamOfPool():Team{
         $teams = $this->teamsOfPool();
-            $best = null;
+            $best = new Team();
             $bestScore = -1;
             foreach ($teams as $team) {
                 $score = $this->nbMatchsWin($team->getId()); //nb match gagnés
@@ -54,7 +54,7 @@ class Pool
                     $best = $team;
                     $bestScore = $score;
                 } else if($score == $bestScore){
-                    $best=$this->getDiffPoint ($best,$team);
+                    $best=$this->getDiffPoint($best,$team);
                 }
             }
         return $best;
@@ -64,7 +64,7 @@ class Pool
         $teams = $this->teamsOfPool();
         $result = [];
         while (count($teams)>1 ) {
-            $best = null;
+            $best = new Team();
             $bestScore = -1;
             foreach ($teams as $team) {
                 $score = $this->nbMatchsWin($team->getId()); //nb match gagnés
@@ -142,7 +142,7 @@ class Pool
     //initialize match
     public function setScoreMatch(int $number,int $idTeam1,int $idTeam2,int $score1,int $score2): void
     {
-        $this->matchs[$number]->setTeamScore($idTeam1, $score1);
+        $this->matchs[$number]->setTeamScore((int)$idTeam1,(int)$score1);
         $this->matchs[$number]->setTeamScore((int)$idTeam2, (int)$score2);   
     }
 }

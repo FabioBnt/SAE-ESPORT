@@ -66,17 +66,18 @@ if (isset($_GET['page'])) {
             ob_end_flush();
             break;
         case 'saisirscore':
-            echo 'dans le controller';
             $listePools = null;
             if (isset($_GET['IDJ'])) {
-                $listePools = $_SESSION['jeu' . $_GET['IDJ']];
+                $listePools = $_SESSION['game' . $_GET['IDJ']];
             } else {
                 $listePools = array();
             }
-            print_r($listePools);
+            echo 'dans le controller';
             if (isset($_GET['score1']) && isset($_GET['score2'])) {
                 try {
                     echo 'dans le try';
+                    echo $_GET['poule'].' '.$_GET['equipe1'].' '.$_GET['equipe2'].' '.$_GET['score1'].' '.$_GET['score2']. '<br/>';
+                    //print_r($listePools);
                     MatchJ::setScore($listePools, $_GET['poule'], $_GET['equipe1'], $_GET['equipe2'], $_GET['score1'], $_GET['score2']);
                     echo '<script>alert("Score enregistré")</script>';
                     exit();

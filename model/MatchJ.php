@@ -78,7 +78,7 @@ class MatchJ
     public static function setScore(array $pools, int $idPool, int $idTeam1, int $idTeam2, int $score1, int $score2): void
     {
         $dao = new ArbitratorDAO();
-        $number = $dao->selectNumberOfPool($idPool, $idTeam1, $idTeam2)[0];
+        $number = (int)$dao->selectNumberOfPool($idPool, $idTeam1, $idTeam2);
         $pools[$idPool]->setScoreMatch($number, $idTeam1, $idTeam2, $score1, $score2);
         $dao->updateTeamScoreOnMatch($idPool, $idTeam1, $score1, $number);
         $dao->updateTeamScoreOnMatch($idPool, $idTeam2, $score2, $number);
@@ -89,7 +89,7 @@ class MatchJ
         $cmpt = 0;
         //si c'est la Pool finale on vérifie si tous les scores sont initialisés
         foreach ($pools as $Pool) {
-            if ($Pool->isPoolFinale()) {
+            if ($Pool->isPoolFinal()) {
                 $PoolFinaleExiste = true;
                 if ($Pool->checkIfAllScoreSet()) {
                     Tournament::updatePointsTournament($idT, $idJ);

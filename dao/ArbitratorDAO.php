@@ -132,7 +132,7 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select number of the pool by id pool and id team
-    public function selectNumberOfPool(int $idPool,int $idTeam1,int $idTeam2):array{
+    public function selectNumberOfPool(int $idPool,int $idTeam1,int $idTeam2):string{
         $sql = "SELECT numero FROM Concourir WHERE IdPoule = $idPool AND IdEquipe = $idTeam1 AND numero in
         (SELECT numero FROM Concourir WHERE IdPoule = $idPool AND IdEquipe = $idTeam2)";
         try{

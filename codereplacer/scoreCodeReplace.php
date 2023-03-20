@@ -79,7 +79,7 @@ function scoreCodeReplace($buffer)
                     if ($ligneValue == null) {
                         $score .= 'TBD';
                     } else {
-                        $replacementCode .= $ligneValue;
+                        $score .= $ligneValue;
                     }
                     $score .= '</td>';
                     $j++;
