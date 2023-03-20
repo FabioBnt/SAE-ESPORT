@@ -72,7 +72,7 @@
                     <?php 
                         foreach ($listePools[$idJeu] as $Pool) { 
                             if($Pool->getNumber() == $_GET['Pool']){
-                                foreach($Pool->TeamsOfPool() as $equipe){
+                                foreach($Pool->teamsOfPool() as $equipe){
                                     $temp = '';
                                     if($equipe->getId() == $equipe1 ){
                                         $temp = 'selected';
@@ -121,7 +121,7 @@
                     <?php 
                         foreach ($listePools[$idJeu] as $Pool) { 
                             if($Pool->getNumber() === $_GET['Pool']){
-                                foreach($Pool->TeamsOfPool() as $equipe){
+                                foreach($Pool->teamsOfPool() as $equipe){
                                     $temp = '';
                                     if($equipe->getId() == $equipe2 ){
                                         $temp = 'selected';

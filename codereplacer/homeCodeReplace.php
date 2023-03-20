@@ -13,9 +13,9 @@ function homeCodeReplace($buffer)
     if($connx->getRole()==Role::Team){
         $tournament = new Tournament();
         $teamName = $connx->getIdentifiant();
-        $idTeam=Team::getIDbyname($teamName);
+        $idTeam=Team::getIDbyName($teamName);
         $team = Team::getTeam($idTeam);
-        $listTournaments = $tournament->tournamentsSuggestedByTeam($team->getId(),$team->getgameId());
+        $listTournaments = $tournament->tournamentsSuggestedByTeam($team->getId(),$team->getGameId());
         $teamTournaments = "<table>
         <thead>
         <tr><th colspan='9'>Suggestion de Tournois</th></tr>
@@ -40,8 +40,8 @@ function homeCodeReplace($buffer)
             <td>' .$T->getLocation(). '</td>
             <td>' .$T->getHourStart(). '</td>
             <td>' .$T->getDate(). '</td>
-            <td>' .$T->getregisterDeadline(). '</td>
-            <td>' .$T->namesgames()."</td>
+            <td>' .$T->getRegisterDeadline(). '</td>
+            <td>' .$T->namesGames()."</td>
             <td><a href='./index.php?page=detailstournoi&IDT=".$T->getIdTournament()."'><img class='imgB' src='./img/Detail.png' alt='Details'></a></td>
             </tr>";
         }

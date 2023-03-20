@@ -40,7 +40,7 @@ class ResultTest extends TestCase {
         // get les Pools
         $Pools = $t->getPools();
         // les equies de la Pool
-        $equipes = $Pools[8][5]->TeamsOfPool();
+        $equipes = $Pools[8][5]->teamsOfPool();
         // get les points de l'equipe 15
         $classement = $Pools[8][5]->classementTeams();
         // get keys des equipes
@@ -56,7 +56,7 @@ class ResultTest extends TestCase {
         MatchJ::setScore($Pools[8],7, 13, 17, (int)$score1, (int)$score2);
         $Pools = $t->getPools();
         // team of Pool
-        $equipes = $Pools[8][5]->TeamsOfPool();
+        $equipes = $Pools[8][5]->teamsOfPool();
         $points = array();
         foreach($classement as $key => $value){
             $points[] = $equipes[$key]->getPoints();

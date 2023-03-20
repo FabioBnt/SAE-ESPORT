@@ -47,7 +47,7 @@ function scoreCodeReplace($buffer)
         $replacementCode[2] = '<a href="index.php?page=score&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '&Modify" class="buttonE" id="ModifS7">Modification</a>';
     }
     if (isset($_GET['Modify']) && $saisirScore) {
-        $replacementCode[2] = '<a href="index.php?page=score&IDJ=' . $idJeu . '&NomT=' . $nomTournoi . '&JeuT=' . $nomJeu . '" class="buttonE" id="ModifS7">Terminer</a>';
+        $replacementCode[2] = '<a class="buttonE" id="ModifS7">Terminer</a>';
         $replacementCode[5] = '<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>';
         $replacementCode[5] .= '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>';
         $replacementCode[5] .= '<script src="./js/modifyScore.js"></script>';
@@ -100,7 +100,7 @@ function scoreCodeReplace($buffer)
             foreach ($listePools as $Pool) {
                 $i++;
                 if ($i == 5) {
-                    $p = $Pool->BestTeams();
+                    $p = $Pool->bestTeams();
                     $in = 1;
                     foreach ($p as $e) {
                         $replacementCode[4] .= '<tr><td>' . $in . '</td><td>' . $e->getNom() . '</td></tr>';

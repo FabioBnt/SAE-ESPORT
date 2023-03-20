@@ -26,7 +26,7 @@ class DetailsTournamentTest extends TestCase {
         $id = $this->tournoi->getIdTournament();
         $dao= new UserDAO();
         $totalParticipant = $dao->selectNumberParticipant(1,$id);
-        $listeParticipant = $this->tournoi->TeamsOfPoolParticipants();
+        $listeParticipant = $this->tournoi->teamsOfPoolParticipants();
         assertSame($totalParticipant[0]['total']-'0', count($listeParticipant));
     }
     //test

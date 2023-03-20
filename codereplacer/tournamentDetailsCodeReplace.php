@@ -45,7 +45,7 @@ function tournamentDetailsCodeReplace($buffer)
     foreach ($tournament->getGames() as $jeu) {
         $gameTable .= '<tr>
         <td>' . $jeu->getName() . '</td>
-        <td>' . $jeu->getDateLimit($tournament->getdateHour()) . "</td>
+        <td>' . $jeu->getDateLimit($tournament->getDateHour()) . "</td>
         <td><a href='./index.php?page=score&IDJ=" . $jeu->getId() . '&NomT=' . $tournament->getName() . '&JeuT=' . $jeu->getName() . "'><img src='./img/Detail.png' alt='Details' class='imgB'></a></td>
         </tr>";
         // modified PoolsJeux by poolJeux[id];
@@ -69,7 +69,7 @@ function tournamentDetailsCodeReplace($buffer)
     
     $participantTable = '';
     foreach($tournament->getGames() as $jeu){
-        $teampools=$tournament->TeamsOfPoolParticipants($jeu->getId());
+        $teampools=$tournament->teamsOfPoolParticipants($jeu->getId());
         if ($teampools != array()) {
             $participantTable .= "<table>
             <thead>

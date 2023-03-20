@@ -47,7 +47,7 @@ class Team
      * @throws Exception
      */
     //get id of a team by his name
-    public static function getIDbyname(string $name): int
+    public static function getIDbyName(string $name): int
     {
         $dao = new TeamDAO();
         return $dao->selectIDbyNameTeam($name);
@@ -90,7 +90,7 @@ class Team
         return $daoT->selectGameName($this->game);
     }
     //get id game of the team
-    public function getgameId(): int
+    public function getGameId(): int
     {
         return $this->game;
     }
@@ -147,7 +147,7 @@ class Team
             if (array_key_exists($n, $t)) {
                 foreach ($t[$n] as $Pool) {
                     if ($Pool->isPoolFinal() === '1') {
-                        if ($Pool->BestteamOfPool()->getId() === $this->id) {
+                        if ($Pool->bestTeamOfPool()->getId() === $this->id) {
                             $nb++;
                         }
                     }
@@ -173,7 +173,7 @@ class Team
             if (array_key_exists($n, $t)) {
                 foreach ($t[$n] as $Pool) {
                     if ($Pool->isPoolFinal() === '1') {
-                        if ($Pool->BestteamOfPool()->getId() === $this->id) {
+                        if ($Pool->bestTeamOfPool()->getId() === $this->id) {
                             $daoU = new UserDAO();
                             $res = $daoU->selectCashPrizeById($t->getId());
                             $nb += $res[0]['CashPrize'];
@@ -201,7 +201,7 @@ class Team
         if (!$tournament->haveGame($this->game)) {
             throw new RuntimeException('L\'équipe n\'est pas expert dans les games du tournoi');
         }
-        if (strtotime($tournament->getregisterDeadline()) > strtotime(date('Y/m/d'))) {
+        if (strtotime($tournament->getRegisterDeadline()) > strtotime(date('Y/m/d'))) {
             throw new RuntimeException('L\'inscription est fermée pour ce tournoi');
         }
         if ($this->getIfteamOnTournament($tournament)) {

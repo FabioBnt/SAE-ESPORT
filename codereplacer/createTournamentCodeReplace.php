@@ -5,6 +5,7 @@ function createTournamentCodeReplace($buffer)
     $replacementCode = array();
     $listeJeux = Game::allGames();
     $date = date('Y-m-d', strtotime('+1 month'));
+    $result = '';
     foreach ($listeJeux as $jeu) {
         $result.= "<div><input type=\"checkbox\" name=\"jeuT[]\" value=" . $jeu->getId() . '>' . $jeu->getName() . '</div>';
     }

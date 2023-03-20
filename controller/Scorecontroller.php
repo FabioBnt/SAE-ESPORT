@@ -75,8 +75,7 @@ if (isset($_GET['page'])) {
             if (isset($_GET['score1']) && isset($_GET['score2'])) {
                 try {
                     MatchJ::setScore($listePools, $_GET['poule'], $_GET['equipe1'], $_GET['equipe2'], $_GET['score1'], $_GET['score2']);
-                    $Tournament->allTournaments();
-                    $idT = MatchJ::getIdTournamentByPool($_GET['poule']);
+                    echo '<script>window.location.href = "index.php?page=score&valide=1"</script>';
                     exit();
                 } catch (Exception $e) {
                     exit();

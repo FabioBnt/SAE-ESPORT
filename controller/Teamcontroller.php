@@ -14,7 +14,7 @@ if (isset($_GET['page'])) {
                     $id = Organization::getIDbyAccountName($connx->getIdentifiant());
                     $Organization = Organization::getOrganization($id);
                     $Organization->createTeam($_POST['name'],$_POST['username'], $_POST['password'], $_POST['jeuE'],$id);
-                    $IdEquipe = Team::getIDbyname($_POST['name']);
+                    $IdEquipe = Team::getIDbyName($_POST['name']);
                     for($i=0;$i<4;$i++){
                         if (!empty($_POST['pseudo'.$i])) {
                             $Organization->createPlayer($_POST['pseudo'.$i], $_POST['nat'.$i], $IdEquipe);}
