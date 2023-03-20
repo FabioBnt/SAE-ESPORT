@@ -84,7 +84,7 @@ class Connection
     }
 
     // if get role of the connection is the role param
-    public function IfgetRoleConnection(string $role): bool
+    public function ifgetRoleConnection(string $role): bool
     {
         return ($this->getRole() == $role);
     }

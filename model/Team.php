@@ -37,7 +37,7 @@ class Team
     public function isConnected($optional = null): bool
     {
         if ($optional === null) {
-            return (Connection::getInstance()->IfgetRoleConnection(Role::Team));
+            return (Connection::getInstance()->ifgetRoleConnection(Role::Team));
         }
         return (1);
     }
@@ -64,7 +64,7 @@ class Team
      * @return string
      */
     //get name of the team
-    public function getname(): string
+    public function getName(): string
     {
         return $this->name;
     }

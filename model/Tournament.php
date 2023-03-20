@@ -49,9 +49,9 @@ class Tournament
     private function calculateDeadline(string $hourDateStart): void
     {
         // on prend le numero de jours le plus grand entre les games de tournoi
-        (int)$maxDay = reset($this->games)->getregisterlimit();
+        (int)$maxDay = reset($this->games)->getRegisterLimit();
         foreach ($this->games as $game){
-            (int)$days = $game->getregisterlimit();
+            (int)$days = $game->getRegisterLimit();
             if($maxDay > $days){
                 $maxDay = $days;
             }
@@ -262,7 +262,7 @@ class Tournament
         }
     }
     //get name tournament
-    public function getname():string{
+    public function getName():string{
         return $this->name;
     }
     //get notoriety tournament
@@ -300,7 +300,7 @@ class Tournament
     {
         $namegames = '';
         foreach($this->games as $game){
-            $namegames.=$game->getname().', ';
+            $namegames.=$game->getName().', ';
         }
         $namegames = substr($namegames, 0, -2);
         return $namegames;
@@ -345,7 +345,7 @@ class Tournament
         $data = $this->userDao->selectTournamentPools($this->id);
         foreach($data as $ligne){
             $game=Game::getGameById($ligne['IdJeu']);
-            $this->verifiyingPools($game->getdateLimit($this->getdateHour()));
+            $this->verifiyingPools($game->getDateLimit($this->getdateHour()));
             $this->Pools[$ligne['IdJeu']][$ligne['IdPoule']] = new Pool($ligne['IdPoule'], $ligne['NumeroPoule'],
              $ligne['EstPouleFinale'], $this->games[$ligne['IdJeu']]);
             $dataM = $this->userDao->selectTournamentPoolMatches($ligne['IdPoule']);
@@ -367,7 +367,7 @@ class Tournament
     }
     //get number of pool
     public function getNumberPools(int $idgame):bool{
-        $totalPools=$this->userDao->selectnumberPools($idgame,$this->getIdTournament());
+        $totalPools=$this->userDao->selectNumberPools($idgame,$this->getIdTournament());
         if(isset($totalPools[0]) && $totalPools[0] != null){
             return $totalPools[0]['total']-'0';
         }else{

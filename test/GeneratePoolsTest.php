@@ -58,7 +58,7 @@ class GeneratePoolsTest extends TestCase {
             $i++;
         }
         $id = $t->getIdTournament();
-        $totalPools=$dao3->selectnumberPools($idJeu,$id);
+        $totalPools=$dao3->selectNumberPools($idJeu,$id);
         $listePools = $t->getPools();
         $this->mysql->getConnection()->rollBack();
         assertSame($totalPools[0]['total']-'0', count($listePools[$idJeu]));
@@ -98,7 +98,7 @@ class GeneratePoolsTest extends TestCase {
         }
         //$t->generateFinalPool($id,$idJeu);
         $listePools = $t->getPools()[$idJeu];
-        $totalPools=$dao->selectnumberPools($idJeu,$id);
+        $totalPools=$dao->selectNumberPools($idJeu,$id);
         assertSame($totalPools[0]['total']-'0', count($listePools));
         assertSame(5, count($listePools));
     }

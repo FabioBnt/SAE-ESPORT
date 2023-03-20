@@ -33,7 +33,7 @@ class DetailsTournamentTest extends TestCase {
     public function testPoolTournament() {
         $id = $this->tournoi->getIdTournament();
         $dao= new UserDAO();
-        $totalPools = $dao->selectnumberPools(1,$id);
+        $totalPools = $dao->selectNumberPools(1,$id);
         $listePools = $this->tournoi->getPools();
         $sumPool = 0;
         foreach($listePools as $Pool){
@@ -48,7 +48,7 @@ class DetailsTournamentTest extends TestCase {
         $dao=new UserDAO();
         $this->tournoi->allTournaments();
         $this->tournoi = $this->tournoi->getTournament(11);
-        $totalMatchs = $dao->selectnumberMatchPool(3,$idGame,$this->tournoi->getIdTournament());
+        $totalMatchs = $dao->selectNumberMatchPool(3,$idGame,$this->tournoi->getIdTournament());
         $listeMatchs = $this->tournoi->getPools()[$idGame][3]->getMatchs();
         assertSame($totalMatchs[0]['total']-'0', count($listeMatchs));
     }

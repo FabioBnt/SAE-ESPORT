@@ -173,7 +173,7 @@ class UserDAO extends DAO{
         }
     }
     //select number match of a pool of tournament
-    public function selectnumberMatchPool(int $idPool,int $idGame,int $idT):array{
+    public function selectNumberMatchPool(int $idPool,int $idGame,int $idT):array{
         $sql = "SELECT count(M.IdPoule) as total FROM MatchJ M, Poule P WHERE M.IdPoule = P.IdPoule AND P.IdTournoi = $idT AND P.IdJeu = $idGame AND P.IdPoule = $idPool";
         try{
             $stm = $this->mysql->prepare($sql);
@@ -184,7 +184,7 @@ class UserDAO extends DAO{
         }
     }
     //select number pools for a game
-    public function selectnumberPools(int $idgame,int $idT):array{
+    public function selectNumberPools(int $idgame,int $idT):array{
         $sql = "SELECT count(*) as total FROM Poule WHERE IdTournoi =$idT AND IdJeu =$idgame";
         try{
             $stm = $this->mysql->prepare($sql);
