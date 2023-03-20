@@ -2,9 +2,10 @@ jQuery(function() {
     var scores = Array();
 
     function setScore(pool, team1, team2, score1, score2){
+        event.preventDefault();
         var idj = findGetParameter('IDJ');
         $.ajax({
-            url: "index.php?page=saisirscore",
+            url: "./index.php?page=saisirscore",
             type: "GET",
             data: {
                 IDJ: idj,
@@ -15,7 +16,7 @@ jQuery(function() {
                 score2: score2
             },
             success: function (data) {
-                console.log(data);
+                alert(data);
             }
         });
     }
@@ -36,7 +37,7 @@ jQuery(function() {
             }
         }
         let tounamentName = findGetParameter('NomT');
-        window.location.href = "index.php?page=listetournoi&nom=" + tounamentName + "&message=Score modifié avec succés";
+        //window.location.href = "index.php?page=listetournoi&nom=" + tounamentName + "&message=Score modifié avec succés";
     });
     function findGetParameter(parameterName) {
         var result = null,
