@@ -18,14 +18,14 @@ class MatchJ
     }
 
     //add score of a team
-    public function addteamscore(Team $team, $score): void
+    public function addTeamScore(Team $team, $score): void
     {
         $this->scores[$team->getId()] = $score;
         $this->teams[$team->getId()] = $team;
     }
 
     //initialize score of a team
-    public function setteamscore(int $teamId, int $score): void
+    public function setTeamScore(int $teamId, int $score): void
     {
         $this->scores[$teamId] = $score;
     }

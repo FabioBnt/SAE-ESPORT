@@ -21,7 +21,7 @@ class Pool
         return $this->id;
     }
     //get number of pool
-    public function getnumber():int{
+    public function getNumber():int{
         return $this->number;
     }
     //know if pool is final or not
@@ -40,7 +40,7 @@ class Pool
         $dao= new ArbitratorDAO();
         $data= $dao->addMatch($this->id,$number);
         foreach($data as $ligne){
-            $this->matchs[$number]->addteamscore($teams[$ligne['IdEquipe']], $ligne['Score']);
+            $this->matchs[$number]->addTeamScore($teams[$ligne['IdEquipe']], $ligne['Score']);
         }
     }
     //récupérer la meilleur équipe de la Pool
@@ -142,9 +142,9 @@ class Pool
     //initialize match
     public function setScoreMatch(int $number,int $idTeam1,$idTeam2 = null ,int $score1,$score2 = null): void
     {
-        $this->matchs[$number]->setteamscore($idTeam1, $score1);
+        $this->matchs[$number]->setTeamScore($idTeam1, $score1);
         if($idTeam2 !== null && $score2 !== null){
-            $this->matchs[$number]->setteamscore((int)$idTeam2, (int)$score2);   
+            $this->matchs[$number]->setTeamScore((int)$idTeam2, (int)$score2);   
         }
     }
 }

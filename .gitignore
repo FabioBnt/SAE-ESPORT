@@ -4,3 +4,4 @@ composer.phar
 .vscode
 .phpunit.result.cache
 .VSCodeCounter
+.BACKUPSQL
