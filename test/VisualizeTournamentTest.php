@@ -20,7 +20,7 @@ class VisualizeTournamentTest extends TestCase {
     //test
     public function testVisualizeallTournaments() {
         $dao=new UserDAO();
-        $totalTournois = $dao->selectnumberTournament();
+        $totalTournois = $dao->selectNumberTournament();
         $listeTournois = $this->tournois->allTournaments();
         assertSame($totalTournois[0]['total']-'0', count($listeTournois));
     }

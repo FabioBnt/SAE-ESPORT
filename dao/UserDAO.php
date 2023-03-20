@@ -151,7 +151,7 @@ class UserDAO extends DAO{
         }
     }
     //select number participant of tournament
-    public function selectnumberParticipant(int $idgame,int $idT):array{
+    public function selectNumberParticipant(int $idgame,int $idT):array{
         $sql = "SELECT count(e.IdEquipe) as total FROM Participer p, Equipe e WHERE p.IdTournoi =$idT AND e.IdEquipe = p.IdEquipe AND e.IdJeu =$idgame";
         try{
             $stm = $this->mysql->prepare($sql);
@@ -162,7 +162,7 @@ class UserDAO extends DAO{
         }
     }
     //select number of tournament
-    public function selectnumberTournament():array{
+    public function selectNumberTournament():array{
         $sql = 'SELECT count(IdTournoi) as total FROM Tournois';
         try{
             $stm = $this->mysql->prepare($sql);

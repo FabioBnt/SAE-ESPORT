@@ -28,7 +28,7 @@ class CreateTournamentTest extends TestCase {
         $dao =new AdminDAO();
         Connection::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrator);
         $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array(1));
-        $total = $dao->VerifIfTournamentExist('test');
+        $total = $dao->verifIfTournamentExist('test');
         assertTrue($total);
     }
 }

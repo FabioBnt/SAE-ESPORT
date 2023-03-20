@@ -51,7 +51,7 @@ class TeamDAO extends DAO {
         }
     }
     //select team of a tournament and return a boolean
-    public function TeamOnTournament(Tournament $tournament,int $idT): bool
+    public function teamOnTournament(Tournament $tournament,int $idT): bool
     {
         $sql = 'SELECT count(*) as total FROM Participer WHERE IdTournoi =' .$tournament->getIdTournament()." AND IdEquipe =$idT";
         try{

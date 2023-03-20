@@ -4,7 +4,7 @@ if (isset($_GET['page'])) {
     $page = $_GET['page'];
     switch ($page) {
         case 'score':
-            function ScoreCodeReplacer($buffer)
+            function scoreCodeReplacer($buffer)
             {
                 $connx = Connection::getInstance();
                 $codeToReplace = array(
@@ -175,7 +175,7 @@ if (isset($_GET['page'])) {
                 echo '<script>alert("Erreur lors de l\'enregistrement du score")</script>';
             }
             require_once('./view/headerview.html');
-            ob_start('ScoreCodeReplacer');
+            ob_start('scoreCodeReplacer');
             require_once('./view/scoreview.html');
             ob_end_flush();
             break;

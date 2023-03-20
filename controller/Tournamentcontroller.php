@@ -104,7 +104,7 @@ if (isset($_GET['page'])) {
             ob_end_flush();
             break;
         case 'creertournoi':
-            function CreateTournamentCodeReplace($buffer)
+            function createTournamentCodeReplace($buffer)
             {
                 $codeToReplace = array('##GameListTournament##', '##DATETournament##');
                 $replacementCode = array();
@@ -131,12 +131,12 @@ if (isset($_GET['page'])) {
                 $Admin->createTournament($_POST['name'], $cash, $_POST['typeT'], $_POST['lieu'], $_POST['heure'], $_POST['date'], $_POST['jeuT']);
                 header('Location: ./index.php?page=accueil');
             }
-            ob_start('CreateTournamentCodeReplace');
+            ob_start('createTournamentCodeReplace');
             require_once('./view/creertournoiview.html');
             ob_end_flush();
             break;
         case 'detailstournoi':
-            function TournamentDetailsCodeReplace($buffer)
+            function tournamentDetailsCodeReplace($buffer)
             {
                 $connx = Connection::getInstance();
                 $idTournament = null;
@@ -233,7 +233,7 @@ if (isset($_GET['page'])) {
 
 
             require_once('./view/headerview.html');
-            ob_start('TournamentDetailsCodeReplace');
+            ob_start('tournamentDetailsCodeReplace');
             require_once('./view/detailstournoiview.html');
             ob_end_flush();
             break;

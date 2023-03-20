@@ -29,10 +29,10 @@ class RegisterTeamTest extends TestCase {
         $idT = $tournoi->getIdTournament();
         $pdo = $this->mysql->getPDO();
         $pdo->beginTransaction();
-        $totalInscription=$dao->selectnumberParticipant(2,$idT);
+        $totalInscription=$dao->selectNumberParticipant(2,$idT);
         $numInscriptions = $totalInscription[0]['total']-'0';
         $this->equipe->register($tournoi);
-        $totalInscription=$dao->selectnumberParticipant(2,$idT);
+        $totalInscription=$dao->selectNumberParticipant(2,$idT);
         assertSame($totalInscription[0]['total']-'0', $numInscriptions+ 1);
     }
     //test

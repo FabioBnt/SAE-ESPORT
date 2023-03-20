@@ -105,10 +105,10 @@ class Team
      * @throws Exception
      */
     //know if team participate of the x tournament
-    public function getIfTeamOnTournament(Tournament $tournament): bool
+    public function getIfteamOnTournament(Tournament $tournament): bool
     {
         $daoT = new TeamDAO();
-        return $daoT->TeamOnTournament($tournament, $this->id);
+        return $daoT->teamOnTournament($tournament, $this->id);
     }
     /**
      * @param string $id
@@ -147,7 +147,7 @@ class Team
             if (array_key_exists($n, $t)) {
                 foreach ($t[$n] as $Pool) {
                     if ($Pool->isPoolFinal() === '1') {
-                        if ($Pool->BestTeamOfPool()->getId() === $this->id) {
+                        if ($Pool->BestteamOfPool()->getId() === $this->id) {
                             $nb++;
                         }
                     }
@@ -173,7 +173,7 @@ class Team
             if (array_key_exists($n, $t)) {
                 foreach ($t[$n] as $Pool) {
                     if ($Pool->isPoolFinal() === '1') {
-                        if ($Pool->BestTeamOfPool()->getId() === $this->id) {
+                        if ($Pool->BestteamOfPool()->getId() === $this->id) {
                             $daoU = new UserDAO();
                             $res = $daoU->selectCashPrizeById($t->getId());
                             $nb += $res[0]['CashPrize'];
@@ -204,7 +204,7 @@ class Team
         if (strtotime($tournament->getregisterDeadline()) > strtotime(date('Y/m/d'))) {
             throw new RuntimeException('L\'inscription est fermée pour ce tournoi');
         }
-        if ($this->getIfTeamOnTournament($tournament)) {
+        if ($this->getIfteamOnTournament($tournament)) {
             throw new RuntimeException('Déjà inscrit');
         }
         $daoT = new TeamDAO();

@@ -54,7 +54,7 @@ class AdminDAO extends DAO
         }
     }
     //verif if tournament exist
-    public function VerifIfTournamentExist(string $name): bool
+    public function verifIfTournamentExist(string $name): bool
     {
         $sql = "SELECT count(*) as total FROM Tournois WHERE NomTournoi = '$name'";
         try{

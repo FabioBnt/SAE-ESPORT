@@ -215,7 +215,7 @@ class Tournament
         $teams = array();
         $Pools = $this->getPools()[$game];
         foreach($Pools as $Pool){
-            $teams[] = $Pool->BestTeamOfPool();
+            $teams[] = $Pool->BestteamOfPool();
         }
         return $teams;
     }
@@ -358,7 +358,7 @@ class Tournament
     }
     //get number of participant
     public function getNumberParticipant(int $idgame):int{
-        $data=$this->userDao->selectnumberParticipant($idgame,$this->getIdTournament());
+        $data=$this->userDao->selectNumberParticipant($idgame,$this->getIdTournament());
         if(isset($data[0]) && $data[0] != null){
             return $data[0]['total']-'0';
         }else{

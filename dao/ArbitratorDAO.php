@@ -172,7 +172,7 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select sum score of a team for a pool
-    public function SumScoreTeam(int $idPool,int $idTeam):int
+    public function sumScoreTeam(int $idPool,int $idTeam):int
     {
         $sql = "SELECT SUM(Score) as scoreS FROM Concourir WHERE IdPoule = $idPool AND IdEquipe=$idTeam";
         try{
@@ -185,7 +185,7 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select team of a pool
-    public function TeamOfPool(int $idPool):array
+    public function teamOfPool(int $idPool):array
     {
         $sql = "SELECT IdEquipe FROM Faire_partie WHERE IdPoule = $idPool";
         try{

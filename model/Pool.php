@@ -44,7 +44,7 @@ class Pool
         }
     }
     //récupérer la meilleur équipe de la Pool
-    public function BestTeamOfPool():Team{
+    public function BestteamOfPool():Team{
         $teams = $this->TeamsOfPool();
             $best = null;
             $bestScore = -1;
@@ -107,7 +107,7 @@ class Pool
     //get teams of pool
     public function TeamsOfPool():array{
         $dao= new ArbitratorDAO();
-        $data= $dao->TeamOfPool($this->id);
+        $data= $dao->teamOfPool($this->id);
         $teams = array();
         foreach($data as $ligne){
             $teams[$ligne['IdEquipe']] = Team::getTeam($ligne['IdEquipe']);
@@ -119,8 +119,8 @@ class Pool
         $e1=$n1->getId();
         $e2=$n2->getId();
         $dao= new ArbitratorDAO();
-        $g1= $dao->SumScoreTeam($this->id,$e1);
-        $g2= $dao->SumScoreTeam($this->id,$e2);
+        $g1= $dao->sumScoreTeam($this->id,$e1);
+        $g2= $dao->sumScoreTeam($this->id,$e2);
         //ID1 a gagné le plus de match ou égalité 
         if($g1 >= $g2){
             return $n1;
