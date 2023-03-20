@@ -72,14 +72,11 @@ if (isset($_GET['page'])) {
             } else {
                 $listePools = array();
             }
-            echo 'dans le controller';
             if (isset($_GET['score1']) && isset($_GET['score2'])) {
                 try {
                     echo 'dans le try';
-                    echo $_GET['poule'].' '.$_GET['equipe1'].' '.$_GET['equipe2'].' '.$_GET['score1'].' '.$_GET['score2']. '<br/>';
-                    //print_r($listePools);
+                    echo $_GET['poule'].' '.$_GET['equipe1'].' '.$_GET['equipe2'].' '.$_GET['score1'].' '.$_GET['score2']. '<br/>';;
                     MatchJ::setScore($listePools, $_GET['poule'], $_GET['equipe1'], $_GET['equipe2'], $_GET['score1'], $_GET['score2']);
-                    echo '<script>alert("Score enregistré")</script>';
                     exit();
                 } catch (Exception $e) {
                     exit();

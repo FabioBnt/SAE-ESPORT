@@ -16,7 +16,8 @@ jQuery(function() {
                 score2: score2
             },
             success: function (data) {
-                alert(data);
+                // write in log
+                console.log(data);
             }
         });
     }
@@ -37,7 +38,8 @@ jQuery(function() {
             }
         }
         let tounamentName = findGetParameter('NomT');
-        //window.location.href = "index.php?page=listetournoi&nom=" + tounamentName + "&message=Score modifié avec succés";
+        alert("Score modifié avec succés");
+        window.location.href = "index.php?page=listetournoi&nom=" + tounamentName + "&message=Score modifié avec succés";
     });
     function findGetParameter(parameterName) {
         var result = null,
