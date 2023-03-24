@@ -103,7 +103,7 @@ function scoreCodeReplace($buffer)
                     $p = $Pool->bestTeams();
                     $in = 1;
                     foreach ($p as $e) {
-                        $replacementCode[4] .= '<tr><td>' . $in . '</td><td>' . $e->getNom() . '</td></tr>';
+                        $replacementCode[4] .= '<tr><td>' . $in . '</td><td>' . $e->getName() . '</td></tr>';
                         $in++;
                     }
                 }

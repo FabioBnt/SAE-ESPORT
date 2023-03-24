@@ -159,9 +159,11 @@ class Tournament
         $teams =  $tournament->bestTeamPoolsNotFinal($idgame);
         $mysql = new ArbitratorDAO();
         $mysql->insertTournamentPool(5, 1, $idgame, $idT);
-        $data = $mysql->selectTournamentPool($idgame, $idT);
+        $data = $mysql->selectTournamentPool($idgame, $idT, 1);
         //day date
         $date = date('Y/m/d');
+        // add 3 days
+        $date = date('Y/m/d', strtotime($date. ' + 3 days'));
         for($i = 0; $i < 6 ; $i++){
             $n = $i + 1;
             foreach($data as $ligne){

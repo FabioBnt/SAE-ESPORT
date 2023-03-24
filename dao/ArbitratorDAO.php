@@ -23,8 +23,9 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select tournament pool by game and id tournament
-    public function selectTournamentPool(int $idGame,int $idTournament):array{
+    public function selectTournamentPool(int $idGame,int $idTournament, bool $final = false):array{
         $sql = 'SELECT IdPoule FROM Poule WHERE IdJeu = :idJeu AND IdTournoi = :idTournoi';
+        $sql .= $final ? ' AND EstPouleFinale = 1' : '';
         try{
             $stmt = $this->mysql->prepare($sql);
             $stmt->execute(array(':idJeu' => $idGame, ':idTournoi' => $idTournament));
@@ -172,14 +173,14 @@ class ArbitratorDAO extends DAO {
         }
     }
     //select sum score of a team for a pool
-    public function sumScoreTeam(int $idPool,int $idTeam):int
+    public function sumScoreTeam(int $idPool,int $idTeam)
     {
-        $sql = "SELECT SUM(Score) as scoreS FROM Concourir WHERE IdPoule = $idPool AND IdEquipe=$idTeam";
+        $sql = "SELECT SUM(Score) as sumscore FROM Concourir WHERE IdPoule = $idPool AND IdEquipe=$idTeam";
         try{
             $result = $this->mysql->prepare($sql);
             $result->execute();
             $data = $result->fetchAll();
-            return $data[0]['scoreS'];
+            return $data[0]['sumscore'];
         }catch(PDOException $e){
             throw new Exception('Error Processing Request select players ' .$e->getMessage(), 1);
         }

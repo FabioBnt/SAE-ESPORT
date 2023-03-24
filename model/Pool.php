@@ -72,7 +72,7 @@ class Pool
                     $best = $team;
                     $bestScore = $score;
                 } else if($score == $bestScore){
-                    $best=$this->getDiffPoint ($best,$team);
+                    $best=$this->getDiffPoint($best,$team);
                 }
             }
             array_push($result, $best);
