@@ -225,7 +225,8 @@ class Tournament
     public static function updatePointsTournament(int $idT,int $idJ):void
     {
         // multiplier local 1 national 2 inter 3 only on final pool 100 60 30 10 for final pool 5 per match won
-        $tournament = self::getTournament($idT);
+        $tournament = new Tournament();
+        $tournament=$tournament->getTournament($idT);
         $Pools = $tournament->getPools();
         $Pools = $Pools[$idJ];
         $teams = array();

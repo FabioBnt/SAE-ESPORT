@@ -1,6 +1,5 @@
 jQuery(function() {
     var scores = Array();
-
     function setScore(pool, team1, team2, score1, score2){
         event.preventDefault();
         var idj = findGetParameter('IDJ');
@@ -135,5 +134,4 @@ jQuery(function() {
             });
         }
     });
-
 })

@@ -188,3 +188,4 @@ class ConnectionTest extends TestCase {
         $this->assertNotSame(Role::Administrator, $this->user->getRole());
     }
 }
+?>

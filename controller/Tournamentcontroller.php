@@ -29,7 +29,13 @@ if (isset($_GET['page'])) {
                 if ($cash < 0) {
                     $cash = 0;
                 }
-                $Admin->createTournament($_POST['name'], $cash, $_POST['typeT'], $_POST['lieu'], $_POST['heure'], $_POST['date'], $_POST['jeuT']);
+                $name=htmlspecialchars($_POST['name']);
+                $heure=htmlspecialchars($_POST['heure']);
+                $lieu=htmlspecialchars($_POST['lieu']);
+                $type=htmlspecialchars( $_POST['typeT']);
+                $date=htmlspecialchars($_POST['date']);
+                $jeu=htmlspecialchars($_POST['jeuT']);
+                $Admin->createTournament($name, $cash, $type, $lieu, $heure, $date, $jeu);
                 header('Location: ./index.php?page=accueil');
             }
             ob_start('createTournamentCodeReplace');

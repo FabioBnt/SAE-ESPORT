@@ -8,7 +8,6 @@ class Connection
     private string $identifiant;
     private static $instance = null;
     private array $accounts = array();
-
     //constructor
     private function __construct()
     {
@@ -17,9 +16,7 @@ class Connection
         $this->accounts[Role::Administrator] = ['admin', "\$iutinfo"];
         $this->accounts[Role::Arbitre] = ['arbitre', "\$iutinfo"];
     }
-
     //get instance of the Connection
-
     public static function getInstance()
     {
         // Vérifier si la session est active
@@ -42,9 +39,7 @@ class Connection
         // Retourner l'instance
         return $instance;
     }
-
     //connection session
-
     /**
      * @throws Exception
      */
@@ -66,7 +61,6 @@ class Connection
             }
         }
     }
-
     // get instance without session
     public static function getInstanceWithoutSession()
     {
@@ -75,29 +69,26 @@ class Connection
         }
         return self::$instance;
     }
-
     // disconnect session
     public function disconnect(): void
     {
         $this->role = Role::Visiteur;
         $this->identifiant = 'Guest';
     }
-
     // if get role of the connection is the role param
     public function ifgetRoleConnection(string $role): bool
     {
         return ($this->getRole() == $role);
     }
-
     //get identifiant of the connection
     public function getIdentifiant(): string
     {
         return $this->identifiant;
     }
-
     //get role of the connection
     public function getRole(): string
     {
         return $this->role;
     }
 }
+?>

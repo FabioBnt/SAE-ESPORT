@@ -4,6 +4,10 @@ if (isset($_GET['page'])) {
     $page = $_GET['page'];
     switch ($page) {
         case 'creerequipe':
+            //if we are not connected as admin then we are redirected to the home page
+            if ($connx->getRole() != Role::Organization) {
+                header('Location: ./index.php?page=accueil');
+            }
             require_once('./codereplacer/createTeamCodeReplace.php');
             require_once('./view/headerview.html');
             ob_start('createTeamCodeReplace');
@@ -13,8 +17,12 @@ if (isset($_GET['page'])) {
                 if ($connx->getRole() == Role::Organization) {
                     $id = Organization::getIDbyAccountName($connx->getIdentifiant());
                     $Organization = Organization::getOrganization($id);
-                    $Organization->createTeam($_POST['name'],$_POST['username'], $_POST['password'], $_POST['jeuE'],$id);
-                    $IdEquipe = Team::getIDbyName($_POST['name']);
+                    $name=htmlspecialchars($_POST['name']);
+                    $username=htmlspecialchars($_POST['username']);
+                    $password=htmlspecialchars($_POST['password']);
+                    $jeu=htmlspecialchars( $_POST['jeuE']);
+                    $Organization->createTeam($name,$username, $password, $jeu,$id);
+                    $IdEquipe = Team::getIDbyName($name);
                     for($i=0;$i<4;$i++){
                         if (!empty($_POST['pseudo'.$i])) {
                             $Organization->createPlayer($_POST['pseudo'.$i], $_POST['nat'.$i], $IdEquipe);}

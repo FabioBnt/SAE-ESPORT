@@ -20,3 +20,4 @@ class Administrator
         return $this->dao->insertTournament($name, $cashPrize, $notoriety, $city, $startingHour, $date, $games);
     }
 }
+?>

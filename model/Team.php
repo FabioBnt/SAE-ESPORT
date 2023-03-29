@@ -185,7 +185,6 @@ class Team
         return $nb;
     }
     //register a team to a tournament
-
     /**
      * @throws Exception
      */
@@ -239,7 +238,6 @@ class Team
         }
     }
     //get team by his id
-
     /**
      * @throws Exception
      */
@@ -249,3 +247,4 @@ class Team
         return $dao->selectTeamIDByAccountName($accountName)[0]['IdEquipe'];
     }
 }
+?>

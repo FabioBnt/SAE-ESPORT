@@ -29,7 +29,7 @@
     box-sizing: border-box;
    }
    input[type=submit], input[type=button]{
-    background-color: rgb(194, 173, 224);
+    background-color: lightgreen;;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;

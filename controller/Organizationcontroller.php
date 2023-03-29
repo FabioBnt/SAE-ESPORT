@@ -6,7 +6,11 @@ if ($connx->getRole() != Role::Administrator) {
     header('Location: ./index.php?page=accueil');
 }
 if (isset($_POST['submit'])) {
-    $Admin->createOrganization($_POST['name'], $_POST['username'], $_POST['password'], $_POST['typeE']);
+    $name=htmlspecialchars($_POST['name']);
+    $username=htmlspecialchars($_POST['username']);
+    $password=htmlspecialchars($_POST['password']);
+    $type=htmlspecialchars( $_POST['typeE']);
+    $Admin->createOrganization($name, $username, $password, $type);
     header('Location: ./index.php?page=accueil');
 }
 require_once('./view/creerecurieview.html');

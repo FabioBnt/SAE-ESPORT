@@ -8,7 +8,6 @@ class MatchJ
     private string $hour;
     private array $teams = array();
     private array $scores = array();
-
     //constructor
     public function __construct(int $number, string $date, string $hour)
     {
@@ -16,34 +15,29 @@ class MatchJ
         $this->date = $date;
         $this->hour = $hour;
     }
-
     //add score of a team
     public function addTeamScore(Team $team, $score): void
     {
         $this->scores[$team->getId()] = $score;
         $this->teams[$team->getId()] = $team;
     }
-
     //initialize score of a team
     public function setTeamScore(int $teamId, int $score): void
     {
         $this->scores[$teamId] = $score;
     }
-
     //get ID tournament by his id pool
     public static function getIdTournamentByPool(int $idPool): int
     {
         $dao = new ArbitratorDAO();
         return $dao->selectIdTournoiByPool($idPool);
     }
-
     //get ID game by his id pool
     public static function getIdGameByPool(int $idPool): int
     {
         $dao = new ArbitratorDAO();
         return $dao->selectIdJeuByPool($idPool);
     }
-
     // know if score is isset or not
     public function isScoreSet(): bool
     {
@@ -54,7 +48,6 @@ class MatchJ
         }
         return true;
     }
-
     //know who won the match
     public function winnerTeam(): Team
     {
@@ -67,13 +60,11 @@ class MatchJ
             return $this->teams[$t[1]];
         }
     }
-
     //get teams of a match
     public function getTeams(): array
     {
         return $this->teams;
     }
-
     //initialize the score
     public static function setScore(array $pools, int $idPool, int $idTeam1, int $idTeam2, int $score1, int $score2): void
     {
@@ -103,7 +94,6 @@ class MatchJ
             Tournament::generateFinalPool($idT, $idJ);
         }
     }
-
     public function getScores(): array
     {
         return $this->scores;

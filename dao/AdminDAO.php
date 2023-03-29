@@ -77,3 +77,4 @@ class AdminDAO extends DAO
         }
     }
 }
+?>

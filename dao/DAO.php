@@ -31,3 +31,4 @@ class DAO {
         return $this->connectionDB;
     }
 }
+?>

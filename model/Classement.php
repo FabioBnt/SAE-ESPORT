@@ -35,3 +35,4 @@ class Classement
         return $this->classement;
     }
 }
+?>
