@@ -7,7 +7,7 @@ if (isset($_GET['page'])) {
             require_once('./codereplacer/tournamentCodeReplace.php');
             require_once('./view/headerview.html');
             ob_start('tournamentCodeReplace');
-            require_once('./view/listetournoisview.html');
+            require_once('./view/tournamentlistview.html');
             ob_end_flush();
             break;
         case 'classement':
@@ -39,14 +39,14 @@ if (isset($_GET['page'])) {
                 header('Location: ./index.php?page=accueil');
             }
             ob_start('createTournamentCodeReplace');
-            require_once('./view/creertournoiview.html');
+            require_once('./view/createtournamentview.html');
             ob_end_flush();
             break;
         case 'detailstournoi':
             require_once('./codereplacer/tournamentDetailsCodeReplace.php');
             require_once('./view/headerview.html');
             ob_start('tournamentDetailsCodeReplace');
-            require_once('./view/detailstournoiview.html');
+            require_once('./view/detailstournamentview.html');
             ob_end_flush();
             break;
         default:

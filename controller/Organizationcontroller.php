@@ -13,5 +13,5 @@ if (isset($_POST['submit'])) {
     $Admin->createOrganization($name, $username, $password, $type);
     header('Location: ./index.php?page=accueil');
 }
-require_once('./view/creerecurieview.html');
+require_once('./view/createorganizationview.html');
 ?>

@@ -11,7 +11,7 @@ if (isset($_GET['page'])) {
             require_once('./codereplacer/createTeamCodeReplace.php');
             require_once('./view/headerview.html');
             ob_start('createTeamCodeReplace');
-            require_once('./view/creerequipeview.html');
+            require_once('./view/createteamview.html');
             ob_end_flush(); 
             if (isset($_POST['submit'])) {
                 if ($connx->getRole() == Role::Organization) {
@@ -35,14 +35,14 @@ if (isset($_GET['page'])) {
             require_once('./codereplacer/teamCodeReplace.php');
             require_once('./view/headerview.html');
             ob_start('teamCodeReplace');
-            require_once('./view/listeequipeview.html');
+            require_once('./view/teamlistview.html');
             ob_end_flush();
             break;
         case 'detailsequipe':
             require_once('./codereplacer/detailsTeamCodeReplace.php');
             require_once('./view/headerview.html');
             ob_start('detailsTeamCodeReplace');
-            require_once('./view/detailsequipeview.html');
+            require_once('./view/detailsteamview.html');
             ob_end_flush();
             break;
         default:
