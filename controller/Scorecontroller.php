@@ -19,7 +19,6 @@ if (isset($_GET['page'])) {
             }
             if (isset($_GET['score1']) && isset($_GET['score2'])) {
                 try {
-                    echo $_GET['poule'].' '.$_GET['equipe1'].' '.$_GET['equipe2'].' '.$_GET['score1'].' '.$_GET['score2']. '<br/>';;
                     MatchJ::setScore($listePools, $_GET['poule'], $_GET['equipe1'], $_GET['equipe2'], $_GET['score1'], $_GET['score2']);
                     exit();
                 } catch (Exception $e) {
