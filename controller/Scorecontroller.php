@@ -5,12 +5,6 @@ if (isset($_GET['page'])) {
     switch ($page) {
         case 'score':
             require_once('./codereplacer/scoreCodeReplace.php');
-            if (isset($_GET['valide'])) {
-                echo '<script>alert("Score enregistré")</script>';
-            }
-            if (isset($_GET['erreur'])) {
-                echo '<script>alert("Erreur lors de l\'enregistrement du score")</script>';
-            }
             require_once('./view/headerview.html');
             ob_start('scoreCodeReplace');
             require_once('./view/scoreview.html');
@@ -25,7 +19,6 @@ if (isset($_GET['page'])) {
             }
             if (isset($_GET['score1']) && isset($_GET['score2'])) {
                 try {
-                    echo 'dans le try';
                     echo $_GET['poule'].' '.$_GET['equipe1'].' '.$_GET['equipe2'].' '.$_GET['score1'].' '.$_GET['score2']. '<br/>';;
                     MatchJ::setScore($listePools, $_GET['poule'], $_GET['equipe1'], $_GET['equipe2'], $_GET['score1'], $_GET['score2']);
                     exit();
@@ -33,11 +26,6 @@ if (isset($_GET['page'])) {
                     exit();
                 }
             }
-            // si erreur
-            if (isset($_GET['erreur'])) {
-                echo '<script>alert("' . $_GET['erreur'] . '")</script>';
-            }
-            echo "ligne inserée";
             break;
         default:
             require_once('./controller/Accueilcontroller.php');

@@ -37,7 +37,6 @@ jQuery(function() {
             }
         }
         let tounamentName = findGetParameter('NomT');
-        alert("Score modifié avec succés");
         window.location.href = "index.php?page=listetournoi&nom=" + tounamentName + "&message=Score modifié avec succés";
     });
     function findGetParameter(parameterName) {
@@ -113,10 +112,6 @@ jQuery(function() {
                     // get the child of the parent table that has the class modifyScore
                     var div = table.find('.modifyScore');
                     var idPool = div.text();
-                    // alert the value of the div
-                    //alert(div.text());
-                    // alert the $_GET['IDJ'] value
-                    //alert(findGetParameter('IDJ'));*/
                     //get the id of the two td
                     var idTeam = td.attr('id');
                     var idTeamSibling = tdSibling.attr('id');
