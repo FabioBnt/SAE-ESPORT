@@ -12,6 +12,7 @@ class ResultTest extends TestCase {
     //test
     public function testSetScore() {
         $dao=new ArbitratorDAO();
+        $dao->getConnection()->beginTransaction();
         Connection::getInstanceWithoutSession()->establishConnection('Arbitre', '$iutinfo', Role::Arbitre);
         $tournoi = new Tournament();
         // get tous les tournois
@@ -25,12 +26,14 @@ class ResultTest extends TestCase {
         $score1 = $score[0]['Score']-'0';
         $score=$dao->selectScoreOfaTeam(4,16,4);
         $score2 = $score[0]['Score']-'0';
+        $dao->getConnection()->rollBack();
         assertSame($score1, 3);
         assertSame($score2, 5);
     }
     // test
     public function updatePointsTeam(){
         $dao=new ArbitratorDAO();
+        $dao->getConnection()->beginTransaction();
         Connection::getInstanceWithoutSession()->establishConnection('Arbitre', '$iutinfo', Role::Arbitre);
         $tournoi = new Tournament();
         // get tous les tournois
@@ -61,6 +64,7 @@ class ResultTest extends TestCase {
         foreach($classement as $key => $value){
             $points[] = $equipes[$key]->getPoints();
         }
+        $dao->getConnection()->rollBack();
         assertSame($points[0], $pointsa[0] + 95);
     }
 }

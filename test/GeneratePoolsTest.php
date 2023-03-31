@@ -42,6 +42,7 @@ class GeneratePoolsTest extends TestCase {
         $dao=new AdminDAO();
         $dao2=new TeamDAO();
         $dao3=new UserDAO();
+        $this->mysql->getConnection()->beginTransaction();
         $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array($idJeu));
         $id = $dao->selectTournamentByName('test');
 
@@ -68,6 +69,7 @@ class GeneratePoolsTest extends TestCase {
     {
         $idJeu = 8;
         $dao=new UserDAO();
+        $this->mysql->getConnection()->beginTransaction();
         $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array($idJeu));
         $id = $this->mysql->select('IdTournoi','Tournois','where NomTournoi = "test"');
         $this->tournoi->allTournaments();
@@ -99,6 +101,7 @@ class GeneratePoolsTest extends TestCase {
         //$t->generateFinalPool($id,$idJeu);
         $listePools = $t->getPools()[$idJeu];
         $totalPools=$dao->selectNumberPools($idJeu,$id);
+        $this->mysql->getConnection()->rollBack();
         assertSame($totalPools[0]['total']-'0', count($listePools));
         assertSame(5, count($listePools));
     }

@@ -14,7 +14,6 @@ class CreateOrganizationTest extends TestCase {
     }
     //tear down
     protected function tearDown(): void {
-        $this->mysql = null;
         $this->admin = null;
     }
     //test
@@ -25,10 +24,12 @@ class CreateOrganizationTest extends TestCase {
     public function testcreateOrganization(): void
     {
         $dao = new AdminDAO();
+        $dao->getConnection()->beginTransaction();
         $totalEcurieBefore = $dao->countNumberOrganization();
         $numEcuriesBefore = $totalEcurieBefore[0]['total']-'0';
         $this->admin->createOrganization('test', 'test', 'test', 'Associative');
         $totalEcurieAfter = $dao->countNumberOrganization();
+        $dao->getConnection()->rollBack();
         assertSame($totalEcurieAfter[0]['total']-'0', $numEcuriesBefore + 1);
     }
 }

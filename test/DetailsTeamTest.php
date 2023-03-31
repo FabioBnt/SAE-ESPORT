@@ -41,8 +41,9 @@ class DetailsTeamTest extends TestCase {
     public function testnumberTournamentWin(): void
     {
         $idGame = 1;
-        $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array($idGame));
         $dao =new AdminDAO();
+        $dao->getConnection()->beginTransaction();
+        $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array($idGame));
         $daoT =new TeamDAO();
         $id = $dao->selectTournamentByName('test');
         $this->tournoi->allTournaments();
@@ -109,6 +110,7 @@ class DetailsTeamTest extends TestCase {
         }
         $nbTournoiG = $equipeT->getNbmatchWin();
         $gainTournoiG = $equipeT->sumTournamentWin();
+        $dao->getConnection()->rollBack();
         assertSame($nbTournoiG,$nbTng+1);
         assertSame($gainTournoiG,$gainTng+100);
     }

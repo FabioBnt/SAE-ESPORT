@@ -15,7 +15,6 @@ class CreateTournamentTest extends TestCase {
     }
     //tear down
     protected function tearDown(): void {
-        $this->mysql = null;
         $this->admin = null;
     }
     //test
@@ -26,10 +25,13 @@ class CreateTournamentTest extends TestCase {
     public function testcreateTournament(): void
     {
         $dao =new AdminDAO();
+        $dao->getConnection()->beginTransaction();
         Connection::getInstanceWithoutSession()->establishConnection('admin','$iutinfo',Role::Administrator);
         $this->admin->createTournament('test',100,'Local','Toulouse','15:00','25/05/2023',array(1));
         $total = $dao->verifIfTournamentExist('test');
+        $dao->getConnection()->rollBack();
         assertTrue($total);
+        
     }
 }
 ?>
